@@ -1,0 +1,50 @@
+plants
+
+Name: broccoli
+Value:0/1/2/3 $ Per day 
+Grows: 3 times
+Grow time: 6 days
+Water Limit: 1 time
+Price:10
+Unique:Broccoli begins to gain value after the 3rd growth stage.
+
+
+Name: cabbage
+Value:0/1/2/3/4 $ Per day 
+Grows: 4 time
+Grow time: 4 days
+Water Limit: 2 times
+Price:10
+
+Name: carrot
+Value:0/1/2/3 $ Per day 
+Grows: 3 times
+Grow time: 3 days
+Water Limit: 2 times
+Price:10
+
+Name: Saffron
+Value:0/10/20 $ Does not increase each day.
+Grows: 2 time
+Grow time: 2 days
+Water Limit: 3 times
+Price:10
+Pollinator: Plants in grid spaces next to this plant receive 1$ each day after the plant is fully grown.
+
+Name: Truffle
+Value:0/2/4 $ Per day 
+Grows: 2 times
+Grow time: 10 days
+Water Limit: 1 time
+Price:10
+Unique: When picked truffle a new truffle is planted in it's place.
+
+Name: Tulip
+Value:0/3 $ Does not increase each day.
+Grows: 1 time
+Grow time: 1 day
+Water Limit: 3 times
+Price:10
+Pollinator: Plants in grid spaces next to this plant receive 1$ each day after the plant is fully grown.
+plants
+

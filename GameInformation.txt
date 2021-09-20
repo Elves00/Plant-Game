@@ -1,0 +1,55 @@
+
+Information
+The Plant Game
+
+Welcome to the Plant Game! Your main goal is to pick and plant crops to make enough money to pay the weeks rent. 
+
+To select an option simply type the corresponding number on your keyboard and press enter.
+
+To plant a crop simply pick the plant crop option and type in the co-ordianates you want your plant to appear in the field. 
+Crops will not grow by themselves, they need water and time in order to become crops worth picking. 
+
+Each crop type has it's own growth cycle from seed to fully grown. For a plant to move up a stage in the growth cycle you will
+need to water it a certain number of times, as shown in the crop information panel. As well as watering crops require time 
+to grow; by pressing the next day button one day will pass and the crop will be one stage closer to growing. Some plants 
+take longer to grow then others and this information can be viewed in the plant information menu. 
+
+A plant will not grow unless both enough time has passed since it's last growth and it has enough water. 
+
+Once a crop has grown past the size of a seedling it will continue to grow in value. To realize this value you can use the 
+pick option. This will remove a plant from the specified co-ordinate in your field and add it's current value to your wallet.
+The game ends once a player fails to meet rent which is paid every 5 days.  Enjoy the game :)
+Information
+
+Unlock
+By selecting unlock you are entering the unlock shop. This is a shop where you may purchase new and better plants. If you chose to buy an unlock the corresponding plant will be 
+made avaliable to you next time you select the plant a plant option.
+Unlock
+
+Next day
+By selecting the next day option the game will move to the next day. When the games moves to the next day all croops will have the 
+potential to grow to there next stage. A plant will grow as long as it has been watered enough and enough days have passed. Your energy
+will also be set back to 100 at the start of the new day.
+Next day
+
+Pick Plant
+When you select the pick a plant a view of the value of all plants within the field will be displayed. You will be prompted to enter a row and collumn number this represents the plant you would like to pick.
+When a plant is picked it will be removed from the field and replaced by dirt unless it is a special plant such as truffle which will instead
+replant itself when picked. A plant that is picked will transfer any value it has accumulated to you. For example a carrot with a value of 4$ when picked 
+will increase your total money by 4$.
+Pick Plant
+
+Water
+When you selecting water the field will be displayed with numbers representing how many times each plant has been watered and how many times it needs to be watered to gorw.
+For example a carrot that has not been watered will display the numbers 0/2 representing that it has been watered 0 times and needs to be watered twice in order to grow. 
+Water
+
+Plant a Plant
+When you select the plant a plant option you may chose a plant to buy for your field. A plants cost is displayed next to it's selection number. Once you have purchased a plant you may select the 
+row and collumn you would like to plant the plant in. When a plant is planted it will replace any plant that is currently in the selected spot.
+Plant a Plant
+
+Save game
+When you select the save game button a list of games will be displayed. By selecting one of the numbers you will override any save file that is currently there 
+and replace it with the save file of the game you are currently playing.
+Save game
