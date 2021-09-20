@@ -47,7 +47,7 @@ public class PlantGameControler extends JPanel implements ActionListener, MouseL
     //CARDS
     private PlantGameMain plantGameMain;
 
-    public PlantGameControler(PlantGameModel pg) throws IOException {
+    public PlantGameControler(PlantGameModel plantGameModel) throws IOException {
 
         //Sets up a cardlayout to be used by this controller
         card = new CardLayout();
@@ -58,9 +58,11 @@ public class PlantGameControler extends JPanel implements ActionListener, MouseL
         this.plantToPlant = -1;
         this.watering = false;
         this.picking = false;
-
+        
+        System.out.println("Hoppefully testing git stuff");
+        System.out.println("So this should be commited to a test branch");
         //Set up the game model
-        plantGameModel = pg;
+        plantGameModel = plantGameModel;
 //      plantGameModel = new PlantGameModel();
 
         //Creates the main plant panel
