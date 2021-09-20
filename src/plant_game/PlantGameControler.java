@@ -16,11 +16,8 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import javax.swing.JButton;
 import javax.swing.JFrame;
-import javax.swing.JLabel;
 import javax.swing.JPanel;
-import javax.swing.JTextField;
 
 /**
  *
@@ -58,10 +55,10 @@ public class PlantGameControler extends JPanel implements ActionListener, MouseL
         this.plantToPlant = -1;
         this.watering = false;
         this.picking = false;
-      
+
         System.out.println("This goes to non master?");
         //Set up the game model
-        plantGameModel = plantGameModel;
+        this.plantGameModel = plantGameModel;
 //      plantGameModel = new PlantGameModel();
 
         //Creates the main plant panel
@@ -220,6 +217,9 @@ public class PlantGameControler extends JPanel implements ActionListener, MouseL
             }
         }
 
+        /*
+        Planting section has the buttons that manage planting
+         */
         //Player is planting a plant in the field
         if (sourceA == plantGameMain.getPlant()) {
 
@@ -238,7 +238,8 @@ public class PlantGameControler extends JPanel implements ActionListener, MouseL
 
             }
         }
-        //Back button for planting 
+
+        //Returns the user to the main card and disables planting
         if (sourceA == plantGameMain.getPlantBack()) {
             //Swtich view to the selection of plants available to plant
             this.plantGameMain.getCard().show(this.plantGameMain.getButtonPanel(), "a");
@@ -252,7 +253,7 @@ public class PlantGameControler extends JPanel implements ActionListener, MouseL
             this.plantGameMain.getCard().show(this.plantGameMain.getButtonPanel(), "c");
             watering = true;
         }
-        //water back
+         //Returns the user to the main card and disables watering
         if (sourceA == plantGameMain.getWaterBack()) {
             this.plantGameMain.getCard().show(this.plantGameMain.getButtonPanel(), "a");
             watering = false;
@@ -265,7 +266,7 @@ public class PlantGameControler extends JPanel implements ActionListener, MouseL
             //sets picking condition to true.
             picking = true;
         }
-        //pick back
+         //Returns the user to the main card and disables picking
         if (sourceA == plantGameMain.getPickBack()) {
             this.plantGameMain.getCard().show(this.plantGameMain.getButtonPanel(), "a");
             picking = false;
@@ -298,6 +299,7 @@ public class PlantGameControler extends JPanel implements ActionListener, MouseL
             }
         }
 
+         //Returns the user to the main card from the save view
         if (sourceA == plantGameMain.getSaveBack()) {
             this.plantGameMain.getCard().show(this.plantGameMain.getButtonPanel(), "a");
 
@@ -315,7 +317,7 @@ public class PlantGameControler extends JPanel implements ActionListener, MouseL
             }
         }
 
-        //Go back to main panel
+        //Returns the user to the main card from the unlock view
         if (sourceA == plantGameMain.getUnlockBack()) {
             this.plantGameMain.getCard().show(this.plantGameMain.getButtonPanel(), "a");
 
@@ -390,7 +392,7 @@ public class PlantGameControler extends JPanel implements ActionListener, MouseL
 
     public static void main(String[] args) throws IOException {
 
-        JFrame frame = new JFrame("Boid Flock");
+        JFrame frame = new JFrame("Plant Game");
         PlantGameModel pg = new PlantGameModel();
         // kill all threads when frame closes
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
