@@ -85,6 +85,8 @@ public class PlantGameMain extends JPanel implements Observer {
     private JButton unlockBack;
     private JButton[] unlockSlot;
     private JPanel unlockPanel;
+    
+    private JButton back;
 
     public PlantGameMain(PlantGameModel plantGameModel) {
         BorderLayout border = new BorderLayout();
@@ -113,7 +115,7 @@ public class PlantGameMain extends JPanel implements Observer {
 
         //UNLOCK EVERYTHING HERE.
         this.unlockPanel = new JPanel();
-
+        this.back = new JButton("Back");
         this.plantBack = new JButton("Back");
         this.waterBack = new JButton("Back");
         this.pickBack = new JButton("Back");
@@ -250,7 +252,7 @@ public class PlantGameMain extends JPanel implements Observer {
                 this.unlockPanel.add(this.getUnlockSlot()[i]);
             }
             //Places back button at the end
-            this.unlockSlot[this.getPlantGameModel().getUnlocks().size()] = this.unlockBack;
+            this.unlockSlot[this.getPlantGameModel().getUnlocks().size()] = this.waterBack;
             this.unlockPanel.add(this.getUnlockSlot()[this.getPlantGameModel().getUnlocks().size()]);
 
             this.buttonPanel.add("f", unlockPanel);
@@ -531,6 +533,13 @@ public class PlantGameMain extends JPanel implements Observer {
      */
     public JButton[] getUnlockSlot() {
         return unlockSlot;
+    }
+
+    /**
+     * @return the back
+     */
+    public JButton getBack() {
+        return back;
     }
 
 }
