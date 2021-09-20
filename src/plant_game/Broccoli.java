@@ -29,8 +29,8 @@ public class Broccoli extends Plant {
         setGrowTime(3);
         setValue(0);
         setGrowCounter(6);
-        setWaterLimit(1);
-
+        setWaterLimit(3);
+        
         
     }
 
