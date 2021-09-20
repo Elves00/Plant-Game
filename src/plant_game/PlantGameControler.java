@@ -58,9 +58,8 @@ public class PlantGameControler extends JPanel implements ActionListener, MouseL
         this.plantToPlant = -1;
         this.watering = false;
         this.picking = false;
-        
-        System.out.println("Hoppefully testing git stuff");
-        System.out.println("So this should be commited to a test branch");
+      
+        System.out.println("This goes to non master?");
         //Set up the game model
         plantGameModel = plantGameModel;
 //      plantGameModel = new PlantGameModel();
