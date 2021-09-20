@@ -18,6 +18,7 @@ import java.util.StringTokenizer;
  */
 public class Carrot extends Plant {
 
+    
     /**
      * Constructs a broccoli plant with default values
      */

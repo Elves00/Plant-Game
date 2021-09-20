@@ -31,6 +31,7 @@ public class Broccoli extends Plant {
         setGrowCounter(6);
         setWaterLimit(1);
 
+        
     }
 
     /**
