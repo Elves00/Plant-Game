@@ -56,7 +56,6 @@ public class PlantGameControler extends JPanel implements ActionListener, MouseL
         this.watering = false;
         this.picking = false;
 
-        System.out.println("This goes to non master?");
         //Set up the game model
         this.plantGameModel = plantGameModel;
 //      plantGameModel = new PlantGameModel();
@@ -73,10 +72,12 @@ public class PlantGameControler extends JPanel implements ActionListener, MouseL
         plantGameStart.getThree().addActionListener(this);
         plantGameStart.getFour().addActionListener(this);
         plantGameStart.getFive().addActionListener(this);
+        
         //Game startup options
         plantGameStart.getNewGame().addActionListener(this);
         plantGameStart.getPreviousGame().addActionListener(this);
         plantGameStart.getLoadGame().addActionListener(this);
+        
         //New Game buttons
         plantGameStart.getUsername().addActionListener(this);
         plantGameStart.getSubmit().addActionListener(this);
@@ -92,7 +93,8 @@ public class PlantGameControler extends JPanel implements ActionListener, MouseL
         plantGameMain.getSave().addActionListener(this);
         plantGameMain.getSaveBack().addActionListener(this);
         plantGameMain.getUnlockShop().addActionListener(this);
-
+        plantGameMain.getUnlockBack().addActionListener(this);
+        
         //Slave slot listiners
         for (int i = 0; i < 5; i++) {
             plantGameMain.getSaveSlot()[i].addActionListener(this);
@@ -253,7 +255,7 @@ public class PlantGameControler extends JPanel implements ActionListener, MouseL
             this.plantGameMain.getCard().show(this.plantGameMain.getButtonPanel(), "c");
             watering = true;
         }
-         //Returns the user to the main card and disables watering
+        //Returns the user to the main card and disables watering
         if (sourceA == plantGameMain.getWaterBack()) {
             this.plantGameMain.getCard().show(this.plantGameMain.getButtonPanel(), "a");
             watering = false;
@@ -266,7 +268,7 @@ public class PlantGameControler extends JPanel implements ActionListener, MouseL
             //sets picking condition to true.
             picking = true;
         }
-         //Returns the user to the main card and disables picking
+        //Returns the user to the main card and disables picking
         if (sourceA == plantGameMain.getPickBack()) {
             this.plantGameMain.getCard().show(this.plantGameMain.getButtonPanel(), "a");
             picking = false;
@@ -299,7 +301,7 @@ public class PlantGameControler extends JPanel implements ActionListener, MouseL
             }
         }
 
-         //Returns the user to the main card from the save view
+        //Returns the user to the main card from the save view
         if (sourceA == plantGameMain.getSaveBack()) {
             this.plantGameMain.getCard().show(this.plantGameMain.getButtonPanel(), "a");
 
