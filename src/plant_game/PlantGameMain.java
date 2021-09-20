@@ -98,6 +98,7 @@ public class PlantGameMain extends JPanel implements Observer {
 
         this.savePanel = new JPanel();
         saveSlot = new JButton[5];
+
         //Buttons
         for (int i = 0; i < 5; i++) {
             saveSlot[i] = new JButton();
@@ -116,6 +117,7 @@ public class PlantGameMain extends JPanel implements Observer {
         this.plantBack = new JButton("Back");
         this.waterBack = new JButton("Back");
         this.pickBack = new JButton("Back");
+        this.unlockBack = new JButton("Back");
         this.plant = new JButton("Plant");
         this.water = new JButton("Water");
         this.pick = new JButton("Pick");
@@ -123,7 +125,6 @@ public class PlantGameMain extends JPanel implements Observer {
         this.information = new JButton("Information");
         this.save = new JButton("Save");
         this.unlockShop = new JButton("Shop");
-
         this.playerHeader = new JLabel("", SwingConstants.CENTER);
 
         //this.plantGameModel.getPlayer().toString()
@@ -241,12 +242,16 @@ public class PlantGameMain extends JPanel implements Observer {
 
         if (arg.equals("Initial Unlock")) {
             //Unlocks 
-            this.unlockSlot = new JButton[this.getPlantGameModel().getUnlocks().size()];
+            this.unlockSlot = new JButton[this.getPlantGameModel().getUnlocks().size() + 1];
+
             //Unlock setup
             for (int i = 0; i < this.getPlantGameModel().getUnlocks().size(); i++) {
                 this.unlockSlot[i] = new JButton(this.getPlantGameModel().getUnlocks().toView(i));
                 this.unlockPanel.add(this.getUnlockSlot()[i]);
             }
+            //Places back button at the end
+            this.unlockSlot[this.getPlantGameModel().getUnlocks().size()] = this.unlockBack;
+            this.unlockPanel.add(this.getUnlockSlot()[this.getPlantGameModel().getUnlocks().size()]);
 
             this.buttonPanel.add("f", unlockPanel);
 
