@@ -53,7 +53,7 @@ public class Broccoli extends Plant {
             setValue(getGrowth() + getValue());
         }
         checkEvolution();
-          setPollinated(false);
+        setPollinated(false);
     }
 
     /**
