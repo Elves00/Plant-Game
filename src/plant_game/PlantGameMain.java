@@ -369,14 +369,17 @@ public class PlantGameMain extends JPanel implements Observer {
 
         if (arg.equals("Shop Update")) {
             try {
+                //COULD BE AN ISSUE WHERE ADDING THE BACK BUTTON TO THE SLOT MEANS THE LISTINER DOESNT PICK UP PROPERLY?
                 System.out.println("Shop size:" + this.getPlantGameModel().getShop().size());
 //                this.getPlantingButtons()[this.getPlantGameModel().getShop().size() - 1] = new JButton();
                 this.getPlantingButtons()[this.getPlantGameModel().getShop().size()] = this.getPlantBack();
                 this.getPlantingButtons()[this.getPlantGameModel().getShop().size()].setVisible(true);
+                this.getPlantSelect().add(this.getPlantingButtons()[this.getPlantGameModel().getShop().size()]);
                 //Sets a hidden jbutton to have the text of a new plant
                 this.getPlantingButtons()[this.getPlantGameModel().getShop().size() - 1].setText(this.getPlantGameModel().getShop().getPlantName(this.getPlantGameModel().getShop().size() - 1));
 //                this.plantSelect.add(this.plantingButtons[this.getPlantGameModel().getShop().size() - 1]);
                 this.getPlantingButtons()[this.getPlantGameModel().getShop().size() - 1].setVisible(true);
+                this.getPlantSelect().add(this.getPlantingButtons()[this.getPlantGameModel().getShop().size() - 1]);
 
             } catch (InstantiationException ex) {
                 Logger.getLogger(PlantGameMain.class.getName()).log(Level.SEVERE, null, ex);
