@@ -704,7 +704,6 @@ public class PlantGameModel extends Observable {
         //pases the selcted save option to the plant game panel
         notifyObservers("Options a");
 
-        this.unlockView();
     }
 
     public void selected() {
