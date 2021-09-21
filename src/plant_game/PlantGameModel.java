@@ -362,6 +362,11 @@ public class PlantGameModel extends Observable {
     public void unlock(int i )
     {
         getUnlocks().price(getPlayer(), getShop(), i);
+         //set change
+        setChanged();
+        //Notifys that a plant has been unlocked
+        notifyObservers("Initial Unlock");
+        
     }
     /**
      * Presents players with the option to purchase a variety of unlocks which

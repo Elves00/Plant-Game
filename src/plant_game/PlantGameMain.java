@@ -146,7 +146,7 @@ public class PlantGameMain extends JPanel implements Observer {
         //Unlocks initial length starts as the base set - 3 + 1 as you always start with 3 plants and we need one extra slot for the back button
         this.unlockSlot = new JButton[PlantSet.values().length - 2];
         //Unlock setup
-        for (int i = 0; i < PlantSet.values().length -2; i++) {
+        for (int i = 0; i < PlantSet.values().length - 2; i++) {
             this.unlockSlot[i] = new JButton();
             this.unlockSlot[i].setVisible(false);
         }
@@ -262,6 +262,20 @@ public class PlantGameMain extends JPanel implements Observer {
 
             this.buttonPanel.add("f", unlockPanel);
 
+        }
+        if (arg.equals("Initial Unlock")) {
+            //Redo button labels
+            for (int i = 0; i < this.getPlantGameModel().getUnlocks().size(); i++) {
+                this.unlockSlot[i].setText(this.getPlantGameModel().getUnlocks().toView(i));
+
+            }
+            //Add back button to end
+            this.unlockSlot[this.getPlantGameModel().getUnlocks().size()] = this.unlockBack;
+            //Make other buttons invisible
+            for (int i = this.getPlantGameModel().getUnlocks().size()+1; i < PlantSet.values().length - 2; i++) {
+                this.unlockSlot[i].setVisible(false);
+
+            }
         }
 
         if (arg.equals("Water")) {
