@@ -322,7 +322,8 @@ public class PlantGameControler extends JPanel implements ActionListener, MouseL
         }
         for (int i = 0; i < this.plantGameModel.getUnlocks().size(); i++) {
             if (sourceA == plantGameMain.getUnlockSlot()[i]) {
-
+                
+                System.out.println(" "+this.plantGameModel.getUnlocks().toString());
                 this.plantGameModel.unlock(i+1);
             }
         }
