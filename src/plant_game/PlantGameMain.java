@@ -85,8 +85,7 @@ public class PlantGameMain extends JPanel implements Observer {
     private JButton unlockBack;
     private JButton[] unlockSlot;
     private JPanel unlockPanel;
-    
- 
+
     public PlantGameMain(PlantGameModel plantGameModel) {
         BorderLayout border = new BorderLayout();
         this.setLayout(border);
@@ -118,7 +117,7 @@ public class PlantGameMain extends JPanel implements Observer {
         this.plantBack = new JButton("Back");
         this.waterBack = new JButton("Back");
         this.pickBack = new JButton("Back");
-      
+
         this.plant = new JButton("Plant");
         this.water = new JButton("Water");
         this.pick = new JButton("Pick");
@@ -143,6 +142,14 @@ public class PlantGameMain extends JPanel implements Observer {
         this.gameOptions.add(save);
         this.gameOptions.add(information);
         this.gameOptions.add(this.unlockShop);
+
+        //Unlocks initial length starts as the base set - 3 + 1 as you always start with 3 plants and we need one extra slot for the back button
+        this.unlockSlot = new JButton[PlantSet.values().length - 2];
+        //Unlock setup
+        for (int i = 0; i < PlantSet.values().length -2; i++) {
+            this.unlockSlot[i] = new JButton();
+            this.unlockSlot[i].setVisible(false);
+        }
 
         //Plant selection
         this.plantSelect = new JPanel();
@@ -242,12 +249,11 @@ public class PlantGameMain extends JPanel implements Observer {
         }
 
         if (arg.equals("Initial Unlock")) {
-            //Unlocks 
-            this.unlockSlot = new JButton[this.getPlantGameModel().getUnlocks().size() + 1];
 
             //Unlock setup
             for (int i = 0; i < this.getPlantGameModel().getUnlocks().size(); i++) {
-                this.unlockSlot[i] = new JButton(this.getPlantGameModel().getUnlocks().toView(i));
+                this.unlockSlot[i].setText(this.getPlantGameModel().getUnlocks().toView(i));
+                this.unlockSlot[i].setVisible(true);
                 this.unlockPanel.add(this.getUnlockSlot()[i]);
             }
             //Places back button at the end
@@ -533,6 +539,5 @@ public class PlantGameMain extends JPanel implements Observer {
     public JButton[] getUnlockSlot() {
         return unlockSlot;
     }
-
 
 }

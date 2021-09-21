@@ -72,12 +72,12 @@ public class PlantGameControler extends JPanel implements ActionListener, MouseL
         plantGameStart.getThree().addActionListener(this);
         plantGameStart.getFour().addActionListener(this);
         plantGameStart.getFive().addActionListener(this);
-        
+
         //Game startup options
         plantGameStart.getNewGame().addActionListener(this);
         plantGameStart.getPreviousGame().addActionListener(this);
         plantGameStart.getLoadGame().addActionListener(this);
-        
+
         //New Game buttons
         plantGameStart.getUsername().addActionListener(this);
         plantGameStart.getSubmit().addActionListener(this);
@@ -90,11 +90,19 @@ public class PlantGameControler extends JPanel implements ActionListener, MouseL
         plantGameMain.getPlantBack().addActionListener(this);
         plantGameMain.getWaterBack().addActionListener(this);
         plantGameMain.getPickBack().addActionListener(this);
+        plantGameMain.getUnlockBack().addActionListener(this);
         plantGameMain.getSave().addActionListener(this);
         plantGameMain.getSaveBack().addActionListener(this);
         plantGameMain.getUnlockShop().addActionListener(this);
-        plantGameMain.getUnlockBack().addActionListener(this);
         
+//        plantGameMain.getUnlockBack().addActionListener(this);
+
+        //Unlock listeners
+        for (int i = 0; i < plantGameMain.getUnlockSlot().length; i++) {
+
+            plantGameMain.getUnlockSlot()[i].addActionListener(this);
+        }
+
         //Slave slot listiners
         for (int i = 0; i < 5; i++) {
             plantGameMain.getSaveSlot()[i].addActionListener(this);
@@ -314,15 +322,15 @@ public class PlantGameControler extends JPanel implements ActionListener, MouseL
         }
         for (int i = 0; i < this.plantGameModel.getUnlocks().size(); i++) {
             if (sourceA == plantGameMain.getUnlockSlot()[i]) {
-                System.out.println(i);
-                this.plantGameModel.unlock(i);
+
+                this.plantGameModel.unlock(i+1);
             }
         }
 
         //Returns the user to the main card from the unlock view
         if (sourceA == plantGameMain.getUnlockBack()) {
             this.plantGameMain.getCard().show(this.plantGameMain.getButtonPanel(), "a");
-
+           
         }
 
     }
