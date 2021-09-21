@@ -30,7 +30,7 @@ saffron truffle tulip
 400 200 30 
 null
 null
-Loser
+Flower
 100.0
 100
 0
