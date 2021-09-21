@@ -116,7 +116,6 @@ public class PlantGameControler extends JPanel implements ActionListener, MouseL
         }
         //Action listners for planting options
         for (int i = 0; i < plantGameMain.getPlantingButtons().length; i++) {
-
             plantGameMain.getPlantingButtons()[i].addActionListener(this);
         }
 
@@ -240,7 +239,7 @@ public class PlantGameControler extends JPanel implements ActionListener, MouseL
         //Checks which plant has been selected to plant in the field.
         for (int i = 0; i < plantGameModel.getShop().size(); i++) {
             if (sourceA == plantGameMain.getPlantingButtons()[i]) {
-
+                System.out.println("PLANTING");
                 //Sets the plant to be planted and sets the planting condition to true.
                 //This means if a user presses in the field it will plant this plant.
                 plantToPlant = i + 1;

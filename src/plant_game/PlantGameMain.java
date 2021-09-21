@@ -159,6 +159,7 @@ public class PlantGameMain extends JPanel implements Observer {
         for (int i = 0; i < PlantSet.values().length + 1; i++) {
             this.plantingButtons[i] = new JButton();
             this.plantingButtons[i].setVisible(false);
+            this.plantSelect.add(this.plantingButtons[i]);
         }
 
         //Watering Panel
@@ -250,7 +251,7 @@ public class PlantGameMain extends JPanel implements Observer {
 
         if (arg.equals("Initial Unlock")) {
 
-            System.out.println("Inital size"+this.getPlantGameModel().getUnlocks().size());
+            System.out.println("Inital size" + this.getPlantGameModel().getUnlocks().size());
             //Unlock setup
             for (int i = 0; i < this.getPlantGameModel().getUnlocks().size(); i++) {
                 this.unlockSlot[i].setText(this.getPlantGameModel().getUnlocks().toView(i));
@@ -358,20 +359,23 @@ public class PlantGameMain extends JPanel implements Observer {
                 }
                 this.getPlantingButtons()[this.getPlantGameModel().getShop().size()] = this.getPlantBack();
             }
-
-            for (JButton i : this.plantingButtons) {
-                this.plantSelect.add(i);
-            }
+            this.getPlantingButtons()[this.getPlantGameModel().getShop().size()] = plantBack;
+            this.getPlantingButtons()[this.getPlantGameModel().getShop().size()].setVisible(true);
+            this.getPlantSelect().add(this.getPlantingButtons()[this.getPlantGameModel().getShop().size()]);
+//            for (JButton i : this.plantingButtons) {
+//                this.plantSelect.add(i);
+//            }
         }
 
         if (arg.equals("Shop Update")) {
             try {
-
-                this.getPlantingButtons()[this.getPlantGameModel().getShop().size() - 1] = new JButton();
+                System.out.println("Shop size:" + this.getPlantGameModel().getShop().size());
+//                this.getPlantingButtons()[this.getPlantGameModel().getShop().size() - 1] = new JButton();
                 this.getPlantingButtons()[this.getPlantGameModel().getShop().size()] = this.getPlantBack();
+                this.getPlantingButtons()[this.getPlantGameModel().getShop().size()].setVisible(true);
                 //Sets a hidden jbutton to have the text of a new plant
                 this.getPlantingButtons()[this.getPlantGameModel().getShop().size() - 1].setText(this.getPlantGameModel().getShop().getPlantName(this.getPlantGameModel().getShop().size() - 1));
-                this.plantSelect.add(this.plantingButtons[this.getPlantGameModel().getShop().size() - 1]);
+//                this.plantSelect.add(this.plantingButtons[this.getPlantGameModel().getShop().size() - 1]);
                 this.getPlantingButtons()[this.getPlantGameModel().getShop().size() - 1].setVisible(true);
 
             } catch (InstantiationException ex) {
