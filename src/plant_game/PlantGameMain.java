@@ -250,6 +250,7 @@ public class PlantGameMain extends JPanel implements Observer {
 
         if (arg.equals("Initial Unlock")) {
 
+            System.out.println("Inital size"+this.getPlantGameModel().getUnlocks().size());
             //Unlock setup
             for (int i = 0; i < this.getPlantGameModel().getUnlocks().size(); i++) {
                 this.unlockSlot[i].setText(this.getPlantGameModel().getUnlocks().toView(i));

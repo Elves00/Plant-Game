@@ -352,22 +352,27 @@ public class PlantGameModel extends Observable {
 
     }
 
-   public void unlockView()
-    {
+    public void unlockView() {
+
         //set change
         setChanged();
         //pases the selcted save option to the plant game panel
         notifyObservers("Initial Unlock");
-    }
-    public void unlock(int i )
-    {
-        getUnlocks().price(getPlayer(), getShop(), i);
-         //set change
+        //set change
         setChanged();
         //Notifys that a plant has been unlocked
         notifyObservers("Unlock");
-        
     }
+
+    public void unlock(int i) {
+        getUnlocks().price(getPlayer(), getShop(), i);
+        //set change
+        setChanged();
+        //Notifys that a plant has been unlocked
+        notifyObservers("Unlock");
+
+    }
+
     /**
      * Presents players with the option to purchase a variety of unlocks which
      * make plants available in the purchase a plant section.
@@ -401,8 +406,8 @@ public class PlantGameModel extends Observable {
             }
         }
     }
-    public void saveView()
-    {
+
+    public void saveView() {
         //set change
         setChanged();
         //pases the selcted save option to the plant game panel
@@ -548,7 +553,6 @@ public class PlantGameModel extends Observable {
         notifyObservers("Initial View");
     }
 
-    
     public void nextDay() throws MoneyException, IOException {
 
         //Progresses to the next day.
@@ -699,7 +703,7 @@ public class PlantGameModel extends Observable {
         setChanged();
         //pases the selcted save option to the plant game panel
         notifyObservers("Options a");
-        
+
         this.unlockView();
     }
 
