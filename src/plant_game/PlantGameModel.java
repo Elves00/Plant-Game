@@ -365,7 +365,7 @@ public class PlantGameModel extends Observable {
          //set change
         setChanged();
         //Notifys that a plant has been unlocked
-        notifyObservers("Initial Unlock");
+        notifyObservers("Unlock");
         
     }
     /**

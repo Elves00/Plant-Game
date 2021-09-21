@@ -263,19 +263,23 @@ public class PlantGameMain extends JPanel implements Observer {
             this.buttonPanel.add("f", unlockPanel);
 
         }
-        if (arg.equals("Initial Unlock")) {
+        if (arg.equals("Unlock")) {
+            //Make other buttons invisible
+            for (int i = this.getPlantGameModel().getUnlocks().size(); i < PlantSet.values().length - 2; i++) {
+                this.unlockSlot[i].setVisible(false);
+
+            }
             //Redo button labels
+            System.out.println("Unlock size:" + this.getPlantGameModel().getUnlocks().size());
             for (int i = 0; i < this.getPlantGameModel().getUnlocks().size(); i++) {
                 this.unlockSlot[i].setText(this.getPlantGameModel().getUnlocks().toView(i));
+                this.unlockSlot[i].setVisible(true);
 
             }
             //Add back button to end
             this.unlockSlot[this.getPlantGameModel().getUnlocks().size()] = this.unlockBack;
-            //Make other buttons invisible
-            for (int i = this.getPlantGameModel().getUnlocks().size()+1; i < PlantSet.values().length - 2; i++) {
-                this.unlockSlot[i].setVisible(false);
-
-            }
+            this.unlockSlot[this.getPlantGameModel().getUnlocks().size()].setText("Back");
+            this.unlockSlot[this.getPlantGameModel().getUnlocks().size()].setVisible(true);
         }
 
         if (arg.equals("Water")) {
