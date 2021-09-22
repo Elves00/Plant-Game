@@ -44,6 +44,15 @@ public class PlantGameModel extends Observable {
         this.scan = new Scanner(System.in);
     }
 
+    public void getInfo(int i) {
+
+        //set change
+        setChanged();
+        //pases the selcted save option to the plant game panel
+        notifyObservers("Info " + i);
+
+    }
+
     /**
      * Provides the user with a selection of options to start the game and
      * collects there selection before returning.

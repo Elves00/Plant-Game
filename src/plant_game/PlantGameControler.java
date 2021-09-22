@@ -86,6 +86,7 @@ public class PlantGameControler extends JPanel implements ActionListener, MouseL
         plantGameMain.getPlant().addActionListener(this);
         plantGameMain.getWater().addActionListener(this);
         plantGameMain.getPick().addActionListener(this);
+        plantGameMain.getInformation().addActionListener(this);
         plantGameMain.getNextDay().addActionListener(this);
         plantGameMain.getPlantBack().addActionListener(this);
         plantGameMain.getWaterBack().addActionListener(this);
@@ -330,6 +331,21 @@ public class PlantGameControler extends JPanel implements ActionListener, MouseL
         if (sourceA == plantGameMain.getUnlockBack()) {
             this.plantGameMain.getCard().show(this.plantGameMain.getButtonPanel(), "a");
 
+        }
+        //Information
+        if (sourceA == plantGameMain.getInformation()) {
+            this.plantGameMain.getCard().show(this.plantGameMain.getButtonPanel(), "g");
+        }
+        //Send back to main menu
+        if (sourceA == plantGameMain.getInfoBack()) {
+            this.plantGameMain.getCard().show(this.plantGameMain.getButtonPanel(), "a");
+        }
+        //Display information
+        for (int i = 0; i < 8; i++) {
+            if (sourceA == plantGameMain.getInfoSlot()[i]) {
+                System.out.println("HERe");
+                this.plantGameModel.getInfo(i);
+            }
         }
 
     }
