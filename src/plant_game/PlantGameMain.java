@@ -208,24 +208,39 @@ public class PlantGameMain extends JPanel implements Observer {
                 for (int j = 0; j < 3; j++) {
                     this.getFieldLabels()[i][j].setText(this.getPlantGameModel().getPlayer().getField().getPlant(i, j).toString());
 
-                   
+                   //When you plant pick or open up initally
+                    
+                    //If a plant is watered they have a blue border. If a plant is pollinated they have a yellow bored. If they are both watered and planted they have a double border yellow and blue
+                    
                     if (this.getPlantGameModel().getPlayer().getField().getPlantArray()[i][j].getWaterCount() >= this.getPlantGameModel().getPlayer().getField().getPlantArray()[i][j].getWaterLimit()) {
 
                         //Colours watered plants blue
                         this.getFieldLabels()[i][j].setBorder(blueLine);
 
-                    } else {
-                        this.getFieldLabels()[i][j].setBorder(null);
-                    }
+                    } 
 
-                    if (this.getPlantGameModel().getPlayer().getField().getPlantArray()[i][j].isPollinator()) {
+                    else if (this.getPlantGameModel().getPlayer().getField().getPlantArray()[i][j].isPollinator()) {
                         int[] pollin = this.getPlantGameModel().getPlayer().getField().getNeighbours(i, j);
 
                         for (int k = 0; k < 2; k++) {
                             try {
-
-                                this.getFieldLabels()[pollin[k]][pollin[5]].setBorder(yellowLine);
-                                this.getFieldLabels()[pollin[4]][pollin[k + 2]].setBorder(yellowLine);
+                                if( this.getFieldLabels()[pollin[k]][pollin[5]].getBorder()==blueLine)
+                                {
+                                     this.getFieldLabels()[pollin[k]][pollin[5]].setBorder(mixedLine);
+                                }
+                                else
+                                {
+                                     this.getFieldLabels()[pollin[k]][pollin[5]].setBorder(yellowLine); 
+                                }
+                              if( this.getFieldLabels()[pollin[4]][pollin[k + 2]].getBorder()==blueLine)
+                              {
+                                   this.getFieldLabels()[pollin[4]][pollin[k + 2]].setBorder(mixedLine);
+                              }
+                              else
+                              {
+                                   this.getFieldLabels()[pollin[4]][pollin[k + 2]].setBorder(yellowLine);
+                              }
+                               
                             } //Avoids neigbours calling poisitons out of array bounds.
                             catch (ArrayIndexOutOfBoundsException a) {
 
