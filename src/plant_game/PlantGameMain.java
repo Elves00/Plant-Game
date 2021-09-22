@@ -20,6 +20,7 @@ import javax.swing.BorderFactory;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 import javax.swing.border.Border;
 
@@ -87,6 +88,12 @@ public class PlantGameMain extends JPanel implements Observer {
     private JButton[] unlockSlot;
     private JPanel unlockPanel;
 
+    private JPanel infoPanel;
+    private JButton[] infoSlot;
+    private JPanel infoAreaButtons;
+    private JTextField infoArea;
+    private JButton infoBack;
+
     public PlantGameMain(PlantGameModel plantGameModel) {
         BorderLayout border = new BorderLayout();
         this.setLayout(border);
@@ -98,10 +105,29 @@ public class PlantGameMain extends JPanel implements Observer {
         yellowLine = BorderFactory.createLineBorder(Color.yellow);
         mixedLine = BorderFactory.createCompoundBorder(blueLine, yellowLine);
 
+        //Infomation
+        this.infoPanel = new JPanel(new BorderLayout());
+        this.infoAreaButtons = new JPanel();
+        infoSlot = new JButton[8];
+
+        //Add all buttons to info slot
+        for (int i = 0; i < 8; i++) {
+            infoSlot[i] = new JButton();
+            infoAreaButtons.add(this.infoSlot[i]);
+        }
+        infoBack = new JButton("Back");
+        infoAreaButtons.add(this.infoBack);
+
+        infoArea = new JTextField();
+        
+        infoPanel.add(infoArea, BorderLayout.NORTH);
+        infoPanel.add(infoAreaButtons, BorderLayout.SOUTH);
+
+        
+        //Save 
         this.savePanel = new JPanel();
         saveSlot = new JButton[5];
 
-        //Buttons
         for (int i = 0; i < 5; i++) {
             saveSlot[i] = new JButton();
         }
@@ -206,10 +232,8 @@ public class PlantGameMain extends JPanel implements Observer {
                 if ((this.getPlantGameModel().getPlayer().getField().getPlantArray()[i][j].getWaterCount() >= this.getPlantGameModel().getPlayer().getField().getPlantArray()[i][j].getWaterLimit())) {
                     //Colours watered plants mixed
                     this.getFieldLabels()[i][j].setBorder(blueLine);
-                    
-                }
-                else
-                {
+
+                } else {
                     this.getFieldLabels()[i][j].setBorder(null);
                 }
 
@@ -225,7 +249,7 @@ public class PlantGameMain extends JPanel implements Observer {
                     for (int k = 0; k < 2; k++) {
                         try {
 
-                            if (this.getFieldLabels()[pollin[k]][pollin[5]].getBorder() == blueLine||this.getFieldLabels()[pollin[k]][pollin[5]].getBorder()==mixedLine) {
+                            if (this.getFieldLabels()[pollin[k]][pollin[5]].getBorder() == blueLine || this.getFieldLabels()[pollin[k]][pollin[5]].getBorder() == mixedLine) {
                                 this.getFieldLabels()[pollin[k]][pollin[5]].setBorder(mixedLine);
                             } else {
                                 this.getFieldLabels()[pollin[k]][pollin[5]].setBorder(yellowLine);
@@ -240,7 +264,7 @@ public class PlantGameMain extends JPanel implements Observer {
                     for (int k = 0; k < 2; k++) {
                         try {
 
-                            if (this.getFieldLabels()[pollin[4]][pollin[k + 2]].getBorder() == blueLine||this.getFieldLabels()[pollin[4]][pollin[k + 2]].getBorder() == mixedLine) {
+                            if (this.getFieldLabels()[pollin[4]][pollin[k + 2]].getBorder() == blueLine || this.getFieldLabels()[pollin[4]][pollin[k + 2]].getBorder() == mixedLine) {
                                 this.getFieldLabels()[pollin[4]][pollin[k + 2]].setBorder(mixedLine);
                             } else {
                                 this.getFieldLabels()[pollin[4]][pollin[k + 2]].setBorder(yellowLine);
