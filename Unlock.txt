@@ -1,7 +1,2 @@
-<<<<<<< HEAD
-truffle tulip 
-30 30 
-=======
 saffron truffle tulip 
 400 200 30 
->>>>>>> Bug-Fix
