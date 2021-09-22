@@ -24,6 +24,7 @@ public class Tulip extends Flower {
         setValue(0);
         setGrowCounter(1);
         setWaterLimit(3);
+        setPollinator(false);
 
     }
 
@@ -37,6 +38,8 @@ public class Tulip extends Flower {
         //Truffles are expensive
         if (getGrowCounter() == 1) {
             setValue(3);
+            //Begins pollinating others
+            setPollinator(true);
         }
         //Checks if the plant is evolving.
         checkEvolution();
