@@ -463,7 +463,7 @@ public class PlantGameMain extends JPanel implements Observer {
                         toDisplay += plants.get(j) + "\n";
                     }
                     this.infoArea.setText(toDisplay);
-
+                    this.infoArea.setEditable(false);
                     System.out.println("");
                 } catch (IOException ex) {
                     Logger.getLogger(PlantGameMain.class.getName()).log(Level.SEVERE, null, ex);
