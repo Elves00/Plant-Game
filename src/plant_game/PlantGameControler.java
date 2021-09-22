@@ -94,9 +94,8 @@ public class PlantGameControler extends JPanel implements ActionListener, MouseL
         plantGameMain.getSave().addActionListener(this);
         plantGameMain.getSaveBack().addActionListener(this);
         plantGameMain.getUnlockShop().addActionListener(this);
-        
-//        plantGameMain.getUnlockBack().addActionListener(this);
 
+//        plantGameMain.getUnlockBack().addActionListener(this);
         //Unlock listeners
         for (int i = 0; i < plantGameMain.getUnlockSlot().length; i++) {
 
@@ -116,7 +115,6 @@ public class PlantGameControler extends JPanel implements ActionListener, MouseL
         }
         //Action listners for planting options
         for (int i = 0; i < plantGameMain.getPlantingButtons().length; i++) {
-
             plantGameMain.getPlantingButtons()[i].addActionListener(this);
         }
 
@@ -240,7 +238,6 @@ public class PlantGameControler extends JPanel implements ActionListener, MouseL
         //Checks which plant has been selected to plant in the field.
         for (int i = 0; i < plantGameModel.getShop().size(); i++) {
             if (sourceA == plantGameMain.getPlantingButtons()[i]) {
-
                 //Sets the plant to be planted and sets the planting condition to true.
                 //This means if a user presses in the field it will plant this plant.
                 plantToPlant = i + 1;
@@ -316,22 +313,30 @@ public class PlantGameControler extends JPanel implements ActionListener, MouseL
         }
         //UNLOCKS
         if (sourceA == plantGameMain.getUnlockShop()) {
-            System.out.println("HERE");
+            plantGameModel.unlockView();
             this.plantGameMain.getCard().show(this.plantGameMain.getButtonPanel(), "f");
 
         }
+        //Unlock buttons
         for (int i = 0; i < this.plantGameModel.getUnlocks().size(); i++) {
             if (sourceA == plantGameMain.getUnlockSlot()[i]) {
+<<<<<<< HEAD
                 
                 System.out.println(" "+this.plantGameModel.getUnlocks().toString());
                 this.plantGameModel.unlock(i+1);
+=======
+
+                this.plantGameModel.unlock(i + 1);
+                //Re adds action listiener as it gets removed in plantGameMain during unlock
+                this.plantGameMain.getPlantingButtons()[this.plantGameModel.getShop().size() - 1].addActionListener(this);
+>>>>>>> Bug-Fix
             }
         }
 
         //Returns the user to the main card from the unlock view
         if (sourceA == plantGameMain.getUnlockBack()) {
             this.plantGameMain.getCard().show(this.plantGameMain.getButtonPanel(), "a");
-           
+
         }
 
     }

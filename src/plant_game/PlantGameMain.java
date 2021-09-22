@@ -146,7 +146,7 @@ public class PlantGameMain extends JPanel implements Observer {
         //Unlocks initial length starts as the base set - 3 + 1 as you always start with 3 plants and we need one extra slot for the back button
         this.unlockSlot = new JButton[PlantSet.values().length - 2];
         //Unlock setup
-        for (int i = 0; i < PlantSet.values().length -2; i++) {
+        for (int i = 0; i < PlantSet.values().length - 2; i++) {
             this.unlockSlot[i] = new JButton();
             this.unlockSlot[i].setVisible(false);
         }
@@ -159,6 +159,7 @@ public class PlantGameMain extends JPanel implements Observer {
         for (int i = 0; i < PlantSet.values().length + 1; i++) {
             this.plantingButtons[i] = new JButton();
             this.plantingButtons[i].setVisible(false);
+            this.plantSelect.add(this.plantingButtons[i]);
         }
 
         //Watering Panel
@@ -250,6 +251,7 @@ public class PlantGameMain extends JPanel implements Observer {
 
         if (arg.equals("Initial Unlock")) {
 
+            System.out.println("Inital size" + this.getPlantGameModel().getUnlocks().size());
             //Unlock setup
             for (int i = 0; i < this.getPlantGameModel().getUnlocks().size(); i++) {
                 this.unlockSlot[i].setText(this.getPlantGameModel().getUnlocks().toView(i));
@@ -262,6 +264,24 @@ public class PlantGameMain extends JPanel implements Observer {
 
             this.buttonPanel.add("f", unlockPanel);
 
+        }
+        if (arg.equals("Unlock")) {
+            //Make other buttons invisible
+            for (int i = this.getPlantGameModel().getUnlocks().size(); i < PlantSet.values().length - 2; i++) {
+                this.unlockSlot[i].setVisible(false);
+
+            }
+            //Redo button labels
+            System.out.println("Unlock size:" + this.getPlantGameModel().getUnlocks().size());
+            for (int i = 0; i < this.getPlantGameModel().getUnlocks().size(); i++) {
+                this.unlockSlot[i].setText(this.getPlantGameModel().getUnlocks().toView(i));
+                this.unlockSlot[i].setVisible(true);
+
+            }
+            //Add back button to end
+            this.unlockSlot[this.getPlantGameModel().getUnlocks().size()] = this.unlockBack;
+            this.unlockSlot[this.getPlantGameModel().getUnlocks().size()].setText("Back");
+            this.unlockSlot[this.getPlantGameModel().getUnlocks().size()].setVisible(true);
         }
 
         if (arg.equals("Water")) {
@@ -339,22 +359,53 @@ public class PlantGameMain extends JPanel implements Observer {
                 }
                 this.getPlantingButtons()[this.getPlantGameModel().getShop().size()] = this.getPlantBack();
             }
-
-            for (JButton i : this.plantingButtons) {
-                this.plantSelect.add(i);
-            }
+            this.getPlantingButtons()[this.getPlantGameModel().getShop().size()] = this.plantBack;
+            this.getPlantingButtons()[this.getPlantGameModel().getShop().size()].setVisible(true);
+            this.getPlantSelect().add(this.getPlantingButtons()[this.getPlantGameModel().getShop().size()]);
+//          
         }
 
         if (arg.equals("Shop Update")) {
             try {
-
-                this.getPlantingButtons()[this.getPlantGameModel().getShop().size() - 1] = new JButton();
-                this.getPlantingButtons()[this.getPlantGameModel().getShop().size()] = this.getPlantBack();
+                //COULD BE AN ISSUE WHERE ADDING THE BACK BUTTON TO THE SLOT MEANS THE LISTINER DOESNT PICK UP PROPERLY?
+                System.out.println("Shop size:" + this.getPlantGameModel().getShop().size());
+                System.out.println("Shop");
+                for (int i = 0; i < this.getPlantGameModel().getShop().size(); i++) {
+                    System.out.println(i + ":" + this.getPlantGameModel().getShop().getPlantName(i));
+                }
+                System.out.println("");
+                System.out.println("Original buttons:");
+                for (int i = 0; i < this.getPlantGameModel().getShop().size() + 1; i++) {
+                    System.out.println(i + ":" + this.plantingButtons[i].getText());
+                }
+                System.out.println("");
                 //Sets a hidden jbutton to have the text of a new plant
-                this.getPlantingButtons()[this.getPlantGameModel().getShop().size() - 1].setText(this.getPlantGameModel().getShop().getPlantName(this.getPlantGameModel().getShop().size() - 1));
-                this.plantSelect.add(this.plantingButtons[this.getPlantGameModel().getShop().size() - 1]);
-                this.getPlantingButtons()[this.getPlantGameModel().getShop().size() - 1].setVisible(true);
+                this.plantingButtons[this.getPlantGameModel().getShop().size() - 1] = new JButton();
+                this.plantingButtons[this.getPlantGameModel().getShop().size() - 1].setText(this.getPlantGameModel().getShop().getPlantName(this.getPlantGameModel().getShop().size() - 1));
+                this.plantingButtons[this.getPlantGameModel().getShop().size() - 1].setVisible(true);
+//                this.getPlantSelect().add(this.getPlantingButtons()[this.getPlantGameModel().getShop().size() - 1]);
+                //Sets up back button
 
+//                //THE ISSUE IS THAT IT's being used elsewhere.....
+//                this.getPlantingButtons()[this.getPlantGameModel().getShop().size()+1 ] = this.getPlantBack();
+//
+////                this.getPlantingButtons()[this.getPlantGameModel().getShop().size()+1 ] = new JButton();
+//                this.getPlantingButtons()[this.getPlantGameModel().getShop().size()+1 ].setVisible(true);
+//                this.getPlantSelect().add(this.getPlantingButtons()[this.getPlantGameModel().getShop().size()+1]);
+                //Add back button to end
+                this.plantingButtons[this.getPlantGameModel().getShop().size()] = this.plantBack;
+                this.plantingButtons[this.getPlantGameModel().getShop().size()].setText("Back");
+                this.plantingButtons[this.getPlantGameModel().getShop().size()].setVisible(true);
+                //add back button
+                this.plantSelect.add(this.plantingButtons[this.getPlantGameModel().getShop().size() - 1]);
+                this.plantSelect.add(this.plantingButtons[this.getPlantGameModel().getShop().size()]);
+                
+
+                System.out.println("Changed buttons:");
+                for (int i = 0; i < this.getPlantGameModel().getShop().size() + 1; i++) {
+                    System.out.println(i + ":" + this.plantingButtons[i].getText());
+                }
+                System.out.println("");
             } catch (InstantiationException ex) {
                 Logger.getLogger(PlantGameMain.class.getName()).log(Level.SEVERE, null, ex);
             } catch (IllegalAccessException ex) {
