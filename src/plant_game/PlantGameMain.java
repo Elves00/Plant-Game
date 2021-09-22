@@ -127,7 +127,6 @@ public class PlantGameMain extends JPanel implements Observer {
         infoArea = new JTextField();
         infoArea.setEditable(false);
 
-        
         infoPanel.add(infoAreaButtons, BorderLayout.SOUTH);
 
         //Save 
@@ -229,8 +228,9 @@ public class PlantGameMain extends JPanel implements Observer {
                 this.field.add(this.fieldLabels[i][j]);
             }
         }
+        
         this.fieldCard.add("a", this.field);
-        this.fieldCard.add("b",infoArea);
+        this.fieldCard.add("b", this.infoArea);
         this.add(this.fieldCard, BorderLayout.CENTER);
 
     }
