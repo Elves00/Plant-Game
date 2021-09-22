@@ -10,6 +10,7 @@ import java.awt.CardLayout;
 import java.awt.Color;
 import java.awt.GridLayout;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.Observable;
 import java.util.Observer;
@@ -93,6 +94,7 @@ public class PlantGameMain extends JPanel implements Observer {
     private JPanel infoAreaButtons;
     private JTextField infoArea;
     private JButton infoBack;
+    private String[] searchTerm;
 
     public PlantGameMain(PlantGameModel plantGameModel) {
         BorderLayout border = new BorderLayout();
@@ -104,6 +106,9 @@ public class PlantGameMain extends JPanel implements Observer {
         blueLine = BorderFactory.createLineBorder(Color.blue);
         yellowLine = BorderFactory.createLineBorder(Color.yellow);
         mixedLine = BorderFactory.createCompoundBorder(blueLine, yellowLine);
+
+        //Information search terms for use in update
+        searchTerm = new String[]{"Information", "plants", "Plant a Plant", "Pick Plant", "Water", "Next day", "Unlock", "Save game"};
 
         //Infomation
         this.infoPanel = new JPanel(new BorderLayout());
@@ -123,7 +128,7 @@ public class PlantGameMain extends JPanel implements Observer {
 
         infoPanel.add(infoArea, BorderLayout.NORTH);
         infoPanel.add(infoAreaButtons, BorderLayout.SOUTH);
-        
+
         //Save 
         this.savePanel = new JPanel();
         saveSlot = new JButton[5];
@@ -444,7 +449,24 @@ public class PlantGameMain extends JPanel implements Observer {
             }
 
         }
+        for (int i = 0; i < 8; i++) {
+            if (arg.equals("Info " + i)) {
+                ArrayList<String> plants;
+                try {
+                    plants = this.plantGameModel.getFiles().information(searchTerm[i]);
+                    String toDisplay = "";
+                    for (int j = 0; j < plants.size(); j++) {
+                        toDisplay += plants.get(j) + "\n";
+                    }
+                    this.infoArea.setText(toDisplay);
+                    
+                    System.out.println("");
+                } catch (IOException ex) {
+                    Logger.getLogger(PlantGameMain.class.getName()).log(Level.SEVERE, null, ex);
+                }
 
+            }
+        }
     }
 
     /**
