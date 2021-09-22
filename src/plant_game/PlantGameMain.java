@@ -119,10 +119,10 @@ public class PlantGameMain extends JPanel implements Observer {
         infoAreaButtons.add(this.infoBack);
 
         infoArea = new JTextField();
-        
+        infoArea.setEditable(false);
+
         infoPanel.add(infoArea, BorderLayout.NORTH);
         infoPanel.add(infoAreaButtons, BorderLayout.SOUTH);
-
         
         //Save 
         this.savePanel = new JPanel();
@@ -204,6 +204,7 @@ public class PlantGameMain extends JPanel implements Observer {
         this.buttonPanel.add("d", pickingPanel);
         this.buttonPanel.add("e", savePanel);
         this.buttonPanel.add("f", unlockPanel);
+        this.buttonPanel.add("g", infoPanel);
 
         this.add(this.buttonPanel, BorderLayout.SOUTH);
         this.add(this.playerHeader, BorderLayout.NORTH);
@@ -619,6 +620,20 @@ public class PlantGameMain extends JPanel implements Observer {
      */
     public JButton[] getUnlockSlot() {
         return unlockSlot;
+    }
+
+    /**
+     * @return the infoSlot
+     */
+    public JButton[] getInfoSlot() {
+        return infoSlot;
+    }
+
+    /**
+     * @return the infoBack
+     */
+    public JButton getInfoBack() {
+        return infoBack;
     }
 
 }
