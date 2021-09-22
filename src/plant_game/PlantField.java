@@ -237,11 +237,19 @@ public final class PlantField {
      */
     public void polinateNeighbours(int[] neighbours) {
         for (int i = 0; i < 2; i++) {
+            //Check above bellow 
             try {
 
                 getPlantArray()[neighbours[i]][neighbours[5]].pollinate(true);
-                getPlantArray()[neighbours[4]][neighbours[i + 2]].pollinate(true);
+               
             } //Avoids neigbours calling poisitons out of array bounds.
+            catch (ArrayIndexOutOfBoundsException a) {
+
+            }
+            //Check left right. In seprate function to avoid being kicked out due to arrindex error
+            try {
+             getPlantArray()[neighbours[4]][neighbours[i + 2]].pollinate(true);
+             } //Avoids neigbours calling poisitons out of array bounds.
             catch (ArrayIndexOutOfBoundsException a) {
 
             }
