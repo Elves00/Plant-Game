@@ -46,7 +46,7 @@ public class PlantGameMain extends JPanel implements Observer {
     }
 
     private PlantGameModel plantGameModel;
-
+    private JPanel fieldCard;
     private JPanel field;
     private JLabel[][] fieldLabels;
 
@@ -213,6 +213,7 @@ public class PlantGameMain extends JPanel implements Observer {
 
         this.add(this.buttonPanel, BorderLayout.SOUTH);
         this.add(this.playerHeader, BorderLayout.NORTH);
+        
         this.field = new JPanel(new GridLayout(3, 3));
         this.fieldLabels = new JLabel[3][3];
         for (int i = 0; i < 3; i++) {
