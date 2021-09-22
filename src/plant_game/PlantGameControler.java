@@ -407,7 +407,7 @@ public class PlantGameControler extends JPanel implements ActionListener, MouseL
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.getContentPane().add(new PlantGameControler(pg));
         frame.pack();
-        // position the frame in the middle of the screen
+        //position the frame in the middle of the screen
         Toolkit tk = Toolkit.getDefaultToolkit();
         Dimension screenDimension = tk.getScreenSize();
         Dimension frameDimension = frame.getSize();

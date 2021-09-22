@@ -11,6 +11,8 @@ import java.util.ArrayList;
 import java.util.InputMismatchException;
 import java.util.Observable;
 import java.util.Scanner;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  *
@@ -137,6 +139,7 @@ public class PlantGameModel extends Observable {
 
             //loads the last game.
             getFiles().loadCurrentGame();
+
             //Loads variables from file.
             setPlayer(getFiles().loadPlayer());
             setShop(getFiles().readShop());
@@ -167,6 +170,20 @@ public class PlantGameModel extends Observable {
     protected void loadGame(int selection) throws IOException {
 
         this.getFiles().loadGame(selection);
+        try {
+            //Loads objects.
+            setPlayer(getFiles().loadPlayer());
+        } catch (FileNotFoundException ex) {
+            Logger.getLogger(PlantGameModel.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (FileLoadErrorException ex) {
+            Logger.getLogger(PlantGameModel.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (InstantiationException ex) {
+            Logger.getLogger(PlantGameModel.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (IllegalAccessException ex) {
+            Logger.getLogger(PlantGameModel.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        setUnlocks(getFiles().readUnlock());
+        setShop(getFiles().readShop());
         System.out.println("Save number" + selection + " loaded");
         //set change
         setChanged();
@@ -370,7 +387,7 @@ public class PlantGameModel extends Observable {
         setChanged();
         //Notifys that a plant has been unlocked
         notifyObservers("Unlock");
-        
+
         //Update the shop with new unlocked plant
         setChanged();
         notifyObservers("Shop Update");
