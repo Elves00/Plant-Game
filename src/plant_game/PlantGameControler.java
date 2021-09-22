@@ -317,7 +317,7 @@ public class PlantGameControler extends JPanel implements ActionListener, MouseL
             this.plantGameMain.getCard().show(this.plantGameMain.getButtonPanel(), "f");
 
         }
-           //Unlock buttons
+        //Unlock buttons
         for (int i = 0; i < this.plantGameModel.getUnlocks().size(); i++) {
             if (sourceA == plantGameMain.getUnlockSlot()[i]) {
 
