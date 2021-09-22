@@ -374,7 +374,6 @@ public class PlantGameControler extends JPanel implements ActionListener, MouseL
                     }
                     if (picking) {
                         this.plantGameModel.pick(i, j);
-
                     }
 
                 }
