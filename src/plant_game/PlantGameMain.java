@@ -65,6 +65,7 @@ public class PlantGameMain extends JPanel implements Observer {
     private JPanel gameOptions;
 
     private CardLayout card;
+    private CardLayout cardField;
 
     //Highlight for water full and pollinating.
     private Border blueLine;
@@ -126,7 +127,7 @@ public class PlantGameMain extends JPanel implements Observer {
         infoArea = new JTextField();
         infoArea.setEditable(false);
 
-        infoPanel.add(infoArea, BorderLayout.NORTH);
+        
         infoPanel.add(infoAreaButtons, BorderLayout.SOUTH);
 
         //Save 
@@ -213,7 +214,8 @@ public class PlantGameMain extends JPanel implements Observer {
 
         this.add(this.buttonPanel, BorderLayout.SOUTH);
         this.add(this.playerHeader, BorderLayout.NORTH);
-        
+        this.cardField = new CardLayout();
+        this.fieldCard = new JPanel(getCardField());
         this.field = new JPanel(new GridLayout(3, 3));
         this.fieldLabels = new JLabel[3][3];
         for (int i = 0; i < 3; i++) {
@@ -227,8 +229,9 @@ public class PlantGameMain extends JPanel implements Observer {
                 this.field.add(this.fieldLabels[i][j]);
             }
         }
-
-        this.add(this.field, BorderLayout.CENTER);
+        this.fieldCard.add("a", this.field);
+        this.fieldCard.add("b",infoArea);
+        this.add(this.fieldCard, BorderLayout.CENTER);
 
     }
 
@@ -460,7 +463,7 @@ public class PlantGameMain extends JPanel implements Observer {
                         toDisplay += plants.get(j) + "\n";
                     }
                     this.infoArea.setText(toDisplay);
-                    
+
                     System.out.println("");
                 } catch (IOException ex) {
                     Logger.getLogger(PlantGameMain.class.getName()).log(Level.SEVERE, null, ex);
@@ -657,6 +660,20 @@ public class PlantGameMain extends JPanel implements Observer {
      */
     public JButton getInfoBack() {
         return infoBack;
+    }
+
+    /**
+     * @return the fieldCard
+     */
+    public JPanel getFieldCard() {
+        return fieldCard;
+    }
+
+    /**
+     * @return the cardField
+     */
+    public CardLayout getCardField() {
+        return cardField;
     }
 
 }
