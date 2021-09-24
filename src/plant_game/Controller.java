@@ -26,6 +26,7 @@ import javax.swing.JPanel;
 public class Controller extends JPanel implements ActionListener, MouseListener {
 
     private PlantGameModel plantGameModel;
+    private PlantGamePanel plantGamePanel;
 
     public PlantGameModel getPlantGameModel() {
         return this.plantGameModel;
@@ -43,10 +44,11 @@ public class Controller extends JPanel implements ActionListener, MouseListener 
     private PlantGameStart plantGameStart;
     //CARDS
     private PlantGameMain plantGameMain;
-    
-    public Controller(PlantGameModel plantGameModel,PlantGamePanel plantGamePanel)
-    {
-        
+
+    public Controller(PlantGameModel plantGameModel, PlantGamePanel plantGamePanel) {
+        this.plantGameModel = plantGameModel;
+        this.plantGamePanel = plantGamePanel;
+        this.plantGamePanel.addActionListener(this); //adds the panel as a listener for all actions within the plantGamePanel
     }
 
     public Controller(PlantGameModel plantGameModel) throws IOException {
