@@ -237,10 +237,8 @@ public class PlantGameMain extends JPanel implements Observer {
 
     }
 
-    
-    
     public void addActionListener(ActionListener actionListener) {
-         //Main plant game button lisiteners
+        //Main plant game button lisiteners
         getPlant().addActionListener(actionListener);
         getWater().addActionListener(actionListener);
         getPick().addActionListener(actionListener);
@@ -254,8 +252,8 @@ public class PlantGameMain extends JPanel implements Observer {
         getSaveBack().addActionListener(actionListener);
         getUnlockShop().addActionListener(actionListener);
         getInfoBack().addActionListener(actionListener);
-        
-             //Unlock listeners
+
+        //Unlock listeners
         for (int i = 0; i < getUnlockSlot().length; i++) {
 
             getUnlockSlot()[i].addActionListener(actionListener);
@@ -266,7 +264,6 @@ public class PlantGameMain extends JPanel implements Observer {
             getSaveSlot()[i].addActionListener(actionListener);
         }
 
-        
         //Action listners for planting options
         for (int i = 0; i < getPlantingButtons().length; i++) {
             getPlantingButtons()[i].addActionListener(actionListener);
@@ -278,8 +275,8 @@ public class PlantGameMain extends JPanel implements Observer {
         }
 
     }
-    public void addMouseListener(MouseListener mouseListener)
-    {
+
+    public void addMouseListener(MouseListener mouseListener) {
         //Listeners for the field panels
         for (int i = 0; i < 3; i++) {
             for (int j = 0; j < 3; j++) {
@@ -287,8 +284,7 @@ public class PlantGameMain extends JPanel implements Observer {
             }
         }
     }
-    
-    
+
     public void updateBorders() {
         for (int i = 0; i < 3; i++) {
             for (int j = 0; j < 3; j++) {
@@ -344,7 +340,6 @@ public class PlantGameMain extends JPanel implements Observer {
 
         }
     }
-
 
     @Override
     public void update(Observable o, Object arg) {

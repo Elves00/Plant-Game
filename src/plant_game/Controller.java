@@ -89,53 +89,9 @@ public class Controller extends JPanel implements ActionListener, MouseListener 
         plantGameStart.getUsername().addActionListener(this);
         plantGameStart.getSubmit().addActionListener(this);
 
-        
-        
         this.plantGameMain.addActionListener(this); //adds the panel as a listener for all actions within the plantGamePanel
         this.plantGameMain.addMouseListener(this);
-//        //Main plant game button lisiteners
-//        plantGameMain.getPlant().addActionListener(this);
-//        plantGameMain.getWater().addActionListener(this);
-//        plantGameMain.getPick().addActionListener(this);
-//        plantGameMain.getInformation().addActionListener(this);
-//        plantGameMain.getNextDay().addActionListener(this);
-//        plantGameMain.getPlantBack().addActionListener(this);
-//        plantGameMain.getWaterBack().addActionListener(this);
-//        plantGameMain.getPickBack().addActionListener(this);
-//        plantGameMain.getUnlockBack().addActionListener(this);
-//        plantGameMain.getSave().addActionListener(this);
-//        plantGameMain.getSaveBack().addActionListener(this);
-//        plantGameMain.getUnlockShop().addActionListener(this);
-//        plantGameMain.getInfoBack().addActionListener(this);
-//
-////        plantGameMain.getUnlockBack().addActionListener(this);
-//        //Unlock listeners
-//        for (int i = 0; i < plantGameMain.getUnlockSlot().length; i++) {
-//
-//            plantGameMain.getUnlockSlot()[i].addActionListener(this);
-//        }
-//
-//        //Slave slot listiners
-//        for (int i = 0; i < 5; i++) {
-//            plantGameMain.getSaveSlot()[i].addActionListener(this);
-//        }
-//
-//        //Listeners for the field panels
-//        for (int i = 0; i < 3; i++) {
-//            for (int j = 0; j < 3; j++) {
-//                plantGameMain.getFieldLabels()[i][j].addMouseListener(this);
-//            }
-//        }
-//        //Action listners for planting options
-//        for (int i = 0; i < plantGameMain.getPlantingButtons().length; i++) {
-//            plantGameMain.getPlantingButtons()[i].addActionListener(this);
-//        }
-//
-//        //Action listeners for info panel buttons
-//        for (int i = 0; i < 8; i++) {
-//            plantGameMain.getInfoSlot()[i].addActionListener(this);
-//        }
-//
+
 //        //Cardlayout views
         this.add("A", plantGameStart);
         this.add("B", plantGameMain);
