@@ -9,6 +9,7 @@ import java.awt.BorderLayout;
 import java.awt.CardLayout;
 import java.awt.Color;
 import java.awt.GridLayout;
+import java.awt.event.ActionListener;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.LinkedList;
@@ -228,13 +229,33 @@ public class PlantGameMain extends JPanel implements Observer {
                 this.field.add(this.fieldLabels[i][j]);
             }
         }
-        
+
         this.fieldCard.add("a", this.field);
         this.fieldCard.add("b", this.infoArea);
         this.add(this.fieldCard, BorderLayout.CENTER);
 
     }
 
+    
+    
+    public void addActionListener(ActionListener actionListener) {
+         //Main plant game button lisiteners
+        getPlant().addActionListener(actionListener);
+        getWater().addActionListener(actionListener);
+        getPick().addActionListener(actionListener);
+        getInformation().addActionListener(actionListener);
+        getNextDay().addActionListener(actionListener);
+        getPlantBack().addActionListener(actionListener);
+        getWaterBack().addActionListener(actionListener);
+        getPickBack().addActionListener(actionListener);
+        getUnlockBack().addActionListener(actionListener);
+        getSave().addActionListener(actionListener);
+        getSaveBack().addActionListener(actionListener);
+        getUnlockShop().addActionListener(actionListener);
+        getInfoBack().addActionListener(actionListener);
+    }
+    
+    
     public void updateBorders() {
         for (int i = 0; i < 3; i++) {
             for (int j = 0; j < 3; j++) {
@@ -290,6 +311,7 @@ public class PlantGameMain extends JPanel implements Observer {
 
         }
     }
+
 
     @Override
     public void update(Observable o, Object arg) {
