@@ -10,6 +10,7 @@ import java.awt.CardLayout;
 import java.awt.Color;
 import java.awt.GridLayout;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseListener;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.LinkedList;
@@ -253,6 +254,38 @@ public class PlantGameMain extends JPanel implements Observer {
         getSaveBack().addActionListener(actionListener);
         getUnlockShop().addActionListener(actionListener);
         getInfoBack().addActionListener(actionListener);
+        
+             //Unlock listeners
+        for (int i = 0; i < getUnlockSlot().length; i++) {
+
+            getUnlockSlot()[i].addActionListener(actionListener);
+        }
+
+        //Slave slot listiners
+        for (int i = 0; i < 5; i++) {
+            getSaveSlot()[i].addActionListener(actionListener);
+        }
+
+        
+        //Action listners for planting options
+        for (int i = 0; i < getPlantingButtons().length; i++) {
+            getPlantingButtons()[i].addActionListener(actionListener);
+        }
+
+        //Action listeners for info panel buttons
+        for (int i = 0; i < 8; i++) {
+            getInfoSlot()[i].addActionListener(actionListener);
+        }
+
+    }
+    public void addMouseListener(MouseListener mouseListener)
+    {
+        //Listeners for the field panels
+        for (int i = 0; i < 3; i++) {
+            for (int j = 0; j < 3; j++) {
+                getFieldLabels()[i][j].addMouseListener(mouseListener);
+            }
+        }
     }
     
     
