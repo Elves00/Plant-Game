@@ -23,6 +23,7 @@ import javax.swing.BorderFactory;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.JTextArea;
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 import javax.swing.border.Border;
@@ -104,6 +105,31 @@ public class PlantGameMain extends JPanel implements Observer {
     private JButton infoBack;
     private String[] searchTerm;
 
+    //PLANT GAME START
+
+    private JPanel optionsPanel;
+    private JPanel loadGamePanel;
+    private JPanel newGamePanel;
+
+    private JPanel startupPanel;
+    private JButton newGame;
+    private JButton previousGame;
+    private JButton loadGame;
+    private JTextArea loadInfo;
+    private JLabel title;
+
+    private JButton one;
+    private JButton two;
+    private JButton three;
+    private JButton four;
+    private JButton five;
+
+    private JTextField username;
+    private JButton submit;
+
+    // Declaration of objects of CardLayout class.
+    private CardLayout cards;
+
     public PlantGameMain() {
 
     }
@@ -116,15 +142,14 @@ public class PlantGameMain extends JPanel implements Observer {
         //Start view a
         this.startView = new JPanel();
         this.add("a", this.startView);
-        
+
         //Main view b
         this.mainView = new JPanel();
         this.add("b", this.mainView);
 
         BorderLayout border = new BorderLayout();
         this.mainView.setLayout(border);
-        
-        
+
         //view and observer
         this.plantGameModel = plantGameModel;
         this.plantGameModel.addObserver(this);
@@ -259,6 +284,63 @@ public class PlantGameMain extends JPanel implements Observer {
         this.fieldCard.add("b", this.infoArea);
         this.mainView.add(this.fieldCard, BorderLayout.CENTER);
 
+    }
+
+    public void plantGameStart() {
+
+        //
+          cards = new CardLayout();
+        this.setLayout(cards);
+        //
+        
+        this.optionsPanel = new JPanel(new BorderLayout());
+        this.loadGamePanel = new JPanel();
+        this.newGamePanel = new JPanel();
+
+        this.username = new JTextField(20);
+        this.newGamePanel.add(this.username);
+
+        this.submit = new JButton("Submit");
+//        this.submit.addActionListener(this);
+        this.newGamePanel.add(this.submit);
+
+        newGame = new JButton("New Game");
+        previousGame = new JButton("Previous Game");
+        loadGame = new JButton("Load Game");
+        loadInfo = new JTextArea();
+        ArrayList<String> gameInfo = plantGameModel.getFiles().information("Information");
+        String formated = "";
+        for (int i = 0; i < gameInfo.size(); i++) {
+            formated += gameInfo.get(i) + "\n";
+        }
+        //Sets up text in load info and prevents users from editing.
+        loadInfo.setText(formated);
+        loadInfo.setEditable(false);
+
+        //Panel for options buttons
+        startupPanel = new JPanel();
+
+        this.optionsPanel.add(loadInfo, BorderLayout.NORTH);
+        this.startupPanel.add(newGame);
+        this.startupPanel.add(previousGame);
+        this.startupPanel.add(loadGame);
+        this.optionsPanel.add(startupPanel, BorderLayout.SOUTH);
+
+        this.one = new JButton("one");
+        this.two = new JButton("two");
+        this.three = new JButton("three");
+        this.four = new JButton("four");
+        this.five = new JButton("five");
+
+        loadGamePanel.add(one);
+        loadGamePanel.add(two);
+        loadGamePanel.add(three);
+        loadGamePanel.add(four);
+        loadGamePanel.add(five);
+
+        this.add("a", this.optionsPanel);
+        this.add("b", this.loadGamePanel);
+        this.add("c", this.newGamePanel);
     }
 
     public void addActionListener(ActionListener actionListener) {
@@ -749,6 +831,13 @@ public class PlantGameMain extends JPanel implements Observer {
      */
     public CardLayout getCardField() {
         return cardField;
+    }
+
+    /**
+     * @return the mainCard
+     */
+    public CardLayout getMainCard() {
+        return mainCard;
     }
 
 }
