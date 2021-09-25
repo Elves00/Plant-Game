@@ -99,6 +99,11 @@ public class PlantGameMain extends JPanel implements Observer {
     private JButton infoBack;
     private String[] searchTerm;
 
+    public PlantGameMain()
+    {
+        
+    }
+    
     public PlantGameMain(PlantGameModel plantGameModel) {
         BorderLayout border = new BorderLayout();
         this.setLayout(border);
@@ -286,17 +291,23 @@ public class PlantGameMain extends JPanel implements Observer {
     }
 
     public void startGame() {
-
+        
     }
 
     public void setSaves() {
 
     }
-
+    
+    /**
+     * Updates the player header to correctly display player information
+     */
     public void updatePlayer() {
         this.playerHeader.setText(this.getPlantGameModel().getPlayer().toString());
     }
-
+    
+    /**
+     *  Updates the field to correctly display player field information
+     */
     public void updateField() {
         for (int i = 0; i < 3; i++) {
             for (int j = 0; j < 3; j++) {
