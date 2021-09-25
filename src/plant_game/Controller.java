@@ -409,5 +409,10 @@ public class Controller extends JPanel implements ActionListener, MouseListener 
         frame.setVisible(true);
         // now display something while the main thread is still alive
 
+        //How the thing should actually work.
+        PlantGameModel model = new PlantGameModel();
+        PlantGameMain view = new PlantGameMain();
+        Controller controller = new Controller(model, view);
+        model.addObserver(view);
     }
 }
