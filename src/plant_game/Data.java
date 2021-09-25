@@ -13,11 +13,8 @@ public class Data {
     //field
     //money
     //so on so forth
-    
-    
-    
+
     //score
-    
     //FROM THE SAVE GAME FILE 
     //Player name
     //money
@@ -30,5 +27,17 @@ public class Data {
     //unlock
     //unlock price (may not be working correctly check this is changing correct)
     //Two null lines
+    /*Alternativly maybe we go by whats notified in the view panel
     
+    So plant/inital view/pick are conditions
+    inital save
+    inital unlock
+    inital view
+    
+    
+    So we could have a game loaded variable which indicates the shop/unlock and player can be created
+    
+    
+
+     */
 }

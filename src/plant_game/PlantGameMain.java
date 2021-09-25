@@ -285,7 +285,15 @@ public class PlantGameMain extends JPanel implements Observer {
         }
     }
 
-    public void updateBorders() {
+    public void startGame() {
+
+    }
+
+    public void setSaves() {
+
+    }
+
+    public void updateField() {
         for (int i = 0; i < 3; i++) {
             for (int j = 0; j < 3; j++) {
                 //If plant is at or above it's water limit set its border to blue
@@ -296,6 +304,9 @@ public class PlantGameMain extends JPanel implements Observer {
                 } else {
                     this.getFieldLabels()[i][j].setBorder(null);
                 }
+
+                //Updates the text of each panel.
+                this.getFieldLabels()[i][j].setText(this.getPlantGameModel().getPlayer().getField().getPlant(i, j).toString());
 
             }
         }
@@ -339,6 +350,7 @@ public class PlantGameMain extends JPanel implements Observer {
             }
 
         }
+
     }
 
     @Override
@@ -349,9 +361,9 @@ public class PlantGameMain extends JPanel implements Observer {
             for (int i = 0; i < 3; i++) {
                 for (int j = 0; j < 3; j++) {
                     //Updates the text of each panel.
-                    this.getFieldLabels()[i][j].setText(this.getPlantGameModel().getPlayer().getField().getPlant(i, j).toString());
+//                    this.getFieldLabels()[i][j].setText(this.getPlantGameModel().getPlayer().getField().getPlant(i, j).toString());
                     //Updates the borders of each panel.
-                    this.updateBorders();
+                    this.updateField();
                 }
             }
             //Update player header
@@ -415,7 +427,7 @@ public class PlantGameMain extends JPanel implements Observer {
                 for (int j = 0; j < 3; j++) {
 
                     //Recolours plant if they have had there water level reset.
-                    this.updateBorders();
+                    this.updateField();
                 }
             }
             //Update player header
@@ -427,7 +439,7 @@ public class PlantGameMain extends JPanel implements Observer {
             for (int i = 0; i < 3; i++) {
                 for (int j = 0; j < 3; j++) {
                     //Update border
-                    this.updateBorders();
+                    this.updateField();
                 }
             }
             //Update player header
@@ -449,7 +461,7 @@ public class PlantGameMain extends JPanel implements Observer {
             for (int i = 0; i < 3; i++) {
                 for (int j = 0; j < 3; j++) {
                     //Updates the border colours
-                    this.updateBorders();
+                    this.updateField();
                 }
             }
         }

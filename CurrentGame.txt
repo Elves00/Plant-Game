@@ -1,14 +1,14 @@
-kingdom
-60.0
+King
+70.0
 100
-5
-570
+1
+170
 0 0 0 0 0 10 0 10 false false 0 0 0 0 0 10 0 10 false false 0 0 0 0 0 10 0 10 false false 
-0 0 0 0 0 10 0 10 false false 1 3 3 1 1 3 3 10 true false 0 0 0 0 0 10 0 10 false false 
-0 0 0 0 0 10 1 10 false false 0 0 0 0 0 10 1 10 false false 0 0 0 0 0 10 0 10 false false 
+0 0 0 0 0 10 0 10 false false 0 0 0 0 0 10 0 10 false false 0 0 0 0 0 10 0 10 false false 
+0 0 0 0 0 10 0 10 false false 0 0 0 0 0 10 0 10 false false 0 0 0 0 0 10 0 10 false false 
  dirt dirt dirt
- dirt tulip dirt
+ dirt dirt dirt
  dirt dirt dirt
 broccoli cabbage carrot tulip 
 saffron truffle 
-30 30 
+400 200 
