@@ -53,9 +53,9 @@ public class Controller extends JPanel implements ActionListener, MouseListener 
 
     public Controller(PlantGameModel plantGameModel) throws IOException {
 
-        //Sets up a cardlayout to be used by this controller
-        card = new CardLayout();
-        this.setLayout(card);
+//        //Sets up a cardlayout to be used by this controller
+//        card = new CardLayout();
+//        this.setLayout(card);
 
         //Starting conditions player is not planting watering or picking
         this.planting = false;
@@ -410,9 +410,9 @@ public class Controller extends JPanel implements ActionListener, MouseListener 
         // now display something while the main thread is still alive
 
         //How the thing should actually work.
-        PlantGameModel model = new PlantGameModel();
-        PlantGameMain view = new PlantGameMain();
-        Controller controller = new Controller(model, view);
-        model.addObserver(view);
+//        PlantGameModel model = new PlantGameModel();
+//        PlantGameMain view = new PlantGameMain();
+//        Controller controller = new Controller(model, view);
+//        model.addObserver(view);
     }
 }
