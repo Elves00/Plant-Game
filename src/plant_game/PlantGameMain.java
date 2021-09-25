@@ -293,6 +293,10 @@ public class PlantGameMain extends JPanel implements Observer {
 
     }
 
+    public void updatePlayer() {
+        this.playerHeader.setText(this.getPlantGameModel().getPlayer().toString());
+    }
+
     public void updateField() {
         for (int i = 0; i < 3; i++) {
             for (int j = 0; j < 3; j++) {
@@ -357,17 +361,9 @@ public class PlantGameMain extends JPanel implements Observer {
     public void update(Observable o, Object arg) {
 
         if (arg.equals("Plant") || arg.equals("Initial View") || arg.equals("Pick")) {
-            System.out.println("Updating " + arg.toString());
-            for (int i = 0; i < 3; i++) {
-                for (int j = 0; j < 3; j++) {
-                    //Updates the text of each panel.
-//                    this.getFieldLabels()[i][j].setText(this.getPlantGameModel().getPlayer().getField().getPlant(i, j).toString());
-                    //Updates the borders of each panel.
-                    this.updateField();
-                }
-            }
+            this.updateField();
             //Update player header
-            this.playerHeader.setText(this.getPlantGameModel().getPlayer().toString());
+            updatePlayer();
         }
         //Load initial save
         if (arg.equals("Initial Save")) {
@@ -419,31 +415,20 @@ public class PlantGameMain extends JPanel implements Observer {
             this.unlockSlot[this.getPlantGameModel().getUnlocks().size()].setVisible(true);
 
             //Update player header
-            this.playerHeader.setText(this.getPlantGameModel().getPlayer().toString());
+            updatePlayer();
         }
 
         if (arg.equals("Water")) {
-            for (int i = 0; i < 3; i++) {
-                for (int j = 0; j < 3; j++) {
-
-                    //Recolours plant if they have had there water level reset.
-                    this.updateField();
-                }
-            }
+            this.updateField();
             //Update player header
-            this.playerHeader.setText(this.getPlantGameModel().getPlayer().toString());
+            updatePlayer();
         }
 
         if (arg.equals("Next Day")) {
             System.out.println("Updating " + arg.toString());
-            for (int i = 0; i < 3; i++) {
-                for (int j = 0; j < 3; j++) {
-                    //Update border
-                    this.updateField();
-                }
-            }
+            this.updateField();
             //Update player header
-            this.playerHeader.setText(this.getPlantGameModel().getPlayer().toString());
+            updatePlayer();
 
         }
 
@@ -458,12 +443,8 @@ public class PlantGameMain extends JPanel implements Observer {
         }
         //Watering
         if (arg.equals("Water View")) {
-            for (int i = 0; i < 3; i++) {
-                for (int j = 0; j < 3; j++) {
-                    //Updates the border colours
-                    this.updateField();
-                }
-            }
+            this.updateField();
+
         }
 
         if (arg.equals("Shop Start")) {
@@ -508,6 +489,8 @@ public class PlantGameMain extends JPanel implements Observer {
                 this.plantSelect.add(this.plantingButtons[this.getPlantGameModel().getShop().size() - 1]);
                 this.plantSelect.add(this.plantingButtons[this.getPlantGameModel().getShop().size()]);
 
+                //update player
+                updatePlayer();
             } catch (InstantiationException ex) {
                 Logger.getLogger(PlantGameMain.class.getName()).log(Level.SEVERE, null, ex);
             } catch (IllegalAccessException ex) {
