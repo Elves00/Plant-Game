@@ -66,6 +66,11 @@ public class PlantGameMain extends JPanel implements Observer {
     private JButton save;
     private JPanel gameOptions;
 
+    private JPanel startView;
+    private JPanel mainView;
+
+    private CardLayout mainCard;
+
     private CardLayout card;
     private CardLayout cardField;
 
@@ -99,14 +104,28 @@ public class PlantGameMain extends JPanel implements Observer {
     private JButton infoBack;
     private String[] searchTerm;
 
-    public PlantGameMain()
-    {
-        
+    public PlantGameMain() {
+
     }
-    
+
     public PlantGameMain(PlantGameModel plantGameModel) {
+        //Main card which will include a start up/main and end panel.
+        mainCard = new CardLayout();
+        this.setLayout(mainCard);
+
+        //Start view a
+        this.startView = new JPanel();
+        this.add("a", this.startView);
+        
+        //Main view b
+        this.mainView = new JPanel();
+        this.add("b", this.mainView);
+
         BorderLayout border = new BorderLayout();
-        this.setLayout(border);
+        this.mainView.setLayout(border);
+        
+        
+        //view and observer
         this.plantGameModel = plantGameModel;
         this.plantGameModel.addObserver(this);
 
@@ -218,8 +237,8 @@ public class PlantGameMain extends JPanel implements Observer {
         this.buttonPanel.add("f", unlockPanel);
         this.buttonPanel.add("g", infoPanel);
 
-        this.add(this.buttonPanel, BorderLayout.SOUTH);
-        this.add(this.playerHeader, BorderLayout.NORTH);
+        this.mainView.add(this.buttonPanel, BorderLayout.SOUTH);
+        this.mainView.add(this.playerHeader, BorderLayout.NORTH);
         this.cardField = new CardLayout();
         this.fieldCard = new JPanel(getCardField());
         this.field = new JPanel(new GridLayout(3, 3));
@@ -238,7 +257,7 @@ public class PlantGameMain extends JPanel implements Observer {
 
         this.fieldCard.add("a", this.field);
         this.fieldCard.add("b", this.infoArea);
-        this.add(this.fieldCard, BorderLayout.CENTER);
+        this.mainView.add(this.fieldCard, BorderLayout.CENTER);
 
     }
 
@@ -291,22 +310,22 @@ public class PlantGameMain extends JPanel implements Observer {
     }
 
     public void startGame() {
-        
+
     }
 
     public void setSaves() {
 
     }
-    
+
     /**
      * Updates the player header to correctly display player information
      */
     public void updatePlayer() {
         this.playerHeader.setText(this.getPlantGameModel().getPlayer().toString());
     }
-    
+
     /**
-     *  Updates the field to correctly display player field information
+     * Updates the field to correctly display player field information
      */
     public void updateField() {
         for (int i = 0; i < 3; i++) {
