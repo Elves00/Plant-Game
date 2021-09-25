@@ -56,7 +56,6 @@ public class Controller extends JPanel implements ActionListener, MouseListener 
 //        //Sets up a cardlayout to be used by this controller
 //        card = new CardLayout();
 //        this.setLayout(card);
-
         //Starting conditions player is not planting watering or picking
         this.planting = false;
         this.plantToPlant = -1;
@@ -93,8 +92,8 @@ public class Controller extends JPanel implements ActionListener, MouseListener 
         this.plantGameMain.addMouseListener(this);
 
 //        //Cardlayout views
-        this.add("A", plantGameStart);
-        this.add("B", plantGameMain);
+//        this.add(plantGameStart);
+        this.add(plantGameMain);
         //Start game
         this.plantGameModel.alternatStart();
 
@@ -121,7 +120,8 @@ public class Controller extends JPanel implements ActionListener, MouseListener 
                 this.plantGameModel.newGame(plantGameStart.getUsername().getText());
 
                 this.plantGameModel.initialView();
-                this.card.show(this, "B");
+                this.plantGameMain.getMainCard().show(this.plantGameMain, "a");
+//                this.card.show(this, "B");
             } catch (MoneyException ex) {
                 Logger.getLogger(Controller.class.getName()).log(Level.SEVERE, null, ex);
             } catch (FileNotFoundException ex) {
