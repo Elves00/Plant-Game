@@ -133,6 +133,8 @@ public class PlantGameMain extends JPanel implements Observer {
 
     }
 
+    
+    //So to follow MVC we need to be passed the information we need to know from update
     public PlantGameMain(PlantGameModel plantGameModel) {
         //Main card which will include a start up/main and end panel.
         mainCard = new CardLayout();

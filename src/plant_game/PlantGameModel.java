@@ -45,12 +45,10 @@ public class PlantGameModel extends Observable {
     }
 
     public void getInfo(int i) {
-
         //set change
         setChanged();
         //pases the selcted save option to the plant game panel
         notifyObservers("Info " + i);
-
     }
 
     /**
