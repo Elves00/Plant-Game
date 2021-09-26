@@ -1,5 +1,1 @@
-<<<<<<< HEAD
-broccoli cabbage carrot tulip 
-=======
 broccoli cabbage carrot 
->>>>>>> Cleanup
