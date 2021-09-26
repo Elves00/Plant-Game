@@ -106,7 +106,6 @@ public class PlantGameMain extends JPanel implements Observer {
     private String[] searchTerm;
 
     //PLANT GAME START
-
     private JPanel optionsPanel;
     private JPanel loadGamePanel;
     private JPanel newGamePanel;
@@ -282,17 +281,25 @@ public class PlantGameMain extends JPanel implements Observer {
 
         this.fieldCard.add("a", this.field);
         this.fieldCard.add("b", this.infoArea);
+
+        //Adds the mainView to the panel
         this.mainView.add(this.fieldCard, BorderLayout.CENTER);
+
+        //Adds details to the start panel
+        try {
+            plantGameStart();
+        } catch (IOException ex) {
+            Logger.getLogger(PlantGameMain.class.getName()).log(Level.SEVERE, null, ex);
+        }
 
     }
 
-    public void plantGameStart() {
+    public void plantGameStart() throws IOException {
 
+        cards = new CardLayout();
+        startView.setLayout(cards);
         //
-          cards = new CardLayout();
-        this.setLayout(cards);
-        //
-        
+
         this.optionsPanel = new JPanel(new BorderLayout());
         this.loadGamePanel = new JPanel();
         this.newGamePanel = new JPanel();
@@ -304,21 +311,21 @@ public class PlantGameMain extends JPanel implements Observer {
 //        this.submit.addActionListener(this);
         this.newGamePanel.add(this.submit);
 
-        newGame = new JButton("New Game");
-        previousGame = new JButton("Previous Game");
-        loadGame = new JButton("Load Game");
-        loadInfo = new JTextArea();
-        ArrayList<String> gameInfo = plantGameModel.getFiles().information("Information");
+        this.newGame = new JButton("New Game");
+        this.previousGame = new JButton("Previous Game");
+        this.loadGame = new JButton("Load Game");
+        this.loadInfo = new JTextArea();
+        ArrayList<String> gameInfo = this.plantGameModel.getFiles().information("Information");
         String formated = "";
         for (int i = 0; i < gameInfo.size(); i++) {
             formated += gameInfo.get(i) + "\n";
         }
         //Sets up text in load info and prevents users from editing.
-        loadInfo.setText(formated);
-        loadInfo.setEditable(false);
+        this.loadInfo.setText(formated);
+        this.loadInfo.setEditable(false);
 
         //Panel for options buttons
-        startupPanel = new JPanel();
+        this.startupPanel = new JPanel();
 
         this.optionsPanel.add(loadInfo, BorderLayout.NORTH);
         this.startupPanel.add(newGame);
@@ -332,15 +339,16 @@ public class PlantGameMain extends JPanel implements Observer {
         this.four = new JButton("four");
         this.five = new JButton("five");
 
-        loadGamePanel.add(one);
-        loadGamePanel.add(two);
-        loadGamePanel.add(three);
-        loadGamePanel.add(four);
-        loadGamePanel.add(five);
+        this.loadGamePanel.add(one);
+        this.loadGamePanel.add(two);
+        this.loadGamePanel.add(three);
+        this.loadGamePanel.add(four);
+        this.loadGamePanel.add(five);
 
-        this.add("a", this.optionsPanel);
-        this.add("b", this.loadGamePanel);
-        this.add("c", this.newGamePanel);
+        this.startView.add("a", this.optionsPanel);
+        this.startView.add("b", this.loadGamePanel);
+        this.startView.add("c", this.newGamePanel);
+
     }
 
     public void addActionListener(ActionListener actionListener) {
