@@ -6,6 +6,7 @@
 package plant_game;
 
 import java.sql.Connection;
+import java.sql.DatabaseMetaData;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -23,7 +24,7 @@ public final class DBManager {
     private static final String USER_NAME = "pdc";
     private static final String PASSWORD = "pdc";
     //Embeded design
-    private static final String URL = "jdbc:derby://localhost:1527/CarDB;create=true";
+    private static final String URL = "jdbc:derby://localhost:1527/PlantDB;create=true";
 
     Connection conn;
 
@@ -94,5 +95,30 @@ public final class DBManager {
         } catch (Exception e) {
             e.printStackTrace();
         }
+    }
+    
+    
+     private boolean checkTableExisting(String newTableName) {
+        boolean flag = false;
+        try {
+
+            System.out.println("check existing tables.... ");
+            String[] types = {"TABLE"};
+            DatabaseMetaData dbmd = conn.getMetaData();
+            ResultSet rsDBMeta = dbmd.getTables(null, null, null, null);//types);
+            //Statement dropStatement=null;
+            while (rsDBMeta.next()) {
+                String tableName = rsDBMeta.getString("TABLE_NAME");
+                if (tableName.compareToIgnoreCase(newTableName) == 0) {
+                    System.out.println(tableName + "  is there");
+                    flag = true;
+                }
+            }
+            if (rsDBMeta != null) {
+                rsDBMeta.close();
+            }
+        } catch (SQLException ex) {
+        }
+        return flag;
     }
 }
