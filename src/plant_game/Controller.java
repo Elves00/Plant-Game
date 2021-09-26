@@ -40,8 +40,7 @@ public class Controller extends JPanel implements ActionListener, MouseListener 
     private boolean watering;
     private boolean picking;
 
-    //CARDS
-    private PlantGameStart plantGameStart;
+   
     //CARDS
     private PlantGameMain plantGameMain;
 
@@ -74,7 +73,6 @@ public class Controller extends JPanel implements ActionListener, MouseListener 
         this.plantGameMain.addMouseListener(this);
 
 //        //Cardlayout views
-//        this.add(plantGameStart);
         this.add(plantGameMain);
         //Start game
         this.plantGameModel.alternatStart();
@@ -102,7 +100,7 @@ public class Controller extends JPanel implements ActionListener, MouseListener 
                 this.plantGameModel.newGame(plantGameMain.getUsername().getText());
 
                 this.plantGameModel.initialView();
-                this.plantGameMain.getMainCard().show(this.plantGameMain, "a");
+                this.plantGameMain.getMainCard().show(this.plantGameMain, "b");
 //                this.card.show(this, "B");
             } catch (MoneyException ex) {
                 Logger.getLogger(Controller.class.getName()).log(Level.SEVERE, null, ex);
@@ -122,7 +120,7 @@ public class Controller extends JPanel implements ActionListener, MouseListener 
                 this.plantGameModel.loadGame(0);
 
                 this.plantGameModel.initialView();
-                this.card.show(this, "B");
+            
             } catch (IOException ex) {
                 Logger.getLogger(Controller.class.getName()).log(Level.SEVERE, null, ex);
             }
@@ -132,7 +130,7 @@ public class Controller extends JPanel implements ActionListener, MouseListener 
                 this.plantGameModel.loadGame(1);
 
                 this.plantGameModel.initialView();
-                this.card.show(this, "B");
+              
             } catch (IOException ex) {
                 Logger.getLogger(Controller.class.getName()).log(Level.SEVERE, null, ex);
             }
@@ -142,7 +140,7 @@ public class Controller extends JPanel implements ActionListener, MouseListener 
                 this.plantGameModel.loadGame(2);
 
                 this.plantGameModel.initialView();
-                this.card.show(this, "B");
+                
             } catch (IOException ex) {
                 Logger.getLogger(Controller.class.getName()).log(Level.SEVERE, null, ex);
             }
@@ -151,7 +149,7 @@ public class Controller extends JPanel implements ActionListener, MouseListener 
             try {
                 this.plantGameModel.loadGame(3);
                 this.plantGameModel.initialView();
-                this.card.show(this, "B");
+             
             } catch (IOException ex) {
                 Logger.getLogger(Controller.class.getName()).log(Level.SEVERE, null, ex);
             }
@@ -160,7 +158,7 @@ public class Controller extends JPanel implements ActionListener, MouseListener 
             try {
                 this.plantGameModel.loadGame(4);
                 this.plantGameModel.initialView();
-                this.card.show(this, "B");
+               
             } catch (IOException ex) {
                 Logger.getLogger(Controller.class.getName()).log(Level.SEVERE, null, ex);
             }
