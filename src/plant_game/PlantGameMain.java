@@ -416,6 +416,26 @@ public class PlantGameMain extends JPanel implements Observer {
 
     }
 
+    /**
+     * Set text for loading
+     */
+    public void setLoadText() {
+        try {
+            String[] saves = this.plantGameModel.getFiles().saveDisplay();
+
+            this.one.setText(saves[0]);
+            this.two.setText(saves[1]);
+            this.three.setText(saves[2]);
+            this.four.setText(saves[3]);
+            this.five.setText(saves[4]);
+            System.out.println("Swaping to panel b");
+            this.cards.show(this.startView, "b");
+        } catch (IOException ex) {
+            Logger.getLogger(PlantGameStart.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
+    }
+
     public void setSaves() {
 
     }
@@ -485,35 +505,20 @@ public class PlantGameMain extends JPanel implements Observer {
                     }
                 }
             }
-
         }
 
     }
 
     @Override
     public void update(Observable o, Object arg) {
-        
-        
-            if (arg.equals("Options a")) {
+
+        if (arg.equals("Options a")) {
 
             System.out.println("Swaping to panel a");
             this.cards.show(this.startView, "a");
         }
         if (arg.equals("Options b")) {
-            try {
-                String[] saves = this.plantGameModel.getFiles().saveDisplay();
-
-                this.one.setText(saves[0]);
-                this.two.setText(saves[1]);
-                this.three.setText(saves[2]);
-                this.four.setText(saves[3]);
-                this.five.setText(saves[4]);
-                System.out.println("Swaping to panel b");
-                this.cards.show(this.startView, "b");
-            } catch (IOException ex) {
-                Logger.getLogger(PlantGameStart.class.getName()).log(Level.SEVERE, null, ex);
-            }
-
+            setLoadText();
         }
         if (arg.equals("Options c")) {
             System.out.println("Swapping to panel c");
@@ -522,13 +527,6 @@ public class PlantGameMain extends JPanel implements Observer {
         if (arg.equals("Options Not Visible")) {
             this.mainCard.show(this, "b");
         }
-        
-        
-        
-        
-        
-        
-        
 
         if (arg.equals("Plant") || arg.equals("Initial View") || arg.equals("Pick")) {
             System.out.println("UPDATE");
