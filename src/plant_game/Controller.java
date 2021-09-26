@@ -40,7 +40,6 @@ public class Controller extends JPanel implements ActionListener, MouseListener 
     private boolean watering;
     private boolean picking;
 
-   
     //CARDS
     private PlantGameMain plantGameMain;
 
@@ -120,7 +119,7 @@ public class Controller extends JPanel implements ActionListener, MouseListener 
                 this.plantGameModel.loadGame(0);
 
                 this.plantGameModel.initialView();
-            
+
             } catch (IOException ex) {
                 Logger.getLogger(Controller.class.getName()).log(Level.SEVERE, null, ex);
             }
@@ -130,7 +129,7 @@ public class Controller extends JPanel implements ActionListener, MouseListener 
                 this.plantGameModel.loadGame(1);
 
                 this.plantGameModel.initialView();
-              
+
             } catch (IOException ex) {
                 Logger.getLogger(Controller.class.getName()).log(Level.SEVERE, null, ex);
             }
@@ -140,7 +139,7 @@ public class Controller extends JPanel implements ActionListener, MouseListener 
                 this.plantGameModel.loadGame(2);
 
                 this.plantGameModel.initialView();
-                
+
             } catch (IOException ex) {
                 Logger.getLogger(Controller.class.getName()).log(Level.SEVERE, null, ex);
             }
@@ -149,7 +148,7 @@ public class Controller extends JPanel implements ActionListener, MouseListener 
             try {
                 this.plantGameModel.loadGame(3);
                 this.plantGameModel.initialView();
-             
+
             } catch (IOException ex) {
                 Logger.getLogger(Controller.class.getName()).log(Level.SEVERE, null, ex);
             }
@@ -158,7 +157,7 @@ public class Controller extends JPanel implements ActionListener, MouseListener 
             try {
                 this.plantGameModel.loadGame(4);
                 this.plantGameModel.initialView();
-               
+
             } catch (IOException ex) {
                 Logger.getLogger(Controller.class.getName()).log(Level.SEVERE, null, ex);
             }
@@ -292,13 +291,13 @@ public class Controller extends JPanel implements ActionListener, MouseListener 
         }
         //Send back to main menu
         if (sourceA == plantGameMain.getInfoBack()) {
+          
             this.plantGameMain.getCardField().show(this.plantGameMain.getFieldCard(), "a");
             this.plantGameMain.getCard().show(this.plantGameMain.getButtonPanel(), "a");
         }
         //Display information
         for (int i = 0; i < 8; i++) {
             if (sourceA == plantGameMain.getInfoSlot()[i]) {
-
                 this.plantGameModel.getInfo(i);
             }
         }

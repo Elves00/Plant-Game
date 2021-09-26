@@ -1,7 +1,7 @@
 ClitK
--100.0
+100.0
 100
-1
+0
 0
 0 0 0 0 0 10 0 10 false false 0 0 0 0 0 10 0 10 false false 0 0 0 0 0 10 0 10 false false 
 0 0 0 0 0 10 0 10 false false 0 0 0 0 0 10 0 10 false false 0 0 0 0 0 10 0 10 false false 
