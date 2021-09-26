@@ -16,6 +16,7 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 
@@ -68,25 +69,6 @@ public class Controller extends JPanel implements ActionListener, MouseListener 
 
         //Creates the main plant panel
         plantGameMain = new PlantGameMain(plantGameModel);
-        //Creates the start up panel for loading game options
-        plantGameStart = new PlantGameStart(plantGameModel);
-
-        //Add action listeners for buttons in plant game start
-        //Save slot buttons
-        plantGameStart.getOne().addActionListener(this);
-        plantGameStart.getTwo().addActionListener(this);
-        plantGameStart.getThree().addActionListener(this);
-        plantGameStart.getFour().addActionListener(this);
-        plantGameStart.getFive().addActionListener(this);
-
-        //Game startup options
-        plantGameStart.getNewGame().addActionListener(this);
-        plantGameStart.getPreviousGame().addActionListener(this);
-        plantGameStart.getLoadGame().addActionListener(this);
-
-        //New Game buttons
-        plantGameStart.getUsername().addActionListener(this);
-        plantGameStart.getSubmit().addActionListener(this);
 
         this.plantGameMain.addActionListener(this); //adds the panel as a listener for all actions within the plantGamePanel
         this.plantGameMain.addMouseListener(this);
@@ -104,7 +86,7 @@ public class Controller extends JPanel implements ActionListener, MouseListener 
         Object sourceA = e.getSource();
 
         //Creates a new game shifting the view to the jtext field for creating a new player
-        if (sourceA == plantGameStart.getNewGame()) {
+        if (sourceA == plantGameMain.getNewGame()) {
             try {
                 this.plantGameModel.newGame();
             } catch (MoneyException ex) {
@@ -115,9 +97,9 @@ public class Controller extends JPanel implements ActionListener, MouseListener 
         }
 
         //Gets text from the text field and creates a new player using the inputed text
-        if (sourceA == plantGameStart.getSubmit()) {
+        if (sourceA == plantGameMain.getSubmit()) {
             try {
-                this.plantGameModel.newGame(plantGameStart.getUsername().getText());
+                this.plantGameModel.newGame(plantGameMain.getUsername().getText());
 
                 this.plantGameModel.initialView();
                 this.plantGameMain.getMainCard().show(this.plantGameMain, "a");
@@ -130,12 +112,12 @@ public class Controller extends JPanel implements ActionListener, MouseListener 
         }
 
         //If pressed opens the load game view showing 5 save slots to load from
-        if (sourceA == plantGameStart.getLoadGame()) {
+        if (sourceA == plantGameMain.getLoadGame()) {
             this.plantGameModel.loadGameView();
         }
 
         //Large block of buttons used to load a save slot
-        if (sourceA == plantGameStart.getOne()) {
+        if (sourceA == plantGameMain.getOne()) {
             try {
                 this.plantGameModel.loadGame(0);
 
@@ -145,7 +127,7 @@ public class Controller extends JPanel implements ActionListener, MouseListener 
                 Logger.getLogger(Controller.class.getName()).log(Level.SEVERE, null, ex);
             }
         }
-        if (sourceA == plantGameStart.getTwo()) {
+        if (sourceA == plantGameMain.getTwo()) {
             try {
                 this.plantGameModel.loadGame(1);
 
@@ -155,7 +137,7 @@ public class Controller extends JPanel implements ActionListener, MouseListener 
                 Logger.getLogger(Controller.class.getName()).log(Level.SEVERE, null, ex);
             }
         }
-        if (sourceA == plantGameStart.getThree()) {
+        if (sourceA == plantGameMain.getThree()) {
             try {
                 this.plantGameModel.loadGame(2);
 
@@ -165,7 +147,7 @@ public class Controller extends JPanel implements ActionListener, MouseListener 
                 Logger.getLogger(Controller.class.getName()).log(Level.SEVERE, null, ex);
             }
         }
-        if (sourceA == plantGameStart.getFour()) {
+        if (sourceA == plantGameMain.getFour()) {
             try {
                 this.plantGameModel.loadGame(3);
                 this.plantGameModel.initialView();
@@ -174,7 +156,7 @@ public class Controller extends JPanel implements ActionListener, MouseListener 
                 Logger.getLogger(Controller.class.getName()).log(Level.SEVERE, null, ex);
             }
         }
-        if (sourceA == plantGameStart.getFive()) {
+        if (sourceA == plantGameMain.getFive()) {
             try {
                 this.plantGameModel.loadGame(4);
                 this.plantGameModel.initialView();
@@ -185,11 +167,11 @@ public class Controller extends JPanel implements ActionListener, MouseListener 
         }
 
         //loads the previous saved game.
-        if (sourceA == plantGameStart.getPreviousGame()) {
+        if (sourceA == plantGameMain.getPreviousGame()) {
             try {
                 this.plantGameModel.previousGame();
                 this.plantGameModel.initialView();
-                this.card.show(this, "B");
+                this.plantGameMain.getMainCard().show(this.plantGameMain, "b");
             } catch (IOException ex) {
                 Logger.getLogger(Controller.class.getName()).log(Level.SEVERE, null, ex);
             } catch (InstantiationException ex) {
