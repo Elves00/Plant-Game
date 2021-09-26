@@ -305,11 +305,11 @@ public class PlantGameMain extends JPanel implements Observer {
         this.newGamePanel = new JPanel();
 
         this.username = new JTextField(20);
-        this.newGamePanel.add(this.username);
+        this.newGamePanel.add(this.getUsername());
 
         this.submit = new JButton("Submit");
 //        this.submit.addActionListener(this);
-        this.newGamePanel.add(this.submit);
+        this.newGamePanel.add(this.getSubmit());
 
         this.newGame = new JButton("New Game");
         this.previousGame = new JButton("Previous Game");
@@ -328,9 +328,9 @@ public class PlantGameMain extends JPanel implements Observer {
         this.startupPanel = new JPanel();
 
         this.optionsPanel.add(loadInfo, BorderLayout.NORTH);
-        this.startupPanel.add(newGame);
-        this.startupPanel.add(previousGame);
-        this.startupPanel.add(loadGame);
+        this.startupPanel.add(getNewGame());
+        this.startupPanel.add(getPreviousGame());
+        this.startupPanel.add(getLoadGame());
         this.optionsPanel.add(startupPanel, BorderLayout.SOUTH);
 
         this.one = new JButton("one");
@@ -339,11 +339,11 @@ public class PlantGameMain extends JPanel implements Observer {
         this.four = new JButton("four");
         this.five = new JButton("five");
 
-        this.loadGamePanel.add(one);
-        this.loadGamePanel.add(two);
-        this.loadGamePanel.add(three);
-        this.loadGamePanel.add(four);
-        this.loadGamePanel.add(five);
+        this.loadGamePanel.add(getOne());
+        this.loadGamePanel.add(getTwo());
+        this.loadGamePanel.add(getThree());
+        this.loadGamePanel.add(getFour());
+        this.loadGamePanel.add(getFive());
 
         this.startView.add("a", this.optionsPanel);
         this.startView.add("b", this.loadGamePanel);
@@ -387,6 +387,19 @@ public class PlantGameMain extends JPanel implements Observer {
         for (int i = 0; i < 8; i++) {
             getInfoSlot()[i].addActionListener(actionListener);
         }
+
+        //Start plant game button lisitners
+        this.submit.addActionListener(actionListener);
+
+        this.newGame.addActionListener(actionListener);
+        this.previousGame.addActionListener(actionListener);
+        this.loadGame.addActionListener(actionListener);
+
+        this.one.addActionListener(actionListener);
+        this.two.addActionListener(actionListener);
+        this.three.addActionListener(actionListener);
+        this.four.addActionListener(actionListener);
+        this.five.addActionListener(actionListener);
 
     }
 
@@ -479,8 +492,46 @@ public class PlantGameMain extends JPanel implements Observer {
 
     @Override
     public void update(Observable o, Object arg) {
+        
+        
+            if (arg.equals("Options a")) {
+
+            System.out.println("Swaping to panel a");
+            this.cards.show(this.startView, "a");
+        }
+        if (arg.equals("Options b")) {
+            try {
+                String[] saves = this.plantGameModel.getFiles().saveDisplay();
+
+                this.one.setText(saves[0]);
+                this.two.setText(saves[1]);
+                this.three.setText(saves[2]);
+                this.four.setText(saves[3]);
+                this.five.setText(saves[4]);
+                System.out.println("Swaping to panel b");
+                this.cards.show(this.startView, "b");
+            } catch (IOException ex) {
+                Logger.getLogger(PlantGameStart.class.getName()).log(Level.SEVERE, null, ex);
+            }
+
+        }
+        if (arg.equals("Options c")) {
+            System.out.println("Swapping to panel c");
+            this.cards.show(this.startView, "c");
+        }
+        if (arg.equals("Options Not Visible")) {
+            this.mainCard.show(this, "b");
+        }
+        
+        
+        
+        
+        
+        
+        
 
         if (arg.equals("Plant") || arg.equals("Initial View") || arg.equals("Pick")) {
+            System.out.println("UPDATE");
             this.updateField();
             //Update player header
             updatePlayer();
@@ -846,6 +897,83 @@ public class PlantGameMain extends JPanel implements Observer {
      */
     public CardLayout getMainCard() {
         return mainCard;
+    }
+
+    /**
+     * @return the newGame
+     */
+    public JButton getNewGame() {
+        return newGame;
+    }
+
+    /**
+     * @return the previousGame
+     */
+    public JButton getPreviousGame() {
+        return previousGame;
+    }
+
+    /**
+     * @return the loadGame
+     */
+    public JButton getLoadGame() {
+        return loadGame;
+    }
+
+    /**
+     * @return the one
+     */
+    public JButton getOne() {
+        return one;
+    }
+
+    /**
+     * @return the two
+     */
+    public JButton getTwo() {
+        return two;
+    }
+
+    /**
+     * @return the three
+     */
+    public JButton getThree() {
+        return three;
+    }
+
+    /**
+     * @return the four
+     */
+    public JButton getFour() {
+        return four;
+    }
+
+    /**
+     * @return the five
+     */
+    public JButton getFive() {
+        return five;
+    }
+
+    /**
+     * @return the submit
+     */
+    public JButton getSubmit() {
+        return submit;
+    }
+
+    /**
+     * @return the username
+     */
+    public JTextField getUsername() {
+        return username;
+    }
+
+    /**
+     * @return the mainView
+     */
+    public JPanel getMainView() {
+        return mainView;
     }
 
 }
