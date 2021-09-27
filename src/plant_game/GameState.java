@@ -191,9 +191,10 @@ public class GameState {
             for (String i : croops) {
                 pw.println(i);
             }
+            pw.close();
             //So we need to add to this so theres shops and unlocks
         }
-
+        
     }
 
     /**
