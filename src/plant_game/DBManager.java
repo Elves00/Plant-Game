@@ -36,6 +36,27 @@ public final class DBManager {
     }
 
     /**
+     * Create the method
+     */
+    public void dbsetup() {
+        if (this.conn == null) {
+            try {
+                conn = DriverManager.getConnection(URL, USER_NAME, PASSWORD);
+                Statement statement = conn.createStatement();
+                String tableName = "UserInfo";
+                if (!checkTableExisting(tableName)) {
+
+                }
+                statement.close();
+
+            } catch (Throwable e) {
+                System.out.println("error" + e);
+
+            }
+        }
+    }
+
+    /**
      *
      * @return
      */
@@ -96,9 +117,8 @@ public final class DBManager {
             e.printStackTrace();
         }
     }
-    
-    
-     private boolean checkTableExisting(String newTableName) {
+
+    private boolean checkTableExisting(String newTableName) {
         boolean flag = false;
         try {
 
