@@ -42,11 +42,13 @@ public class Data {
      */
     private boolean start;
     private int plantsetSize;
-    
+
     //Shop information
     private int shopSize;
     private String[] shopText;
-    
+    private boolean shopStart;
+    private boolean shopUpdate;
+
     private int unlockSize;
     private boolean unlockContent;
     private boolean end;
@@ -55,11 +57,12 @@ public class Data {
     private boolean loadGame;
     private String[] loadText;
     private boolean mainGame;
-    
-    
-    
-    
 
+    
+    public Data()
+    {
+        start=true;
+    }
     /**
      * @return the start
      */
@@ -100,20 +103,6 @@ public class Data {
      */
     public void setShopSize(int shopSize) {
         this.shopSize = shopSize;
-    }
-
-    /**
-     * @return the shopContent
-     */
-    public boolean isShopContent() {
-        return shopContent;
-    }
-
-    /**
-     * @param shopContent the shopContent to set
-     */
-    public void setShopContent(boolean shopContent) {
-        this.shopContent = shopContent;
     }
 
     /**
@@ -226,6 +215,48 @@ public class Data {
      */
     public void setMainGame(boolean mainGame) {
         this.mainGame = mainGame;
+    }
+
+    /**
+     * @return the shopText
+     */
+    public String[] getShopText() {
+        return shopText;
+    }
+
+    /**
+     * @param shopText the shopText to set
+     */
+    public void setShopText(String[] shopText) {
+        this.shopText = shopText;
+    }
+
+    /**
+     * @return the shopStart
+     */
+    public boolean isShopStart() {
+        return shopStart;
+    }
+
+    /**
+     * @param shopStart the shopStart to set
+     */
+    public void setShopStart(boolean shopStart) {
+        this.shopStart = shopStart;
+    }
+
+    /**
+     * @return the shopUpdate
+     */
+    public boolean isShopUpdate() {
+        return shopUpdate;
+    }
+
+    /**
+     * @param shopUpdate the shopUpdate to set
+     */
+    public void setShopUpdate(boolean shopUpdate) {
+        this.shopUpdate = shopUpdate;
     }
 
 }

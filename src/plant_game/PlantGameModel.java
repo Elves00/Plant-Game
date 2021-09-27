@@ -30,20 +30,12 @@ public class PlantGameModel extends Observable {
     private Boolean input;
 
     Data data;
-    private boolean start;
-    
-    private int plantsetSize;
-    private int shopSize;
-    private boolean shopContent;
-    private int unlockSize;
-    private boolean unlockContent;
-    private boolean end;
 
     /**
      * Sets up the initial variables of a plant game.
      */
     public PlantGameModel() {
-
+        data = new Data();
         //Establishes file manage.
         this.files = new GameState();
         //Recieved gui input
@@ -103,6 +95,30 @@ public class PlantGameModel extends Observable {
         //Create player object with name
         setPlayer(getFiles().newPlayer(name));
 
+        //the game may progress to the main game
+        data.setMainGame(true);
+        //plant set size
+        data.setPlantsetSize(PlantSet.values().length);
+        //shop size
+        data.setShopSize(this.shop.size());
+        //shop content
+        String[] shopContent = new String[this.shop.size()];
+        for (int i = 0; i < shop.size(); i++) {
+            try {
+                shopContent[i] = this.shop.getPlant(i).toString();
+            } catch (InstantiationException ex) {
+                Logger.getLogger(PlantGameModel.class.getName()).log(Level.SEVERE, null, ex);
+            } catch (IllegalAccessException ex) {
+                Logger.getLogger(PlantGameModel.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+        //No longer in start up
+        data.setStart(false);
+        //set change
+        setChanged();
+        //pases the selcted save option to the plant game panel
+        notifyObservers(data);
+
         //set change
         setChanged();
         //pases the selcted save option to the plant game panel
@@ -130,11 +146,14 @@ public class PlantGameModel extends Observable {
      * @throws FileNotFoundException
      */
     protected void newGame() throws MoneyException, FileNotFoundException {
+        //New game is selected
+        data.setNewGame(true);
 
         //set change
         setChanged();
         //pases the selcted save option to the plant game panel
         notifyObservers("Options c");
+
         //set change
         setChanged();
         //pases the selcted save option to the plant game panel
@@ -166,6 +185,33 @@ public class PlantGameModel extends Observable {
             setChanged();
             //pases the selcted save option to the plant game panel
             notifyObservers("Shop Start");
+
+            //New game is selected
+            data.setNewGame(true);
+            //the game may progress to the main game
+            data.setPreviousGame(true);
+            //plant set size
+            data.setPlantsetSize(PlantSet.values().length);
+            //shop size
+            data.setShopSize(this.shop.size());
+            //shop content
+            String[] shopContent = new String[this.shop.size()];
+            for (int i = 0; i < shop.size(); i++) {
+                try {
+                    shopContent[i] = this.shop.getPlant(i).toString();
+                } catch (InstantiationException ex) {
+                    Logger.getLogger(PlantGameModel.class.getName()).log(Level.SEVERE, null, ex);
+                } catch (IllegalAccessException ex) {
+                    Logger.getLogger(PlantGameModel.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            }
+            data.setStart(false);
+
+            //set change
+            setChanged();
+            //pases the selcted save option to the plant game panel
+            notifyObservers(data);
+
         } catch (IndexOutOfBoundsException on) {
             //There was no game stored in current game file so create a new game.
             System.out.println("There is no current game file starting new game...");
