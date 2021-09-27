@@ -291,7 +291,7 @@ public class Controller extends JPanel implements ActionListener, MouseListener 
         }
         //Send back to main menu
         if (sourceA == plantGameMain.getInfoBack()) {
-          
+
             this.plantGameMain.getCardField().show(this.plantGameMain.getFieldCard(), "a");
             this.plantGameMain.getCard().show(this.plantGameMain.getButtonPanel(), "a");
         }

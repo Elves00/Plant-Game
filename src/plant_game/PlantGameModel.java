@@ -29,6 +29,16 @@ public class PlantGameModel extends Observable {
     private OrderedList<Score> highscores;
     private Boolean input;
 
+    Data data;
+    private boolean start;
+    
+    private int plantsetSize;
+    private int shopSize;
+    private boolean shopContent;
+    private int unlockSize;
+    private boolean unlockContent;
+    private boolean end;
+
     /**
      * Sets up the initial variables of a plant game.
      */

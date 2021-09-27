@@ -133,7 +133,6 @@ public class PlantGameMain extends JPanel implements Observer {
 
     }
 
-    
     //So to follow MVC we need to be passed the information we need to know from update
     public PlantGameMain(PlantGameModel plantGameModel) {
         //Main card which will include a start up/main and end panel.
@@ -421,20 +420,15 @@ public class PlantGameMain extends JPanel implements Observer {
     /**
      * Set text for loading
      */
-    public void setLoadText() {
-        try {
-            String[] saves = this.plantGameModel.getFiles().saveDisplay();
+    public void setLoadText(String[] saves) {
 
-            this.one.setText(saves[0]);
-            this.two.setText(saves[1]);
-            this.three.setText(saves[2]);
-            this.four.setText(saves[3]);
-            this.five.setText(saves[4]);
-            System.out.println("Swaping to panel b");
-            this.cards.show(this.startView, "b");
-        } catch (IOException ex) {
-            Logger.getLogger(PlantGameStart.class.getName()).log(Level.SEVERE, null, ex);
-        }
+        this.one.setText(saves[0]);
+        this.two.setText(saves[1]);
+        this.three.setText(saves[2]);
+        this.four.setText(saves[3]);
+        this.five.setText(saves[4]);
+        System.out.println("Swaping to panel b");
+        this.cards.show(this.startView, "b");
 
     }
 
@@ -511,8 +505,102 @@ public class PlantGameMain extends JPanel implements Observer {
 
     }
 
+    private void shop(int plantsetSize, int shopSize, String[] shopText) {
+
+        if (arg.equals("Shop Start")) {
+            /*
+            Update the shop buttons so that they display all items within the shop.
+            Orignal buttons: one two three etc...
+            After: broccolli cabage carrot etc...
+             */
+            //If the planting buttons havnt been established establish it.
+            if (this.plantingButtons == null) {
+                this.plantingButtons = new JButton[plantsetSize + 1];
+
+                //Number of plant buttons plus a plantBack button
+                for (int i = 0; i < PlantSet.values().length + 1; i++) {
+                    this.plantingButtons[i] = new JButton();
+                    this.plantingButtons[i].setVisible(false);
+                    this.plantSelect.add(this.plantingButtons[i]);
+                }
+            }
+
+            for (int i = 0; i < shopSize; i++) {
+                try {
+                    //gets the associated button text from the players shop
+                    this.getPlantingButtons()[i].setText(this.getPlantGameModel().getShop().getPlantName(i));
+                    this.getPlantingButtons()[i].setVisible(true);
+                } catch (InstantiationException ex) {
+                    Logger.getLogger(PlantGameMain.class.getName()).log(Level.SEVERE, null, ex);
+                } catch (IllegalAccessException ex) {
+                    Logger.getLogger(PlantGameMain.class.getName()).log(Level.SEVERE, null, ex);
+                }
+                this.getPlantingButtons()[this.getPlantGameModel().getShop().size()] = this.getPlantBack();
+            }
+            //Add back button after all plant buttons have been added so it is always left most option.
+            this.getPlantingButtons()[this.getPlantGameModel().getShop().size()] = this.plantBack;
+            this.getPlantingButtons()[this.getPlantGameModel().getShop().size()].setVisible(true);
+            this.getPlantSelect().add(this.getPlantingButtons()[this.getPlantGameModel().getShop().size()]);
+
+        }
+
+        if (arg.equals("Shop Update")) {
+            try {
+
+                //Sets a hidden jbutton to have the text of a new plant
+                this.plantingButtons[this.getPlantGameModel().getShop().size() - 1] = new JButton();
+                this.plantingButtons[this.getPlantGameModel().getShop().size() - 1].setText(this.getPlantGameModel().getShop().getPlantName(this.getPlantGameModel().getShop().size() - 1));
+                this.plantingButtons[this.getPlantGameModel().getShop().size() - 1].setVisible(true);
+
+                //Add back button to end of planting buttons
+                this.plantingButtons[this.getPlantGameModel().getShop().size()] = this.plantBack;
+                this.plantingButtons[this.getPlantGameModel().getShop().size()].setText("Back");
+                this.plantingButtons[this.getPlantGameModel().getShop().size()].setVisible(true);
+
+                //add the new jbutton and back button  to the plant select panel.
+                this.plantSelect.add(this.plantingButtons[this.getPlantGameModel().getShop().size() - 1]);
+                this.plantSelect.add(this.plantingButtons[this.getPlantGameModel().getShop().size()]);
+
+                //update player
+                updatePlayer();
+            } catch (InstantiationException ex) {
+                Logger.getLogger(PlantGameMain.class.getName()).log(Level.SEVERE, null, ex);
+            } catch (IllegalAccessException ex) {
+                Logger.getLogger(PlantGameMain.class.getName()).log(Level.SEVERE, null, ex);
+            }
+
+        }
+
+    }
+
     @Override
     public void update(Observable o, Object arg) {
+
+        Data data = (Data) arg;
+        if (data.isStart() == true) {
+            //Show starting panel
+            System.out.println("Swaping to panel a");
+            this.cards.show(this.startView, "a");
+
+            //show new game panel
+            if (data.isNewGame() == true) {
+                this.cards.show(this.startView, "c");
+
+            } //Display the main game panel
+            else if (data.isPreviousGame() == true) {
+                this.mainCard.show(this, "b");
+
+            } //Display the load game options
+            else if (data.isLoadGame() == true) {
+                setLoadText(data.getLoadText());
+
+            }
+
+            //The main game
+            if (data.isMainGame() == true) {
+
+            }
+        }
 
         if (arg.equals("Options a")) {
 
@@ -520,9 +608,14 @@ public class PlantGameMain extends JPanel implements Observer {
             this.cards.show(this.startView, "a");
         }
         if (arg.equals("Options b")) {
-            setLoadText();
+            try {
+                setLoadText(plantGameModel.getFiles().saveDisplay());
+            } catch (IOException ex) {
+                Logger.getLogger(PlantGameMain.class.getName()).log(Level.SEVERE, null, ex);
+            }
         }
         if (arg.equals("Options c")) {
+
             System.out.println("Swapping to panel c");
             this.cards.show(this.startView, "c");
         }
@@ -624,6 +717,7 @@ public class PlantGameMain extends JPanel implements Observer {
             Orignal buttons: one two three etc...
             After: broccolli cabage carrot etc...
              */
+
             for (int i = 0; i < this.getPlantGameModel().getShop().size(); i++) {
                 try {
                     //gets the associated button text from the players shop
