@@ -12,6 +12,34 @@ package plant_game;
 public class Data {
 
     /**
+     * @return the unlockText
+     */
+    public String[] getUnlockText() {
+        return unlockText;
+    }
+
+    /**
+     * @param unlockText the unlockText to set
+     */
+    public void setUnlockText(String[] unlockText) {
+        this.unlockText = unlockText;
+    }
+
+    /**
+     * @return the unlockStart
+     */
+    public boolean isUnlockStart() {
+        return unlockStart;
+    }
+
+    /**
+     * @param unlockStart the unlockStart to set
+     */
+    public void setUnlockStart(boolean unlockStart) {
+        this.unlockStart = unlockStart;
+    }
+
+    /**
      * @return the fieldPick
      */
     public boolean isFieldPick() {
@@ -49,7 +77,13 @@ public class Data {
     private boolean shopUpdate;
 
     private int unlockSize;
-    private boolean unlockContent;
+    private String[] unlockText;
+    private boolean unlockStart;
+    private boolean unlockUpdate;
+    
+    
+    
+    
     private boolean end;
     private boolean newGame;
     //not needed remove previous game
@@ -139,17 +173,17 @@ public class Data {
     }
 
     /**
-     * @return the unlockContent
+     * @return the unlockUpdate
      */
-    public boolean isUnlockContent() {
-        return unlockContent;
+    public boolean isUnlockUpdate() {
+        return unlockUpdate;
     }
 
     /**
-     * @param unlockContent the unlockContent to set
+     * @param unlockUpdate the unlockUpdate to set
      */
-    public void setUnlockContent(boolean unlockContent) {
-        this.unlockContent = unlockContent;
+    public void setUnlockUpdate(boolean unlockUpdate) {
+        this.unlockUpdate = unlockUpdate;
     }
 
     /**

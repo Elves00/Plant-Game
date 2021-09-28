@@ -523,6 +523,54 @@ public class PlantGameMain extends JPanel implements Observer {
 
     }
 
+    private void unlockStart(int plantSetSize, int unlockSize, String[] unlockText) {
+
+        if (this.unlockSlot == null) {
+            //Unlocks initial length starts as the base set - 3 + 1 as you always start with 3 plants and we need one extra slot for the back button
+            this.unlockSlot = new JButton[plantSetSize - 2];
+            //Unlock setup
+            for (int i = 0; i < plantSetSize - 2; i++) {
+                this.unlockSlot[i] = new JButton();
+                this.unlockSlot[i].setVisible(false);
+            }
+
+        }
+        System.out.println("Inital size" + unlockSize);
+        //Unlock setup
+        for (int i = 0; i < unlockSize; i++) {
+            this.unlockSlot[i].setText(unlockText[i]);
+            this.unlockSlot[i].setVisible(true);
+            this.unlockPanel.add(this.getUnlockSlot()[i]);
+        }
+        //Places back button at the end
+        this.unlockSlot[unlockSize] = this.unlockBack;
+        this.unlockPanel.add(this.getUnlockSlot()[unlockSize]);
+
+        this.buttonPanel.add("f", unlockPanel);
+    }
+
+    private void unlockUpdate(int unlockSize, String[] unlockText) {
+        //Make other buttons invisible
+        for (int i = unlockSize; i < unlockSlot.length; i++) {
+            this.unlockSlot[i].setVisible(false);
+
+        }
+        //Redo button labels
+        System.out.println("Unlock size:" + unlockSize);
+        for (int i = 0; i < unlockSize; i++) {
+            this.unlockSlot[i].setText(unlockText[i]);
+            this.unlockSlot[i].setVisible(true);
+
+        }
+        //Add back button to end
+        this.unlockSlot[unlockSize] = this.unlockBack;
+        this.unlockSlot[unlockSize].setText("Back");
+        this.unlockSlot[unlockSize].setVisible(true);
+
+        //Update player header
+        updatePlayer();
+    }
+
     private void shopUpdate(int shopSize, String[] shopText) {
 
         //Sets a hidden jbutton to have the text of a new plant
@@ -544,7 +592,7 @@ public class PlantGameMain extends JPanel implements Observer {
 
     }
 
-    private void shopStart(int plantsetSize, int shopSize, String[] shopText) {
+    private void shopStart(int plantSetSize, int shopSize, String[] shopText) {
 
         /*
             Update the shop buttons so that they display all items within the shop.
@@ -553,10 +601,10 @@ public class PlantGameMain extends JPanel implements Observer {
          */
         //If the planting buttons havnt been established establish it.
         if (this.plantingButtons == null) {
-            this.plantingButtons = new JButton[plantsetSize + 1];
+            this.plantingButtons = new JButton[plantSetSize + 1];
 
             //Number of plant buttons plus a plantBack button
-            for (int i = 0; i < plantsetSize + 1; i++) {
+            for (int i = 0; i < plantSetSize + 1; i++) {
                 this.plantingButtons[i] = new JButton();
                 this.plantingButtons[i].setVisible(false);
                 this.plantSelect.add(this.plantingButtons[i]);
