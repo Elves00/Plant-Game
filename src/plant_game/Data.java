@@ -12,6 +12,34 @@ package plant_game;
 public class Data {
 
     /**
+     * @return the infoUpdate
+     */
+    public boolean isInfoUpdate() {
+        return infoUpdate;
+    }
+
+    /**
+     * @param infoUpdate the infoUpdate to set
+     */
+    public void setInfoUpdate(boolean infoUpdate) {
+        this.infoUpdate = infoUpdate;
+    }
+
+    /**
+     * @return the infoText
+     */
+    public String[] getInfoText() {
+        return infoText;
+    }
+
+    /**
+     * @param infoText the infoText to set
+     */
+    public void setInfoText(String[] infoText) {
+        this.infoText = infoText;
+    }
+
+    /**
      * @return the saveUpdate
      */
     public boolean isSaveUpdate() {
@@ -140,6 +168,9 @@ public class Data {
     private boolean saveUpdate;
     private boolean saveStart;
     private String[] saveText;
+    
+    private boolean infoUpdate;
+    private String[] infoText;
     
     private String player;
 

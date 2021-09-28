@@ -23,6 +23,7 @@ import javax.swing.BorderFactory;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
@@ -101,7 +102,9 @@ public class PlantGameMain extends JPanel implements Observer {
     private JPanel infoPanel;
     private JButton[] infoSlot;
     private JPanel infoAreaButtons;
-    private JTextField infoArea;
+    private JTextArea infoArea;
+    private JPanel infoAreaPanel;
+    private JScrollPane infoScroller;
     private JButton infoBack;
     private String[] searchTerm;
 
@@ -159,24 +162,25 @@ public class PlantGameMain extends JPanel implements Observer {
         yellowLine = BorderFactory.createLineBorder(Color.yellow);
         mixedLine = BorderFactory.createCompoundBorder(blueLine, yellowLine);
 
-        //Information search terms for use in update
-        searchTerm = new String[]{"Information", "plants", "Plant a Plant", "Pick Plant", "Water", "Next day", "Unlock", "Save game"};
-
         //Infomation
         this.infoPanel = new JPanel(new BorderLayout());
         this.infoAreaButtons = new JPanel();
         infoSlot = new JButton[8];
+        searchTerm = new String[]{"Information", "plants", "Plant a Plant", "Pick Plant", "Water", "Next day", "Unlock", "Save game"};
 
         //Add all buttons to info slot
         for (int i = 0; i < 8; i++) {
-            infoSlot[i] = new JButton();
+            infoSlot[i] = new JButton(searchTerm[i]);
             infoAreaButtons.add(this.infoSlot[i]);
         }
         infoBack = new JButton("Back");
         infoAreaButtons.add(this.infoBack);
 
-        infoArea = new JTextField();
+        infoAreaPanel = new JPanel(new BorderLayout());
+        infoArea = new JTextArea();
         infoArea.setEditable(false);
+        infoScroller = new JScrollPane(infoArea);
+        infoAreaPanel.add(infoScroller, BorderLayout.CENTER);
 
         infoPanel.add(infoAreaButtons, BorderLayout.SOUTH);
 
@@ -281,7 +285,7 @@ public class PlantGameMain extends JPanel implements Observer {
         }
 
         this.fieldCard.add("a", this.field);
-        this.fieldCard.add("b", this.infoArea);
+        this.fieldCard.add("b", this.infoAreaPanel);
 
         //Adds the mainView to the panel
         this.mainView.add(this.fieldCard, BorderLayout.CENTER);
@@ -429,10 +433,6 @@ public class PlantGameMain extends JPanel implements Observer {
         this.five.setText(saves[4]);
         System.out.println("Swaping to panel b");
         this.cards.show(this.startView, "b");
-
-    }
-
-    public void setSaves() {
 
     }
 
@@ -601,6 +601,15 @@ public class PlantGameMain extends JPanel implements Observer {
 
     }
 
+    private void infoUpdate(String[] infoArray) {
+        String toDisplay = "";
+        for (int i = 0; i < infoArray.length; i++) {
+            toDisplay += infoArray[i] + "\n";
+        }
+        this.infoArea.setText(toDisplay);
+
+    }
+
     private void shopStart(int plantSetSize, int shopSize, String[] shopText) {
 
         /*
@@ -644,6 +653,7 @@ public class PlantGameMain extends JPanel implements Observer {
         for (int i = 0; i < 5; i++) {
             this.getSaveSlot()[i].setText(saveText[i]);
         }
+
     }
 
     @Override
@@ -695,6 +705,10 @@ public class PlantGameMain extends JPanel implements Observer {
         }
         if (data.isSaveStart()) {
             save(data.getSaveText());
+        }
+
+        if (data.isInfoUpdate()) {
+            this.infoUpdate(data.getInfoText());
         }
 //        if (arg.equals("Options a")) {
 //

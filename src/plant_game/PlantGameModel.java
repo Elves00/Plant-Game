@@ -28,6 +28,7 @@ public class PlantGameModel extends Observable {
     private final Scanner scan;
     private OrderedList<Score> highscores;
     private Boolean input;
+    private String[] searchTerm;
 
     Data data;
 
@@ -35,6 +36,9 @@ public class PlantGameModel extends Observable {
      * Sets up the initial variables of a plant game.
      */
     public PlantGameModel() {
+        //Information search terms for use in update
+        searchTerm = new String[]{"Information", "plants", "Plant a Plant", "Pick Plant", "Water", "Next day", "Unlock", "Save game"};
+
         data = new Data();
         //Establishes file manage.
         this.files = new GameState();
@@ -47,48 +51,30 @@ public class PlantGameModel extends Observable {
     }
 
     public void getInfo(int i) {
-        //set change
+//        //set change
+//        setChanged();
+//        //pases the selcted save option to the plant game panel
+//        notifyObservers("Info " + i);
+
+        ArrayList<String> info = new ArrayList();
+        try {
+            info = getFiles().information(searchTerm[i]); //set change
+            //String array to store info in data
+            String[] infoArray = new String[info.size()];
+            
+            for (int j = 0; j < infoArray.length; j++) {
+                infoArray[j] = info.get(j)+"\n";
+            }
+            data.setInfoText(infoArray);
+
+        } catch (IOException ex) {
+            Logger.getLogger(PlantGameModel.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        data.setInfoUpdate(true);
         setChanged();
         //pases the selcted save option to the plant game panel
-        notifyObservers("Info " + i);
-    }
-
-    /**
-     * Provides the user with a selection of options to start the game and
-     * collects there selection before returning.
-     *
-     * 1 = new game 2 = load previous game 3 = load a save file
-     *
-     * @return int selection representing what start option the user has
-     * selected
-     */
-    private int gameOptions() {
-
-        //Stores user input
-        int anwser = 0;
-        //Flag for main while loop
-        boolean flag = true;
-
-        //Asks user what game mode they would like to play and retrives int anwser
-        while (flag) {
-            try {
-                System.out.println("1: New game");
-                System.out.println("2: Previous Game");
-                System.out.println("3: Load save file");
-                System.out.print("Please enter your selection:");
-                anwser = scan.nextInt();
-                if (anwser >= 1 && anwser <= 3) {
-                    flag = false;
-                } else {
-                    System.out.println("Please enter a selection between 1 and 3");
-                }
-
-            } catch (InputMismatchException ime) {
-                System.out.println("Please enter a selection between 1 and 3");
-                scan.next();
-            }
-        }
-        return anwser;
+        notifyObservers(data);
+        data.setInfoUpdate(false);
     }
 
     protected void newGame(String name) throws MoneyException, FileNotFoundException {
