@@ -190,9 +190,10 @@ public final class Player extends Observable{
     public void newPlant(Plant plant, int x, int y) {
 
         //Checks player has enough energy to preform the selected action.
-        if ((getEnergy() - 20) >= 0 && (getMoney() - 0) >= 0) {
+        if ((getEnergy() - 20) >= 0 && (getMoney() - plant.getPrice()) >= 0) {
             //reduces player energy
             setEnergy(getEnergy() - 20);
+            setMoney(getMoney()-plant.getPrice());
             //plants a new plant
             getField().newPlant(plant, x, y);
         } else if (getEnergy() - 20 < 0) {

@@ -437,6 +437,15 @@ public class PlantGameMain extends JPanel implements Observer {
     }
 
     /**
+     * Updates the player header to display player status
+     *
+     * @param playerHeader
+     */
+    public void updatePlayer(String playerHeader) {
+        this.playerHeader.setText(playerHeader);
+    }
+
+    /**
      * Updates the player header to correctly display player information
      */
     public void updatePlayer() {
@@ -631,7 +640,7 @@ public class PlantGameMain extends JPanel implements Observer {
         Data data = (Data) arg;
         if (data.isStart() == true) {
             //Show starting panel
-            System.out.println("Swaping to panel a");
+
             this.cards.show(this.startView, "a");
 
             //show new game panel
@@ -653,7 +662,8 @@ public class PlantGameMain extends JPanel implements Observer {
         }
 
         if (data.isFieldUpdate() == true) {
-        updateField(data.getViewPlants(), data.getWaterPlants(), data.getPollinatePlants());
+            updateField(data.getViewPlants(), data.getWaterPlants(), data.getPollinatePlants());
+            updatePlayer(data.getPlayer());
         }
 
 //        if (arg.equals("Options a")) {
