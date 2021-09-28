@@ -477,6 +477,23 @@ public class PlantGameModel extends Observable {
     }
 
     public void unlockView() {
+        //unlock starting
+        data.setUnlockStart(true);
+        //store size of unlock
+        data.setUnlockSize(getUnlocks().size());
+        //Store the content of unlock into a string array
+        String[] unlockText = new String[getUnlocks().size()];
+        for (int i = 0; i < getUnlocks().size(); i++) {
+            unlockText[i] = getUnlocks().toView(i);
+        }
+        data.setUnlockText(unlockText);
+
+        //set change
+        setChanged();
+        //pases the selcted save option to the plant game panel
+        notifyObservers(data);
+        //Unlock no longer starting
+        data.setUnlockStart(false);
 
         //set change
         setChanged();
@@ -490,6 +507,25 @@ public class PlantGameModel extends Observable {
 
     public void unlock(int i) {
         getUnlocks().price(getPlayer(), getShop(), i);
+
+        //unlock starting
+        data.setUnlockUpdate(true);
+        //store size of unlock
+        data.setUnlockSize(getUnlocks().size());
+        //Store the content of unlock into a string array
+        String[] unlockText = new String[getUnlocks().size()];
+        for (int j = 0; j < getUnlocks().size(); j++) {
+            unlockText[j] = getUnlocks().toView(j);
+        }
+        data.setUnlockText(unlockText);
+
+        //set change
+        setChanged();
+        //pases the selcted save option to the plant game panel
+        notifyObservers(data);
+        //Unlock no longer starting
+        data.setUnlockUpdate(false);
+
         //set change
         setChanged();
         //Notifys that a plant has been unlocked
