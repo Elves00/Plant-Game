@@ -148,17 +148,18 @@ public class PlantGameModel extends Observable {
     protected void newGame() throws MoneyException, FileNotFoundException {
         //New game is selected
         data.setNewGame(true);
-
-        //set change
         setChanged();
-        //pases the selcted save option to the plant game panel
-        notifyObservers("Options c");
+        notifyObservers(data);
 
-        //set change
-        setChanged();
-        //pases the selcted save option to the plant game panel
-        notifyObservers("Shop Start");
-
+//        //set change
+//        setChanged();
+//        //pases the selcted save option to the plant game panel
+//        notifyObservers("Options c");
+//
+//        //set change
+//        setChanged();
+//        //pases the selcted save option to the plant game panel
+//        notifyObservers("Shop Start");
     }
 
     /**
@@ -181,10 +182,10 @@ public class PlantGameModel extends Observable {
             setShop(getFiles().readShop());
             setUnlocks(getFiles().readUnlock());
             //set change
-
-            setChanged();
-            //pases the selcted save option to the plant game panel
-            notifyObservers("Shop Start");
+//
+//            setChanged();
+//            //pases the selcted save option to the plant game panel
+//            notifyObservers("Shop Start");
 
             //plant set size
             data.setPlantsetSize(PlantSet.values().length);
@@ -222,10 +223,10 @@ public class PlantGameModel extends Observable {
         data.setLoadGame(true);
         setChanged();
         notifyObservers(data);
-        //set change
-        setChanged();
-        //pases the selcted save option to the plant game panel
-        notifyObservers("Options b");
+//        //set change
+//        setChanged();
+//        //pases the selcted save option to the plant game panel
+//        notifyObservers("Options b");
 
     }
 
@@ -247,10 +248,10 @@ public class PlantGameModel extends Observable {
         setUnlocks(getFiles().readUnlock());
         setShop(getFiles().readShop());
         System.out.println("Save number" + selection + " loaded");
-        //set change
-        setChanged();
-        //pases the selcted save option to the plant game panel
-        notifyObservers("Options Not Visible");
+//        //set change
+//        setChanged();
+//        //pases the selcted save option to the plant game panel
+//        notifyObservers("Options Not Visible");
 
         //the game may progress to the main game
         data.setMainGame(true);
@@ -276,11 +277,10 @@ public class PlantGameModel extends Observable {
         //pases the selcted save option to the plant game panel
         notifyObservers(data);
 
-        //set change
-        setChanged();
-        //pases the selcted save option to the plant game panel
-        notifyObservers("Shop Start");
-
+//        //set change
+//        setChanged();
+//        //pases the selcted save option to the plant game panel
+//        notifyObservers("Shop Start");
     }
 
     /**
@@ -405,10 +405,10 @@ public class PlantGameModel extends Observable {
         //pases the selcted save option to the plant game panel
         notifyObservers(data);
 
-        //set change
-        setChanged();
-        //pases the selcted save option to the plant game panel
-        notifyObservers("Shop Start");
+//        //set change
+//        setChanged();
+//        //pases the selcted save option to the plant game panel
+//        notifyObservers("Shop Start");
     }
 
     /**
@@ -471,9 +471,9 @@ public class PlantGameModel extends Observable {
         //Update the field
         fieldUpdate();
 
-        setChanged();
-        //pases the selcted save option to the plant game panel
-        notifyObservers("Plant");
+//        setChanged();
+//        //pases the selcted save option to the plant game panel
+//        notifyObservers("Plant");
     }
 
     public void unlockView() {
@@ -495,14 +495,14 @@ public class PlantGameModel extends Observable {
         //Unlock no longer starting
         data.setUnlockStart(false);
 
-        //set change
-        setChanged();
-        //pases the selcted save option to the plant game panel
-        notifyObservers("Initial Unlock");
-        //set change
-        setChanged();
-        //Notifys that a plant has been unlocked
-        notifyObservers("Unlock");
+//        //set change
+//        setChanged();
+//        //pases the selcted save option to the plant game panel
+//        notifyObservers("Initial Unlock");
+//        //set change
+//        setChanged();
+//        //Notifys that a plant has been unlocked
+//        notifyObservers("Unlock");
     }
 
     public void unlock(int i) {
@@ -525,23 +525,23 @@ public class PlantGameModel extends Observable {
         notifyObservers(data);
         //Unlock no longer starting
         data.setUnlockUpdate(false);
-
-        //set change
-        setChanged();
-        //Notifys that a plant has been unlocked
-        notifyObservers("Unlock");
-
-        //Update the shop with new unlocked plant
-        setChanged();
-        notifyObservers("Shop Update");
+//
+//        //set change
+//        setChanged();
+//        //Notifys that a plant has been unlocked
+//        notifyObservers("Unlock");
+//
+//        //Update the shop with new unlocked plant
+//        setChanged();
+//        notifyObservers("Shop Update");
 
     }
 
     public void saveView() {
-        //set change
-        setChanged();
-        //pases the selcted save option to the plant game panel
-        notifyObservers("Initial Save");
+//        //set change
+//        setChanged();
+//        //pases the selcted save option to the plant game panel
+//        notifyObservers("Initial Save");
     }
 
     public void save(int selection) throws IOException {
@@ -551,69 +551,10 @@ public class PlantGameModel extends Observable {
         getFiles().saveGame(getShop(), getUnlocks(), getPlayer(), selection);
         //success message.
         System.out.println("Save succefull");
-        //set change
-        setChanged();
-        //pases the selcted save option to the plant game panel
-        notifyObservers("Initial Save");
-    }
-
-    /**
-     * Saves the current game to a user selected save slot.
-     *
-     * There are 5 slots available to the player to chose. When a player selects
-     * one the games current details will be stored in the save file in the
-     * corresponding slot.
-     *
-     * @throws IOException
-     */
-    private void save() throws IOException {
-
-        System.out.println("Saving...");
-        //Saves state of current game to the current game slot.
-        getFiles().saveCurrentGame(getShop(), getUnlocks(), getPlayer());
-        //Stores user input
-        int saveslot = 0;
-        //String to store save infomation
-        String[] saveFiles = new String[5];
-
-        //Checks and repeats until save slot is entered by user correctly within bounds of 1-5
-        while (saveslot < 1 || saveslot > 5) {
-            try {
-                //String of slave slots
-                saveFiles = getFiles().saveDisplay();
-
-                //Display save slots
-                for (String i : saveFiles) {
-                    System.out.println(i);
-                }
-                saveslot = scan.nextInt();
-
-                //Catch input mistmatch errors and flush scanner.
-            } catch (InputMismatchException ime) {
-                System.out.println("Please enter a number between 1 and 5");
-                scan.next();
-            }
-        }
-
-        //If the save file is null auto override.
-        if (saveFiles[saveslot - 1].contains("null")) {
-            //Saves game to selected location.
-            getFiles().saveGame(getShop(), getUnlocks(), getPlayer(), saveslot);
-            //success message.
-            System.out.println("Save succefull");
-        } else {
-            System.out.print("You are about to override a save ");
-            if (areYouSure()) {
-                //Saves game to selected location.
-                getFiles().saveGame(getShop(), getUnlocks(), getPlayer(), saveslot);
-                //success message.
-                System.out.println("Save succefull");
-            } else {
-                System.out.println("Save canceled");
-            }
-
-        }
-
+//        //set change
+//        setChanged();
+//        //pases the selcted save option to the plant game panel
+//        notifyObservers("Initial Save");
     }
 
     /**
@@ -647,42 +588,13 @@ public class PlantGameModel extends Observable {
         return input == 1;
     }
 
-    /**
-     * Displays a choice wether to save the game before leaving. If yes is
-     * selected saves the game as current game.
-     *
-     * @throws IOException
-     */
-    private void end() throws IOException {
-        //If the player is about to leave asks if they would like to save the game.
-        System.out.println("Would you like to save before you leave?");
-        System.out.println("1:Yes 2:No");
-        //Stores input
-        int x = 0;
-        while (x < 1 || x > 2) {
-            try {
-
-                x = scan.nextInt();
-                //Catch input mistmatch errors and flush scanner.
-            } catch (InputMismatchException ime) {
-                System.out.println("Please select 1:Yes or 2:No");
-                scan.next();
-            }
-        }
-        if (x == 1) {
-            //Allows player to save there game before leaving.
-            save();
-        }
-
-    }
-
     public void initialView() {
         //Update the field
         fieldUpdate();
         //set change
-        setChanged();
-        //pases the selcted save option to the plant game panel
-        notifyObservers("Initial View");
+//        setChanged();
+//        //pases the selcted save option to the plant game panel
+//        notifyObservers("Initial View");
     }
 
     public void nextDay() throws MoneyException, IOException {
@@ -695,19 +607,19 @@ public class PlantGameModel extends Observable {
         //Update the field
         fieldUpdate();
 
-        //set change
-        setChanged();
-        //pases the selcted save option to the plant game panel
-        notifyObservers("Next Day");
+//        //set change
+//        setChanged();
+//        //pases the selcted save option to the plant game panel
+//        notifyObservers("Next Day");
     }
 
     public void waterView() {
         //Update the field
         fieldUpdate();
-        //set change
-        setChanged();
-        //pases the selcted save option to the plant game panel
-        notifyObservers("Water View");
+//        //set change
+//        setChanged();
+//        //pases the selcted save option to the plant game panel
+//        notifyObservers("Water View");
 
     }
 
@@ -716,10 +628,10 @@ public class PlantGameModel extends Observable {
         //Update the field
         fieldUpdate();
 
-        //set change
-        setChanged();
-        //pases the selcted save option to the plant game panel
-        notifyObservers("Water");
+//        //set change
+//        setChanged();
+//        //pases the selcted save option to the plant game panel
+//        notifyObservers("Water");
     }
 
     public void pickView() {
@@ -727,10 +639,10 @@ public class PlantGameModel extends Observable {
         //Update the field
         fieldUpdate();
         data.setFieldPick(false);
-        //set change
-        setChanged();
-        //pases the selcted save option to the plant game panel
-        notifyObservers("Pick View");
+//        //set change
+//        setChanged();
+//        //pases the selcted save option to the plant game panel
+//        notifyObservers("Pick View");
     }
 
     public void pick(int i, int j) {
@@ -739,10 +651,10 @@ public class PlantGameModel extends Observable {
         fieldUpdate();
         data.setFieldPick(false);
         getPlayer().pickPlant(i, j);
-        //set change
-        setChanged();
-        //pases the selcted save option to the plant game panel
-        notifyObservers("Pick");
+//        //set change
+//        setChanged();
+//        //pases the selcted save option to the plant game panel
+//        notifyObservers("Pick");
     }
 
     /**
@@ -808,18 +720,19 @@ public class PlantGameModel extends Observable {
         });
         System.out.println("");
 
-        //set change
-        setChanged();
-        //pases the selcted save option to the plant game panel
-        notifyObservers("Options a");
+//        //set change
+//        setChanged();
+//        //pases the selcted save option to the plant game panel
+//        notifyObservers("Options a");
+        data.setStart(true);
 
     }
 
     public void selected() {
-        //set change
-        setChanged();
-        //pases the selcted save option to the plant game panel
-        notifyObservers("Options Not Visible");
+//        //set change
+//        setChanged();
+//        //pases the selcted save option to the plant game panel
+//        notifyObservers("Options Not Visible");
     }
 
     /**
