@@ -81,9 +81,6 @@ public class Data {
     private boolean unlockStart;
     private boolean unlockUpdate;
     
-    
-    
-    
     private boolean end;
     private boolean newGame;
     //not needed remove previous game
@@ -114,6 +111,7 @@ public class Data {
                 pollinatePlants[i][j] = false;
             }
         }
+    
     }
 
     /**
@@ -253,7 +251,7 @@ public class Data {
      * @param loadText the loadText to set
      */
     public void setLoadText(String[] loadText) {
-        this.setLoadText(loadText);
+        this.loadText = loadText;
     }
 
     /**

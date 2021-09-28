@@ -112,6 +112,7 @@ public class PlantGameModel extends Observable {
                 Logger.getLogger(PlantGameModel.class.getName()).log(Level.SEVERE, null, ex);
             }
         }
+        data.setShopText(shopContent);
         //No longer in start up
         data.setStart(false);
         //set change
@@ -119,11 +120,10 @@ public class PlantGameModel extends Observable {
         //pases the selcted save option to the plant game panel
         notifyObservers(data);
 
-        //set change
-        setChanged();
-        //pases the selcted save option to the plant game panel
-        notifyObservers("Options Not Visible");
-
+//        //set change
+//        setChanged();
+//        //pases the selcted save option to the plant game panel
+//        notifyObservers("Options Not Visible");
         System.out.println("Player created with name:" + this.player.getName());
         //Helpful prompt
         System.out.println("");
@@ -221,6 +221,13 @@ public class PlantGameModel extends Observable {
      */
     protected void loadGameView() {
         data.setLoadGame(true);
+        try {
+
+            //Set save display text
+            data.setLoadText(this.files.saveDisplay());
+        } catch (IOException ex) {
+            Logger.getLogger(PlantGameModel.class.getName()).log(Level.SEVERE, null, ex);
+        }
         setChanged();
         notifyObservers(data);
 //        //set change
@@ -270,6 +277,7 @@ public class PlantGameModel extends Observable {
                 Logger.getLogger(PlantGameModel.class.getName()).log(Level.SEVERE, null, ex);
             }
         }
+        data.setShopText(shopContent);
         //No longer in start up
         data.setStart(false);
         //set change
@@ -399,7 +407,7 @@ public class PlantGameModel extends Observable {
                 Logger.getLogger(PlantGameModel.class.getName()).log(Level.SEVERE, null, ex);
             }
         }
-
+        data.setShopText(shopContent);
         //set change
         setChanged();
         //pases the selcted save option to the plant game panel
