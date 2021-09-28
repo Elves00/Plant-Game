@@ -581,7 +581,7 @@ public class PlantGameMain extends JPanel implements Observer {
     }
 
     private void shopUpdate(int shopSize, String[] shopText) {
-
+        System.out.println("SHOP SIZE IS:"+shopSize);
         //Sets a hidden jbutton to have the text of a new plant
         this.plantingButtons[shopSize - 1] = new JButton();
         this.plantingButtons[shopSize - 1].setText(shopText[shopSize - 1]);
@@ -665,7 +665,22 @@ public class PlantGameMain extends JPanel implements Observer {
             updateField(data.getViewPlants(), data.getWaterPlants(), data.getPollinatePlants());
             updatePlayer(data.getPlayer());
         }
+        if (data.isShopStart()) {
+            this.shopStart(data.getPlantsetSize(), data.getShopSize(), data.getShopText());
+        }
+        if (data.isUnlockStart()) {
+            this.unlockStart(data.getPlantsetSize(), data.getUnlockSize(), data.getUnlockText());
+        }
 
+        if (data.isShopUpdate()) {
+            System.out.println("SHOP UPDATING");
+            this.shopUpdate(data.getShopSize(), data.getShopText());
+            updatePlayer(data.getPlayer());
+        }
+        if (data.isUnlockUpdate()) {
+              this.unlockUpdate(data.getUnlockSize(), data.getUnlockText());
+            updatePlayer(data.getPlayer());
+        }
 //        if (arg.equals("Options a")) {
 //
 //            System.out.println("Swaping to panel a");

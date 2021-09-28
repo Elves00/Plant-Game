@@ -392,26 +392,7 @@ public class PlantGameModel extends Observable {
 
     public void plantAPlantView() {
 
-        //plant set size
-        data.setPlantsetSize(PlantSet.values().length);
-        //shop size
-        data.setShopSize(this.shop.size());
-        //shop content
-        String[] shopContent = new String[this.shop.size()];
-        for (int i = 0; i < shop.size(); i++) {
-            try {
-                shopContent[i] = this.shop.getPlant(i).toString();
-            } catch (InstantiationException ex) {
-                Logger.getLogger(PlantGameModel.class.getName()).log(Level.SEVERE, null, ex);
-            } catch (IllegalAccessException ex) {
-                Logger.getLogger(PlantGameModel.class.getName()).log(Level.SEVERE, null, ex);
-            }
-        }
-        data.setShopText(shopContent);
-        //set change
-        setChanged();
-        //pases the selcted save option to the plant game panel
-        notifyObservers(data);
+        shopUpdate();
 
 //        //set change
 //        setChanged();
@@ -512,7 +493,31 @@ public class PlantGameModel extends Observable {
 //        //Notifys that a plant has been unlocked
 //        notifyObservers("Unlock");
     }
-
+    public void shopUpdate()
+    {
+         //plant set size
+        data.setPlantsetSize(PlantSet.values().length);
+        //shop size
+        data.setShopSize(this.shop.size());
+        //shop content
+        String[] shopContent = new String[this.shop.size()];
+        for (int i = 0; i < shop.size(); i++) {
+            try {
+                shopContent[i] = this.shop.getPlant(i).toString();
+            } catch (InstantiationException ex) {
+                Logger.getLogger(PlantGameModel.class.getName()).log(Level.SEVERE, null, ex);
+            } catch (IllegalAccessException ex) {
+                Logger.getLogger(PlantGameModel.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+        data.setShopText(shopContent);
+        data.setShopUpdate(true);
+        //set change
+        setChanged();
+        //pases the selcted save option to the plant game panel
+        notifyObservers(data);
+         data.setShopUpdate(false);
+    }
     public void unlock(int i) {
         getUnlocks().price(getPlayer(), getShop(), i);
 
@@ -526,13 +531,14 @@ public class PlantGameModel extends Observable {
             unlockText[j] = getUnlocks().toView(j);
         }
         data.setUnlockText(unlockText);
-
+        
         //set change
         setChanged();
         //pases the selcted save option to the plant game panel
         notifyObservers(data);
         //Unlock no longer starting
         data.setUnlockUpdate(false);
+        shopUpdate();
 //
 //        //set change
 //        setChanged();
