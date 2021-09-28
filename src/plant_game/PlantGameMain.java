@@ -443,6 +443,24 @@ public class PlantGameMain extends JPanel implements Observer {
         this.playerHeader.setText(this.getPlantGameModel().getPlayer().toString());
     }
 
+    public void updateField(String[][] plants, boolean[][] water, boolean[][] pollin) {
+        for (int i = 0; i < 3; i++) {
+            for (int j = 0; j < 3; j++) {
+                this.getFieldLabels()[i][j].setText(plants[i][j]);
+                if (water[i][j] && pollin[i][j]) {
+                    this.getFieldLabels()[i][j].setBorder(mixedLine);
+                } else if (water[i][j]) {
+                    this.getFieldLabels()[i][j].setBorder(blueLine);
+                } else if (pollin[i][j]) {
+
+                    this.getFieldLabels()[i][j].setBorder(yellowLine);
+                } else {
+                    this.getFieldLabels()[i][j].setBorder(null);
+                }
+            }
+        }
+    }
+
     /**
      * Updates the field to correctly display player field information
      */
@@ -585,8 +603,11 @@ public class PlantGameMain extends JPanel implements Observer {
             this.mainCard.show(this, "b");
             shopStart(data.getPlantsetSize(), data.getShopSize(), data.getShopText());
         }
-        
-        
+
+        if (data.isFieldUpdate() == true) {
+            updateField();
+        }
+
         if (arg.equals("Options a")) {
 
             System.out.println("Swaping to panel a");
