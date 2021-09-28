@@ -12,6 +12,48 @@ package plant_game;
 public class Data {
 
     /**
+     * @return the saveUpdate
+     */
+    public boolean isSaveUpdate() {
+        return saveUpdate;
+    }
+
+    /**
+     * @param saveUpdate the saveUpdate to set
+     */
+    public void setSaveUpdate(boolean saveUpdate) {
+        this.saveUpdate = saveUpdate;
+    }
+
+    /**
+     * @return the saveStart
+     */
+    public boolean isSaveStart() {
+        return saveStart;
+    }
+
+    /**
+     * @param saveStart the saveStart to set
+     */
+    public void setSaveStart(boolean saveStart) {
+        this.saveStart = saveStart;
+    }
+
+    /**
+     * @return the saveText
+     */
+    public String[] getSaveText() {
+        return saveText;
+    }
+
+    /**
+     * @param saveText the saveText to set
+     */
+    public void setSaveText(String[] saveText) {
+        this.saveText = saveText;
+    }
+
+    /**
      * @return the unlockText
      */
     public String[] getUnlockText() {
@@ -80,7 +122,7 @@ public class Data {
     private String[] unlockText;
     private boolean unlockStart;
     private boolean unlockUpdate;
-    
+
     private boolean end;
     private boolean newGame;
     //not needed remove previous game
@@ -94,24 +136,27 @@ public class Data {
     private String[][] viewPlants;
     private Boolean[][] waterPlants;
     private Boolean[][] pollinatePlants;
+
+    private boolean saveUpdate;
+    private boolean saveStart;
+    private String[] saveText;
     
     private String player;
-    
-    
+
     public Data() {
         start = true;
-        viewPlants=new String[3][3];
-        waterPlants=new Boolean[3][3];
-        pollinatePlants=new Boolean[3][3];
+        viewPlants = new String[3][3];
+        waterPlants = new Boolean[3][3];
+        pollinatePlants = new Boolean[3][3];
         //Set up defaults
-         for (int i = 0; i < 3; i++) {
+        for (int i = 0; i < 3; i++) {
             for (int j = 0; j < 3; j++) {
-                viewPlants[i][j] ="";
+                viewPlants[i][j] = "";
                 waterPlants[i][j] = false;
                 pollinatePlants[i][j] = false;
             }
         }
-    
+
     }
 
     /**

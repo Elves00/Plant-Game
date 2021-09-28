@@ -581,7 +581,7 @@ public class PlantGameMain extends JPanel implements Observer {
     }
 
     private void shopUpdate(int shopSize, String[] shopText) {
-        System.out.println("SHOP SIZE IS:"+shopSize);
+        System.out.println("SHOP SIZE IS:" + shopSize);
         //Sets a hidden jbutton to have the text of a new plant
         this.plantingButtons[shopSize - 1] = new JButton();
         this.plantingButtons[shopSize - 1].setText(shopText[shopSize - 1]);
@@ -634,6 +634,18 @@ public class PlantGameMain extends JPanel implements Observer {
 
     }
 
+    /**
+     * Save is always 5 slots
+     *
+     * @param saveText
+     */
+    public void save(String[] saveText) {
+
+        for (int i = 0; i < 5; i++) {
+            this.getSaveSlot()[i].setText(saveText[i]);
+        }
+    }
+
     @Override
     public void update(Observable o, Object arg) {
 
@@ -678,8 +690,11 @@ public class PlantGameMain extends JPanel implements Observer {
             updatePlayer(data.getPlayer());
         }
         if (data.isUnlockUpdate()) {
-              this.unlockUpdate(data.getUnlockSize(), data.getUnlockText());
+            this.unlockUpdate(data.getUnlockSize(), data.getUnlockText());
             updatePlayer(data.getPlayer());
+        }
+        if (data.isSaveStart()) {
+            save(data.getSaveText());
         }
 //        if (arg.equals("Options a")) {
 //

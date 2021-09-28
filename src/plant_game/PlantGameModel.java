@@ -493,9 +493,9 @@ public class PlantGameModel extends Observable {
 //        //Notifys that a plant has been unlocked
 //        notifyObservers("Unlock");
     }
-    public void shopUpdate()
-    {
-         //plant set size
+
+    public void shopUpdate() {
+        //plant set size
         data.setPlantsetSize(PlantSet.values().length);
         //shop size
         data.setShopSize(this.shop.size());
@@ -516,8 +516,9 @@ public class PlantGameModel extends Observable {
         setChanged();
         //pases the selcted save option to the plant game panel
         notifyObservers(data);
-         data.setShopUpdate(false);
+        data.setShopUpdate(false);
     }
+
     public void unlock(int i) {
         getUnlocks().price(getPlayer(), getShop(), i);
 
@@ -531,7 +532,7 @@ public class PlantGameModel extends Observable {
             unlockText[j] = getUnlocks().toView(j);
         }
         data.setUnlockText(unlockText);
-        
+
         //set change
         setChanged();
         //pases the selcted save option to the plant game panel
@@ -552,10 +553,23 @@ public class PlantGameModel extends Observable {
     }
 
     public void saveView() {
+        data.setSaveStart(true);
+        try {
+            data.setSaveText(getFiles().saveDisplay());
+
 //        //set change
 //        setChanged();
 //        //pases the selcted save option to the plant game panel
 //        notifyObservers("Initial Save");
+        } catch (IOException ex) {
+            Logger.getLogger(PlantGameModel.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        //set change
+        setChanged();
+        //pases the selcted save option to the plant game panel
+        notifyObservers(data);
+        data.setSaveStart(false);
+
     }
 
     public void save(int selection) throws IOException {
@@ -565,6 +579,22 @@ public class PlantGameModel extends Observable {
         getFiles().saveGame(getShop(), getUnlocks(), getPlayer(), selection);
         //success message.
         System.out.println("Save succefull");
+        data.setSaveStart(true);
+        try {
+            data.setSaveText(getFiles().saveDisplay());
+
+//        //set change
+//        setChanged();
+//        //pases the selcted save option to the plant game panel
+//        notifyObservers("Initial Save");
+        } catch (IOException ex) {
+            Logger.getLogger(PlantGameModel.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        //set change
+        setChanged();
+        //pases the selcted save option to the plant game panel
+        notifyObservers(data);
+        data.setSaveStart(false);
 //        //set change
 //        setChanged();
 //        //pases the selcted save option to the plant game panel
