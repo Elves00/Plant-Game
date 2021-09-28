@@ -443,7 +443,7 @@ public class PlantGameMain extends JPanel implements Observer {
         this.playerHeader.setText(this.getPlantGameModel().getPlayer().toString());
     }
 
-    public void updateField(String[][] plants, boolean[][] water, boolean[][] pollin) {
+    public void updateField(String[][] plants, Boolean[][] water, Boolean[][] pollin) {
         for (int i = 0; i < 3; i++) {
             for (int j = 0; j < 3; j++) {
                 this.getFieldLabels()[i][j].setText(plants[i][j]);
@@ -579,34 +579,34 @@ public class PlantGameMain extends JPanel implements Observer {
 
     @Override
     public void update(Observable o, Object arg) {
-
-        Data data = (Data) arg;
-        if (data.isStart() == true) {
-            //Show starting panel
-            System.out.println("Swaping to panel a");
-            this.cards.show(this.startView, "a");
-
-            //show new game panel
-            if (data.isNewGame() == true) {
-                this.cards.show(this.startView, "c");
-
-            } //Display the load game options
-            else if (data.isLoadGame() == true) {
-                setLoadText(data.getLoadText());
-
-            }
-
-        }
-
-        //The main game
-        if (data.isMainGame() == true) {
-            this.mainCard.show(this, "b");
-            shopStart(data.getPlantsetSize(), data.getShopSize(), data.getShopText());
-        }
-
-        if (data.isFieldUpdate() == true) {
-            updateField();
-        }
+//
+//        Data data = (Data) arg;
+//        if (data.isStart() == true) {
+//            //Show starting panel
+//            System.out.println("Swaping to panel a");
+//            this.cards.show(this.startView, "a");
+//
+//            //show new game panel
+//            if (data.isNewGame() == true) {
+//                this.cards.show(this.startView, "c");
+//
+//            } //Display the load game options
+//            else if (data.isLoadGame() == true) {
+//                setLoadText(data.getLoadText());
+//
+//            }
+//
+//        }
+//
+//        //The main game
+//        if (data.isMainGame() == true) {
+//            this.mainCard.show(this, "b");
+//            shopStart(data.getPlantsetSize(), data.getShopSize(), data.getShopText());
+//        }
+//
+//        if (data.isFieldUpdate() == true) {
+//        updateField(data.getViewPlants(), data.getWaterPlants(), data.getPollinatePlants());
+//        }
 
         if (arg.equals("Options a")) {
 

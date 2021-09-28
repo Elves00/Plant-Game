@@ -11,35 +11,34 @@ package plant_game;
  */
 public class Data {
 
-    //field
-    //money
-    //so on so forth
-    //score
-    //FROM THE SAVE GAME FILE 
-    //Player name
-    //money
-    //energy
-    //day
-    //score
-    //plant dets x9
-    //plants
-    //plant select
-    //unlock
-    //unlock price (may not be working correctly check this is changing correct)
-    //Two null lines
-    /*Alternativly maybe we go by whats notified in the view panel
-    
-    So plant/inital view/pick are conditions
-    inital save
-    inital unlock
-    inital view
-    
-    
-    So we could have a game loaded variable which indicates the shop/unlock and player can be created
-    
-    
-
+    /**
+     * @return the fieldPick
      */
+    public boolean isFieldPick() {
+        return fieldPick;
+    }
+
+    /**
+     * @param fieldPick the fieldPick to set
+     */
+    public void setFieldPick(boolean fieldPick) {
+        this.fieldPick = fieldPick;
+    }
+
+    /**
+     * @return the fieldUpdate
+     */
+    public boolean isFieldUpdate() {
+        return fieldUpdate;
+    }
+
+    /**
+     * @param fieldUpdate the fieldUpdate to set
+     */
+    public void setFieldUpdate(boolean fieldUpdate) {
+        this.fieldUpdate = fieldUpdate;
+    }
+
     private boolean start;
     private int plantsetSize;
 
@@ -60,12 +59,27 @@ public class Data {
     private boolean mainGame;
 
     private boolean fieldUpdate;
+    private boolean fieldPick;
     private String[][] viewPlants;
     private Boolean[][] waterPlants;
     private Boolean[][] pollinatePlants;
-
+    
+    private String player;
+    
+    
     public Data() {
         start = true;
+        viewPlants=new String[3][3];
+        waterPlants=new Boolean[3][3];
+        pollinatePlants=new Boolean[3][3];
+        //Set up defaults
+         for (int i = 0; i < 3; i++) {
+            for (int j = 0; j < 3; j++) {
+                viewPlants[i][j] ="";
+                waterPlants[i][j] = false;
+                pollinatePlants[i][j] = false;
+            }
+        }
     }
 
     /**
@@ -304,5 +318,19 @@ public class Data {
      */
     public void setPollinatePlants(Boolean[][] pollinatePlants) {
         this.pollinatePlants = pollinatePlants;
+    }
+
+    /**
+     * @return the player
+     */
+    public String getPlayer() {
+        return player;
+    }
+
+    /**
+     * @param player the player to set
+     */
+    public void setPlayer(String player) {
+        this.player = player;
     }
 }
