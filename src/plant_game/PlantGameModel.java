@@ -186,10 +186,6 @@ public class PlantGameModel extends Observable {
             //pases the selcted save option to the plant game panel
             notifyObservers("Shop Start");
 
-            //New game is selected
-            data.setNewGame(true);
-            //the game may progress to the main game
-            data.setPreviousGame(true);
             //plant set size
             data.setPlantsetSize(PlantSet.values().length);
             //shop size
@@ -223,6 +219,9 @@ public class PlantGameModel extends Observable {
      * Notify the observe to display the options for loading game
      */
     protected void loadGameView() {
+        data.setLoadGame(true);
+        setChanged();
+        notifyObservers(data);
         //set change
         setChanged();
         //pases the selcted save option to the plant game panel
@@ -252,6 +251,31 @@ public class PlantGameModel extends Observable {
         setChanged();
         //pases the selcted save option to the plant game panel
         notifyObservers("Options Not Visible");
+
+        //the game may progress to the main game
+        data.setMainGame(true);
+        //plant set size
+        data.setPlantsetSize(PlantSet.values().length);
+        //shop size
+        data.setShopSize(this.shop.size());
+        //shop content
+        String[] shopContent = new String[this.shop.size()];
+        for (int i = 0; i < shop.size(); i++) {
+            try {
+                shopContent[i] = this.shop.getPlant(i).toString();
+            } catch (InstantiationException ex) {
+                Logger.getLogger(PlantGameModel.class.getName()).log(Level.SEVERE, null, ex);
+            } catch (IllegalAccessException ex) {
+                Logger.getLogger(PlantGameModel.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+        //No longer in start up
+        data.setStart(false);
+        //set change
+        setChanged();
+        //pases the selcted save option to the plant game panel
+        notifyObservers(data);
+
         //set change
         setChanged();
         //pases the selcted save option to the plant game panel
@@ -359,6 +383,28 @@ public class PlantGameModel extends Observable {
     }
 
     public void plantAPlantView() {
+
+        //plant set size
+        data.setPlantsetSize(PlantSet.values().length);
+        //shop size
+        data.setShopSize(this.shop.size());
+        //shop content
+        String[] shopContent = new String[this.shop.size()];
+        for (int i = 0; i < shop.size(); i++) {
+            try {
+                shopContent[i] = this.shop.getPlant(i).toString();
+            } catch (InstantiationException ex) {
+                Logger.getLogger(PlantGameModel.class.getName()).log(Level.SEVERE, null, ex);
+            } catch (IllegalAccessException ex) {
+                Logger.getLogger(PlantGameModel.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+
+        //set change
+        setChanged();
+        //pases the selcted save option to the plant game panel
+        notifyObservers(data);
+
         //set change
         setChanged();
         //pases the selcted save option to the plant game panel
@@ -369,6 +415,15 @@ public class PlantGameModel extends Observable {
 
         getPlayer().newPlant(getShop().getPlant(selection - 1), x - 1, y - 1);
 //set change
+
+//update data to contain the plant information
+        for (int i = 0; i < 3; i++) {
+            for (int j = 0; j < 3; j++) {
+                data.getViewPlants()[i][j] = getPlayer().getField().getPlantArray()[i][j].toString();
+                data.getWaterPlants()[i][j] = getPlayer().getField().getPlantArray()[i][j].getWaterCount() >= getPlayer().getField().getPlantArray()[i][j].getWaterLimit();
+                
+            }
+        }
         setChanged();
         //pases the selcted save option to the plant game panel
         notifyObservers("Plant");

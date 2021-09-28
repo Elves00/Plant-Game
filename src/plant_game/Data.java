@@ -10,10 +10,10 @@ package plant_game;
  * @author breco
  */
 public class Data {
+
     //field
     //money
     //so on so forth
-
     //score
     //FROM THE SAVE GAME FILE 
     //Player name
@@ -53,16 +53,21 @@ public class Data {
     private boolean unlockContent;
     private boolean end;
     private boolean newGame;
+    //not needed remove previous game
     private boolean previousGame;
     private boolean loadGame;
     private String[] loadText;
     private boolean mainGame;
 
-    
-    public Data()
-    {
-        start=true;
+    private boolean fieldUpdate;
+    private String[][] viewPlants;
+    private Boolean[][] waterPlants;
+    private Boolean[][] pollinatePlants;
+
+    public Data() {
+        start = true;
     }
+
     /**
      * @return the start
      */
@@ -259,4 +264,45 @@ public class Data {
         this.shopUpdate = shopUpdate;
     }
 
+    /**
+     * @return the viewPlants
+     */
+    public String[][] getViewPlants() {
+        return viewPlants;
+    }
+
+    /**
+     * @param viewPlants the viewPlants to set
+     */
+    public void setViewPlants(String[][] viewPlants) {
+        this.viewPlants = viewPlants;
+    }
+
+    /**
+     * @return the waterPlants
+     */
+    public Boolean[][] getWaterPlants() {
+        return waterPlants;
+    }
+
+    /**
+     * @param waterPlants the waterPlants to set
+     */
+    public void setWaterPlants(Boolean[][] waterPlants) {
+        this.waterPlants = waterPlants;
+    }
+
+    /**
+     * @return the pollinatePlants
+     */
+    public Boolean[][] getPollinatePlants() {
+        return pollinatePlants;
+    }
+
+    /**
+     * @param pollinatePlants the pollinatePlants to set
+     */
+    public void setPollinatePlants(Boolean[][] pollinatePlants) {
+        this.pollinatePlants = pollinatePlants;
+    }
 }

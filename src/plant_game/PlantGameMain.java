@@ -572,10 +572,6 @@ public class PlantGameMain extends JPanel implements Observer {
             if (data.isNewGame() == true) {
                 this.cards.show(this.startView, "c");
 
-            } //Display the main game panel
-            else if (data.isPreviousGame() == true) {
-                this.mainCard.show(this, "b");
-
             } //Display the load game options
             else if (data.isLoadGame() == true) {
                 setLoadText(data.getLoadText());
@@ -586,9 +582,11 @@ public class PlantGameMain extends JPanel implements Observer {
 
         //The main game
         if (data.isMainGame() == true) {
-
+            this.mainCard.show(this, "b");
             shopStart(data.getPlantsetSize(), data.getShopSize(), data.getShopText());
         }
+        
+        
         if (arg.equals("Options a")) {
 
             System.out.println("Swaping to panel a");
