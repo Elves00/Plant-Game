@@ -45,7 +45,9 @@ public final class DBManager {
                 Statement statement = conn.createStatement();
                 String tableName = "UserInfo";
                 if (!checkTableExisting(tableName)) {
-
+                    //All tabel creation here
+                      statement.executeUpdate("CREATE TABLE " + tableName + " (userid VARCHAR(20), score INT)");
+        
                 }
                 statement.close();
 
