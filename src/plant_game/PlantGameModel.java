@@ -84,10 +84,9 @@ public class PlantGameModel extends Observable {
         //Here we set up a new game using data from the database.
         data = manager.newGame(name);
         setPlayer(new Player(name));
-        
+
 //        //Create player object with name
 //        setPlayer(getFiles().newPlayer(name));
-
         //the game may progress to the main game
         data.setMainGame(true);
         //plant set size
@@ -170,8 +169,17 @@ public class PlantGameModel extends Observable {
             //loads the last game.
             getFiles().loadCurrentGame();
 
+            //SET ALL PLANTS 
+            //SET ALL PLANT STATUS
+            data = manager.loadGame(0);
+            player = new Player(data.getPlayerName(), data.getMoney(), data.getDay(), data.getScore());
+            //Sets all the plants but not all the stats
+            player.getField().setAllPlants(data.getPlants());
+
+            //Sets all the plants stats
+            player.getField().setAllPlantStatus(data.getPlantsDescription());
+
             //Loads variables from file.
-            setPlayer(getFiles().loadPlayer());
             setShop(getFiles().readShop());
             setUnlocks(getFiles().readUnlock());
             //set change
@@ -233,28 +241,19 @@ public class PlantGameModel extends Observable {
     protected void loadGame(int selection) throws IOException {
 
         this.getFiles().loadGame(selection);
-        try {
-            //SET ALL PLANTS 
-            //SET ALL PLANT STATUS
-           
-            
-                
-               //Sets all the plants but not all the stats
-                player.getField().setAllPlants(hold);
 
-                //Sets all the plants stats
-                player.getField().setAllPlantStatus(description);
-            //Loads objects.
-            setPlayer(getFiles().loadPlayer());
-        } catch (FileNotFoundException ex) {
-            Logger.getLogger(PlantGameModel.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (FileLoadErrorException ex) {
-            Logger.getLogger(PlantGameModel.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (InstantiationException ex) {
-            Logger.getLogger(PlantGameModel.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
-            Logger.getLogger(PlantGameModel.class.getName()).log(Level.SEVERE, null, ex);
-        }
+        //SET ALL PLANTS 
+        //SET ALL PLANT STATUS
+        data = manager.loadGame(selection + 1);
+        player = new Player(data.getPlayerName(), data.getMoney(), data.getDay(), data.getScore());
+        //Sets all the plants but not all the stats
+        player.getField().setAllPlants(data.getPlants());
+
+        //Sets all the plants stats
+        player.getField().setAllPlantStatus(data.getPlantsDescription());
+
+        //Loads objects.
+//            setPlayer(getFiles().loadPlayer());
         setUnlocks(getFiles().readUnlock());
         setShop(getFiles().readShop());
         System.out.println("Save number" + selection + " loaded");

@@ -45,12 +45,15 @@ public final class DBManager {
             try {
 
                 conn = DriverManager.getConnection(URL, USER_NAME, PASSWORD);
-
+                myUpdate("DROP TABLE Player");
+                 myUpdate("DROP TABLE Field");
                 if (!checkTableExisting("Player")) {
                     System.out.println("CREATING A PLAYER TABLE");
                     //All tabel creation here
                     this.myUpdate("CREATE TABLE " + "Player" + " (slot INT,playerName VARCHAR(20),money FLOAT,energy INT ,day INT,score INT)");
-//                    myUpdate("INSERT INTO Player VALUES (1,'Brecon',200,100,2,0)");
+                    myUpdate("INSERT INTO Player VALUES (1,'Brecon',200,100,0,0)");
+                    myUpdate("INSERT INTO Player VALUES (0,'PreviousPlayer',200,100,0,0)");
+
                 }
 
                 if (!checkTableExisting("Plant")) {
@@ -81,6 +84,18 @@ public final class DBManager {
                             + "\n (1,3,1,'dirt',0,0,0,0,0,10,0,10,FALSE,FALSE),"
                             + "\n (1,3,2,'dirt',0,0,0,0,0,10,0,10,FALSE,FALSE),"
                             + "\n (1,3,3,'dirt',0,0,0,0,0,10,0,10,FALSE,FALSE)");
+
+                    myUpdate("INSERT INTO Field VALUES"
+                            + "   (0,1,1,'dirt',0,0,0,0,0,10,0,10,FALSE,FALSE),"
+                            + "\n (0,1,2,'dirt',0,0,0,0,0,10,0,10,FALSE,FALSE),"
+                            + "\n (0,1,3,'dirt',0,0,0,0,0,10,0,10,FALSE,FALSE),"
+                            + "\n (0,2,1,'dirt',0,0,0,0,0,10,0,10,FALSE,FALSE),"
+                            + "\n (0,2,2,'dirt',0,0,0,0,0,10,0,10,FALSE,FALSE),"
+                            + "\n (0,2,3,'dirt',0,0,0,0,0,10,0,10,FALSE,FALSE),"
+                            + "\n (0,3,1,'dirt',0,0,0,0,0,10,0,10,FALSE,FALSE),"
+                            + "\n (0,3,2,'dirt',0,0,0,0,0,10,0,10,FALSE,FALSE),"
+                            + "\n (0,3,3,'dirt',0,0,0,0,0,10,0,10,FALSE,FALSE)");
+
                 }
 
                 if (!checkTableExisting("Save")) {
@@ -120,7 +135,12 @@ public final class DBManager {
     }
 
     public Data loadGame(int selection) {
+        if (this.conn != null) {
+            System.out.println("ITS NOT LOADED");
+        }
         try {
+            System.out.println("SELECTION" + selection);
+
             Data data = new Data();
             String sql = "SELECT * FROM Player WHERE slot =" + selection + "";
             ResultSet rs = this.myQuery(sql);
@@ -155,7 +175,7 @@ public final class DBManager {
                     System.out.println(plantsDescription[k][l]);
                 }
             }
-            
+
             data.setPlants(plants);
             data.setPlantsDescription(plantsDescription);
 

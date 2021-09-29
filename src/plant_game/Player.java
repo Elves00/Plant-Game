@@ -69,10 +69,23 @@ public final class Player extends Observable {
         setEnergy(MAX_ENERGY);
         //Player starting day
         setDay(0);
+        setScore(0);
         //Player starting field
         setField(new PlantField());
         //Player file manager
         gameState = new GameState();
+    }
+
+    public Player(String name, float money, int day, int score) {
+        setName(name);
+        setMoney(money);
+        setDay(day);
+        setScore(score);
+        //Player starting field
+        setField(new PlantField());
+        //Player file manager
+        gameState = new GameState();
+
     }
 
     /**

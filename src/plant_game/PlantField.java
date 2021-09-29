@@ -214,6 +214,22 @@ public final class PlantField {
     }
 
     /**
+     * Sets all details of plants within the plant array to match details found
+     * within the inputted ArrayList.
+     *
+     * @param details An ArrayList containing 9 unique strings representing
+     * plant stats
+     */
+    public void setAllPlantStatus(String[][] details) {
+
+        for (int i = 0; i < arrayLength; i++) {
+            for (int j = 0; j < arrayLength; j++) {
+                getPlantArray()[i][j].fromFile(details[i][j]);
+            }
+        }
+    }
+
+    /**
      * Plants a new plant
      *
      * @param plant
