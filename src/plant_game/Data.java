@@ -12,6 +12,177 @@ package plant_game;
 public class Data {
 
     /**
+     * @return the plantsDescription
+     */
+    public String[][] getPlantsDescription() {
+        return plantsDescription;
+    }
+
+    /**
+     * @param plantsDescription the plantsDescription to set
+     */
+    public void setPlantsDescription(String[][] plantsDescription) {
+        this.plantsDescription = plantsDescription;
+    }
+
+    /**
+     * @return the plants
+     */
+    public String[][] getPlants() {
+        return plants;
+    }
+
+    /**
+     * @param plants the plants to set
+     */
+    public void setPlants(String[][] plants) {
+        this.plants = plants;
+    }
+
+    
+     private boolean start;
+    private int plantsetSize;
+
+    //Game variables
+    //Player
+    private String playerName;
+    private float money;
+    private int energy;
+    private int day;
+//    private int field;
+    private int score;
+//    private int gameState;
+    
+    //Field
+    private String[][] plants;
+    private String[][] plantsDescription;
+    //Shop
+    private String shop;
+    //Unlock
+    private String unlock;
+    
+    
+    
+    //Shop information
+    private int shopSize;
+    private String[] shopText;
+    private boolean shopStart;
+    private boolean shopUpdate;
+
+    private int unlockSize;
+    private String[] unlockText;
+    private boolean unlockStart;
+    private boolean unlockUpdate;
+
+    private boolean end;
+    private boolean newGame;
+    //not needed remove previous game
+    private boolean previousGame;
+    private boolean loadGame;
+    private String[] loadText;
+    private boolean mainGame;
+
+    private boolean fieldUpdate;
+    private boolean fieldPick;
+    private String[][] viewPlants;
+    private Boolean[][] waterPlants;
+    private Boolean[][] pollinatePlants;
+
+    private boolean saveUpdate;
+    private boolean saveStart;
+    private String[] saveText;
+    
+    private boolean infoUpdate;
+    private String[] infoText;
+    
+    private String player;
+
+    public Data() {
+        start = true;
+        viewPlants = new String[3][3];
+        waterPlants = new Boolean[3][3];
+        pollinatePlants = new Boolean[3][3];
+        //Set up defaults
+        for (int i = 0; i < 3; i++) {
+            for (int j = 0; j < 3; j++) {
+                viewPlants[i][j] = "";
+                waterPlants[i][j] = false;
+                pollinatePlants[i][j] = false;
+            }
+        }
+
+    }
+    /**
+     * @return the money
+     */
+    public float getMoney() {
+        return money;
+    }
+
+    /**
+     * @param money the money to set
+     */
+    public void setMoney(float money) {
+        this.money = money;
+    }
+
+    /**
+     * @return the energy
+     */
+    public int getEnergy() {
+        return energy;
+    }
+
+    /**
+     * @param energy the energy to set
+     */
+    public void setEnergy(int energy) {
+        this.energy = energy;
+    }
+
+    /**
+     * @return the day
+     */
+    public int getDay() {
+        return day;
+    }
+
+    /**
+     * @param day the day to set
+     */
+    public void setDay(int day) {
+        this.day = day;
+    }
+
+    /**
+     * @return the score
+     */
+    public int getScore() {
+        return score;
+    }
+
+    /**
+     * @param score the score to set
+     */
+    public void setScore(int score) {
+        this.score = score;
+    }
+
+    /**
+     * @return the playerName
+     */
+    public String getPlayerName() {
+        return playerName;
+    }
+
+    /**
+     * @param playerName the playerName to set
+     */
+    public void setPlayerName(String playerName) {
+        this.playerName = playerName;
+    }
+
+    /**
      * @return the infoUpdate
      */
     public boolean isInfoUpdate() {
@@ -137,58 +308,7 @@ public class Data {
         this.fieldUpdate = fieldUpdate;
     }
 
-    private boolean start;
-    private int plantsetSize;
-
-    //Shop information
-    private int shopSize;
-    private String[] shopText;
-    private boolean shopStart;
-    private boolean shopUpdate;
-
-    private int unlockSize;
-    private String[] unlockText;
-    private boolean unlockStart;
-    private boolean unlockUpdate;
-
-    private boolean end;
-    private boolean newGame;
-    //not needed remove previous game
-    private boolean previousGame;
-    private boolean loadGame;
-    private String[] loadText;
-    private boolean mainGame;
-
-    private boolean fieldUpdate;
-    private boolean fieldPick;
-    private String[][] viewPlants;
-    private Boolean[][] waterPlants;
-    private Boolean[][] pollinatePlants;
-
-    private boolean saveUpdate;
-    private boolean saveStart;
-    private String[] saveText;
-    
-    private boolean infoUpdate;
-    private String[] infoText;
-    
-    private String player;
-
-    public Data() {
-        start = true;
-        viewPlants = new String[3][3];
-        waterPlants = new Boolean[3][3];
-        pollinatePlants = new Boolean[3][3];
-        //Set up defaults
-        for (int i = 0; i < 3; i++) {
-            for (int j = 0; j < 3; j++) {
-                viewPlants[i][j] = "";
-                waterPlants[i][j] = false;
-                pollinatePlants[i][j] = false;
-            }
-        }
-
-    }
+   
 
     /**
      * @return the start

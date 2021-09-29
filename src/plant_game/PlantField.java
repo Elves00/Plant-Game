@@ -6,6 +6,8 @@
 package plant_game;
 
 import java.util.ArrayList;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  * Plant Array stores a 3 by 3 grid containing plants and a static int
@@ -169,6 +171,34 @@ public final class PlantField {
     }
 
     /**
+     * Sets all plants within the plant array to match plants found within the
+     * inputted ArrayList.
+     *
+     * @param plants An ArrayList containing 9 plants
+     */
+    public void setAllPlants(String[][] plants) {
+
+        for (int i = 0; i < arrayLength; i++) {
+            for (int j = 0; j < arrayLength; j++) {
+
+                //Search through the plant set and add the appropriate plant to the filed
+                for (PlantSet p : PlantSet.values()) {
+
+                    if (p.toString().equalsIgnoreCase(plants[i][j])) {
+                        try {
+                            getPlantArray()[i][j] = p.getPlant().getClass().newInstance();
+                        } catch (InstantiationException ex) {
+                            Logger.getLogger(PlantField.class.getName()).log(Level.SEVERE, null, ex);
+                        } catch (IllegalAccessException ex) {
+                            Logger.getLogger(PlantField.class.getName()).log(Level.SEVERE, null, ex);
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    /**
      * Sets all details of plants within the plant array to match details found
      * within the inputted ArrayList.
      *
@@ -241,15 +271,15 @@ public final class PlantField {
             try {
 
                 getPlantArray()[neighbours[i]][neighbours[5]].pollinate(true);
-               
+
             } //Avoids neigbours calling poisitons out of array bounds.
             catch (ArrayIndexOutOfBoundsException a) {
 
             }
             //Check left right. In seprate function to avoid being kicked out due to arrindex error
             try {
-             getPlantArray()[neighbours[4]][neighbours[i + 2]].pollinate(true);
-             } //Avoids neigbours calling poisitons out of array bounds.
+                getPlantArray()[neighbours[4]][neighbours[i + 2]].pollinate(true);
+            } //Avoids neigbours calling poisitons out of array bounds.
             catch (ArrayIndexOutOfBoundsException a) {
 
             }

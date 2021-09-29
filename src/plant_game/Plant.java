@@ -144,6 +144,7 @@ abstract class Plant implements ToFile {
         setWaterCount(parseInt(st.nextToken()));
         setPrice(parseInt(st.nextToken()));
         setPollinator(parseBoolean(st.nextToken()));
+        //MAy need to add pollinated here
     }
 
     /**

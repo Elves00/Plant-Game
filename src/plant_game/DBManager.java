@@ -43,63 +43,57 @@ public final class DBManager {
         if (this.conn != null) {
             System.out.println("Creating the tables");
             try {
+
                 conn = DriverManager.getConnection(URL, USER_NAME, PASSWORD);
 
                 if (!checkTableExisting("Player")) {
                     System.out.println("CREATING A PLAYER TABLE");
                     //All tabel creation here
-                    this.myUpdate("CREATE TABLE " + "Player" + " (playerName VARCHAR(20),money FLOAT,energy INT ,day INT,score INT)");
-//                    myUpdate("INSERT INTO Player VALUES ('Brecon',200,100,2,0)");
+                    this.myUpdate("CREATE TABLE " + "Player" + " (slot INT,playerName VARCHAR(20),money FLOAT,energy INT ,day INT,score INT)");
+//                    myUpdate("INSERT INTO Player VALUES (1,'Brecon',200,100,2,0)");
                 }
 
                 if (!checkTableExisting("Plant")) {
                     System.out.println("CREATING A PLANT TABLE");
-                    myUpdate("CREATE TABLE PLANT (name VARCHAR(10),growtime INT,timeplanted INT,value INT,growth INT, growcounter INT,watercounter INT,waterlimit INT,price INT,pollinator BOOLEAN,pollinated BOOLEAN)");
+                    myUpdate("CREATE TABLE PLANT (name VARCHAR(10),growtime INT,timeplanted INT,value INT,growcounter INT, growth INT,waterlimit INT,watercounter INT,price INT,pollinator BOOLEAN,pollinated BOOLEAN)");
 
                     myUpdate("INSERT INTO Plant VALUES"
-                            + "   ('broccoli',3,0,0,0,6,0,3,10,FALSE,FALSE),"
-                            + "\n ('cabbage',4,0,0,0,4,0,2,10,FALSE,FALSE),"
-                            + "\n ('carrot',2,0,0,0,3,0,2,10,FALSE,FALSE),"
-                            + "\n ('dirt',0,0,0,0,0,0,10,10,FALSE,FALSE),"
-                            + "\n ('saffron',2,0,0,0,2,0,3,10,TRUE,FALSE),"
-                            + "\n ('truffle',10,0,0,0,4,0,1,10,FALSE,FALSE),"
-                            + "\n ('tulip',10,0,0,0,4,0,1,10,FALSE,FALSE)");
+                            + "   ('broccoli',3,0,0,6,0,3,0,10,FALSE,FALSE),"
+                            + "\n ('cabbage',4,0,0,4,0,2,0,10,FALSE,FALSE),"
+                            + "\n ('carrot',2,0,0,3,0,2,0,10,FALSE,FALSE),"
+                            + "\n ('dirt',0,0,0,0,0,10,0,10,FALSE,FALSE),"
+                            + "\n ('saffron',2,0,0,2,0,3,0,10,TRUE,FALSE),"
+                            + "\n ('truffle',10,0,0,4,0,1,0,10,FALSE,FALSE),"
+                            + "\n ('tulip',10,0,0,4,0,1,0,10,FALSE,FALSE)");
                 }
 
                 if (!checkTableExisting("Field")) {
                     System.out.println("CREATING A FIELD TABLE");
-                    myUpdate("CREATE TABLE Field (x INT,y INT,name VARCHAR(10),growtime INT,timeplanted INT,value INT,growth INT, growcounter INT,watercounter INT,waterlimit INT,price INT,pollinator BOOLEAN,pollinated BOOLEAN)");
-
+                    myUpdate("CREATE TABLE Field (slot INT,x INT,y INT,name VARCHAR(10),growtime INT,timeplanted INT,value INT,growcounter INT, growth INT,waterlimit INT,watercounter INT,price INT,pollinator BOOLEAN,pollinated BOOLEAN)");
 //                    myUpdate("INSERT INTO Field VALUES ");
                     myUpdate("INSERT INTO Field VALUES"
-                            + "   (1,1,'dirt',0,0,0,0,0,0,10,10,FALSE,FALSE),"
-                            + "\n (1,2,'dirt',0,0,0,0,0,0,10,10,FALSE,FALSE),"
-                            + "\n (1,3,'dirt',0,0,0,0,0,0,10,10,FALSE,FALSE),"
-                            + "\n (2,1,'dirt',0,0,0,0,0,0,10,10,FALSE,FALSE),"
-                            + "\n (2,2,'dirt',0,0,0,0,0,0,10,10,FALSE,FALSE),"
-                            + "\n (2,3,'dirt',0,0,0,0,0,0,10,10,FALSE,FALSE),"
-                            + "\n (3,1,'dirt',0,0,0,0,0,0,10,10,FALSE,FALSE),"
-                            + "\n (3,2,'dirt',0,0,0,0,0,0,10,10,FALSE,FALSE),"
-                            + "\n (3,3,'dirt',0,0,0,0,0,0,10,10,FALSE,FALSE)");
+                            + "   (1,1,1,'dirt',0,0,0,0,0,10,0,10,FALSE,FALSE),"
+                            + "\n (1,1,2,'dirt',0,0,0,0,0,10,0,10,FALSE,FALSE),"
+                            + "\n (1,1,3,'dirt',0,0,0,0,0,10,0,10,FALSE,FALSE),"
+                            + "\n (1,2,1,'dirt',0,0,0,0,0,10,0,10,FALSE,FALSE),"
+                            + "\n (1,2,2,'dirt',0,0,0,0,0,10,0,10,FALSE,FALSE),"
+                            + "\n (1,2,3,'dirt',0,0,0,0,0,10,0,10,FALSE,FALSE),"
+                            + "\n (1,3,1,'dirt',0,0,0,0,0,10,0,10,FALSE,FALSE),"
+                            + "\n (1,3,2,'dirt',0,0,0,0,0,10,0,10,FALSE,FALSE),"
+                            + "\n (1,3,3,'dirt',0,0,0,0,0,10,0,10,FALSE,FALSE)");
                 }
-
-              
 
                 if (!checkTableExisting("Save")) {
                     System.out.println("CREATING A SAVE TABLE");
-                    myUpdate("CREATE TABLE Save (slot INT,playerName VARCHAR(20),money FLOAT,energy INT ,day INT,score INT,x INT,y INT,name VARCHAR(10),growtime INT,timeplanted INT,value INT,growth INT, growcounter INT,watercounter INT,waterlimit INT,price INT,pollinator BOOLEAN,pollinated BOOLEAN)");
-                                                        
-//                    myUpdate("INSERT INTO Field VALUES ");
-                    myUpdate("INSERT INTO Save VALUES (1,'Brecon',200.0,100,0,0,1,1,'dirt',0,0,0,0,0,0,10,10,FALSE,FALSE)");
-                        
+                    myUpdate("CREATE TABLE Save (slot INT)");
+                    myUpdate("INSERT INTO Save VALUES (1)");
                 }
 
-                  //drop tables
-                myUpdate("DROP TABLE Plant");
-                myUpdate("DROP TABLE Field");
-                myUpdate("Drop Table Player");
-                myUpdate("Drop Table Save");
-                
+//                //drop tables
+//                myUpdate("DROP TABLE Plant");
+//                myUpdate("DROP TABLE Field");
+//                myUpdate("Drop Table Player");
+//                myUpdate("Drop Table Save");
 //              
 //                  if (!checkTableExisting("PlantSet")) {
 //                    System.out.println("CREATING A PLANTSET TABLE");
@@ -113,17 +107,65 @@ public final class DBManager {
         }
     }
 
-    public Data newGame()
-    {
+    public Data newGame(String name) {
         Data data = new Data();
-        
-        
-        
-        
-        
+        data.setPlayerName(name);
+        if (!checkTableExisting("Player")) {
+            System.out.println("THE PLAYER DOESNT EXIST UH OH");
+        }
+
+        myUpdate("INSERT INTO Player VALUES (1,'" + name + "',200,100,0,0)");
+
         return data;
     }
-    
+
+    public Data loadGame(int selection) {
+        try {
+            Data data = new Data();
+            String sql = "SELECT * FROM Player WHERE slot =" + selection + "";
+            ResultSet rs = this.myQuery(sql);
+            while (rs.next()) {
+                data.setPlayerName(rs.getString("playerName"));
+                data.setMoney(rs.getFloat("money"));
+                data.setEnergy(rs.getInt("energy"));
+                data.setDay(rs.getInt("day"));
+                data.setScore(rs.getInt("score"));
+
+            }
+            sql = "SELECT * FROM Field WHERE slot=" + selection + "";
+            rs = this.myQuery(sql);
+            String[][] plants = new String[3][3];
+            String[][] plantsDescription = new String[3][3];
+            int i = 0;
+            int j = 0;
+            while (rs.next()) {
+                plants[i][j] = rs.getString("name");
+                plantsDescription[i][j] = rs.getString("growtime") + " " + rs.getString("timePlanted") + " " + rs.getString("value") + " " + rs.getString("growcounter") + " " + rs.getString("growth") + " " + rs.getString("waterLimit") + " " + rs.getString("watercounter") + " " + rs.getString("price") + " " + rs.getString("pollinator");
+
+                i++;
+                if (i == 3) {
+                    i = 0;
+                    j++;
+                }
+            }
+
+            for (int k = 0; k < 3; k++) {
+                for (int l = 0; l < 3; l++) {
+                    System.out.println(plants[k][l]);
+                    System.out.println(plantsDescription[k][l]);
+                }
+            }
+            
+            data.setPlants(plants);
+            data.setPlantsDescription(plantsDescription);
+
+            return data;
+        } catch (SQLException ex) {
+            Logger.getLogger(DBManager.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return null;
+    }
+
     public void updateField(int i, int j, String[][] field) {
         for (int k = 0; k < 3; k++) {
             for (int l = 0; l < 3; l++) {
@@ -226,6 +268,7 @@ public final class DBManager {
         //Call db setup
         DBManager db = new DBManager();
         db.dbsetup();
+        db.loadGame(1);
 
     }
 }

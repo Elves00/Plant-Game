@@ -40,6 +40,7 @@ public class PlantGameModel extends Observable {
         //Information search terms for use in update
         searchTerm = new String[]{"Information", "plants", "Plant a Plant", "Pick Plant", "Water", "Next day", "Unlock", "Save game"};
         manager = new DBManager();
+        manager.dbsetup();
         data = new Data();
         //Establishes file manage.
         this.files = new GameState();
@@ -79,11 +80,13 @@ public class PlantGameModel extends Observable {
     }
 
     protected void newGame(String name) throws MoneyException, FileNotFoundException {
-       
-        
 
-        //Create player object with name
-        setPlayer(getFiles().newPlayer(name));
+        //Here we set up a new game using data from the database.
+        data = manager.newGame(name);
+        setPlayer(new Player(name));
+        
+//        //Create player object with name
+//        setPlayer(getFiles().newPlayer(name));
 
         //the game may progress to the main game
         data.setMainGame(true);
@@ -231,6 +234,16 @@ public class PlantGameModel extends Observable {
 
         this.getFiles().loadGame(selection);
         try {
+            //SET ALL PLANTS 
+            //SET ALL PLANT STATUS
+           
+            
+                
+               //Sets all the plants but not all the stats
+                player.getField().setAllPlants(hold);
+
+                //Sets all the plants stats
+                player.getField().setAllPlantStatus(description);
             //Loads objects.
             setPlayer(getFiles().loadPlayer());
         } catch (FileNotFoundException ex) {
