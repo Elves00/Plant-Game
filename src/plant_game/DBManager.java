@@ -68,23 +68,25 @@ public final class DBManager {
 
                 if (!checkTableExisting("Field")) {
                     System.out.println("CREATING A FIELD TABLE");
-                    myUpdate("CREATE TABLE Field (slot INT,name VARCHAR(10),growtime INT,timeplanted INT,value INT,growth INT, growcounter INT,watercounter INT,waterlimit INT,price INT,pollinator BOOLEAN,pollinated BOOLEAN)");
+                    myUpdate("CREATE TABLE Field (x INT,y INT,name VARCHAR(10),growtime INT,timeplanted INT,value INT,growth INT, growcounter INT,watercounter INT,waterlimit INT,price INT,pollinator BOOLEAN,pollinated BOOLEAN)");
 
-                    myUpdate("INSERT INTO Plant VALUES"
-                            + " (1,'dirt',3,0,0,0,6,0,3,10,FALSE,FALSE),"
-                            + "\n (2,'dirt',3,0,0,0,6,0,3,10,FALSE,FALSE),"
-                            + "\n (3,'dirt',3,0,0,0,6,0,3,10,FALSE,FALSE),"
-                            + "\n (4,'dirt',3,0,0,0,6,0,3,10,FALSE,FALSE),"
-                            + "\n (5,'dirt',3,0,0,0,6,0,3,10,FALSE,FALSE),"
-                            + "\n (6,'dirt',3,0,0,0,6,0,3,10,FALSE,FALSE),"
-                            + "\n (7,'dirt',3,0,0,0,6,0,3,10,FALSE,FALSE),"
-                            + "\n (8,'dirt',3,0,0,0,6,0,3,10,FALSE,FALSE),"
-                            + "\n (9,'dirt',3,0,0,0,6,0,3,10,FALSE,FALSE)");
+//                    myUpdate("INSERT INTO Field VALUES ");
+                    myUpdate("INSERT INTO Field VALUES"
+                            + "(1,1,'dirt',0,0,0,0,0,0,10,10,FALSE,FALSE),"
+                            + "\n (1,2,'dirt',0,0,0,0,0,0,10,10,FALSE,FALSE),"
+                            + "\n (1,3,'dirt',0,0,0,0,0,0,10,10,FALSE,FALSE),"
+                            + "\n (2,1,'dirt',0,0,0,0,0,0,10,10,FALSE,FALSE),"
+                            + "\n (2,2,'dirt',0,0,0,0,0,0,10,10,FALSE,FALSE),"
+                            + "\n (2,3,'dirt',0,0,0,0,0,0,10,10,FALSE,FALSE),"
+                            + "\n (3,1,'dirt',0,0,0,0,0,0,10,10,FALSE,FALSE),"
+                            + "\n (3,2,'dirt',0,0,0,0,0,0,10,10,FALSE,FALSE),"
+                            + "\n (3,3,'dirt',0,0,0,0,0,0,10,10,FALSE,FALSE)");
                 }
 
-                
                 //drop tables
-//                myUpdate("DROP TABLE Plant");
+                myUpdate("DROP TABLE Plant");
+                myUpdate("DROP TABLE Field");
+//                
 //                  if (!checkTableExisting("PlantSet")) {
 //                    System.out.println("CREATING A PLANTSET TABLE");
 //                    myUpdate("CREATE TABLE PLANT (name VARCHAR(10),growtime INT,timeplanted INT,value INT,growth INT, growcounter INT,watercounter INT,waterlimit INT,price INT,pollinator BOOLEAN,pollinated BOOLEAN)");
@@ -93,6 +95,16 @@ public final class DBManager {
             } catch (Throwable e) {
                 System.out.println("error" + e);
 
+            }
+        }
+    }
+
+    public void updateField(int i, int j, String[][] field) {
+        for (int k = 0; k < 3; k++) {
+            for (int l = 0; l < 3; l++) {
+                String sql = "UPDATE Field "
+                        + "SET name = "+field[k][l]+" WHERE id in (" + i + "," + j + ")";
+                myUpdate(sql);
             }
         }
     }
