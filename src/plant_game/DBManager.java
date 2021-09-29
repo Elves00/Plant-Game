@@ -52,16 +52,18 @@ public final class DBManager {
 
                 }
 
-                if(!checkTableExisting("Plant"))
-                {
+                if (!checkTableExisting("Plant")) {
                     System.out.println("CREATING A PLANT TABLE");
                     myUpdate("CREATE TABLE PLANT (name VARCHAR(10),growtime INT,timeplanted INT,value INT,growth INT, growcounter INT,watercounter INT,waterlimit INT,price INT,pollinator BOOLEAN,pollinated BOOLEAN)");
+
+                    myUpdate("INSERT INTO Plant VALUES('dirt','0','0','0','0','0','10','10','FALSE','FALSE')");
                 }
-                
-                if(!checkTableExisting(""))
-                {
-                    
-                }
+
+//                  if (!checkTableExisting("PlantSet")) {
+//                    System.out.println("CREATING A PLANTSET TABLE");
+//                    myUpdate("CREATE TABLE PLANT (name VARCHAR(10),growtime INT,timeplanted INT,value INT,growth INT, growcounter INT,watercounter INT,waterlimit INT,price INT,pollinator BOOLEAN,pollinated BOOLEAN)");
+//
+//                }
             } catch (Throwable e) {
                 System.out.println("error" + e);
 
@@ -161,5 +163,6 @@ public final class DBManager {
         //Call db setup
         DBManager db = new DBManager();
         db.dbsetup();
+
     }
 }

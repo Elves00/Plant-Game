@@ -27,11 +27,11 @@ public class Broccoli extends Plant {
     public Broccoli() {
         super();
         setGrowTime(3);
-        setValue(0);
         setGrowCounter(6);
+        setValue(0);
         setWaterLimit(3);
         setName("broccoli");
-        
+
     }
 
     /**
