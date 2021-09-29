@@ -48,8 +48,8 @@ public final class DBManager {
                 if (!checkTableExisting("Player")) {
                     System.out.println("CREATING A PLAYER TABLE");
                     //All tabel creation here
-                    this.myUpdate("CREATE TABLE " + "Player" + " (name VARCHAR(20),money FLOAT,energy INT ,day INT,score INT)");
-
+                    this.myUpdate("CREATE TABLE " + "Player" + " (playerName VARCHAR(20),money FLOAT,energy INT ,day INT,score INT)");
+//                    myUpdate("INSERT INTO Player VALUES ('Brecon',200,100,2,0)");
                 }
 
                 if (!checkTableExisting("Plant")) {
@@ -57,7 +57,7 @@ public final class DBManager {
                     myUpdate("CREATE TABLE PLANT (name VARCHAR(10),growtime INT,timeplanted INT,value INT,growth INT, growcounter INT,watercounter INT,waterlimit INT,price INT,pollinator BOOLEAN,pollinated BOOLEAN)");
 
                     myUpdate("INSERT INTO Plant VALUES"
-                            + " ('broccoli',3,0,0,0,6,0,3,10,FALSE,FALSE),"
+                            + "   ('broccoli',3,0,0,0,6,0,3,10,FALSE,FALSE),"
                             + "\n ('cabbage',4,0,0,0,4,0,2,10,FALSE,FALSE),"
                             + "\n ('carrot',2,0,0,0,3,0,2,10,FALSE,FALSE),"
                             + "\n ('dirt',0,0,0,0,0,0,10,10,FALSE,FALSE),"
@@ -72,7 +72,7 @@ public final class DBManager {
 
 //                    myUpdate("INSERT INTO Field VALUES ");
                     myUpdate("INSERT INTO Field VALUES"
-                            + "(1,1,'dirt',0,0,0,0,0,0,10,10,FALSE,FALSE),"
+                            + "   (1,1,'dirt',0,0,0,0,0,0,10,10,FALSE,FALSE),"
                             + "\n (1,2,'dirt',0,0,0,0,0,0,10,10,FALSE,FALSE),"
                             + "\n (1,3,'dirt',0,0,0,0,0,0,10,10,FALSE,FALSE),"
                             + "\n (2,1,'dirt',0,0,0,0,0,0,10,10,FALSE,FALSE),"
@@ -83,10 +83,24 @@ public final class DBManager {
                             + "\n (3,3,'dirt',0,0,0,0,0,0,10,10,FALSE,FALSE)");
                 }
 
-                //drop tables
+              
+
+                if (!checkTableExisting("Save")) {
+                    System.out.println("CREATING A SAVE TABLE");
+                    myUpdate("CREATE TABLE Save (slot INT,playerName VARCHAR(20),money FLOAT,energy INT ,day INT,score INT,x INT,y INT,name VARCHAR(10),growtime INT,timeplanted INT,value INT,growth INT, growcounter INT,watercounter INT,waterlimit INT,price INT,pollinator BOOLEAN,pollinated BOOLEAN)");
+                                                        
+//                    myUpdate("INSERT INTO Field VALUES ");
+                    myUpdate("INSERT INTO Save VALUES (1,'Brecon',200.0,100,0,0,1,1,'dirt',0,0,0,0,0,0,10,10,FALSE,FALSE)");
+                        
+                }
+
+                  //drop tables
                 myUpdate("DROP TABLE Plant");
                 myUpdate("DROP TABLE Field");
-//                
+                myUpdate("Drop Table Player");
+                myUpdate("Drop Table Save");
+                
+//              
 //                  if (!checkTableExisting("PlantSet")) {
 //                    System.out.println("CREATING A PLANTSET TABLE");
 //                    myUpdate("CREATE TABLE PLANT (name VARCHAR(10),growtime INT,timeplanted INT,value INT,growth INT, growcounter INT,watercounter INT,waterlimit INT,price INT,pollinator BOOLEAN,pollinated BOOLEAN)");
@@ -99,11 +113,22 @@ public final class DBManager {
         }
     }
 
+    public Data newGame()
+    {
+        Data data = new Data();
+        
+        
+        
+        
+        
+        return data;
+    }
+    
     public void updateField(int i, int j, String[][] field) {
         for (int k = 0; k < 3; k++) {
             for (int l = 0; l < 3; l++) {
                 String sql = "UPDATE Field "
-                        + "SET name = "+field[k][l]+" WHERE id in (" + i + "," + j + ")";
+                        + "SET name = " + field[k][l] + " WHERE id in (" + i + "," + j + ")";
                 myUpdate(sql);
             }
         }

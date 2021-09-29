@@ -30,6 +30,7 @@ public class PlantGameModel extends Observable {
     private Boolean input;
     private String[] searchTerm;
 
+    private DBManager manager;
     Data data;
 
     /**
@@ -38,7 +39,7 @@ public class PlantGameModel extends Observable {
     public PlantGameModel() {
         //Information search terms for use in update
         searchTerm = new String[]{"Information", "plants", "Plant a Plant", "Pick Plant", "Water", "Next day", "Unlock", "Save game"};
-
+        manager = new DBManager();
         data = new Data();
         //Establishes file manage.
         this.files = new GameState();
@@ -61,9 +62,9 @@ public class PlantGameModel extends Observable {
             info = getFiles().information(searchTerm[i]); //set change
             //String array to store info in data
             String[] infoArray = new String[info.size()];
-            
+
             for (int j = 0; j < infoArray.length; j++) {
-                infoArray[j] = info.get(j)+"\n";
+                infoArray[j] = info.get(j) + "\n";
             }
             data.setInfoText(infoArray);
 
@@ -78,6 +79,9 @@ public class PlantGameModel extends Observable {
     }
 
     protected void newGame(String name) throws MoneyException, FileNotFoundException {
+       
+        
+
         //Create player object with name
         setPlayer(getFiles().newPlayer(name));
 
