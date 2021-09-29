@@ -18,7 +18,6 @@ import java.util.StringTokenizer;
  */
 public class Carrot extends Plant {
 
-    
     /**
      * Constructs a broccoli plant with default values
      */
@@ -28,7 +27,7 @@ public class Carrot extends Plant {
         setValue(0);
         setGrowCounter(3);
         setWaterLimit(2);
-
+        setName("carrot");
     }
 
     /**

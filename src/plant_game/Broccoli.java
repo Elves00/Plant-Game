@@ -30,7 +30,7 @@ public class Broccoli extends Plant {
         setValue(0);
         setGrowCounter(6);
         setWaterLimit(3);
-        
+        setName("broccoli");
         
     }
 

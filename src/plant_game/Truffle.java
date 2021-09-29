@@ -27,7 +27,7 @@ public class Truffle extends Plant {
         setValue(0);
         setGrowCounter(2);
         setWaterLimit(1);
-
+        setName("truffle");
     }
 
     /**

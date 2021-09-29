@@ -19,7 +19,7 @@ import java.util.Observable;
  *
  * @author breco
  */
-public final class Player extends Observable{
+public final class Player extends Observable {
 
     //Player name
     private String name;
@@ -37,7 +37,7 @@ public final class Player extends Observable{
     private GameState gameState;
 
     //Player energy limit
-    static int MAX_ENERGY = 100;
+    static final int MAX_ENERGY = 100;
 
     /**
      * Defualt constructor establishes the player with default starting values
@@ -99,11 +99,11 @@ public final class Player extends Observable{
             setMoney(getMoney() - rentDue());
         }
 
-           //set change
-            setChanged();
-            //notify observers for change
-            notifyObservers(day);
-            
+        //set change
+        setChanged();
+        //notify observers for change
+        notifyObservers(day);
+
         System.out.println(money);
         //Save the game after each turn
         gameState.savePlayer(this);
@@ -193,7 +193,7 @@ public final class Player extends Observable{
         if ((getEnergy() - 20) >= 0 && (getMoney() - plant.getPrice()) >= 0) {
             //reduces player energy
             setEnergy(getEnergy() - 20);
-            setMoney(getMoney()-plant.getPrice());
+            setMoney(getMoney() - plant.getPrice());
             //plants a new plant
             getField().newPlant(plant, x, y);
         } else if (getEnergy() - 20 < 0) {
@@ -201,7 +201,7 @@ public final class Player extends Observable{
         } else {
             System.out.println("Out of money pick some plants");
         }
-        
+
     }
 
     /**

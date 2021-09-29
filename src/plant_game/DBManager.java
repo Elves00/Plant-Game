@@ -24,8 +24,7 @@ public final class DBManager {
     private static final String USER_NAME = "pdc";
     private static final String PASSWORD = "pdc";
     //Embeded design
-    private static final String URL = "jdbc:derby://localhost:1527/PlantDB;create=true";
-
+    private static final String URL = "jdbc:derby:PlantDB; create=true";
     Connection conn;
 
     /**
@@ -39,18 +38,30 @@ public final class DBManager {
      * Create the method
      */
     public void dbsetup() {
-        if (this.conn == null) {
+
+        System.out.println(conn);
+        if (this.conn != null) {
+            System.out.println("Creating the tables");
             try {
                 conn = DriverManager.getConnection(URL, USER_NAME, PASSWORD);
-                Statement statement = conn.createStatement();
-                String tableName = "UserInfo";
-                if (!checkTableExisting(tableName)) {
-                    //All tabel creation here
-                      statement.executeUpdate("CREATE TABLE " + tableName + " (userid VARCHAR(20), score INT)");
-        
-                }
-                statement.close();
 
+                if (!checkTableExisting("Player")) {
+                    System.out.println("CREATING A PLAYER TABLE");
+                    //All tabel creation here
+                    this.myUpdate("CREATE TABLE " + "Player" + " (name VARCHAR(20),money FLOAT,energy INT ,day INT,score INT)");
+
+                }
+
+                if(!checkTableExisting("Plant"))
+                {
+                    System.out.println("CREATING A PLANT TABLE");
+                    myUpdate("CREATE TABLE PLANT (name VARCHAR(10),growtime INT,timeplanted INT,value INT,growth INT, growcounter INT,watercounter INT,waterlimit INT,price INT,pollinator BOOLEAN,pollinated BOOLEAN)");
+                }
+                
+                if(!checkTableExisting(""))
+                {
+                    
+                }
             } catch (Throwable e) {
                 System.out.println("error" + e);
 
@@ -70,6 +81,7 @@ public final class DBManager {
         //If there is no existing connection try connect
         if (this.conn == null) {
             try {
+                System.out.println("SHOULD ESTABLISH HERE");
                 conn = DriverManager.getConnection(URL, USER_NAME, PASSWORD);
                 //System.out.println(URL + "   CONNECTED....");
             } catch (SQLException ex) {
@@ -77,6 +89,7 @@ public final class DBManager {
 
             }
         }
+        System.out.println(conn);
     }
 
     public void closeConnections() {
@@ -132,7 +145,7 @@ public final class DBManager {
             while (rsDBMeta.next()) {
                 String tableName = rsDBMeta.getString("TABLE_NAME");
                 if (tableName.compareToIgnoreCase(newTableName) == 0) {
-                    System.out.println(tableName + "  is there");
+                    System.out.println(tableName + "  IS THERE");
                     flag = true;
                 }
             }
@@ -142,5 +155,11 @@ public final class DBManager {
         } catch (SQLException ex) {
         }
         return flag;
+    }
+
+    public static void main(String[] args) {
+        //Call db setup
+        DBManager db = new DBManager();
+        db.dbsetup();
     }
 }

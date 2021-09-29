@@ -25,6 +25,7 @@ public class Tulip extends Flower {
         setGrowCounter(1);
         setWaterLimit(3);
         setPollinator(false);
+        setName("tulip");
 
     }
 

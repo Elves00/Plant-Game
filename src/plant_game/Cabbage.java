@@ -27,6 +27,7 @@ public class Cabbage extends Plant {
         setValue(0);
         setGrowCounter(4);
         setWaterLimit(2);
+        setName("cabbage");
 
     }
     

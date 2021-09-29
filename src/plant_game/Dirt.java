@@ -29,6 +29,7 @@ public class Dirt extends Plant {
         setValue(0);
         setGrowCounter(0);
         setWaterLimit(10);
+        setName("dirt");
     }
 
     /**

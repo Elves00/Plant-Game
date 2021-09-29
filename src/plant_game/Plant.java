@@ -18,6 +18,7 @@ import java.util.StringTokenizer;
  */
 abstract class Plant implements ToFile {
 
+    private String name;
     //Sets the amount of time required between each growth stage
     private int growTime;
 
@@ -46,7 +47,7 @@ abstract class Plant implements ToFile {
     private boolean pollinator;
     //If the plant has been pollinated
     private boolean pollinated;
-    
+
     /**
      * Constructor creates a plant with default values. All value except price
      * start at zero.
@@ -59,6 +60,7 @@ abstract class Plant implements ToFile {
         setPrice(10);
         setPollinator(false);
         setPollinated(false);
+        this.name = "";
     }
 
     /**
@@ -122,7 +124,7 @@ abstract class Plant implements ToFile {
     public String toFile() {
 
         String details = "";
-        details = details + getGrowTime() + " " + getTimePlanted() + " " + getValue() + " " + getGrowCounter() + " " + getGrowth() + " " + getWaterLimit() + " " + getWaterCount() + " " + getPrice() + " " + isPollinator()+" " + isPollinated();
+        details = details + getGrowTime() + " " + getTimePlanted() + " " + getValue() + " " + getGrowCounter() + " " + getGrowth() + " " + getWaterLimit() + " " + getWaterCount() + " " + getPrice() + " " + isPollinator() + " " + isPollinated();
         return details;
     }
 
@@ -176,7 +178,7 @@ abstract class Plant implements ToFile {
     public void checkEvolution() {
         if (getWaterCount() >= getWaterLimit() && getGrowth() < getGrowCounter() && getTimePlanted() >= getGrowTime()) {
             grow();
-            System.out.println(this.toString()+" is growing");
+            System.out.println(this.toString() + " is growing");
         }
     }
 
@@ -344,6 +346,20 @@ abstract class Plant implements ToFile {
      */
     public void setPollinated(boolean pollinated) {
         this.pollinated = pollinated;
+    }
+
+    /**
+     * @return the name
+     */
+    public String getName() {
+        return name;
+    }
+
+    /**
+     * @param name the name to set
+     */
+    public void setName(String name) {
+        this.name = name;
     }
 
 }

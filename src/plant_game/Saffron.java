@@ -29,6 +29,7 @@ public class Saffron extends Flower {
         setValue(0);
         setGrowCounter(2);
         setWaterLimit(3);
+        setName("saffron");
 
     }
 
