@@ -22,7 +22,6 @@
         <group>
             <file>file:/C:/Users/breco/Documents/NetBeansProjects/Plant_Game/src/plant_game/Data.java</file>
             <file>file:/C:/Users/breco/Documents/NetBeansProjects/Plant_Game/src/plant_game/DBManager.java</file>
-            <file>file:/C:/Users/breco/Documents/NetBeansProjects/Plant_Game/src/plant_game/PlayerController.java</file>
             <file>file:/C:/Users/breco/Documents/NetBeansProjects/Plant_Game/src/plant_game/PlantGameStart.java</file>
             <file>file:/C:/Users/breco/Documents/NetBeansProjects/Plant_Game/src/plant_game/PlantGameMain.java</file>
             <file>file:/C:/Users/breco/Documents/NetBeansProjects/Plant_Game/.git/config</file>
@@ -31,6 +30,8 @@
             <file>file:/C:/Users/breco/Documents/NetBeansProjects/Plant_Game/src/plant_game/PlantGameModel.java</file>
             <file>file:/C:/Users/breco/Documents/NetBeansProjects/Plant_Game/SaveGame.txt</file>
             <file>file:/C:/Users/breco/Documents/NetBeansProjects/Plant_Game/src/plant_game/PlantField.java</file>
+            <file>file:/C:/Users/breco/Documents/NetBeansProjects/Plant_Game/src/plant_game/Player.java</file>
+            <file>file:/C:/Users/breco/Documents/NetBeansProjects/Plant_Game/src/plant_game/Plant.java</file>
             <file>file:/C:/Users/breco/Documents/NetBeansProjects/Plant_Game/src/plant_game/PlantGame.java</file>
             <file>file:/C:/Users/breco/Documents/NetBeansProjects/Plant_Game/src/plant_game/Tulip.java</file>
         </group>
