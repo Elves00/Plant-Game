@@ -56,9 +56,35 @@ public final class DBManager {
                     System.out.println("CREATING A PLANT TABLE");
                     myUpdate("CREATE TABLE PLANT (name VARCHAR(10),growtime INT,timeplanted INT,value INT,growth INT, growcounter INT,watercounter INT,waterlimit INT,price INT,pollinator BOOLEAN,pollinated BOOLEAN)");
 
-                    myUpdate("INSERT INTO Plant VALUES('dirt','0','0','0','0','0','10','10','FALSE','FALSE')");
+                    myUpdate("INSERT INTO Plant VALUES"
+                            + " ('broccoli',3,0,0,0,6,0,3,10,FALSE,FALSE),"
+                            + "\n ('cabbage',4,0,0,0,4,0,2,10,FALSE,FALSE),"
+                            + "\n ('carrot',2,0,0,0,3,0,2,10,FALSE,FALSE),"
+                            + "\n ('dirt',0,0,0,0,0,0,10,10,FALSE,FALSE),"
+                            + "\n ('saffron',2,0,0,0,2,0,3,10,TRUE,FALSE),"
+                            + "\n ('truffle',10,0,0,0,4,0,1,10,FALSE,FALSE),"
+                            + "\n ('tulip',10,0,0,0,4,0,1,10,FALSE,FALSE)");
                 }
 
+                if (!checkTableExisting("Field")) {
+                    System.out.println("CREATING A FIELD TABLE");
+                    myUpdate("CREATE TABLE Field (slot INT,name VARCHAR(10),growtime INT,timeplanted INT,value INT,growth INT, growcounter INT,watercounter INT,waterlimit INT,price INT,pollinator BOOLEAN,pollinated BOOLEAN)");
+
+                    myUpdate("INSERT INTO Plant VALUES"
+                            + " (1,'dirt',3,0,0,0,6,0,3,10,FALSE,FALSE),"
+                            + "\n (2,'dirt',3,0,0,0,6,0,3,10,FALSE,FALSE),"
+                            + "\n (3,'dirt',3,0,0,0,6,0,3,10,FALSE,FALSE),"
+                            + "\n (4,'dirt',3,0,0,0,6,0,3,10,FALSE,FALSE),"
+                            + "\n (5,'dirt',3,0,0,0,6,0,3,10,FALSE,FALSE),"
+                            + "\n (6,'dirt',3,0,0,0,6,0,3,10,FALSE,FALSE),"
+                            + "\n (7,'dirt',3,0,0,0,6,0,3,10,FALSE,FALSE),"
+                            + "\n (8,'dirt',3,0,0,0,6,0,3,10,FALSE,FALSE),"
+                            + "\n (9,'dirt',3,0,0,0,6,0,3,10,FALSE,FALSE)");
+                }
+
+                
+                //drop tables
+//                myUpdate("DROP TABLE Plant");
 //                  if (!checkTableExisting("PlantSet")) {
 //                    System.out.println("CREATING A PLANTSET TABLE");
 //                    myUpdate("CREATE TABLE PLANT (name VARCHAR(10),growtime INT,timeplanted INT,value INT,growth INT, growcounter INT,watercounter INT,waterlimit INT,price INT,pollinator BOOLEAN,pollinated BOOLEAN)");
