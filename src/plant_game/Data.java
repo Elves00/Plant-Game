@@ -12,6 +12,20 @@ package plant_game;
 public class Data {
 
     /**
+     * @return the shop
+     */
+    public String getShop() {
+        return shop;
+    }
+
+    /**
+     * @param shop the shop to set
+     */
+    public void setShop(String shop) {
+        this.shop = shop;
+    }
+
+    /**
      * @return the plantsDescription
      */
     public String[][] getPlantsDescription() {
