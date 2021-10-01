@@ -8,6 +8,7 @@ package plant_game;
 import java.sql.Connection;
 import java.sql.DatabaseMetaData;
 import java.sql.DriverManager;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
@@ -46,13 +47,16 @@ public final class DBManager {
 
                 conn = DriverManager.getConnection(URL, USER_NAME, PASSWORD);
                 myUpdate("DROP TABLE Player");
-                 myUpdate("DROP TABLE Field");
+                myUpdate("DROP TABLE Field");
+                myUpdate("Drop Table Shop");
                 if (!checkTableExisting("Player")) {
                     System.out.println("CREATING A PLAYER TABLE");
                     //All tabel creation here
                     this.myUpdate("CREATE TABLE " + "Player" + " (slot INT,playerName VARCHAR(20),money FLOAT,energy INT ,day INT,score INT)");
-                    myUpdate("INSERT INTO Player VALUES (1,'Brecon',200,100,0,0)");
-                    myUpdate("INSERT INTO Player VALUES (0,'PreviousPlayer',200,100,0,0)");
+                    //Inserts a player into each save slot.
+                    for (int i = 0; i < 6; i++) {
+                        myUpdate("INSERT INTO Player VALUES (" + i + ",'Brecon',200,100,0,0)");
+                    }
 
                 }
 
@@ -70,31 +74,44 @@ public final class DBManager {
                             + "\n ('tulip',10,0,0,4,0,1,0,10,FALSE,FALSE)");
                 }
 
+                if (!checkTableExisting("Shop")) {
+                    System.out.println("CREATING A Shop TABLE");
+//                      PreparedStatement pstmt = conn.prepareStatement(" UPDATE CARTABLE SET PRICE=? WHERE MODEL=?");
+
+                    myUpdate("CREATE TABLE Shop (slot INT,selection VARCHAR(10))");
+                    myUpdate("INSERT INTO Shop VALUES (0,'broccoli'),"
+                            + "\n (0,'cabbage'),"
+                            + "\n (0,'carrot')");
+                      myUpdate("INSERT INTO Shop VALUES (1,'broccoli'),"
+                            + "\n (1,'cabbage'),"
+                            + "\n (1,'carrot')");
+                }
+
                 if (!checkTableExisting("Field")) {
                     System.out.println("CREATING A FIELD TABLE");
-                    myUpdate("CREATE TABLE Field (slot INT,x INT,y INT,name VARCHAR(10),growtime INT,timeplanted INT,value INT,growcounter INT, growth INT,waterlimit INT,watercounter INT,price INT,pollinator BOOLEAN,pollinated BOOLEAN)");
-//                    myUpdate("INSERT INTO Field VALUES ");
-                    myUpdate("INSERT INTO Field VALUES"
-                            + "   (1,1,1,'dirt',0,0,0,0,0,10,0,10,FALSE,FALSE),"
-                            + "\n (1,1,2,'dirt',0,0,0,0,0,10,0,10,FALSE,FALSE),"
-                            + "\n (1,1,3,'dirt',0,0,0,0,0,10,0,10,FALSE,FALSE),"
-                            + "\n (1,2,1,'dirt',0,0,0,0,0,10,0,10,FALSE,FALSE),"
-                            + "\n (1,2,2,'dirt',0,0,0,0,0,10,0,10,FALSE,FALSE),"
-                            + "\n (1,2,3,'dirt',0,0,0,0,0,10,0,10,FALSE,FALSE),"
-                            + "\n (1,3,1,'dirt',0,0,0,0,0,10,0,10,FALSE,FALSE),"
-                            + "\n (1,3,2,'dirt',0,0,0,0,0,10,0,10,FALSE,FALSE),"
-                            + "\n (1,3,3,'dirt',0,0,0,0,0,10,0,10,FALSE,FALSE)");
+//                      PreparedStatement pstmt = conn.prepareStatement(" UPDATE CARTABLE SET PRICE=? WHERE MODEL=?");
 
-                    myUpdate("INSERT INTO Field VALUES"
-                            + "   (0,1,1,'dirt',0,0,0,0,0,10,0,10,FALSE,FALSE),"
-                            + "\n (0,1,2,'dirt',0,0,0,0,0,10,0,10,FALSE,FALSE),"
-                            + "\n (0,1,3,'dirt',0,0,0,0,0,10,0,10,FALSE,FALSE),"
-                            + "\n (0,2,1,'dirt',0,0,0,0,0,10,0,10,FALSE,FALSE),"
-                            + "\n (0,2,2,'dirt',0,0,0,0,0,10,0,10,FALSE,FALSE),"
-                            + "\n (0,2,3,'dirt',0,0,0,0,0,10,0,10,FALSE,FALSE),"
-                            + "\n (0,3,1,'dirt',0,0,0,0,0,10,0,10,FALSE,FALSE),"
-                            + "\n (0,3,2,'dirt',0,0,0,0,0,10,0,10,FALSE,FALSE),"
-                            + "\n (0,3,3,'dirt',0,0,0,0,0,10,0,10,FALSE,FALSE)");
+                    myUpdate("CREATE TABLE Field (slot INT,x INT,y INT,name VARCHAR(10),growtime INT,timeplanted INT,value INT,growcounter INT, growth INT,waterlimit INT,watercounter INT,price INT,pollinator BOOLEAN,pollinated BOOLEAN)");
+////                    myUpdate("INSERT INTO Field VALUES ");
+//                    myUpdate("INSERT INTO Field VALUES"
+//                            + "   (1,1,1,'dirt',0,0,0,0,0,10,0,10,FALSE,FALSE),"
+//                            + "\n (1,1,2,'dirt',0,0,0,0,0,10,0,10,FALSE,FALSE),"
+//                            + "\n (1,1,3,'dirt',0,0,0,0,0,10,0,10,FALSE,FALSE),"
+//                            + "\n (1,2,1,'dirt',0,0,0,0,0,10,0,10,FALSE,FALSE),"
+//                            + "\n (1,2,2,'dirt',0,0,0,0,0,10,0,10,FALSE,FALSE),"
+//                            + "\n (1,2,3,'dirt',0,0,0,0,0,10,0,10,FALSE,FALSE),"
+//                            + "\n (1,3,1,'dirt',0,0,0,0,0,10,0,10,FALSE,FALSE),"
+//                            + "\n (1,3,2,'dirt',0,0,0,0,0,10,0,10,FALSE,FALSE),"
+//                            + "\n (1,3,3,'dirt',0,0,0,0,0,10,0,10,FALSE,FALSE)");
+
+                    //Inserts the inital field values for slots 0,1,2,3,4,5 
+                    for (int i = 0; i < 6; i++) {
+                        for (int j = 0; j < 3; j++) {
+                            for (int k = 0; k < 3; k++) {
+                                myUpdate("INSERT INTO Field VALUES (" + i + "," + j + "," + k + ",'dirt',0,0,0,0,0,10,0,10,FALSE,FALSE)");
+                            }
+                        }
+                    }
 
                 }
 
@@ -122,13 +139,19 @@ public final class DBManager {
         }
     }
 
+    /**
+     *
+     * @param name
+     * @return
+     */
     public Data newGame(String name) {
         Data data = new Data();
         data.setPlayerName(name);
         if (!checkTableExisting("Player")) {
             System.out.println("THE PLAYER DOESNT EXIST UH OH");
         }
-
+        //Set details for shop 
+        data = selectShop(0, data);
         myUpdate("INSERT INTO Player VALUES (1,'" + name + "',200,100,0,0)");
 
         return data;
@@ -178,12 +201,39 @@ public final class DBManager {
 
             data.setPlants(plants);
             data.setPlantsDescription(plantsDescription);
-
+           
+            data = selectShop(selection, data);
+            
             return data;
         } catch (SQLException ex) {
             Logger.getLogger(DBManager.class.getName()).log(Level.SEVERE, null, ex);
         }
         return null;
+    }
+
+    public Data selectShop(int selection, Data data) {
+        try {
+            System.out.println("SELECTION"+selection);
+            String sql = "SELECT * FROM Shop WHERE slot="+selection;
+//                    WHERE slot=" + selection+"";
+            ResultSet rs;
+            rs = this.myQuery(sql);
+            String shop = "";
+            while (rs.next()) {
+                shop += rs.getString("selection")+ " ";
+            }
+            data.setShop(shop);
+            System.out.println("shop:"+shop);
+            return data;
+        } catch (SQLException ex) {
+            Logger.getLogger(DBManager.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        System.err.println("ERROR REACHED HERE");
+        return null;
+    }
+
+    public void updateShop(int selection) {
+
     }
 
     public void updateField(int i, int j, String[][] field) {

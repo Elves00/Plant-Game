@@ -180,13 +180,10 @@ public class PlantGameModel extends Observable {
             player.getField().setAllPlantStatus(data.getPlantsDescription());
 
             //Loads variables from file.
-            setShop(getFiles().readShop());
+//            setShop(getFiles().readShop());
+            //Sets up the shop from database.
+            setShop(data.getShop());
             setUnlocks(getFiles().readUnlock());
-            //set change
-//
-//            setChanged();
-//            //pases the selcted save option to the plant game panel
-//            notifyObservers("Shop Start");
 
             //plant set size
             data.setPlantsetSize(PlantSet.values().length);
@@ -807,6 +804,13 @@ public class PlantGameModel extends Observable {
      */
     public void setShop(PlantSelection shop) {
         this.shop = shop;
+    }
+
+    /**
+     * @param shop the shop to set
+     */
+    public void setShop(String shop) {
+        this.shop = new PlantSelection(shop);
     }
 
     /**
