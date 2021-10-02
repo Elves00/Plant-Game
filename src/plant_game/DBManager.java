@@ -93,6 +93,8 @@ public final class DBManager {
                     System.out.println("CREATING A Unlock TABLE");
                     myUpdate("CREATE TABLE Unlock (slot INT,name VARCHAR(10),cost INT)");
                     myUpdate("INSERT INTO Unlock VALUES (3,'tulip',30)");
+                    myUpdate("INSERT INTO Unlock VALUES (0,'tulip',30)");
+
                 }
 
                 if (!checkTableExisting("Field")) {
@@ -279,6 +281,44 @@ public final class DBManager {
                 myUpdate(sql);
             }
         }
+    }
+
+    public void saveGame(int slot, Data data) {
+        savePlayer(slot, data);
+        saveUnlock(slot, data);
+        saveShop(slot, data);
+
+    }
+
+    public void savePlayer(int slot, Data data) {
+
+        try {
+
+            String sql = "update Player set playerName=? ,money=? , energy =? , day= ? , score =?  where slot=?";
+
+            PreparedStatement preparedStatement = conn.prepareStatement(sql);
+
+            preparedStatement.setString(1, data.getPlayerName());
+            preparedStatement.setFloat(2, data.getMoney());
+            preparedStatement.setInt(3, data.getEnergy());
+            preparedStatement.setInt(4, data.getDay());
+            preparedStatement.setInt(5, data.getScore());
+            preparedStatement.setInt(6, slot);
+
+            //Print the number of rows affected by update
+            System.out.println(preparedStatement.executeUpdate());
+
+        } catch (SQLException ex) {
+            Logger.getLogger(DBManager.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+
+    public void saveUnlock(int slot, Data data) {
+
+    }
+
+    public void saveShop(int slot, Data data) {
+
     }
 
     /**

@@ -179,12 +179,17 @@ public class PlantGameModel extends Observable {
             //Sets all the plants stats
             player.getField().setAllPlantStatus(data.getPlantsDescription());
 
-            //Loads variables from file.
-//            setShop(getFiles().readShop());
-            //Sets up the shop from database.
-            setShop(data.getShop());
-            setUnlocks(getFiles().readUnlock());
+            //Load the unlock shop from the database for the selected save slot
+            data = manager.selectUnlockShop(0, data);
+            ArrayList<String> details = new ArrayList();
+            details.add(data.getUnlock());
+            details.add(data.getUnlockCost());
+            //Set the unlock shop with the details from jdbc
+            setUnlocks(new UnlockShop(details));
 
+            //Loads the shop from the database for the selected save slot
+            data = manager.selectShop(0, data);
+            setShop(data.getShop());
             //plant set size
             data.setPlantsetSize(PlantSet.values().length);
             //shop size
@@ -249,15 +254,20 @@ public class PlantGameModel extends Observable {
         //Sets all the plants stats
         player.getField().setAllPlantStatus(data.getPlantsDescription());
 
-        //Loads objects.
-//            setPlayer(getFiles().loadPlayer());
-        setUnlocks(getFiles().readUnlock());
-        setShop(getFiles().readShop());
+        //Load the unlock shop from the database for the selected save slot
+        data = manager.selectUnlockShop(selection, data);
+        ArrayList<String> details = new ArrayList();
+        details.add(data.getUnlock());
+        details.add(data.getUnlockCost());
+        //Set the unlock shop with the details from jdbc
+        setUnlocks(new UnlockShop(details));
+
+        //Loads the shop from the database for the selected save slot
+        data = manager.selectShop(selection, data);
+        setShop(data.getShop());
+
+//        setShop(getFiles().readShop());
         System.out.println("Save number" + selection + " loaded");
-//        //set change
-//        setChanged();
-//        //pases the selcted save option to the plant game panel
-//        notifyObservers("Options Not Visible");
 
         //the game may progress to the main game
         data.setMainGame(true);
@@ -288,60 +298,6 @@ public class PlantGameModel extends Observable {
 //        setChanged();
 //        //pases the selcted save option to the plant game panel
 //        notifyObservers("Shop Start");
-    }
-
-    /**
-     * Provides the user with options to load previously saved games.
-     *
-     * @throws IOException
-     * @throws FileNotFoundException
-     * @throws FileLoadErrorException
-     */
-    protected void loadGame() throws IOException, FileNotFoundException, FileLoadErrorException, MoneyException, InstantiationException, IllegalAccessException {
-
-        //Stores user input
-        int anwser = 0;
-        //Finds current save files
-        String[] array = getFiles().saveDisplay();
-
-        //Promts a user to load one of the 5 save files and takes there input.
-        System.out.println("Please select a game you would like to load:");
-        boolean flag = true;
-        while (flag) {
-            try {
-                //Prints options
-                for (String i : array) {
-                    System.out.println(i);
-                }
-
-                anwser = scan.nextInt();
-
-                //Checks input is inbounds before leaving
-                if (anwser >= 1 && anwser < 6) {
-                    flag = false;
-                } else {
-                    System.out.println("Please enter a number between 1 and 5");
-                }
-                //Catch bad input
-            } catch (InputMismatchException ime) {
-                System.out.println("Please enter a number between 1 and 5");
-            }
-        }
-
-        //If the file does not contain information a new game is started.
-        if (array[anwser - 1].contains("null")) {
-            System.out.println("File does not exist starting new game.");
-            newGame();
-        } else {
-
-            //Loads the file 
-            getFiles().loadGame(anwser);
-            //Loads objects.
-            setPlayer(getFiles().loadPlayer());
-            setUnlocks(getFiles().readUnlock());
-            setShop(getFiles().readShop());
-        }
-
     }
 
     /**
@@ -465,6 +421,7 @@ public class PlantGameModel extends Observable {
     }
 
     public void unlockView() {
+
         //unlock starting
         data.setUnlockStart(true);
         //store size of unlock
@@ -647,6 +604,23 @@ public class PlantGameModel extends Observable {
 //        notifyObservers("Initial View");
     }
 
+    public Data playerData(Data data) {
+        data.setPlayerName(player.getName());
+        data.setMoney(player.getMoney());
+        data.setEnergy(player.getEnergy());
+        data.setDay(player.getDay());
+        data.setScore(player.getScore());
+        return data;
+    }
+
+    public Data shopData(Data data) {
+        return data;
+    }
+
+    public Data unlockData(Data data) {
+        return data;
+    }
+
     public void nextDay() throws MoneyException, IOException {
 
         //Progresses to the next day.
@@ -656,6 +630,9 @@ public class PlantGameModel extends Observable {
 
         //Update the field
         fieldUpdate();
+
+        data = playerData(data);
+        manager.savePlayer(0, data);
 
 //        //set change
 //        setChanged();
