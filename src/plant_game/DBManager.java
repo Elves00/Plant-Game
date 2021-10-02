@@ -12,6 +12,8 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.ArrayList;
+import java.util.StringTokenizer;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -314,11 +316,45 @@ public final class DBManager {
     }
 
     public void saveUnlock(int slot, Data data) {
-
+//        String sql = "update Unlock set name =? , cost =? where slot=?";
     }
 
     public void saveShop(int slot, Data data) {
+        try {
+            String sql = "DELETE FROM Shop where slot=?";
 
+            PreparedStatement preparedStatement = conn.prepareStatement(sql);
+
+            preparedStatement.setInt(1, slot);
+            preparedStatement.executeUpdate();
+
+            StringTokenizer st = new StringTokenizer(data.getShop());
+             sql = "INSERT INTO SHOP (slot , name) VALUES(?,?)";
+                preparedStatement = conn.prepareStatement(sql);
+             
+            while (st.hasMoreTokens()) {
+                preparedStatement.setInt(1, slot);
+                preparedStatement.setString(2, st.nextToken());
+                preparedStatement.executeUpdate();
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(DBManager.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
+        String check = "Select * From Shop Where slot="+slot; 
+         ResultSet rs;
+            rs = this.myQuery(check);
+            String unlock = "";
+         
+        try {
+            while (rs.next()) {
+                unlock += rs.getString("name");
+               
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(DBManager.class.getName()).log(Level.SEVERE, null, ex);
+        }
+            System.out.println(unlock);
     }
 
     /**

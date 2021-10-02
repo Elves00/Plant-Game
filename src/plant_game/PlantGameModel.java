@@ -558,6 +558,12 @@ public class PlantGameModel extends Observable {
         //pases the selcted save option to the plant game panel
         notifyObservers(data);
         data.setSaveStart(false);
+        
+        
+        
+        manager.saveShop(selection, data);
+        
+        
 //        //set change
 //        setChanged();
 //        //pases the selcted save option to the plant game panel
@@ -633,6 +639,7 @@ public class PlantGameModel extends Observable {
 
         data = playerData(data);
         manager.savePlayer(0, data);
+        
 
 //        //set change
 //        setChanged();
