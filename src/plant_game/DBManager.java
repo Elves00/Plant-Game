@@ -48,7 +48,9 @@ public final class DBManager {
                 conn = DriverManager.getConnection(URL, USER_NAME, PASSWORD);
                 myUpdate("DROP TABLE Player");
                 myUpdate("DROP TABLE Field");
-                myUpdate("Drop Table Shop");
+                myUpdate("DROP TABLE Shop");
+                myUpdate("DROP TABLE Unlock");
+
                 if (!checkTableExisting("Player")) {
                     System.out.println("CREATING A PLAYER TABLE");
                     //All tabel creation here
@@ -78,13 +80,19 @@ public final class DBManager {
                     System.out.println("CREATING A Shop TABLE");
 //                      PreparedStatement pstmt = conn.prepareStatement(" UPDATE CARTABLE SET PRICE=? WHERE MODEL=?");
 
-                    myUpdate("CREATE TABLE Shop (slot INT,selection VARCHAR(10))");
+                    myUpdate("CREATE TABLE Shop (slot INT,name VARCHAR(10))");
                     myUpdate("INSERT INTO Shop VALUES (0,'broccoli'),"
                             + "\n (0,'cabbage'),"
                             + "\n (0,'carrot')");
-                      myUpdate("INSERT INTO Shop VALUES (1,'broccoli'),"
+                    myUpdate("INSERT INTO Shop VALUES (1,'broccoli'),"
                             + "\n (1,'cabbage'),"
                             + "\n (1,'carrot')");
+                }
+
+                if (!checkTableExisting("Unlock")) {
+                    System.out.println("CREATING A Unlock TABLE");
+                    myUpdate("CREATE TABLE Unlock (slot INT,name VARCHAR(10),cost INT)");
+                    myUpdate("INSERT INTO Unlock VALUES (3,'tulip',30)");
                 }
 
                 if (!checkTableExisting("Field")) {
@@ -121,17 +129,6 @@ public final class DBManager {
                     myUpdate("INSERT INTO Save VALUES (1)");
                 }
 
-//                //drop tables
-//                myUpdate("DROP TABLE Plant");
-//                myUpdate("DROP TABLE Field");
-//                myUpdate("Drop Table Player");
-//                myUpdate("Drop Table Save");
-//              
-//                  if (!checkTableExisting("PlantSet")) {
-//                    System.out.println("CREATING A PLANTSET TABLE");
-//                    myUpdate("CREATE TABLE PLANT (name VARCHAR(10),growtime INT,timeplanted INT,value INT,growth INT, growcounter INT,watercounter INT,waterlimit INT,price INT,pollinator BOOLEAN,pollinated BOOLEAN)");
-//
-//                }
             } catch (Throwable e) {
                 System.out.println("error" + e);
 
@@ -201,9 +198,9 @@ public final class DBManager {
 
             data.setPlants(plants);
             data.setPlantsDescription(plantsDescription);
-           
+
             data = selectShop(selection, data);
-            
+
             return data;
         } catch (SQLException ex) {
             Logger.getLogger(DBManager.class.getName()).log(Level.SEVERE, null, ex);
@@ -213,17 +210,17 @@ public final class DBManager {
 
     public Data selectShop(int selection, Data data) {
         try {
-            System.out.println("SELECTION"+selection);
-            String sql = "SELECT * FROM Shop WHERE slot="+selection;
+            System.out.println("SELECTION" + selection);
+            String sql = "SELECT * FROM Shop WHERE slot=" + selection;
 //                    WHERE slot=" + selection+"";
             ResultSet rs;
             rs = this.myQuery(sql);
             String shop = "";
             while (rs.next()) {
-                shop += rs.getString("selection")+ " ";
+                shop += rs.getString("name") + " ";
             }
             data.setShop(shop);
-            System.out.println("shop:"+shop);
+            System.out.println("shop:" + shop);
             return data;
         } catch (SQLException ex) {
             Logger.getLogger(DBManager.class.getName()).log(Level.SEVERE, null, ex);
@@ -232,8 +229,46 @@ public final class DBManager {
         return null;
     }
 
-    public void updateShop(int selection) {
+    public void updateShop(int selection, String plant) {
+        System.out.println("Inserting " + plant + " into save slot " + selection);
+        String sql = "INSERT INTO Shop VALUES(" + selection + ",'" + plant + "'  )";
 
+        myUpdate(sql);
+
+    }
+
+    public Data selectUnlockShop(int slot, Data data) {
+        try {
+            System.out.println("Unlock " + slot);
+
+            String sql = "SELECT * FROM Unlock WHERE slot=" + slot;
+//                    WHERE slot=" + selection+"";
+            ResultSet rs;
+            rs = this.myQuery(sql);
+            String unlock = "";
+            String unlockCost = "";
+            while (rs.next()) {
+                unlock += rs.getString("name");
+                unlockCost += rs.getInt("cost");
+
+            }
+
+            data.setUnlock(unlock);
+            data.setUnlockCost(unlockCost);
+            return data;
+        } catch (SQLException ex) {
+            Logger.getLogger(DBManager.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return null;
+    }
+
+    public Data updateUnlock(int selection, String plant, Data data) {
+        System.out.println("Deleting " + plant + " from save slot " + selection);
+        String sql = "DELETE FROM Unlock WHERE slot=" + selection + " AND  name ='" + plant + "'";
+        myUpdate(sql);
+
+        data = selectUnlockShop(selection, data);
+        return data;
     }
 
     public void updateField(int i, int j, String[][] field) {
@@ -335,6 +370,7 @@ public final class DBManager {
     }
 
     public static void main(String[] args) {
+
         //Call db setup
         DBManager db = new DBManager();
         db.dbsetup();
