@@ -1,5 +1,5 @@
 Brecon
-170.0
+200.0
 0
 0
 0
@@ -9,6 +9,6 @@ Brecon
  dirt dirt dirt
  dirt dirt dirt
  dirt dirt dirt
-broccoli cabbage carrot tulip 
-
-
+broccoli cabbage carrot 
+saffron truffle tulip 
+30 30 30 
