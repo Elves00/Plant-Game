@@ -5,6 +5,7 @@
  */
 package plant_game;
 
+import static java.lang.Integer.parseInt;
 import java.sql.Connection;
 import java.sql.DatabaseMetaData;
 import java.sql.DriverManager;
@@ -316,7 +317,43 @@ public final class DBManager {
     }
 
     public void saveUnlock(int slot, Data data) {
-//        String sql = "update Unlock set name =? , cost =? where slot=?";
+        try {
+            //String sql = "update Unlock set name =? , cost =? where slot=?";
+
+            String sql = "DELETE FROM Unlock where slot=?";
+            PreparedStatement preparedStatement = conn.prepareStatement(sql);
+            preparedStatement.setInt(1, slot);
+            preparedStatement.executeUpdate();
+
+            sql = "INSERT INTO Unlock (name,cost) VALUES(?,?)";
+            StringTokenizer st1 = new StringTokenizer(data.getShop());
+            StringTokenizer st2 = new StringTokenizer(data.getShop());
+
+            while (st1.hasMoreTokens() && st2.hasMoreTokens()) {
+                preparedStatement.setString(1, st1.nextToken());
+                preparedStatement.setInt(2, parseInt(st2.nextToken()));
+                preparedStatement.executeUpdate();
+            }
+
+            String check = "Select * From Unlock Where slot=" + slot;
+            ResultSet rs;
+            rs = this.myQuery(check);
+            String unlock = "";
+
+            try {
+                while (rs.next()) {
+                    unlock += rs.getString("name");
+
+                }
+            } catch (SQLException ex) {
+                Logger.getLogger(DBManager.class.getName()).log(Level.SEVERE, null, ex);
+            }
+            System.out.println(unlock);
+
+        } catch (SQLException ex) {
+            Logger.getLogger(DBManager.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
     }
 
     public void saveShop(int slot, Data data) {
@@ -329,9 +366,9 @@ public final class DBManager {
             preparedStatement.executeUpdate();
 
             StringTokenizer st = new StringTokenizer(data.getShop());
-             sql = "INSERT INTO SHOP (slot , name) VALUES(?,?)";
-                preparedStatement = conn.prepareStatement(sql);
-             
+            sql = "INSERT INTO Shop (slot , name) VALUES(?,?)";
+            preparedStatement = conn.prepareStatement(sql);
+
             while (st.hasMoreTokens()) {
                 preparedStatement.setInt(1, slot);
                 preparedStatement.setString(2, st.nextToken());
@@ -340,22 +377,21 @@ public final class DBManager {
         } catch (SQLException ex) {
             Logger.getLogger(DBManager.class.getName()).log(Level.SEVERE, null, ex);
         }
-        
-        String check = "Select * From Shop Where slot="+slot; 
-         ResultSet rs;
-            rs = this.myQuery(check);
-            String unlock = "";
-            
-         
+
+        String check = "Select * From Shop Where slot=" + slot;
+        ResultSet rs;
+        rs = this.myQuery(check);
+        String unlock = "";
+
         try {
             while (rs.next()) {
                 unlock += rs.getString("name");
-               
+
             }
         } catch (SQLException ex) {
             Logger.getLogger(DBManager.class.getName()).log(Level.SEVERE, null, ex);
         }
-            System.out.println(unlock);
+        System.out.println(unlock);
     }
 
     /**
