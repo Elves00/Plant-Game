@@ -540,6 +540,11 @@ public class PlantGameModel extends Observable {
         getFiles().saveCurrentGame(getShop(), getUnlocks(), getPlayer());
         //Saves game to selected location.
         getFiles().saveGame(getShop(), getUnlocks(), getPlayer(), selection);
+        //updates current data wit shop and unlock
+        data = manager.selectShop(0, data);
+        data = manager.selectUnlockShop(0, data);
+
+        manager.saveGame(selection, data);
         //success message.
         System.out.println("Save succefull");
         data.setSaveStart(true);
@@ -558,12 +563,7 @@ public class PlantGameModel extends Observable {
         //pases the selcted save option to the plant game panel
         notifyObservers(data);
         data.setSaveStart(false);
-        
-        
-        
-        manager.saveShop(selection, data);
-        
-        
+
 //        //set change
 //        setChanged();
 //        //pases the selcted save option to the plant game panel
@@ -639,7 +639,6 @@ public class PlantGameModel extends Observable {
 
         data = playerData(data);
         manager.savePlayer(0, data);
-        
 
 //        //set change
 //        setChanged();
