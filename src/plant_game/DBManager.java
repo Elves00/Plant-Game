@@ -345,6 +345,7 @@ public final class DBManager {
          ResultSet rs;
             rs = this.myQuery(check);
             String unlock = "";
+            
          
         try {
             while (rs.next()) {
