@@ -12,6 +12,20 @@ package plant_game;
 public class Data {
 
     /**
+     * @return the fieldDetails
+     */
+    public String[] getFieldDetails() {
+        return fieldDetails;
+    }
+
+    /**
+     * @param fieldDetails the fieldDetails to set
+     */
+    public void setFieldDetails(String[] fieldDetails) {
+        this.fieldDetails = fieldDetails;
+    }
+
+    /**
      * @return the unlock
      */
     public String getUnlock() {
@@ -90,7 +104,7 @@ public class Data {
     private float money;
     private int energy;
     private int day;
-//    private int field;
+    private String[] fieldDetails;
     private int score;
 //    private int gameState;
 

@@ -5,6 +5,7 @@
  */
 package plant_game;
 
+import static java.lang.Boolean.parseBoolean;
 import static java.lang.Integer.parseInt;
 import java.sql.Connection;
 import java.sql.DatabaseMetaData;
@@ -84,19 +85,44 @@ public final class DBManager {
 //                      PreparedStatement pstmt = conn.prepareStatement(" UPDATE CARTABLE SET PRICE=? WHERE MODEL=?");
 
                     myUpdate("CREATE TABLE Shop (slot INT,name VARCHAR(10))");
-                    myUpdate("INSERT INTO Shop VALUES (0,'broccoli'),"
-                            + "\n (0,'cabbage'),"
-                            + "\n (0,'carrot')");
-                    myUpdate("INSERT INTO Shop VALUES (1,'broccoli'),"
-                            + "\n (1,'cabbage'),"
-                            + "\n (1,'carrot')");
+                    String sql = "INSERT INTO SHOP(slot,name) VALUES(?,?)";
+                    PreparedStatement preparedStatement = conn.prepareStatement(sql);
+                    for (int i = 0; i < 6; i++) {
+
+                        preparedStatement.setInt(1, i);
+                        preparedStatement.setString(2, "broccoli");
+                        preparedStatement.executeUpdate();
+                        preparedStatement.setInt(1, i);
+                        preparedStatement.setString(2, "cabbage");
+                        preparedStatement.executeUpdate();
+                        preparedStatement.setInt(1, i);
+                        preparedStatement.setString(2, "carrot");
+                        preparedStatement.executeUpdate();
+
+                    }
+
                 }
 
                 if (!checkTableExisting("Unlock")) {
                     System.out.println("CREATING A Unlock TABLE");
                     myUpdate("CREATE TABLE Unlock (slot INT,name VARCHAR(10),cost INT)");
-                    myUpdate("INSERT INTO Unlock VALUES (3,'tulip',30)");
-                    myUpdate("INSERT INTO Unlock VALUES (0,'tulip',30)");
+
+                    String sql = "INSERT INTO Unlock(slot,name,cost) VALUES(?,?,?)";
+                    PreparedStatement preparedStatement = conn.prepareStatement(sql);
+                    for (int i = 0; i < 6; i++) {
+                        preparedStatement.setInt(1, i);
+                        preparedStatement.setString(2, "saffron");
+                        preparedStatement.setInt(3, 400);
+                        preparedStatement.executeUpdate();
+                        preparedStatement.setInt(1, i);
+                        preparedStatement.setString(2, "truffle");
+                        preparedStatement.setInt(3, 200);
+                        preparedStatement.executeUpdate();
+                        preparedStatement.setInt(1, i);
+                        preparedStatement.setString(2, "tulip");
+                        preparedStatement.setInt(3, 30);
+                        preparedStatement.executeUpdate();
+                    }
 
                 }
 
@@ -105,17 +131,6 @@ public final class DBManager {
 //                      PreparedStatement pstmt = conn.prepareStatement(" UPDATE CARTABLE SET PRICE=? WHERE MODEL=?");
 
                     myUpdate("CREATE TABLE Field (slot INT,x INT,y INT,name VARCHAR(10),growtime INT,timeplanted INT,value INT,growcounter INT, growth INT,waterlimit INT,watercounter INT,price INT,pollinator BOOLEAN,pollinated BOOLEAN)");
-////                    myUpdate("INSERT INTO Field VALUES ");
-//                    myUpdate("INSERT INTO Field VALUES"
-//                            + "   (1,1,1,'dirt',0,0,0,0,0,10,0,10,FALSE,FALSE),"
-//                            + "\n (1,1,2,'dirt',0,0,0,0,0,10,0,10,FALSE,FALSE),"
-//                            + "\n (1,1,3,'dirt',0,0,0,0,0,10,0,10,FALSE,FALSE),"
-//                            + "\n (1,2,1,'dirt',0,0,0,0,0,10,0,10,FALSE,FALSE),"
-//                            + "\n (1,2,2,'dirt',0,0,0,0,0,10,0,10,FALSE,FALSE),"
-//                            + "\n (1,2,3,'dirt',0,0,0,0,0,10,0,10,FALSE,FALSE),"
-//                            + "\n (1,3,1,'dirt',0,0,0,0,0,10,0,10,FALSE,FALSE),"
-//                            + "\n (1,3,2,'dirt',0,0,0,0,0,10,0,10,FALSE,FALSE),"
-//                            + "\n (1,3,3,'dirt',0,0,0,0,0,10,0,10,FALSE,FALSE)");
 
                     //Inserts the inital field values for slots 0,1,2,3,4,5 
                     for (int i = 0; i < 6; i++) {
@@ -127,6 +142,65 @@ public final class DBManager {
                     }
 
                 }
+
+                System.out.println("----Printing Player----");
+                //Player
+                String sql = "SELECT * FROM Player";
+                ResultSet rs = this.myQuery(sql);
+                while (rs.next()) {
+                    System.out.print("" + rs.getInt("slot"));
+                    System.out.print(" " + rs.getString("playerName"));
+                    System.out.print(" " + rs.getFloat("money"));
+                    System.out.print(" " + rs.getInt("energy"));
+                    System.out.print(" " + rs.getInt("day"));
+                    System.out.print(" " + rs.getInt("score"));
+                    System.out.println("");
+                }
+                System.out.println("-----------");
+
+                System.out.println("----Printing Shop----");
+                sql = "SELECT * FROM shop";
+                rs = this.myQuery(sql);
+                while (rs.next()) {
+                    System.out.print("" + rs.getInt("slot"));
+                    System.out.print(" " + rs.getString("name"));
+                    System.out.println("");
+                }
+                System.out.println("-----------");
+
+                System.out.println("----Printing Unlock----");
+                sql = "SELECT * FROM Unlock";
+                rs = this.myQuery(sql);
+                while (rs.next()) {
+                    System.out.print("" + rs.getInt("slot"));
+                    System.out.print(" " + rs.getString("name"));
+                    System.out.print(" " + rs.getInt("cost"));
+                    System.out.println("");
+                }
+                System.out.println("-----------");
+
+                System.out.println("----Printing Field----");
+                sql = "SELECT * FROM Field";
+                rs = this.myQuery(sql);
+                while (rs.next()) {
+                    System.out.print("" + rs.getInt("slot"));
+                    System.out.print(" " + rs.getInt("x"));
+                    System.out.print(" " + rs.getInt("y"));
+                    System.out.print(" " + rs.getString("name"));
+                    System.out.print(" " + rs.getInt("growtime"));
+                    System.out.print(" " + rs.getInt("timeplanted"));
+                    System.out.print(" " + rs.getInt("value"));
+                    System.out.print(" " + rs.getInt("growcounter"));
+                    System.out.print(" " + rs.getInt("growth"));
+                    System.out.print(" " + rs.getInt("waterlimit"));
+                    System.out.print(" " + rs.getInt("watercounter"));
+                    System.out.print(" " + rs.getInt("price"));
+                    System.out.print(" " + rs.getBoolean("pollinator"));
+                    System.out.print(" " + rs.getBoolean("pollinated"));
+                    System.out.println("");
+
+                }
+                System.out.println("-----------");
 
                 if (!checkTableExisting("Save")) {
                     System.out.println("CREATING A SAVE TABLE");
@@ -164,7 +238,7 @@ public final class DBManager {
             System.out.println("ITS NOT LOADED");
         }
         try {
-            System.out.println("SELECTION" + selection);
+            System.out.println("Load Game SELECTION" + selection);
 
             Data data = new Data();
             String sql = "SELECT * FROM Player WHERE slot =" + selection + "";
@@ -215,7 +289,7 @@ public final class DBManager {
 
     public Data selectShop(int selection, Data data) {
         try {
-            System.out.println("SELECTION" + selection);
+            System.out.println("select shop SELECTION" + selection);
             String sql = "SELECT * FROM Shop WHERE slot=" + selection;
 //                    WHERE slot=" + selection+"";
             ResultSet rs;
@@ -253,8 +327,8 @@ public final class DBManager {
             String unlock = "";
             String unlockCost = "";
             while (rs.next()) {
-                unlock += rs.getString("name");
-                unlockCost += rs.getInt("cost");
+                unlock += " " + rs.getString("name");
+                unlockCost += " " + rs.getInt("cost");
 
             }
 
@@ -276,16 +350,53 @@ public final class DBManager {
         return data;
     }
 
-    public void updateField(int i, int j, String[][] field) {
-        for (int k = 0; k < 3; k++) {
-            for (int l = 0; l < 3; l++) {
-                String sql = "UPDATE Field "
-                        + "SET name = " + field[k][l] + " WHERE id in (" + i + "," + j + ")";
-                myUpdate(sql);
+    public void updateField(int slot, String[] field) {
+        try {
+
+            String sql = "Update Field set x=?,y=?,growtime =?,timeplanted=?,value=?,growcounter=?,growth=?,waterlimit=?,watercounter=?,price=?,pollinator=?,pollinated=? WHERE slot=?";
+            PreparedStatement preparedStatement = conn.prepareStatement(sql);
+            System.out.println(field[0]);
+            for (int i = 0; i < 3; i++) {
+                StringTokenizer st = new StringTokenizer(field[i]);
+                for (int j = 0; j < 3; j++) {
+
+                    preparedStatement.setInt(1, i);
+                    preparedStatement.setInt(2, j);
+                    preparedStatement.setInt(3, parseInt(st.nextToken()));
+                    preparedStatement.setInt(4, parseInt(st.nextToken()));
+                    preparedStatement.setInt(5, parseInt(st.nextToken()));
+                    preparedStatement.setInt(6, parseInt(st.nextToken()));
+                    preparedStatement.setInt(7, parseInt(st.nextToken()));
+                    preparedStatement.setInt(8, parseInt(st.nextToken()));
+                    preparedStatement.setInt(9, parseInt(st.nextToken()));
+                    preparedStatement.setInt(10, parseInt(st.nextToken()));
+                    preparedStatement.setBoolean(11, parseBoolean(st.nextToken()));
+                    preparedStatement.setBoolean(12, parseBoolean(st.nextToken()));
+                    preparedStatement.setInt(13, slot);
+
+                }
             }
+
+//            croops = user.getField().toFile();
+//            for (String i : croops) {
+//                pw.println(i);
+//            }
+            sql = "Update Field set name=? WHERE slot=?";
+            preparedStatement = conn.prepareStatement(sql);
+
+            preparedStatement.setString(1, sql);
+
+        } catch (SQLException ex) {
+            Logger.getLogger(DBManager.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 
+    /**
+     * Saves the unlock player and shop
+     *
+     * @param slot
+     * @param data
+     */
     public void saveGame(int slot, Data data) {
         savePlayer(slot, data);
         saveUnlock(slot, data);
@@ -326,13 +437,20 @@ public final class DBManager {
             preparedStatement.executeUpdate();
 
             sql = "INSERT INTO Unlock (name,cost) VALUES(?,?)";
-            StringTokenizer st1 = new StringTokenizer(data.getShop());
-            StringTokenizer st2 = new StringTokenizer(data.getShop());
+            StringTokenizer st1 = new StringTokenizer(data.getUnlock());
+            StringTokenizer st2 = new StringTokenizer(data.getUnlockCost());
 
+            preparedStatement = conn.prepareStatement(sql);
+            System.out.println("Unlock:" + data.getUnlock());
+            System.out.println("UnlockCose:" + data.getUnlockCost());
             while (st1.hasMoreTokens() && st2.hasMoreTokens()) {
+
                 preparedStatement.setString(1, st1.nextToken());
+
                 preparedStatement.setInt(2, parseInt(st2.nextToken()));
+
                 preparedStatement.executeUpdate();
+
             }
 
             String check = "Select * From Unlock Where slot=" + slot;

@@ -255,7 +255,7 @@ public class PlantGameModel extends Observable {
         player.getField().setAllPlantStatus(data.getPlantsDescription());
 
         //Load the unlock shop from the database for the selected save slot
-        data = manager.selectUnlockShop(selection, data);
+        data = manager.selectUnlockShop(selection + 1, data);
         ArrayList<String> details = new ArrayList();
         details.add(data.getUnlock());
         details.add(data.getUnlockCost());
@@ -263,7 +263,7 @@ public class PlantGameModel extends Observable {
         setUnlocks(new UnlockShop(details));
 
         //Loads the shop from the database for the selected save slot
-        data = manager.selectShop(selection, data);
+        data = manager.selectShop(selection + 1, data);
         setShop(data.getShop());
 
 //        setShop(getFiles().readShop());
@@ -300,59 +300,8 @@ public class PlantGameModel extends Observable {
 //        notifyObservers("Shop Start");
     }
 
-    /**
-     * Prompts a player to select a row keeping them there until an acceptable
-     * input has been provided.
-     *
-     * @return int location representing the selected x location
-     */
-    private int xSelect() {
-
-        int location = 0;
-        while (location < 1 || location > 3) {
-            try {
-                System.out.print("Select row:");
-                location = scan.nextInt();
-
-            } catch (InputMismatchException ime) {
-                System.out.println("Please select a row between 1 and 3");
-                scan.next();
-            }
-        }
-
-        return location;
-    }
-
-    /**
-     * Prompts a player to select a column keeping them there until an
-     * acceptable input has been provided.
-     *
-     * @return int location representing the selected y location
-     */
-    private int ySelect() {
-        int location = 0;
-        while (location < 1 || location > 3) {
-            try {
-                System.out.print("Select collumn:");
-                location = scan.nextInt();
-
-            } catch (InputMismatchException ime) {
-                System.out.println("Please select a collumn between 1 and 3");
-                scan.next();
-            }
-        }
-
-        return location;
-    }
-
     public void plantAPlantView() {
-
         shopUpdate();
-
-//        //set change
-//        setChanged();
-//        //pases the selcted save option to the plant game panel
-//        notifyObservers("Shop Start");
     }
 
     /**
@@ -362,7 +311,17 @@ public class PlantGameModel extends Observable {
         data.setPlayer(this.getPlayer().toString());
     }
 
+    public Data fieldUpdateData(int selection, Data data) {
+        data.setFieldDetails(player.getField().toFile());
+        manager.updateField(0, data.getFieldDetails());
+        return data;
+    }
+
     public void fieldUpdate() {
+
+        //updates the current players field data in the database
+        data = fieldUpdateData(0, data);
+
         //update data to contain the plant information
         for (int i = 0; i < 3; i++) {
             for (int j = 0; j < 3; j++) {
@@ -415,9 +374,6 @@ public class PlantGameModel extends Observable {
         //Update the field
         fieldUpdate();
 
-//        setChanged();
-//        //pases the selcted save option to the plant game panel
-//        notifyObservers("Plant");
     }
 
     public void unlockView() {
@@ -440,14 +396,6 @@ public class PlantGameModel extends Observable {
         //Unlock no longer starting
         data.setUnlockStart(false);
 
-//        //set change
-//        setChanged();
-//        //pases the selcted save option to the plant game panel
-//        notifyObservers("Initial Unlock");
-//        //set change
-//        setChanged();
-//        //Notifys that a plant has been unlocked
-//        notifyObservers("Unlock");
     }
 
     public void shopUpdate() {
@@ -468,6 +416,7 @@ public class PlantGameModel extends Observable {
         }
         data.setShopText(shopContent);
 
+        //Updates the shop in the database for the current player
         System.out.println("Updateing with :" + shopContent[shop.size() - 1]);
         manager.updateShop(0, shopContent[shop.size() - 1]);
 
@@ -543,8 +492,10 @@ public class PlantGameModel extends Observable {
         //updates current data wit shop and unlock
         data = manager.selectShop(0, data);
         data = manager.selectUnlockShop(0, data);
+        data = fieldUpdateData(selection, data);
 
         manager.saveGame(selection, data);
+
         //success message.
         System.out.println("Save succefull");
         data.setSaveStart(true);
@@ -690,45 +641,6 @@ public class PlantGameModel extends Observable {
 //        notifyObservers("Pick");
     }
 
-    /**
-     * Picks a plant in the 3 by 3 player field grid specified by the player.
-     */
-    public void pick() {
-
-        int x = 0;
-        int y = 0;
-        System.out.println("Which Plant would you like to pick");
-        String[][] valueState = getPlayer().getField().getValueState();
-
-        //Prints the value of plants in the field.
-        for (int i = 0; i < 3; i++) {
-            for (int j = 0; j < 3; j++) {
-                System.out.print(valueState[i][j] + " ");
-            }
-            System.out.println("");
-        }
-
-        //Gets user selection for what plant to pick
-        while (x < 1 || x > 3) {
-            x = xSelect();
-        }
-        while (y < 1 || y > 3) {
-
-            y = ySelect();
-
-        }
-
-        //Warns the user if they are going to pick dirt and asks to reconfirm
-        if (getPlayer().getField().getPlant(x - 1, y - 1) instanceof Dirt) {
-            System.out.println("You are about to pick Dirt ");
-            if (areYouSure()) {
-                getPlayer().pickPlant(x - 1, y - 1);
-            }
-        } else {
-            getPlayer().pickPlant(x - 1, y - 1);
-        }
-    }
-
     public void alternatStart() throws IOException {
 
         //Highscores load.
@@ -745,13 +657,6 @@ public class PlantGameModel extends Observable {
 
         //Start of display
         System.out.println(endline);
-        ArrayList<String> gi = files.information("Information");
-
-        //Print out the game information upon startup.
-        gi.forEach(i -> {
-            System.out.println(i);
-        });
-        System.out.println("");
 
 //        //set change
 //        setChanged();
