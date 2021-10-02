@@ -37,8 +37,8 @@ public class Tulip extends Flower {
         //NEED TO IMPLEMENT ANOTHER TIME SINCE PLANTING 
         setTimePlanted(getTimePlanted() + 1);
         //Truffles are expensive
-        
-        if (this.getGrowth()== 1) {
+
+        if (this.getGrowth() == 1) {
             setValue(3);
             //Begins pollinating others
             setPollinator(true);

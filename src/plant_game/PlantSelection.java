@@ -157,7 +157,7 @@ public class PlantSelection implements ToFile {
         }
 
     }
-    
+
     public String getPlantName(int x) throws InstantiationException, IllegalAccessException {
         try {
 
@@ -180,6 +180,7 @@ public class PlantSelection implements ToFile {
         }
 
     }
+
     /**
      * Size of the plantArray
      *

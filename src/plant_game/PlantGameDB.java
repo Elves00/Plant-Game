@@ -46,32 +46,32 @@ public class PlantGameDB {
     }
 
     public void createPlayerTable() {
-     //growTime,timePlanted,value,growth,growCounter,waterCount,waterLimit,price
+        //growTime,timePlanted,value,growth,growCounter,waterCount,waterLimit,price
         String newTable = "PLAYER";
         //Drop if exists
         dropIfExists(newTable);
         String sqlCreateTable = "CREATE TABLE " + newTable + " (NAME VARCHAR (20),MONEY FLOAT, ENERGY INT, DAY INT,----FIELD----,SCORE INT)";
-        String insertData = "INSERT INTO PLANT VALUES()";   
+        String insertData = "INSERT INTO PLANT VALUES()";
     }
-    
-      public void createShopTable() {
-     //growTime,timePlanted,value,growth,growCounter,waterCount,waterLimit,price
+
+    public void createShopTable() {
+        //growTime,timePlanted,value,growth,growCounter,waterCount,waterLimit,price
         String newTable = "SHOP";
         //Drop if exists
         dropIfExists(newTable);
         String sqlCreateTable = "CREATE TABLE " + newTable + " (NAME VARCHAR (20),PRICE INT)";
-        String insertData = "INSERT INTO SHOP VALUES()";   
+        String insertData = "INSERT INTO SHOP VALUES()";
     }
-      
-       public void createUnlockTable() {
-     //growTime,timePlanted,value,growth,growCounter,waterCount,waterLimit,price
+
+    public void createUnlockTable() {
+        //growTime,timePlanted,value,growth,growCounter,waterCount,waterLimit,price
         String newTable = "UNLOCKS";
         //Drop if exists
         dropIfExists(newTable);
-         String sqlCreateTable = "CREATE TABLE " + newTable + " (NAME VARCHAR (20),PRICE INT)";
-        String insertData = "INSERT INTO UNLOCKS VALUES()";  
+        String sqlCreateTable = "CREATE TABLE " + newTable + " (NAME VARCHAR (20),PRICE INT)";
+        String insertData = "INSERT INTO UNLOCKS VALUES()";
     }
-    
+
     public void createPlantTable() {
 
         //growTime,timePlanted,value,growth,growCounter,waterCount,waterLimit,price
@@ -80,9 +80,10 @@ public class PlantGameDB {
         dropIfExists(newTable);
         String sqlCreateTable = "CREATE TABLE " + newTable + " (NAME VARCHAR (20),GROWTIME INT, TIMEPLANTED INT, VALUE INT,GROWTH INT,GROWCOUNTER INT,WATERCOUNT INT,WATERLIMIT INT, PRICE INT,POLLINATOR BOOLEAN,POLLINATED BOOLEAN )";
         String insertData = "INSERT INTO PLANT VALUES()";
-     //Can use this to generate some plant types
-    for(PlantSet i:PlantSet.values())
+        //Can use this to generate some plant types
+        for (PlantSet i : PlantSet.values()) {
             System.out.println(i.getPlant().toString());
+        }
     }
 
     public boolean exists(String tableName) throws SQLException {
@@ -118,7 +119,7 @@ public class PlantGameDB {
         }
 
     }
-    
+
     public static void main(String[] args) {
         PlantGameDB b = new PlantGameDB();
         b.createPlantTable();

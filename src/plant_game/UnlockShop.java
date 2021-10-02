@@ -113,6 +113,12 @@ public class UnlockShop extends Observable implements ToFile {
         return toView;
     }
 
+    public String toData(int i) {
+        String toData;
+        toData = view.get(i).toString();
+        return toData;
+    }
+
     /**
      * Returns the size of the unlocks
      *

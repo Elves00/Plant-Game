@@ -6,12 +6,14 @@
 package plant_game;
 
 /**
- * Saffron 
- * 
+ * Saffron
+ *
  * A highly saught after plant with a high selling price.
- * 
- * Saffron is a pollinator and does not gain in value each day after advancing growth stages. Instead it has a fixed price
- * that is set after reaching each growth stage. Growth stage 2 = 10$ Growth stage 3 = 20$
+ *
+ * Saffron is a pollinator and does not gain in value each day after advancing
+ * growth stages. Instead it has a fixed price that is set after reaching each
+ * growth stage. Growth stage 2 = 10$ Growth stage 3 = 20$
+ *
  * @author breco
  */
 public class Saffron extends Flower {
@@ -54,7 +56,7 @@ public class Saffron extends Flower {
         if (getGrowCounter() == 2) {
             setValue(10);
         }
-         if (getGrowCounter() == 3) {
+        if (getGrowCounter() == 3) {
             setValue(20);
         }
         //Checks if the plant is evolving.

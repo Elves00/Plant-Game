@@ -26,7 +26,7 @@ public class LoadGamePanel extends JPanel implements ActionListener, Observer {
     private JButton three;
     private JButton four;
     private JButton five;
-    
+
     private PlantGameModel plantGameModel;
 
     public LoadGamePanel(PlantGameModel plantGameModel) {
@@ -45,7 +45,7 @@ public class LoadGamePanel extends JPanel implements ActionListener, Observer {
         this.three.addActionListener(this);
         this.four.addActionListener(this);
         this.five.addActionListener(this);
-        
+
         this.add(one);
         this.add(two);
         this.add(three);
@@ -57,49 +57,49 @@ public class LoadGamePanel extends JPanel implements ActionListener, Observer {
 
     @Override
     public void actionPerformed(ActionEvent e) {
-      
-         Object sourceA = e.getSource();
+
+        Object sourceA = e.getSource();
         if (sourceA == this.one) {
-             try {
-                 this.plantGameModel.getFiles().loadGame(0);
-             } catch (IOException ex) {
-                 Logger.getLogger(LoadGamePanel.class.getName()).log(Level.SEVERE, null, ex);
-             }
+            try {
+                this.plantGameModel.getFiles().loadGame(0);
+            } catch (IOException ex) {
+                Logger.getLogger(LoadGamePanel.class.getName()).log(Level.SEVERE, null, ex);
+            }
         }
-         if (sourceA == this.two) {
-             try {
-                 this.plantGameModel.getFiles().loadGame(1);
-             } catch (IOException ex) {
-                 Logger.getLogger(LoadGamePanel.class.getName()).log(Level.SEVERE, null, ex);
-             }
+        if (sourceA == this.two) {
+            try {
+                this.plantGameModel.getFiles().loadGame(1);
+            } catch (IOException ex) {
+                Logger.getLogger(LoadGamePanel.class.getName()).log(Level.SEVERE, null, ex);
+            }
         }
-          if (sourceA == this.three) {
-             try {
-                 this.plantGameModel.getFiles().loadGame(2);
-             } catch (IOException ex) {
-                 Logger.getLogger(LoadGamePanel.class.getName()).log(Level.SEVERE, null, ex);
-             }
+        if (sourceA == this.three) {
+            try {
+                this.plantGameModel.getFiles().loadGame(2);
+            } catch (IOException ex) {
+                Logger.getLogger(LoadGamePanel.class.getName()).log(Level.SEVERE, null, ex);
+            }
         }
-           if (sourceA == this.four) {
-             try {
-                 this.plantGameModel.getFiles().loadGame(3);
-             } catch (IOException ex) {
-                 Logger.getLogger(LoadGamePanel.class.getName()).log(Level.SEVERE, null, ex);
-             }
+        if (sourceA == this.four) {
+            try {
+                this.plantGameModel.getFiles().loadGame(3);
+            } catch (IOException ex) {
+                Logger.getLogger(LoadGamePanel.class.getName()).log(Level.SEVERE, null, ex);
+            }
         }
-            if (sourceA == this.five) {
-             try {
-                 this.plantGameModel.getFiles().loadGame(4);
-             } catch (IOException ex) {
-                 Logger.getLogger(LoadGamePanel.class.getName()).log(Level.SEVERE, null, ex);
-             }
+        if (sourceA == this.five) {
+            try {
+                this.plantGameModel.getFiles().loadGame(4);
+            } catch (IOException ex) {
+                Logger.getLogger(LoadGamePanel.class.getName()).log(Level.SEVERE, null, ex);
+            }
         }
-            
+
     }
 
     @Override
     public void update(Observable o, Object arg) {
-        
+
         if (arg.equals("Load Game Visible")) {
             this.setVisible(true);
         }

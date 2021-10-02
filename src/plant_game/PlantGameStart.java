@@ -43,7 +43,7 @@ public class PlantGameStart extends JPanel implements Observer {
     private JButton three;
     private JButton four;
     private JButton five;
-    
+
     private JTextField username;
     private JButton submit;
 

@@ -6,10 +6,11 @@
 package plant_game;
 
 /**
- * Provides  a to file option for compponets that need to be sent to file.
+ * Provides a to file option for compponets that need to be sent to file.
+ *
  * @author breco
  */
 public interface ToFile {
-   
+
     public String toFile();
 }

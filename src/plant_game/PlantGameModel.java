@@ -510,6 +510,10 @@ public class PlantGameModel extends Observable {
             }
         }
         data.setShopText(shopContent);
+
+        System.out.println("Updateing with :" + shopContent[shop.size() - 1]);
+        manager.updateShop(0, shopContent[shop.size() - 1]);
+
         data.setShopUpdate(true);
         //set change
         setChanged();
@@ -519,6 +523,9 @@ public class PlantGameModel extends Observable {
     }
 
     public void unlock(int i) {
+
+        //Remove from current save slot
+        data = manager.updateUnlock(0, getUnlocks().toData(i - 1), data);
         getUnlocks().price(getPlayer(), getShop(), i);
 
         //unlock starting

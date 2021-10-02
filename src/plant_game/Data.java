@@ -12,6 +12,34 @@ package plant_game;
 public class Data {
 
     /**
+     * @return the unlock
+     */
+    public String getUnlock() {
+        return unlock;
+    }
+
+    /**
+     * @param unlock the unlock to set
+     */
+    public void setUnlock(String unlock) {
+        this.unlock = unlock;
+    }
+
+    /**
+     * @return the unlockCost
+     */
+    public String getUnlockCost() {
+        return unlockCost;
+    }
+
+    /**
+     * @param unlockCost the unlockCost to set
+     */
+    public void setUnlockCost(String unlockCost) {
+        this.unlockCost = unlockCost;
+    }
+
+    /**
      * @return the shop
      */
     public String getShop() {
@@ -53,8 +81,7 @@ public class Data {
         this.plants = plants;
     }
 
-    
-     private boolean start;
+    private boolean start;
     private int plantsetSize;
 
     //Game variables
@@ -66,7 +93,7 @@ public class Data {
 //    private int field;
     private int score;
 //    private int gameState;
-    
+
     //Field
     private String[][] plants;
     private String[][] plantsDescription;
@@ -74,9 +101,8 @@ public class Data {
     private String shop;
     //Unlock
     private String unlock;
-    
-    
-    
+    private String unlockCost;
+
     //Shop information
     private int shopSize;
     private String[] shopText;
@@ -105,10 +131,10 @@ public class Data {
     private boolean saveUpdate;
     private boolean saveStart;
     private String[] saveText;
-    
+
     private boolean infoUpdate;
     private String[] infoText;
-    
+
     private String player;
 
     public Data() {
@@ -126,6 +152,7 @@ public class Data {
         }
 
     }
+
     /**
      * @return the money
      */
@@ -321,8 +348,6 @@ public class Data {
     public void setFieldUpdate(boolean fieldUpdate) {
         this.fieldUpdate = fieldUpdate;
     }
-
-   
 
     /**
      * @return the start

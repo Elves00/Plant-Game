@@ -68,10 +68,6 @@ public class Dirt extends Plant {
 
     }
 
-    
-        
- 
-
     /**
      * Dirt does not gain the benefit of being pollinated so the pollinate
      * method is overridden to be blank.

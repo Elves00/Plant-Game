@@ -10,8 +10,9 @@ import java.util.NoSuchElementException;
 
 /**
  * Used to sort high scores within the plant game.
- * 
- * Links in new objects comparing them so that they remain in order of large to small
+ *
+ * Links in new objects comparing them so that they remain in order of large to
+ * small
  *
  * @author breco
  * @param <E>

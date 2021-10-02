@@ -26,7 +26,7 @@ public class UnlockShopPanel extends JPanel implements Observer {
     private JLabel unlockShopLabel;
 
     public UnlockShopPanel(UnlockShop unlockShop) {
-      
+
         this.unlockShop = unlockShop;
 
         this.unlockShopLabel = new JLabel(this.unlockShop.toString());
@@ -38,6 +38,5 @@ public class UnlockShopPanel extends JPanel implements Observer {
     public void update(Observable o, Object arg) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
-    
-    
+
 }

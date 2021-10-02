@@ -30,7 +30,6 @@ public class Cabbage extends Plant {
         setName("cabbage");
 
     }
-    
 
     /**
      * File constructor
@@ -41,7 +40,6 @@ public class Cabbage extends Plant {
         super();
     }
 
-    
     /**
      * Moves a plant to it's next grow stage.
      *
