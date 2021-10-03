@@ -313,7 +313,7 @@ public class PlantGameModel extends Observable {
 
     public Data fieldUpdateData(int selection, Data data) {
         data.setFieldDetails(player.getField().toFile());
-        manager.updateField(0, data.getFieldDetails());
+        manager.saveField(0, data.getFieldDetails());
         return data;
     }
 
@@ -519,37 +519,6 @@ public class PlantGameModel extends Observable {
 //        setChanged();
 //        //pases the selcted save option to the plant game panel
 //        notifyObservers("Initial Save");
-    }
-
-    /**
-     * Asks users if they are sure and returns a Boolean value representing
-     * yes/no
-     *
-     * @return True or False based on user input
-     */
-    private boolean areYouSure() {
-
-        int input = 0;
-        while (input < 1 || input > 2) {
-
-            try {
-                //Prompt user for yes or no
-                System.out.println("are you sure?");
-                System.out.println("1:Yes 2:No");
-                input = scan.nextInt();
-                if (input < 1 || input > 2) {
-                    System.out.println("Please select 1 or 2");
-                }
-
-            } catch (InputMismatchException ime) {
-                System.out.println("Anwser must be 1 or 2 please try again.");
-                scan.next();
-
-            }
-
-        }
-        //Returns true if anwser is yes false if anwser is no
-        return input == 1;
     }
 
     public void initialView() {

@@ -50,10 +50,10 @@ public final class DBManager {
             try {
 
                 conn = DriverManager.getConnection(URL, USER_NAME, PASSWORD);
-                myUpdate("DROP TABLE Player");
-                myUpdate("DROP TABLE Field");
-                myUpdate("DROP TABLE Shop");
-                myUpdate("DROP TABLE Unlock");
+//                myUpdate("DROP TABLE Player");
+//                myUpdate("DROP TABLE Field");
+//                myUpdate("DROP TABLE Shop");
+//                myUpdate("DROP TABLE Unlock");
 
                 if (!checkTableExisting("Player")) {
                     System.out.println("CREATING A PLAYER TABLE");
@@ -227,8 +227,9 @@ public final class DBManager {
             System.out.println("THE PLAYER DOESNT EXIST UH OH");
         }
         //Set details for shop 
-        data = selectShop(0, data);
-        myUpdate("INSERT INTO Player VALUES (1,'" + name + "',200,100,0,0)");
+//        data = selectShop(0, data);
+
+        myUpdate("INSERT INTO Player VALUES (0,'" + name + "',200,100,0,0)");
 
         return data;
     }
@@ -279,7 +280,7 @@ public final class DBManager {
             data.setPlantsDescription(plantsDescription);
 
             data = selectShop(selection, data);
-
+            data = selectUnlockShop(selection, data);
             return data;
         } catch (SQLException ex) {
             Logger.getLogger(DBManager.class.getName()).log(Level.SEVERE, null, ex);
@@ -350,41 +351,67 @@ public final class DBManager {
         return data;
     }
 
-    public void updateField(int slot, String[] field) {
+    public void saveField(int slot, String[] field) {
         try {
-
-            String sql = "Update Field set x=?,y=?,growtime =?,timeplanted=?,value=?,growcounter=?,growth=?,waterlimit=?,watercounter=?,price=?,pollinator=?,pollinated=? WHERE slot=?";
+            System.out.println("UPDATING THE FIELD FOR SAVE "+slot);
+            String sql = "Update Field set name=?,growtime =?,timeplanted=?,value=?,growcounter=?,growth=?,waterlimit=?,watercounter=?,price=?,pollinator=?,pollinated=? WHERE slot=? AND x=? AND y=?";
             PreparedStatement preparedStatement = conn.prepareStatement(sql);
             System.out.println(field[0]);
+
+            String[][] array = new String[9][15];
             for (int i = 0; i < 3; i++) {
                 StringTokenizer st = new StringTokenizer(field[i]);
                 for (int j = 0; j < 3; j++) {
-
-                    preparedStatement.setInt(1, i);
-                    preparedStatement.setInt(2, j);
-                    preparedStatement.setInt(3, parseInt(st.nextToken()));
-                    preparedStatement.setInt(4, parseInt(st.nextToken()));
-                    preparedStatement.setInt(5, parseInt(st.nextToken()));
-                    preparedStatement.setInt(6, parseInt(st.nextToken()));
-                    preparedStatement.setInt(7, parseInt(st.nextToken()));
-                    preparedStatement.setInt(8, parseInt(st.nextToken()));
-                    preparedStatement.setInt(9, parseInt(st.nextToken()));
-                    preparedStatement.setInt(10, parseInt(st.nextToken()));
-                    preparedStatement.setBoolean(11, parseBoolean(st.nextToken()));
-                    preparedStatement.setBoolean(12, parseBoolean(st.nextToken()));
-                    preparedStatement.setInt(13, slot);
+                    array[j + i * 3][1] = "" + slot;
+                    array[j + i * 3][2] = "" + i;
+                    array[j + i * 3][3] = "" + j;
+                    array[j + i * 3][5] = st.nextToken();
+                    array[j + i * 3][6] = st.nextToken();
+                    array[j + i * 3][7] = st.nextToken();
+                    array[j + i * 3][8] = st.nextToken();
+                    array[j + i * 3][9] = st.nextToken();
+                    array[j + i * 3][10] = st.nextToken();
+                    array[j + i * 3][11] = st.nextToken();
+                    array[j + i * 3][12] = st.nextToken();
+                    array[j + i * 3][13] = st.nextToken();
+                    array[j + i * 3][14] = st.nextToken();
 
                 }
             }
+            for (int i = 0; i < 3; i++) {
 
-//            croops = user.getField().toFile();
-//            for (String i : croops) {
-//                pw.println(i);
-//            }
-            sql = "Update Field set name=? WHERE slot=?";
-            preparedStatement = conn.prepareStatement(sql);
+                StringTokenizer st = new StringTokenizer(field[i + 3]);
+                for (int j = 0; j < 3; j++) {
+                    array[j + i * 3][4] = st.nextToken();
+                }
+            }
 
-            preparedStatement.setString(1, sql);
+            for (int i = 0; i < 9; i++) {
+                for (int j = 0; j < 15; j++) {
+                    System.out.print(array[i][j]);
+                }
+                System.out.println("");
+            }
+
+            for (int i = 0; i < 9; i++) {
+
+                preparedStatement.setString(1, array[i][4]);
+                preparedStatement.setInt(2, parseInt(array[i][5]));
+                preparedStatement.setInt(3, parseInt(array[i][6]));
+                preparedStatement.setInt(4, parseInt(array[i][7]));
+                preparedStatement.setInt(5, parseInt(array[i][8]));
+                preparedStatement.setInt(6, parseInt(array[i][9]));
+                preparedStatement.setInt(7, parseInt(array[i][10]));
+                preparedStatement.setInt(8, parseInt(array[i][11]));
+                preparedStatement.setInt(9, parseInt(array[i][12]));
+                preparedStatement.setBoolean(10, parseBoolean(array[i][13]));
+                preparedStatement.setBoolean(11, parseBoolean(array[i][14]));
+                preparedStatement.setInt(12, parseInt(array[i][1]));
+                preparedStatement.setInt(13, parseInt(array[i][2]));
+                preparedStatement.setInt(14, parseInt(array[i][3]));
+                preparedStatement.executeUpdate();
+
+            }
 
         } catch (SQLException ex) {
             Logger.getLogger(DBManager.class.getName()).log(Level.SEVERE, null, ex);
@@ -401,6 +428,8 @@ public final class DBManager {
         savePlayer(slot, data);
         saveUnlock(slot, data);
         saveShop(slot, data);
+        saveField(slot,data.getFieldDetails());
+        
 
     }
 
