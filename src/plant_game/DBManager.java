@@ -449,7 +449,7 @@ public final class DBManager {
                 }
             }
             rs.close();
-            
+
             for (int k = 0; k < 3; k++) {
                 for (int l = 0; l < 3; l++) {
                     System.out.println(plants[k][l]);
@@ -481,11 +481,14 @@ public final class DBManager {
             while (rs.next()) {
                 info.add(rs.getString("words"));
             }
+            rs.close();
+
             String[] words = new String[info.size()];
             for (int i = 0; i < info.size(); i++) {
                 words[i] = info.get(i);
             }
             data.setInfoText(words);
+
             return data;
         } catch (SQLException ex) {
             Logger.getLogger(DBManager.class.getName()).log(Level.SEVERE, null, ex);
@@ -504,6 +507,7 @@ public final class DBManager {
             while (rs.next()) {
                 shop += rs.getString("name") + " ";
             }
+            rs.close();
             data.setShop(shop);
             System.out.println("shop:" + shop);
             return data;
@@ -517,7 +521,6 @@ public final class DBManager {
     public void updateShop(int selection, String plant) {
         System.out.println("Inserting " + plant + " into save slot " + selection);
         String sql = "INSERT INTO Shop VALUES(" + selection + ",'" + plant + "'  )";
-
         myUpdate(sql);
 
     }
@@ -527,7 +530,7 @@ public final class DBManager {
             System.out.println("Unlock " + slot);
 
             String sql = "SELECT * FROM Unlock WHERE slot=" + slot;
-//                    WHERE slot=" + selection+"";
+
             ResultSet rs;
             rs = this.myQuery(sql);
             String unlock = "";
@@ -537,6 +540,7 @@ public final class DBManager {
                 unlockCost += " " + rs.getInt("cost");
 
             }
+            rs.close();
 
             data.setUnlock(unlock);
             data.setUnlockCost(unlockCost);
@@ -702,6 +706,7 @@ public final class DBManager {
                     unlock += rs.getString("name");
 
                 }
+                rs.close();
             } catch (SQLException ex) {
                 Logger.getLogger(DBManager.class.getName()).log(Level.SEVERE, null, ex);
             }
@@ -745,6 +750,7 @@ public final class DBManager {
                 unlock += rs.getString("name");
 
             }
+            rs.close();
         } catch (SQLException ex) {
             Logger.getLogger(DBManager.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -766,6 +772,7 @@ public final class DBManager {
                 while (rs.next()) {
                     loadText[i - 1] = rs.getString("playerName");
                 }
+                rs.close();
             }
 
             data.setLoadText(loadText);
@@ -822,6 +829,7 @@ public final class DBManager {
         } catch (Exception e) {
             e.printStackTrace();
         }
+
         return resultSet;
     }
 
@@ -838,6 +846,7 @@ public final class DBManager {
         } catch (Exception e) {
             e.printStackTrace();
         }
+
     }
 
     private boolean checkTableExisting(String newTableName) {
