@@ -177,9 +177,8 @@ public class Controller extends JPanel implements ActionListener, MouseListener 
             this.view.getCard().show(this.view.getButtonPanel(), "b");
 
         }
-        //Checks which plant has been selected to plant in the field.
-
-        for (int i = 0; i < model.getShop().size(); i++) {
+        //Checks which plant has been selected to plant in the field
+        for (int i = 0; i < PlantSet.values().length; i++) {
             if (sourceA == view.getPlantingButtons()[i]) {
                 //Sets the plant to be planted and sets the planting condition to true.
                 //This means if a user presses in the field it will plant this plant.

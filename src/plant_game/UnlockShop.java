@@ -54,29 +54,42 @@ public class UnlockShop extends Observable implements ToFile {
     public UnlockShop(ArrayList<String> details) {
         view = new ArrayList<Plant>();
         unlocks = new HashMap<String, Integer>();
+
         StringTokenizer st = new StringTokenizer(details.get(0));
         String holder = "";
 
         while (st.hasMoreTokens()) {
             holder = st.nextToken();
+            System.out.println("Holder part 1:" + holder);
+
             //Cycles through all plants in the plant set
             for (PlantSet p : PlantSet.values()) {
                 //When a string matches the toString of a plant in the enum set adds the plant to the unlock view.
                 if (p.toString().equalsIgnoreCase(holder)) {
                     view.add(p.getPlant());
+
                 }
             }
+
         }
 
         //Creates a new tokenizer that unlocks plants the correct plants in the view.
         st = new StringTokenizer(details.get(1));
+        int count = 0;
         while (st.hasMoreTokens()) {
+
             holder = st.nextToken();
             for (Plant p : view) {
-                unlocks.put(p.toString(), parseInt(holder));
-            }
-        }
+                System.out.println("Plant" + p);
+                System.out.println("Cost" + holder);
+//                unlocks.put(p.toString(), parseInt(holder));
 
+            }
+            unlocks.put(view.get(count).toString(), parseInt(holder));
+
+            count++;
+        }
+//        System.out.println(unlocks);
     }
 
     /**

@@ -50,8 +50,8 @@ public final class DBManager {
             try {
 
                 conn = DriverManager.getConnection(URL, USER_NAME, PASSWORD);
-                myUpdate("DROP TABLE Player");
-                myUpdate("DROP TABLE Field");
+//                myUpdate("DROP TABLE Player");
+//                myUpdate("DROP TABLE Field");
 //                myUpdate("DROP TABLE Shop");
 //                myUpdate("DROP TABLE Unlock");
 
@@ -228,8 +228,6 @@ public final class DBManager {
         }
         //Set details for shop 
 //        data = selectShop(0, data);
-
-        myUpdate("INSERT INTO Player VALUES (0,'" + name + "',200,100,0,0)");
 
         return data;
     }
@@ -471,7 +469,7 @@ public final class DBManager {
 
             preparedStatement = conn.prepareStatement(sql);
             System.out.println("Unlock:" + data.getUnlock());
-            System.out.println("UnlockCose:" + data.getUnlockCost());
+            System.out.println("UnlockCost:" + data.getUnlockCost());
             while (st1.hasMoreTokens() && st2.hasMoreTokens()) {
 
                 preparedStatement.setString(1, st1.nextToken());
@@ -554,7 +552,7 @@ public final class DBManager {
 
                 rs = preparedStatement.executeQuery();
                 while (rs.next()) {
-                    loadText[i-1] = rs.getString("playerName");
+                    loadText[i - 1] = rs.getString("playerName");
                 }
             }
 
