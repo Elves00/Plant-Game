@@ -45,7 +45,7 @@ public final class Player extends Observable {
      */
     public Player() throws MoneyException {
         setName("Lena");
-        setMoney(100);
+        setMoney(200);
         setEnergy(MAX_ENERGY);
         setDay(0);
         setScore(0);
@@ -64,7 +64,7 @@ public final class Player extends Observable {
         //Player name
         setName(name);
         //Player money
-        setMoney(100);
+        setMoney(200);
         //Player energy
         setEnergy(MAX_ENERGY);
         //Player starting day

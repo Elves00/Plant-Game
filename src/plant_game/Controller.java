@@ -24,7 +24,7 @@ import javax.swing.JPanel;
  *
  * @author breco
  */
-public class Controller extends JPanel implements ActionListener, MouseListener {
+public class Controller extends JFrame implements ActionListener, MouseListener {
 
     private PlantGameModel model;
     //CARDS
@@ -64,6 +64,19 @@ public class Controller extends JPanel implements ActionListener, MouseListener 
         //Start game
         this.model.alternatStart();
 
+        // kill all threads when frame closes
+        this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+//        frame.getContentPane().add(new Controller(pg, pgm));
+        this.pack();
+        //position the frame in the middle of the screen
+        Toolkit tk = Toolkit.getDefaultToolkit();
+        Dimension screenDimension = tk.getScreenSize();
+        Dimension frameDimension = this.getSize();
+        this.setLocation((screenDimension.width - frameDimension.width) / 2,
+                (screenDimension.height - frameDimension.height) / 2);
+        //Frame starts showing
+        this.setVisible(true);
+
     }
 
     @Override
@@ -88,6 +101,8 @@ public class Controller extends JPanel implements ActionListener, MouseListener 
 
                 this.model.initialView();
                 this.view.getMainCard().show(this.view, "b");
+                this.pack();
+
 //                this.card.show(this, "B");
             } catch (MoneyException ex) {
                 Logger.getLogger(Controller.class.getName()).log(Level.SEVERE, null, ex);
@@ -105,8 +120,8 @@ public class Controller extends JPanel implements ActionListener, MouseListener 
         if (sourceA == view.getOne()) {
             try {
                 this.model.loadGame(0);
-
                 this.model.initialView();
+                this.pack();
 
             } catch (IOException ex) {
                 Logger.getLogger(Controller.class.getName()).log(Level.SEVERE, null, ex);
@@ -115,8 +130,8 @@ public class Controller extends JPanel implements ActionListener, MouseListener 
         if (sourceA == view.getTwo()) {
             try {
                 this.model.loadGame(1);
-
                 this.model.initialView();
+                this.pack();
 
             } catch (IOException ex) {
                 Logger.getLogger(Controller.class.getName()).log(Level.SEVERE, null, ex);
@@ -125,8 +140,8 @@ public class Controller extends JPanel implements ActionListener, MouseListener 
         if (sourceA == view.getThree()) {
             try {
                 this.model.loadGame(2);
-
                 this.model.initialView();
+                this.pack();
 
             } catch (IOException ex) {
                 Logger.getLogger(Controller.class.getName()).log(Level.SEVERE, null, ex);
@@ -136,6 +151,7 @@ public class Controller extends JPanel implements ActionListener, MouseListener 
             try {
                 this.model.loadGame(3);
                 this.model.initialView();
+                this.pack();
 
             } catch (IOException ex) {
                 Logger.getLogger(Controller.class.getName()).log(Level.SEVERE, null, ex);
@@ -145,6 +161,7 @@ public class Controller extends JPanel implements ActionListener, MouseListener 
             try {
                 this.model.loadGame(4);
                 this.model.initialView();
+                this.pack();
 
             } catch (IOException ex) {
                 Logger.getLogger(Controller.class.getName()).log(Level.SEVERE, null, ex);
@@ -158,6 +175,8 @@ public class Controller extends JPanel implements ActionListener, MouseListener 
                 this.model.previousGame();
                 this.model.initialView();
                 this.view.getMainCard().show(this.view, "b");
+                this.pack();
+
             } catch (IOException ex) {
                 Logger.getLogger(Controller.class.getName()).log(Level.SEVERE, null, ex);
             } catch (InstantiationException ex) {
@@ -194,6 +213,7 @@ public class Controller extends JPanel implements ActionListener, MouseListener 
             this.view.getCard().show(this.view.getButtonPanel(), "a");
             planting = false;
             System.out.println("Pressing back");
+
         }
 
         //Watering
@@ -259,15 +279,22 @@ public class Controller extends JPanel implements ActionListener, MouseListener 
             this.view.getCard().show(this.view.getButtonPanel(), "f");
 
         }
-        //Unlock buttons
-        for (int i = 0; i < this.model.getUnlocks().size(); i++) {
-            if (sourceA == view.getUnlockSlot()[i]) {
 
-                this.model.unlock(i + 1);
-                //Re adds action listiener as it gets removed in view during unlock
-                this.view.getPlantingButtons()[this.model.getShop().size() - 1].addActionListener(this);
+//        try {
+            //Unlock buttons
+            for (int i = 0; i < this.model.getUnlocks().size(); i++) {
+                if (sourceA == view.getUnlockSlot()[i]) {
+
+                    this.model.unlock(i + 1);
+                    //Re adds action listiener as it gets removed in view during unlock
+                    this.view.getPlantingButtons()[this.model.getShop().size() - 1].addActionListener(this);
+                    break;
+                }
             }
-        }
+//        } catch (NullPointerException ex) {
+//
+//        }
+
         //Returns the user to the main card from the unlock view
         if (sourceA == view.getUnlockBack()) {
             this.view.getCard().show(this.view.getButtonPanel(), "a");
@@ -357,10 +384,6 @@ public class Controller extends JPanel implements ActionListener, MouseListener 
     @Override
     public void mouseExited(MouseEvent e) {
 //        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    public PlantGameModel getModel() {
-        return this.model;
     }
 
     public static void main(String[] args) throws IOException {

@@ -8,6 +8,7 @@ package plant_game;
 import java.awt.BorderLayout;
 import java.awt.CardLayout;
 import java.awt.Color;
+import java.awt.Font;
 import java.awt.GridLayout;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseListener;
@@ -110,6 +111,7 @@ public class PlantGameMain extends JPanel implements Observer {
 
     //PLANT GAME START
     private JPanel optionsPanel;
+    private JPanel loadGamePanelArange;
     private JPanel loadGamePanel;
     private JPanel newGamePanel;
 
@@ -117,7 +119,7 @@ public class PlantGameMain extends JPanel implements Observer {
     private JButton newGame;
     private JButton previousGame;
     private JButton loadGame;
-    private JTextArea loadInfo;
+    private JLabel loadInfo;
     private JLabel title;
 
     private JButton one;
@@ -224,7 +226,7 @@ public class PlantGameMain extends JPanel implements Observer {
         this.gameOptions.add(nextDay);
         this.gameOptions.add(save);
         this.gameOptions.add(information);
-        this.gameOptions.add(this.unlockShop);
+        this.gameOptions.add(unlockShop);
 
         //Unlocks initial length starts as the base set - 3 + 1 as you always start with 3 plants and we need one extra slot for the back button
         this.unlockSlot = new JButton[PlantSet.values().length - 2];
@@ -301,7 +303,7 @@ public class PlantGameMain extends JPanel implements Observer {
         //
 
         this.optionsPanel = new JPanel(new BorderLayout());
-        this.loadGamePanel = new JPanel();
+        this.loadGamePanel = new JPanel(new BorderLayout());
         this.newGamePanel = new JPanel();
 
         this.username = new JTextField(20);
@@ -314,36 +316,32 @@ public class PlantGameMain extends JPanel implements Observer {
         this.newGame = new JButton("New Game");
         this.previousGame = new JButton("Previous Game");
         this.loadGame = new JButton("Load Game");
-        this.loadInfo = new JTextArea();
-        ArrayList<String> gameInfo = new ArrayList();
-        String formated = "";
-        for (int i = 0; i < gameInfo.size(); i++) {
-            formated += gameInfo.get(i) + "\n";
-        }
-        //Sets up text in load info and prevents users from editing.
-        this.loadInfo.setText(formated);
-        this.loadInfo.setEditable(false);
+        Font fancy = new Font("verdana", Font.BOLD | Font.ITALIC, 28);
+
+        this.loadInfo = new JLabel("The Plant Game", SwingConstants.CENTER);
+        this.loadInfo.setFont(fancy);
 
         //Panel for options buttons
         this.startupPanel = new JPanel();
 
-        this.optionsPanel.add(loadInfo, BorderLayout.NORTH);
+        this.optionsPanel.add(loadInfo, BorderLayout.CENTER);
         this.startupPanel.add(getNewGame());
         this.startupPanel.add(getPreviousGame());
         this.startupPanel.add(getLoadGame());
         this.optionsPanel.add(startupPanel, BorderLayout.SOUTH);
-
+        loadGamePanelArange = new JPanel();
         this.one = new JButton("one");
         this.two = new JButton("two");
         this.three = new JButton("three");
         this.four = new JButton("four");
         this.five = new JButton("five");
 
-        this.loadGamePanel.add(getOne());
-        this.loadGamePanel.add(getTwo());
-        this.loadGamePanel.add(getThree());
-        this.loadGamePanel.add(getFour());
-        this.loadGamePanel.add(getFive());
+        this.loadGamePanelArange.add(getOne());
+        this.loadGamePanelArange.add(getTwo());
+        this.loadGamePanelArange.add(getThree());
+        this.loadGamePanelArange.add(getFour());
+        this.loadGamePanelArange.add(getFive());
+        loadGamePanel.add(loadGamePanelArange, BorderLayout.CENTER);
 
         this.startView.add("a", this.optionsPanel);
         this.startView.add("b", this.loadGamePanel);
@@ -441,30 +439,29 @@ public class PlantGameMain extends JPanel implements Observer {
     }
 
     public void updateField(String[][] plants, Boolean[][] water, Boolean[][] pollin) {
-        
-        for (int i = 0; i < 3  ; i++) {
+
+        for (int i = 0; i < 3; i++) {
             for (int j = 0; j < 3; j++) {
                 System.out.print(water[i][j]);
             }
             System.out.println("");
         }
         System.out.println("");
-        for (int i = 0; i < 3  ; i++) {
+        for (int i = 0; i < 3; i++) {
             for (int j = 0; j < 3; j++) {
                 System.out.print(pollin[i][j]);
             }
             System.out.println("");
         }
         System.out.println("");
-        for (int i = 0; i < 3  ; i++) {
+        for (int i = 0; i < 3; i++) {
             for (int j = 0; j < 3; j++) {
                 System.out.print(plants[i][j]);
             }
             System.out.println("");
         }
         System.out.println("");
-        
-        
+
         for (int i = 0; i < 3; i++) {
             for (int j = 0; j < 3; j++) {
                 this.getFieldLabels()[i][j].setText(plants[i][j]);
@@ -546,6 +543,11 @@ public class PlantGameMain extends JPanel implements Observer {
 
     }
 
+    /**
+     * Updates information displayed on the info area panel.
+     *
+     * @param infoArray
+     */
     private void infoUpdate(String[] infoArray) {
         String toDisplay = "";
         for (int i = 0; i < infoArray.length; i++) {
@@ -650,7 +652,7 @@ public class PlantGameMain extends JPanel implements Observer {
             updatePlayer(data.getPlayer());
         }
         if (data.isSaveStart()) {
-            System.out.println("Save text="+data.getSaveText());
+            System.out.println("Save text=" + data.getSaveText());
             save(data.getSaveText());
         }
 

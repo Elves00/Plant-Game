@@ -54,7 +54,7 @@ public final class DBManager {
 //                myUpdate("DROP TABLE Field");
 //                myUpdate("DROP TABLE Shop");
 //                myUpdate("DROP TABLE Unlock");
-                myUpdate("DROP TABLE Info");
+//                myUpdate("DROP TABLE Info");
 
                 if (!checkTableExisting("Player")) {
                     System.out.println("CREATING A PLAYER TABLE");
@@ -62,7 +62,7 @@ public final class DBManager {
                     this.myUpdate("CREATE TABLE " + "Player" + " (slot INT,playerName VARCHAR(20),money FLOAT,energy INT ,day INT,score INT)");
                     //Inserts a player into each save slot.
                     for (int i = 0; i < 6; i++) {
-                        myUpdate("INSERT INTO Player VALUES (" + i + ",'Brecon',200,100,0,0)");
+                        myUpdate("INSERT INTO Player VALUES (" + i + ",'Empty',200,100,0,0)");
                     }
 
                 }
@@ -144,69 +144,10 @@ public final class DBManager {
 
                 }
 
-                System.out.println("----Printing Player----");
-                //Player
-                String sql = "SELECT * FROM Player";
-                ResultSet rs = this.myQuery(sql);
-                while (rs.next()) {
-                    System.out.print("" + rs.getInt("slot"));
-                    System.out.print(" " + rs.getString("playerName"));
-                    System.out.print(" " + rs.getFloat("money"));
-                    System.out.print(" " + rs.getInt("energy"));
-                    System.out.print(" " + rs.getInt("day"));
-                    System.out.print(" " + rs.getInt("score"));
-                    System.out.println("");
-                }
-                System.out.println("-----------");
-
-                System.out.println("----Printing Shop----");
-                sql = "SELECT * FROM shop";
-                rs = this.myQuery(sql);
-                while (rs.next()) {
-                    System.out.print("" + rs.getInt("slot"));
-                    System.out.print(" " + rs.getString("name"));
-                    System.out.println("");
-                }
-                System.out.println("-----------");
-
-                System.out.println("----Printing Unlock----");
-                sql = "SELECT * FROM Unlock";
-                rs = this.myQuery(sql);
-                while (rs.next()) {
-                    System.out.print("" + rs.getInt("slot"));
-                    System.out.print(" " + rs.getString("name"));
-                    System.out.print(" " + rs.getInt("cost"));
-                    System.out.println("");
-                }
-                System.out.println("-----------");
-
-                System.out.println("----Printing Field----");
-                sql = "SELECT * FROM Field";
-                rs = this.myQuery(sql);
-                while (rs.next()) {
-                    System.out.print("" + rs.getInt("slot"));
-                    System.out.print(" " + rs.getInt("x"));
-                    System.out.print(" " + rs.getInt("y"));
-                    System.out.print(" " + rs.getString("name"));
-                    System.out.print(" " + rs.getInt("growtime"));
-                    System.out.print(" " + rs.getInt("timeplanted"));
-                    System.out.print(" " + rs.getInt("value"));
-                    System.out.print(" " + rs.getInt("growcounter"));
-                    System.out.print(" " + rs.getInt("growth"));
-                    System.out.print(" " + rs.getInt("waterlimit"));
-                    System.out.print(" " + rs.getInt("watercounter"));
-                    System.out.print(" " + rs.getInt("price"));
-                    System.out.print(" " + rs.getBoolean("pollinator"));
-                    System.out.print(" " + rs.getBoolean("pollinated"));
-                    System.out.println("");
-
-                }
-                System.out.println("-----------");
-
                 if (!checkTableExisting("Info")) {
                     System.out.println("CREATING Info TABLE");
                     myUpdate("CREATE TABLE Info (information VARCHAR(14),line INT,words VARCHAR(254))");
-                    sql = "INSERT INTO Info (information,line,words) VALUES(?,?,?)";
+                    String sql = "INSERT INTO Info (information,line,words) VALUES(?,?,?)";
 
                     PreparedStatement preparedStatement = conn.prepareStatement(sql);
 
@@ -294,6 +235,7 @@ public final class DBManager {
 
                     words = "When you select the plant a plant option you may chose a plant to buy for your field. A plants cost is displayed next to it's selection number. Once you have purchased a plant you may select the \n"
                             + "row and collumn you would like to plant the plant in. When a plant is planted it will replace any plant that is currently in the selected spot.";
+                    st1 = new StringTokenizer(words, "\n");
                     while (st1.hasMoreTokens()) {
                         preparedStatement.setString(1, "Plant a Plant");
                         preparedStatement.setInt(2, count);
@@ -305,7 +247,7 @@ public final class DBManager {
 
                     words = "When you select the save game button a list of games will be displayed. By selecting one of the numbers you will override any save file that is currently there \n"
                             + "and replace it with the save file of the game you are currently playing.";
-
+                    st1 = new StringTokenizer(words, "\n");
                     while (st1.hasMoreTokens()) {
                         preparedStatement.setString(1, "Save Game");
                         preparedStatement.setInt(2, count);
@@ -314,7 +256,123 @@ public final class DBManager {
                         count++;
                     }
                     count = 0;
+
+                    words = "Name: broccoli\n"
+                            + "Value:0/1/2/3 $ Per day \n"
+                            + "Grows: 3 times\n"
+                            + "Grow time: 6 days\n"
+                            + "Water Limit: 1 time\n"
+                            + "Price:10\n"
+                            + "Unique:Broccoli begins to gain value after the 3rd growth stage.\n"
+                            + "\n"
+                            + "\n"
+                            + "Name: cabbage\n"
+                            + "Value:0/1/2/3/4 $ Per day \n"
+                            + "Grows: 4 time\n"
+                            + "Grow time: 4 days\n"
+                            + "Water Limit: 2 times\n"
+                            + "Price:10\n"
+                            + "\n"
+                            + "Name: carrot\n"
+                            + "Value:0/1/2/3 $ Per day \n"
+                            + "Grows: 3 times\n"
+                            + "Grow time: 3 days\n"
+                            + "Water Limit: 2 times\n"
+                            + "Price:10\n"
+                            + "\n"
+                            + "Name: Saffron\n"
+                            + "Value:0/10/20 $ Does not increase each day.\n"
+                            + "Grows: 2 time\n"
+                            + "Grow time: 2 days\n"
+                            + "Water Limit: 3 times\n"
+                            + "Price:10\n"
+                            + "Pollinator: Plants in grid spaces next to this plant receive 1$ each day after the plant is fully grown.\n"
+                            + "\n"
+                            + "Name: Truffle\n"
+                            + "Value:0/2/4 $ Per day \n"
+                            + "Grows: 2 times\n"
+                            + "Grow time: 10 days\n"
+                            + "Water Limit: 1 time\n"
+                            + "Price:10\n"
+                            + "Unique: When picked truffle a new truffle is planted in it's place.\n"
+                            + "\n"
+                            + "Name: Tulip\n"
+                            + "Value:0/3 $ Does not increase each day.\n"
+                            + "Grows: 1 time\n"
+                            + "Grow time: 1 day\n"
+                            + "Water Limit: 3 times\n"
+                            + "Price:10\n"
+                            + "Pollinator: Plants in grid spaces next to this plant receive 1$ each day after the plant is fully grown.\n"
+                            + "";
+                    st1 = new StringTokenizer(words, "\n");
+                    while (st1.hasMoreTokens()) {
+                        preparedStatement.setString(1, "Plants");
+                        preparedStatement.setInt(2, count);
+                        preparedStatement.setString(3, st1.nextToken());
+                        preparedStatement.executeUpdate();
+                        count++;
+                    }
+                    count = 0;
                 }
+
+                System.out.println("----Printing Player----");
+                //Player
+                String sql = "SELECT * FROM Player";
+                ResultSet rs = this.myQuery(sql);
+                while (rs.next()) {
+                    System.out.print("" + rs.getInt("slot"));
+                    System.out.print(" " + rs.getString("playerName"));
+                    System.out.print(" " + rs.getFloat("money"));
+                    System.out.print(" " + rs.getInt("energy"));
+                    System.out.print(" " + rs.getInt("day"));
+                    System.out.print(" " + rs.getInt("score"));
+                    System.out.println("");
+                }
+                System.out.println("-----------");
+
+                System.out.println("----Printing Shop----");
+                sql = "SELECT * FROM shop";
+                rs = this.myQuery(sql);
+                while (rs.next()) {
+                    System.out.print("" + rs.getInt("slot"));
+                    System.out.print(" " + rs.getString("name"));
+                    System.out.println("");
+                }
+                System.out.println("-----------");
+
+                System.out.println("----Printing Unlock----");
+                sql = "SELECT * FROM Unlock";
+                rs = this.myQuery(sql);
+                while (rs.next()) {
+                    System.out.print("" + rs.getInt("slot"));
+                    System.out.print(" " + rs.getString("name"));
+                    System.out.print(" " + rs.getInt("cost"));
+                    System.out.println("");
+                }
+                System.out.println("-----------");
+
+                System.out.println("----Printing Field----");
+                sql = "SELECT * FROM Field";
+                rs = this.myQuery(sql);
+                while (rs.next()) {
+                    System.out.print("" + rs.getInt("slot"));
+                    System.out.print(" " + rs.getInt("x"));
+                    System.out.print(" " + rs.getInt("y"));
+                    System.out.print(" " + rs.getString("name"));
+                    System.out.print(" " + rs.getInt("growtime"));
+                    System.out.print(" " + rs.getInt("timeplanted"));
+                    System.out.print(" " + rs.getInt("value"));
+                    System.out.print(" " + rs.getInt("growcounter"));
+                    System.out.print(" " + rs.getInt("growth"));
+                    System.out.print(" " + rs.getInt("waterlimit"));
+                    System.out.print(" " + rs.getInt("watercounter"));
+                    System.out.print(" " + rs.getInt("price"));
+                    System.out.print(" " + rs.getBoolean("pollinator"));
+                    System.out.print(" " + rs.getBoolean("pollinated"));
+                    System.out.println("");
+
+                }
+                System.out.println("-----------");
 
                 System.out.println("----Printing Info----");
                 sql = "SELECT * FROM Info";
@@ -406,6 +464,29 @@ public final class DBManager {
         return null;
     }
 
+    public Data loadInfo(String selection, Data data) {
+        try {
+            String sql = "SELECT * FROM Info Where information='" + selection
+                    + "'";
+            ArrayList<String> info = new ArrayList();
+            ResultSet rs;
+            rs = this.myQuery(sql);
+
+            while (rs.next()) {
+                info.add(rs.getString("words"));
+            }
+            String[] words = new String[info.size()];
+            for (int i = 0; i < info.size(); i++) {
+                words[i] = info.get(i);
+            }
+            data.setInfoText(words);
+            return data;
+        } catch (SQLException ex) {
+            Logger.getLogger(DBManager.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return null;
+    }
+
     public Data selectShop(int selection, Data data) {
         try {
             System.out.println("select shop SELECTION" + selection);
@@ -476,13 +557,19 @@ public final class DBManager {
             PreparedStatement preparedStatement = conn.prepareStatement(sql);
             System.out.println(field[0]);
 
+            /*the field array is set up to first pass in all plant data and then names
+            for this reason the array gets set up in two parts first taking all non
+            name details of plant then name details*/
+            
+            
             String[][] array = new String[9][15];
+            //set up plant details in array.
             for (int i = 0; i < 3; i++) {
                 StringTokenizer st = new StringTokenizer(field[i]);
                 for (int j = 0; j < 3; j++) {
                     array[j + i * 3][1] = "" + slot;
-                    array[j + i * 3][2] = "" + i;
-                    array[j + i * 3][3] = "" + j;
+                    array[j + i * 3][2] = "" + j;
+                    array[j + i * 3][3] = "" + i;
                     array[j + i * 3][5] = st.nextToken();
                     array[j + i * 3][6] = st.nextToken();
                     array[j + i * 3][7] = st.nextToken();
@@ -496,6 +583,7 @@ public final class DBManager {
 
                 }
             }
+            //Set up plant names in array
             for (int i = 0; i < 3; i++) {
 
                 StringTokenizer st = new StringTokenizer(field[i + 3]);
@@ -511,6 +599,7 @@ public final class DBManager {
                 System.out.println("");
             }
 
+            //Sets up the 9 plants within the field using the array.
             for (int i = 0; i < 9; i++) {
 
                 preparedStatement.setString(1, array[i][4]);

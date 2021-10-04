@@ -38,7 +38,7 @@ public class PlantGameModel extends Observable {
      */
     public PlantGameModel() {
         //Information search terms for use in update
-        searchTerm = new String[]{"Information", "plants", "Plant a Plant", "Pick Plant", "Water", "Next day", "Unlock", "Save game"};
+        searchTerm = new String[]{"Information", "Plants", "Plant a Plant", "Pick Plant", "Water", "Next Day", "Unlock", "Save Game"};
         manager = new DBManager();
         manager.dbsetup();
         data = new Data();
@@ -57,21 +57,7 @@ public class PlantGameModel extends Observable {
 //        setChanged();
 //        //pases the selcted save option to the plant game panel
 //        notifyObservers("Info " + i);
-
-        ArrayList<String> info = new ArrayList();
-        try {
-            info = getFiles().information(searchTerm[i]); //set change
-            //String array to store info in data
-            String[] infoArray = new String[info.size()];
-
-            for (int j = 0; j < infoArray.length; j++) {
-                infoArray[j] = info.get(j) + "\n";
-            }
-            data.setInfoText(infoArray);
-
-        } catch (IOException ex) {
-            Logger.getLogger(PlantGameModel.class.getName()).log(Level.SEVERE, null, ex);
-        }
+        data = manager.loadInfo(searchTerm[i], data);
         data.setInfoUpdate(true);
         setChanged();
         //pases the selcted save option to the plant game panel
@@ -105,10 +91,16 @@ public class PlantGameModel extends Observable {
         data.setShopText(shopContent);
         //No longer in start up
         data.setStart(false);
+
         //set change
         setChanged();
         //pases the selcted save option to the plant game panel
         notifyObservers(data);
+        try {
+            this.save(0);
+        } catch (IOException ex) {
+            Logger.getLogger(PlantGameModel.class.getName()).log(Level.SEVERE, null, ex);
+        }
 
     }
 
@@ -444,7 +436,7 @@ public class PlantGameModel extends Observable {
         data.setSaveStart(true);
         manager.loadText(data);
         data.setSaveText(data.getLoadText());
-        System.out.println("save text "+data.getUnlockText());
+        System.out.println("save text " + data.getUnlockText());
 //        //set change
 //        setChanged();
 //        //pases the selcted save option to the plant game panel
