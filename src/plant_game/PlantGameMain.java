@@ -132,12 +132,8 @@ public class PlantGameMain extends JPanel implements Observer {
     // Declaration of objects of CardLayout class.
     private CardLayout cards;
 
-    public PlantGameMain() {
-
-    }
-
     //So to follow MVC we need to be passed the information we need to know from update
-    public PlantGameMain(PlantGameModel plantGameModel) {
+    public PlantGameMain() {
         //Main card which will include a start up/main and end panel.
         mainCard = new CardLayout();
         this.setLayout(mainCard);
@@ -153,10 +149,9 @@ public class PlantGameMain extends JPanel implements Observer {
         BorderLayout border = new BorderLayout();
         this.mainView.setLayout(border);
 
-        //view and observer
-        this.plantGameModel = plantGameModel;
-        this.plantGameModel.addObserver(this);
-
+//        //view and observer
+//        this.plantGameModel = plantGameModel;
+//        this.plantGameModel.addObserver(this);
         //Create borders to highlight when plants are watered or pollinated
         blueLine = BorderFactory.createLineBorder(Color.blue);
         yellowLine = BorderFactory.createLineBorder(Color.yellow);
@@ -320,7 +315,7 @@ public class PlantGameMain extends JPanel implements Observer {
         this.previousGame = new JButton("Previous Game");
         this.loadGame = new JButton("Load Game");
         this.loadInfo = new JTextArea();
-        ArrayList<String> gameInfo = this.plantGameModel.getFiles().information("Information");
+        ArrayList<String> gameInfo = new ArrayList();
         String formated = "";
         for (int i = 0; i < gameInfo.size(); i++) {
             formated += gameInfo.get(i) + "\n";
@@ -445,13 +440,6 @@ public class PlantGameMain extends JPanel implements Observer {
         this.playerHeader.setText(playerHeader);
     }
 
-    /**
-     * Updates the player header to correctly display player information
-     */
-    public void updatePlayer() {
-        this.playerHeader.setText(this.getPlantGameModel().getPlayer().toString());
-    }
-
     public void updateField(String[][] plants, Boolean[][] water, Boolean[][] pollin) {
         for (int i = 0; i < 3; i++) {
             for (int j = 0; j < 3; j++) {
@@ -468,68 +456,6 @@ public class PlantGameMain extends JPanel implements Observer {
                 }
             }
         }
-    }
-
-    /**
-     * Updates the field to correctly display player field information
-     */
-    public void updateField() {
-        for (int i = 0; i < 3; i++) {
-            for (int j = 0; j < 3; j++) {
-                //If plant is at or above it's water limit set its border to blue
-                if ((this.getPlantGameModel().getPlayer().getField().getPlantArray()[i][j].getWaterCount() >= this.getPlantGameModel().getPlayer().getField().getPlantArray()[i][j].getWaterLimit())) {
-                    //Colours watered plants mixed
-                    this.getFieldLabels()[i][j].setBorder(blueLine);
-
-                } else {
-                    this.getFieldLabels()[i][j].setBorder(null);
-                }
-
-                //Updates the text of each panel.
-                this.getFieldLabels()[i][j].setText(this.getPlantGameModel().getPlayer().getField().getPlant(i, j).toString());
-
-            }
-        }
-        for (int i = 0; i < 3; i++) {
-            for (int j = 0; j < 3; j++) {
-                //If the plant is a pollinator set it's neighbours borders to yellow
-                if (this.getPlantGameModel().getPlayer().getField().getPlantArray()[i][j].isPollinator()) {
-                    int[] pollin = this.getPlantGameModel().getPlayer().getField().getNeighbours(i, j);
-
-                    //Section searches through above and bellow the pollinator and sets there border to either yellow or mixed border
-                    for (int k = 0; k < 2; k++) {
-                        try {
-
-                            if (this.getFieldLabels()[pollin[k]][pollin[5]].getBorder() == blueLine || this.getFieldLabels()[pollin[k]][pollin[5]].getBorder() == mixedLine) {
-                                this.getFieldLabels()[pollin[k]][pollin[5]].setBorder(mixedLine);
-                            } else {
-                                this.getFieldLabels()[pollin[k]][pollin[5]].setBorder(yellowLine);
-                            }
-
-                        } //Avoids neigbours calling poisitons out of array bounds.
-                        catch (ArrayIndexOutOfBoundsException a) {
-
-                        }
-                    }
-
-                    for (int k = 0; k < 2; k++) {
-                        try {
-
-                            if (this.getFieldLabels()[pollin[4]][pollin[k + 2]].getBorder() == blueLine || this.getFieldLabels()[pollin[4]][pollin[k + 2]].getBorder() == mixedLine) {
-                                this.getFieldLabels()[pollin[4]][pollin[k + 2]].setBorder(mixedLine);
-                            } else {
-                                this.getFieldLabels()[pollin[4]][pollin[k + 2]].setBorder(yellowLine);
-                            }
-
-                        } //Avoids neigbours calling poisitons out of array bounds.
-                        catch (ArrayIndexOutOfBoundsException a) {
-
-                        }
-                    }
-                }
-            }
-        }
-
     }
 
     private void unlockStart(int plantSetSize, int unlockSize, String[] unlockText) {
@@ -576,8 +502,6 @@ public class PlantGameMain extends JPanel implements Observer {
         this.unlockSlot[unlockSize].setText("Back");
         this.unlockSlot[unlockSize].setVisible(true);
 
-        //Update player header
-        updatePlayer();
     }
 
     private void shopUpdate(int shopSize, String[] shopText) {
@@ -595,9 +519,6 @@ public class PlantGameMain extends JPanel implements Observer {
         //add the new jbutton and back button  to the plant select panel.
         this.plantSelect.add(this.plantingButtons[shopSize - 1]);
         this.plantSelect.add(this.plantingButtons[shopSize]);
-
-        //update player
-        updatePlayer();
 
     }
 

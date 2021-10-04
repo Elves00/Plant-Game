@@ -50,8 +50,8 @@ public final class DBManager {
             try {
 
                 conn = DriverManager.getConnection(URL, USER_NAME, PASSWORD);
-//                myUpdate("DROP TABLE Player");
-//                myUpdate("DROP TABLE Field");
+                myUpdate("DROP TABLE Player");
+                myUpdate("DROP TABLE Field");
 //                myUpdate("DROP TABLE Shop");
 //                myUpdate("DROP TABLE Unlock");
 
@@ -276,6 +276,7 @@ public final class DBManager {
                 }
             }
 
+            //Plants in the field
             data.setPlants(plants);
             data.setPlantsDescription(plantsDescription);
 
@@ -292,7 +293,7 @@ public final class DBManager {
         try {
             System.out.println("select shop SELECTION" + selection);
             String sql = "SELECT * FROM Shop WHERE slot=" + selection;
-//                    WHERE slot=" + selection+"";
+
             ResultSet rs;
             rs = this.myQuery(sql);
             String shop = "";

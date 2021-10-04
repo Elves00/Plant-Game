@@ -26,11 +26,9 @@ import javax.swing.JPanel;
  */
 public class Controller extends JPanel implements ActionListener, MouseListener {
 
-    private PlantGameModel plantGameModel;
-
-    public PlantGameModel getPlantGameModel() {
-        return this.plantGameModel;
-    }
+    private PlantGameModel model;
+    //CARDS
+    private PlantGameMain view;
 
     private CardLayout card;
 
@@ -40,17 +38,7 @@ public class Controller extends JPanel implements ActionListener, MouseListener 
     private boolean watering;
     private boolean picking;
 
-    //CARDS
-    private PlantGameMain plantGameMain;
-
-    public Controller(PlantGameModel plantGameModel, PlantGameMain plantGameMain) {
-        this.plantGameModel = plantGameModel;
-        this.plantGameMain = plantGameMain;
-        this.plantGameMain.addActionListener(this); //adds the panel as a listener for all actions within the plantGamePanel
-        this.plantGameMain.addMouseListener(this);
-    }
-
-    public Controller(PlantGameModel plantGameModel) throws IOException {
+    public Controller(PlantGameModel plantGameModel, PlantGameMain plantGameMain) throws IOException {
 
 //        //Sets up a cardlayout to be used by this controller
 //        card = new CardLayout();
@@ -62,19 +50,19 @@ public class Controller extends JPanel implements ActionListener, MouseListener 
         this.picking = false;
 
         //Set up the game model
-        this.plantGameModel = plantGameModel;
-//      plantGameModel = new PlantGameModel();
+        this.model = plantGameModel;
+//      model = new PlantGameModel();
 
         //Creates the main plant panel
-        plantGameMain = new PlantGameMain(plantGameModel);
+        view = plantGameMain;
 
-        this.plantGameMain.addActionListener(this); //adds the panel as a listener for all actions within the plantGamePanel
-        this.plantGameMain.addMouseListener(this);
+        this.view.addActionListener(this); //adds the panel as a listener for all actions within the plantGamePanel
+        this.view.addMouseListener(this);
 
 //        //Cardlayout views
-        this.add(plantGameMain);
+        this.add(view);
         //Start game
-        this.plantGameModel.alternatStart();
+        this.model.alternatStart();
 
     }
 
@@ -83,9 +71,9 @@ public class Controller extends JPanel implements ActionListener, MouseListener 
         Object sourceA = e.getSource();
 
         //Creates a new game shifting the view to the jtext field for creating a new player
-        if (sourceA == plantGameMain.getNewGame()) {
+        if (sourceA == view.getNewGame()) {
             try {
-                this.plantGameModel.newGame();
+                this.model.newGame();
             } catch (MoneyException ex) {
                 Logger.getLogger(Controller.class.getName()).log(Level.SEVERE, null, ex);
             } catch (FileNotFoundException ex) {
@@ -94,12 +82,12 @@ public class Controller extends JPanel implements ActionListener, MouseListener 
         }
 
         //Gets text from the text field and creates a new player using the inputed text
-        if (sourceA == plantGameMain.getSubmit()) {
+        if (sourceA == view.getSubmit()) {
             try {
-                this.plantGameModel.newGame(plantGameMain.getUsername().getText());
+                this.model.newGame(view.getUsername().getText());
 
-                this.plantGameModel.initialView();
-                this.plantGameMain.getMainCard().show(this.plantGameMain, "b");
+                this.model.initialView();
+                this.view.getMainCard().show(this.view, "b");
 //                this.card.show(this, "B");
             } catch (MoneyException ex) {
                 Logger.getLogger(Controller.class.getName()).log(Level.SEVERE, null, ex);
@@ -109,54 +97,54 @@ public class Controller extends JPanel implements ActionListener, MouseListener 
         }
 
         //If pressed opens the load game view showing 5 save slots to load from
-        if (sourceA == plantGameMain.getLoadGame()) {
-            this.plantGameModel.loadGameView();
+        if (sourceA == view.getLoadGame()) {
+            this.model.loadGameView();
         }
 
         //Large block of buttons used to load a save slot
-        if (sourceA == plantGameMain.getOne()) {
+        if (sourceA == view.getOne()) {
             try {
-                this.plantGameModel.loadGame(0);
+                this.model.loadGame(0);
 
-                this.plantGameModel.initialView();
+                this.model.initialView();
 
             } catch (IOException ex) {
                 Logger.getLogger(Controller.class.getName()).log(Level.SEVERE, null, ex);
             }
         }
-        if (sourceA == plantGameMain.getTwo()) {
+        if (sourceA == view.getTwo()) {
             try {
-                this.plantGameModel.loadGame(1);
+                this.model.loadGame(1);
 
-                this.plantGameModel.initialView();
+                this.model.initialView();
 
             } catch (IOException ex) {
                 Logger.getLogger(Controller.class.getName()).log(Level.SEVERE, null, ex);
             }
         }
-        if (sourceA == plantGameMain.getThree()) {
+        if (sourceA == view.getThree()) {
             try {
-                this.plantGameModel.loadGame(2);
+                this.model.loadGame(2);
 
-                this.plantGameModel.initialView();
-
-            } catch (IOException ex) {
-                Logger.getLogger(Controller.class.getName()).log(Level.SEVERE, null, ex);
-            }
-        }
-        if (sourceA == plantGameMain.getFour()) {
-            try {
-                this.plantGameModel.loadGame(3);
-                this.plantGameModel.initialView();
+                this.model.initialView();
 
             } catch (IOException ex) {
                 Logger.getLogger(Controller.class.getName()).log(Level.SEVERE, null, ex);
             }
         }
-        if (sourceA == plantGameMain.getFive()) {
+        if (sourceA == view.getFour()) {
             try {
-                this.plantGameModel.loadGame(4);
-                this.plantGameModel.initialView();
+                this.model.loadGame(3);
+                this.model.initialView();
+
+            } catch (IOException ex) {
+                Logger.getLogger(Controller.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+        if (sourceA == view.getFive()) {
+            try {
+                this.model.loadGame(4);
+                this.model.initialView();
 
             } catch (IOException ex) {
                 Logger.getLogger(Controller.class.getName()).log(Level.SEVERE, null, ex);
@@ -164,11 +152,11 @@ public class Controller extends JPanel implements ActionListener, MouseListener 
         }
 
         //loads the previous saved game.
-        if (sourceA == plantGameMain.getPreviousGame()) {
+        if (sourceA == view.getPreviousGame()) {
             try {
-                this.plantGameModel.previousGame();
-                this.plantGameModel.initialView();
-                this.plantGameMain.getMainCard().show(this.plantGameMain, "b");
+                this.model.previousGame();
+                this.model.initialView();
+                this.view.getMainCard().show(this.view, "b");
             } catch (IOException ex) {
                 Logger.getLogger(Controller.class.getName()).log(Level.SEVERE, null, ex);
             } catch (InstantiationException ex) {
@@ -182,15 +170,15 @@ public class Controller extends JPanel implements ActionListener, MouseListener 
         Planting section has the buttons that manage planting
          */
         //Player is planting a plant in the field
-        if (sourceA == plantGameMain.getPlant()) {
+        if (sourceA == view.getPlant()) {
 
             //Swtich view to the selection of plants available to plant
-            this.plantGameMain.getCard().show(this.plantGameMain.getButtonPanel(), "b");
+            this.view.getCard().show(this.view.getButtonPanel(), "b");
 
         }
         //Checks which plant has been selected to plant in the field.
-        for (int i = 0; i < plantGameModel.getShop().size(); i++) {
-            if (sourceA == plantGameMain.getPlantingButtons()[i]) {
+        for (int i = 0; i < model.getShop().size(); i++) {
+            if (sourceA == view.getPlantingButtons()[i]) {
                 //Sets the plant to be planted and sets the planting condition to true.
                 //This means if a user presses in the field it will plant this plant.
                 plantToPlant = i + 1;
@@ -200,42 +188,42 @@ public class Controller extends JPanel implements ActionListener, MouseListener 
         }
 
         //Returns the user to the main card and disables planting
-        if (sourceA == plantGameMain.getPlantBack()) {
+        if (sourceA == view.getPlantBack()) {
             //Swtich view to the selection of plants available to plant
-            this.plantGameMain.getCard().show(this.plantGameMain.getButtonPanel(), "a");
+            this.view.getCard().show(this.view.getButtonPanel(), "a");
             planting = false;
             System.out.println("Pressing back");
         }
 
         //Watering
-        if (sourceA == plantGameMain.getWater()) {
+        if (sourceA == view.getWater()) {
             //sets water condition to true.
-            this.plantGameMain.getCard().show(this.plantGameMain.getButtonPanel(), "c");
+            this.view.getCard().show(this.view.getButtonPanel(), "c");
             watering = true;
         }
         //Returns the user to the main card and disables watering
-        if (sourceA == plantGameMain.getWaterBack()) {
-            this.plantGameMain.getCard().show(this.plantGameMain.getButtonPanel(), "a");
+        if (sourceA == view.getWaterBack()) {
+            this.view.getCard().show(this.view.getButtonPanel(), "a");
             watering = false;
 
         }
         //picking
-        if (sourceA == plantGameMain.getPick()) {
-            this.plantGameModel.pickView();
-            this.plantGameMain.getCard().show(this.plantGameMain.getButtonPanel(), "d");
+        if (sourceA == view.getPick()) {
+            this.model.pickView();
+            this.view.getCard().show(this.view.getButtonPanel(), "d");
             //sets picking condition to true.
             picking = true;
         }
         //Returns the user to the main card and disables picking
-        if (sourceA == plantGameMain.getPickBack()) {
-            this.plantGameMain.getCard().show(this.plantGameMain.getButtonPanel(), "a");
+        if (sourceA == view.getPickBack()) {
+            this.view.getCard().show(this.view.getButtonPanel(), "a");
             picking = false;
-            this.plantGameModel.initialView();
+            this.model.initialView();
         }
         //Progress the game to the next day.
-        if (sourceA == plantGameMain.getNextDay()) {
+        if (sourceA == view.getNextDay()) {
             try {
-                this.plantGameModel.nextDay();
+                this.model.nextDay();
             } catch (MoneyException ex) {
                 Logger.getLogger(Controller.class.getName()).log(Level.SEVERE, null, ex);
             } catch (IOException ex) {
@@ -243,15 +231,15 @@ public class Controller extends JPanel implements ActionListener, MouseListener 
             }
         }
 
-        if (sourceA == plantGameMain.getSave()) {
-            this.plantGameModel.saveView();
-            this.plantGameMain.getCard().show(this.plantGameMain.getButtonPanel(), "e");
+        if (sourceA == view.getSave()) {
+            this.model.saveView();
+            this.view.getCard().show(this.view.getButtonPanel(), "e");
 
         }
         for (int i = 0; i < 5; i++) {
-            if (sourceA == plantGameMain.getSaveSlot()[i]) {
+            if (sourceA == view.getSaveSlot()[i]) {
                 try {
-                    this.plantGameModel.save(i + 1);
+                    this.model.save(i + 1);
 
                 } catch (IOException ex) {
                     Logger.getLogger(Controller.class.getName()).log(Level.SEVERE, null, ex);
@@ -260,45 +248,45 @@ public class Controller extends JPanel implements ActionListener, MouseListener 
         }
 
         //Returns the user to the main card from the save view
-        if (sourceA == plantGameMain.getSaveBack()) {
-            this.plantGameMain.getCard().show(this.plantGameMain.getButtonPanel(), "a");
+        if (sourceA == view.getSaveBack()) {
+            this.view.getCard().show(this.view.getButtonPanel(), "a");
 
         }
         //UNLOCKS
-        if (sourceA == plantGameMain.getUnlockShop()) {
-            plantGameModel.unlockView();
-            this.plantGameMain.getCard().show(this.plantGameMain.getButtonPanel(), "f");
+        if (sourceA == view.getUnlockShop()) {
+            model.unlockView();
+            this.view.getCard().show(this.view.getButtonPanel(), "f");
 
         }
         //Unlock buttons
-        for (int i = 0; i < this.plantGameModel.getUnlocks().size(); i++) {
-            if (sourceA == plantGameMain.getUnlockSlot()[i]) {
+        for (int i = 0; i < this.model.getUnlocks().size(); i++) {
+            if (sourceA == view.getUnlockSlot()[i]) {
 
-                this.plantGameModel.unlock(i + 1);
-                //Re adds action listiener as it gets removed in plantGameMain during unlock
-                this.plantGameMain.getPlantingButtons()[this.plantGameModel.getShop().size() - 1].addActionListener(this);
+                this.model.unlock(i + 1);
+                //Re adds action listiener as it gets removed in view during unlock
+                this.view.getPlantingButtons()[this.model.getShop().size() - 1].addActionListener(this);
             }
         }
         //Returns the user to the main card from the unlock view
-        if (sourceA == plantGameMain.getUnlockBack()) {
-            this.plantGameMain.getCard().show(this.plantGameMain.getButtonPanel(), "a");
+        if (sourceA == view.getUnlockBack()) {
+            this.view.getCard().show(this.view.getButtonPanel(), "a");
 
         }
         //Information
-        if (sourceA == plantGameMain.getInformation()) {
-            this.plantGameMain.getCardField().show(this.plantGameMain.getFieldCard(), "b");
-            this.plantGameMain.getCard().show(this.plantGameMain.getButtonPanel(), "g");
+        if (sourceA == view.getInformation()) {
+            this.view.getCardField().show(this.view.getFieldCard(), "b");
+            this.view.getCard().show(this.view.getButtonPanel(), "g");
         }
         //Send back to main menu
-        if (sourceA == plantGameMain.getInfoBack()) {
+        if (sourceA == view.getInfoBack()) {
 
-            this.plantGameMain.getCardField().show(this.plantGameMain.getFieldCard(), "a");
-            this.plantGameMain.getCard().show(this.plantGameMain.getButtonPanel(), "a");
+            this.view.getCardField().show(this.view.getFieldCard(), "a");
+            this.view.getCard().show(this.view.getButtonPanel(), "a");
         }
         //Display information
         for (int i = 0; i < 8; i++) {
-            if (sourceA == plantGameMain.getInfoSlot()[i]) {
-                this.plantGameModel.getInfo(i);
+            if (sourceA == view.getInfoSlot()[i]) {
+                this.model.getInfo(i);
             }
         }
 
@@ -315,16 +303,16 @@ public class Controller extends JPanel implements ActionListener, MouseListener 
         Object sourceA = e.getSource();
         for (int i = 0; i < 3; i++) {
             for (int j = 0; j < 3; j++) {
-                if (sourceA == this.plantGameMain.getFieldLabels()[i][j]) {
-                    System.out.println("YOU PRESSED THE FIELD PLANT IS:" + this.plantGameModel.getPlayer().getField().getPlantArray()[i][j].toString());
-                    System.out.println("Water" + this.plantGameModel.getPlayer().getField().getPlantArray()[i][j].getWaterCount() + "/" + this.plantGameModel.getPlayer().getField().getPlantArray()[i][j].getWaterLimit());
-                    System.out.println("Value" + this.plantGameModel.getPlayer().getField().getPlantArray()[i][j].getValue());
+                if (sourceA == this.view.getFieldLabels()[i][j]) {
+                    System.out.println("YOU PRESSED THE FIELD PLANT IS:" + this.model.getPlayer().getField().getPlantArray()[i][j].toString());
+                    System.out.println("Water" + this.model.getPlayer().getField().getPlantArray()[i][j].getWaterCount() + "/" + this.model.getPlayer().getField().getPlantArray()[i][j].getWaterLimit());
+                    System.out.println("Value" + this.model.getPlayer().getField().getPlantArray()[i][j].getValue());
                     System.out.println("X clicked is:" + i);
                     System.out.println("X clicked is:" + j);
                     if (planting) {
                         try {
                             //Plant a plant at row i collumn j
-                            this.plantGameModel.plantAPlant(plantToPlant, i + 1, j + 1);
+                            this.model.plantAPlant(plantToPlant, i + 1, j + 1);
 
                         } catch (InstantiationException ex) {
                             Logger.getLogger(Controller.class.getName()).log(Level.SEVERE, null, ex);
@@ -332,20 +320,20 @@ public class Controller extends JPanel implements ActionListener, MouseListener 
                             Logger.getLogger(Controller.class.getName()).log(Level.SEVERE, null, ex);
                         }
 //                        //Switch the panel view back to the main view from planting view
-//                        this.plantGameMain.getCard().show(this.plantGameMain.getSouthPanel(), "a");
+//                        this.view.getCard().show(this.view.getSouthPanel(), "a");
 //                        //Switch the panel view back to the main view from planting view
-//                        this.plantGameMain.getCard().show(this.plantGameMain.getSouthPanel(), "a");
+//                        this.view.getCard().show(this.view.getSouthPanel(), "a");
 
                     }
                     if (watering) {
                         //Sets up the watering view highlighting wattered plants
-                        this.plantGameModel.waterView();
+                        this.model.waterView();
                         //Water the plant at row i collumn j
-                        this.plantGameModel.water(i, j);
+                        this.model.water(i, j);
 
                     }
                     if (picking) {
-                        this.plantGameModel.pick(i, j);
+                        this.model.pick(i, j);
                     }
 
                 }
@@ -370,13 +358,19 @@ public class Controller extends JPanel implements ActionListener, MouseListener 
 //        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
+    public PlantGameModel getModel() {
+        return this.model;
+    }
+
     public static void main(String[] args) throws IOException {
 
         JFrame frame = new JFrame("Plant Game");
         PlantGameModel pg = new PlantGameModel();
+        PlantGameMain pgm = new PlantGameMain();
+        pg.addObserver(pgm);
         // kill all threads when frame closes
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        frame.getContentPane().add(new Controller(pg));
+        frame.getContentPane().add(new Controller(pg, pgm));
         frame.pack();
         //position the frame in the middle of the screen
         Toolkit tk = Toolkit.getDefaultToolkit();

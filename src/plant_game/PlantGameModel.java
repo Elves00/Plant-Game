@@ -85,8 +85,7 @@ public class PlantGameModel extends Observable {
         data = manager.newGame(name);
         setPlayer(new Player(name));
 
-//        //Create player object with name
-//        setPlayer(getFiles().newPlayer(name));
+
         //the game may progress to the main game
         data.setMainGame(true);
         //plant set size
@@ -112,18 +111,7 @@ public class PlantGameModel extends Observable {
         //pases the selcted save option to the plant game panel
         notifyObservers(data);
 
-//        //set change
-//        setChanged();
-//        //pases the selcted save option to the plant game panel
-//        notifyObservers("Options Not Visible");
-        System.out.println("Player created with name:" + this.player.getName());
-        //Helpful prompt
-        System.out.println("");
-        System.out.println(endline);
-        System.out.println("Welcome " + name + " if you have forgotten how to play the game selecting option 6 will bring you to the information menu");
-        System.out.println("There you can find details about how to play");
-        System.out.println(endline);
-        System.out.println("");
+
 
     }
 
@@ -138,6 +126,9 @@ public class PlantGameModel extends Observable {
      * @throws FileNotFoundException
      */
     protected void newGame() throws MoneyException, FileNotFoundException {
+        //Establish inital plantselection and unlock shop.
+        setShop(new PlantSelection());
+        setUnlocks(new UnlockShop());
         //New game is selected
         data.setNewGame(true);
         setChanged();
@@ -167,8 +158,7 @@ public class PlantGameModel extends Observable {
         try {
 
             //loads the last game.
-            getFiles().loadCurrentGame();
-
+//            getFiles().loadCurrentGame();
             //SET ALL PLANTS 
             //SET ALL PLANT STATUS
             data = manager.loadGame(0);
@@ -190,6 +180,13 @@ public class PlantGameModel extends Observable {
             //Loads the shop from the database for the selected save slot
             data = manager.selectShop(0, data);
             setShop(data.getShop());
+
+            System.out.println("Unlock----:" + data.getUnlock() + data.getUnlockCost());
+            System.out.println("The unlock is:" + getUnlocks());
+
+            System.out.println("Shop----:" + data.getShop());
+
+            System.out.println("The shop is:" + getShop());
             //plant set size
             data.setPlantsetSize(PlantSet.values().length);
             //shop size
@@ -242,12 +239,12 @@ public class PlantGameModel extends Observable {
 
     protected void loadGame(int selection) throws IOException {
 
-        this.getFiles().loadGame(selection);
-
+//        this.getFiles().loadGame(selection);
         //SET ALL PLANTS 
         //SET ALL PLANT STATUS
         data = manager.loadGame(selection + 1);
         player = new Player(data.getPlayerName(), data.getMoney(), data.getDay(), data.getScore());
+
         //Sets all the plants but not all the stats
         player.getField().setAllPlants(data.getPlants());
 
@@ -266,11 +263,13 @@ public class PlantGameModel extends Observable {
         data = manager.selectShop(selection + 1, data);
         setShop(data.getShop());
 
-//        setShop(getFiles().readShop());
-        System.out.println("Save number" + selection + " loaded");
+        System.out.println("Unlock----:" + data.getUnlock() + data.getUnlockCost());
+        System.out.println("The unlock is:" + getUnlocks());
 
-        //the game may progress to the main game
-        data.setMainGame(true);
+        System.out.println("Shop----:" + data.getShop());
+
+        System.out.println("The shop is:" + getShop());
+
         //plant set size
         data.setPlantsetSize(PlantSet.values().length);
         //shop size
@@ -289,6 +288,8 @@ public class PlantGameModel extends Observable {
         data.setShopText(shopContent);
         //No longer in start up
         data.setStart(false);
+        //the game may progress to the main game
+        data.setMainGame(true);
         //set change
         setChanged();
         //pases the selcted save option to the plant game panel
@@ -615,9 +616,6 @@ public class PlantGameModel extends Observable {
         //Highscores load.
         setHighscores((OrderedList<Score>) files.loadHighScore());
 
-        //Establish inital plantselection and unlock shop.
-        setShop(new PlantSelection());
-        setUnlocks(new UnlockShop());
         //Condition for the main while loop which runs the game
         boolean flag;
         flag = true;
