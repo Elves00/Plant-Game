@@ -1,14 +1,14 @@
-Sir
-50.0
+Lena
+0.0
 100
 1
-150
-3 1 0 6 0 3 0 10 false false 0 0 0 0 0 10 0 10 false false 4 1 0 4 0 2 0 10 false false 
-0 0 0 0 0 10 0 10 false false 2 1 0 3 0 2 0 10 false false 0 0 0 0 0 10 0 10 false false 
-3 1 0 6 0 3 0 10 false false 0 0 0 0 0 10 0 10 false false 4 1 0 4 0 2 0 10 false false 
- broccoli dirt cabbage
- dirt carrot dirt
- broccoli dirt cabbage
-broccoli cabbage carrot 
-saffron truffle tulip 
-400 200 30 
+100
+0 0 0 0 0 10 0 10 false false 0 0 0 0 0 10 0 10 false false 3 1 0 6 0 3 0 10 false false 
+0 0 0 0 0 10 0 10 false false 0 0 0 0 0 10 0 10 false false 0 0 0 0 0 10 0 10 false false 
+0 0 0 0 0 10 0 10 false false 0 0 0 0 0 10 0 10 false false 0 0 0 0 0 10 0 10 false false 
+ dirt dirt broccoli
+ dirt dirt dirt
+ dirt dirt dirt
+broccoli cabbage carrot tulip 
+
+

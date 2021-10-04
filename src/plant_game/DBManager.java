@@ -353,7 +353,7 @@ public final class DBManager {
 
     public void saveField(int slot, String[] field) {
         try {
-            System.out.println("UPDATING THE FIELD FOR SAVE "+slot);
+            System.out.println("UPDATING THE FIELD FOR SAVE " + slot);
             String sql = "Update Field set name=?,growtime =?,timeplanted=?,value=?,growcounter=?,growth=?,waterlimit=?,watercounter=?,price=?,pollinator=?,pollinated=? WHERE slot=? AND x=? AND y=?";
             PreparedStatement preparedStatement = conn.prepareStatement(sql);
             System.out.println(field[0]);
@@ -428,8 +428,7 @@ public final class DBManager {
         savePlayer(slot, data);
         saveUnlock(slot, data);
         saveShop(slot, data);
-        saveField(slot,data.getFieldDetails());
-        
+        saveField(slot, data.getFieldDetails());
 
     }
 
