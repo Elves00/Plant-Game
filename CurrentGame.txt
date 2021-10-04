@@ -1,14 +1,14 @@
-Lena
-0.0
+Brecon
+160.0
 100
-1
-100
-0 0 0 0 0 10 0 10 false false 0 0 0 0 0 10 0 10 false false 3 1 0 6 0 3 0 10 false false 
+2
+360
 0 0 0 0 0 10 0 10 false false 0 0 0 0 0 10 0 10 false false 0 0 0 0 0 10 0 10 false false 
+0 0 0 0 0 10 0 10 false false 1 1 0 1 0 3 0 10 false false 0 0 0 0 0 10 0 10 false false 
 0 0 0 0 0 10 0 10 false false 0 0 0 0 0 10 0 10 false false 0 0 0 0 0 10 0 10 false false 
- dirt dirt broccoli
  dirt dirt dirt
+ dirt tulip dirt
  dirt dirt dirt
 broccoli cabbage carrot tulip 
-
-
+saffron truffle 
+30 30 
