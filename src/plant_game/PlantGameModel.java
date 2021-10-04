@@ -96,8 +96,10 @@ public class PlantGameModel extends Observable {
         setChanged();
         //pases the selcted save option to the plant game panel
         notifyObservers(data);
+
         try {
             this.save(0);
+
         } catch (IOException ex) {
             Logger.getLogger(PlantGameModel.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -280,13 +282,6 @@ public class PlantGameModel extends Observable {
         shopUpdate();
     }
 
-    /**
-     * Updates the player
-     */
-    public void playerUpdate() {
-        data.setPlayer(this.getPlayer().toString());
-    }
-
     public Data fieldUpdateData(int selection, Data data) {
         data.setFieldDetails(player.getField().toFile());
         manager.saveField(0, data.getFieldDetails());
@@ -335,7 +330,7 @@ public class PlantGameModel extends Observable {
             }
         }
         data.setFieldUpdate(true);
-        playerUpdate();
+        data = playerData(data);
         setChanged();
         //pases the selcted save option to the plant game panel
         notifyObservers(data);
@@ -455,11 +450,9 @@ public class PlantGameModel extends Observable {
         data = manager.selectShop(0, data);
         data = manager.selectUnlockShop(0, data);
         data = fieldUpdateData(selection, data);
-
+        data = playerData(data);
         manager.saveGame(selection, data);
 
-        //success message.
-        System.out.println("Save succefull");
         data.setSaveStart(true);
         manager.loadText(data);
         data.setSaveText(data.getLoadText());
@@ -486,6 +479,7 @@ public class PlantGameModel extends Observable {
     }
 
     public Data playerData(Data data) {
+        data.setPlayer(this.getPlayer().toString());
         data.setPlayerName(player.getName());
         data.setMoney(player.getMoney());
         data.setEnergy(player.getEnergy());

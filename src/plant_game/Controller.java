@@ -386,30 +386,5 @@ public class Controller extends JFrame implements ActionListener, MouseListener 
 //        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
-    public static void main(String[] args) throws IOException {
 
-        JFrame frame = new JFrame("Plant Game");
-        PlantGameModel pg = new PlantGameModel();
-        PlantGameMain pgm = new PlantGameMain();
-        pg.addObserver(pgm);
-        // kill all threads when frame closes
-        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        frame.getContentPane().add(new Controller(pg, pgm));
-        frame.pack();
-        //position the frame in the middle of the screen
-        Toolkit tk = Toolkit.getDefaultToolkit();
-        Dimension screenDimension = tk.getScreenSize();
-        Dimension frameDimension = frame.getSize();
-        frame.setLocation((screenDimension.width - frameDimension.width) / 2,
-                (screenDimension.height - frameDimension.height) / 2);
-        //Frame starts showing
-        frame.setVisible(true);
-        // now display something while the main thread is still alive
-
-        //How the thing should actually work.
-//        PlantGameModel model = new PlantGameModel();
-//        PlantGameMain view = new PlantGameMain();
-//        Controller controller = new Controller(model, view);
-//        model.addObserver(view);
-    }
 }
