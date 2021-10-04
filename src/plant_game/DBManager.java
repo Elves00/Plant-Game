@@ -414,6 +414,8 @@ public final class DBManager {
 
     public Data loadGame(int selection) {
         if (this.conn != null) {
+
+        } else {
             System.err.println("ITS NOT LOADED");
         }
         try {
