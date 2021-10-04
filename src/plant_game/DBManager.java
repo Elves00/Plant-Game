@@ -451,18 +451,19 @@ public final class DBManager {
                 }
             }
             rs.close();
-
-            for (int k = 0; k < 3; k++) {
-                for (int l = 0; l < 3; l++) {
-                    System.out.println(plants[k][l]);
-                    System.out.println(plantsDescription[k][l]);
-                }
-            }
+//
+//            for (int k = 0; k < 3; k++) {
+//                for (int l = 0; l < 3; l++) {
+//                    System.out.println(plants[k][l]);
+//                    System.out.println(plantsDescription[k][l]);
+//                }
+//            }
 
             //Plants in the field
             data.setPlants(plants);
             data.setPlantsDescription(plantsDescription);
 
+            //Sets up the shop and unlocks shop in data.
             data = selectShop(selection, data);
             data = selectUnlockShop(selection, data);
             return data;
@@ -498,9 +499,17 @@ public final class DBManager {
         return null;
     }
 
+    /**
+     * Retrieves details about shop from the shop table and stores it in a data
+     * object.
+     *
+     * @param selection which shop to load details from
+     * @param data data to save shop details to
+     * @return data
+     */
     public Data selectShop(int selection, Data data) {
         try {
-            System.out.println("select shop SELECTION" + selection);
+            System.out.println("select shop " + selection);
             String sql = "SELECT * FROM Shop WHERE slot=" + selection;
 
             ResultSet rs;
@@ -520,6 +529,12 @@ public final class DBManager {
         return null;
     }
 
+    /**
+     * Inserts a new plant into the shop table.
+     *
+     * @param selection which shop to insert the plant into
+     * @param plant plant to be inserted
+     */
     public void updateShop(int selection, String plant) {
         System.out.println("Inserting " + plant + " into save slot " + selection);
         String sql = "INSERT INTO Shop VALUES(" + selection + ",'" + plant + "'  )";
@@ -527,6 +542,12 @@ public final class DBManager {
 
     }
 
+    /**
+     * 
+     * @param slot
+     * @param data
+     * @return 
+     */
     public Data selectUnlockShop(int slot, Data data) {
         try {
             System.out.println("Unlock " + slot);
@@ -672,6 +693,11 @@ public final class DBManager {
         }
     }
 
+    /**
+     * Updates the Unlock table based on information from data
+     * @param slot
+     * @param data 
+     */
     public void saveUnlock(int slot, Data data) {
         try {
             //String sql = "update Unlock set name =? , cost =? where slot=?";
@@ -681,7 +707,7 @@ public final class DBManager {
             preparedStatement.setInt(1, slot);
             preparedStatement.executeUpdate();
 
-            sql = "INSERT INTO Unlock (name,cost) VALUES(?,?)";
+            sql = "INSERT INTO Unlock (name,cost,slot) VALUES(?,?,?)";
             StringTokenizer st1 = new StringTokenizer(data.getUnlock());
             StringTokenizer st2 = new StringTokenizer(data.getUnlockCost());
 
@@ -693,7 +719,7 @@ public final class DBManager {
                 preparedStatement.setString(1, st1.nextToken());
 
                 preparedStatement.setInt(2, parseInt(st2.nextToken()));
-
+                preparedStatement.setInt(3, slot);
                 preparedStatement.executeUpdate();
 
             }
