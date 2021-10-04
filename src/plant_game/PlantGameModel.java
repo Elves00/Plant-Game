@@ -85,7 +85,6 @@ public class PlantGameModel extends Observable {
         data = manager.newGame(name);
         setPlayer(new Player(name));
 
-
         //the game may progress to the main game
         data.setMainGame(true);
         //plant set size
@@ -110,8 +109,6 @@ public class PlantGameModel extends Observable {
         setChanged();
         //pases the selcted save option to the plant game panel
         notifyObservers(data);
-
-
 
     }
 
@@ -202,8 +199,10 @@ public class PlantGameModel extends Observable {
                     Logger.getLogger(PlantGameModel.class.getName()).log(Level.SEVERE, null, ex);
                 }
             }
-            data.setStart(false);
+            data.setShopText(shopContent);
 
+            data.setStart(false);
+            data.setMainGame(true);
             //set change
             setChanged();
             //pases the selcted save option to the plant game panel
@@ -221,13 +220,9 @@ public class PlantGameModel extends Observable {
      */
     protected void loadGameView() {
         data.setLoadGame(true);
-        try {
-
-            //Set save display text
-            data.setLoadText(this.files.saveDisplay());
-        } catch (IOException ex) {
-            Logger.getLogger(PlantGameModel.class.getName()).log(Level.SEVERE, null, ex);
-        }
+        //Sets up the load text in data
+        data = manager.loadText(data);
+        
         setChanged();
         notifyObservers(data);
 //        //set change
@@ -288,6 +283,7 @@ public class PlantGameModel extends Observable {
         data.setShopText(shopContent);
         //No longer in start up
         data.setStart(false);
+        System.out.println("WEEEEEEEEEE SET IT TRUE");
         //the game may progress to the main game
         data.setMainGame(true);
         //set change
@@ -295,10 +291,6 @@ public class PlantGameModel extends Observable {
         //pases the selcted save option to the plant game panel
         notifyObservers(data);
 
-//        //set change
-//        setChanged();
-//        //pases the selcted save option to the plant game panel
-//        notifyObservers("Shop Start");
     }
 
     public void plantAPlantView() {
@@ -525,10 +517,6 @@ public class PlantGameModel extends Observable {
     public void initialView() {
         //Update the field
         fieldUpdate();
-        //set change
-//        setChanged();
-//        //pases the selcted save option to the plant game panel
-//        notifyObservers("Initial View");
     }
 
     public Data playerData(Data data) {

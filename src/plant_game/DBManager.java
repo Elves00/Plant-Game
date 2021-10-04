@@ -541,6 +541,31 @@ public final class DBManager {
         System.out.println(unlock);
     }
 
+    public Data loadText(Data data) {
+        try {
+            String loadText[] = new String[5];
+
+            String sql = "SELECT * FROM Player where slot=?";
+
+            PreparedStatement preparedStatement = conn.prepareStatement(sql);
+            ResultSet rs;
+            for (int i = 1; i < 6; i++) {
+                preparedStatement.setInt(1, i);
+
+                rs = preparedStatement.executeQuery();
+                while (rs.next()) {
+                    loadText[i-1] = rs.getString("playerName");
+                }
+            }
+
+            data.setLoadText(loadText);
+            return data;
+        } catch (SQLException ex) {
+            Logger.getLogger(DBManager.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return null;
+    }
+
     /**
      *
      * @return

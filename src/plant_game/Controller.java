@@ -154,6 +154,7 @@ public class Controller extends JPanel implements ActionListener, MouseListener 
         //loads the previous saved game.
         if (sourceA == view.getPreviousGame()) {
             try {
+                System.out.println("previous game clicked");
                 this.model.previousGame();
                 this.model.initialView();
                 this.view.getMainCard().show(this.view, "b");
@@ -177,6 +178,7 @@ public class Controller extends JPanel implements ActionListener, MouseListener 
 
         }
         //Checks which plant has been selected to plant in the field.
+
         for (int i = 0; i < model.getShop().size(); i++) {
             if (sourceA == view.getPlantingButtons()[i]) {
                 //Sets the plant to be planted and sets the planting condition to true.

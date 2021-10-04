@@ -538,6 +538,7 @@ public class PlantGameMain extends JPanel implements Observer {
             Orignal buttons: one two three etc...
             After: broccolli cabage carrot etc...
          */
+        System.out.println("Shop starting with:" + plantSetSize);
         //If the planting buttons havnt been established establish it.
         if (this.plantingButtons == null) {
             this.plantingButtons = new JButton[plantSetSize + 1];
