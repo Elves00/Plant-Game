@@ -313,6 +313,7 @@ public final class DBManager {
                         count++;
                     }
                     count = 0;
+                    preparedStatement.close();
                 }
 
                 System.out.println("----Printing Player----");
@@ -329,6 +330,7 @@ public final class DBManager {
                     System.out.println("");
                 }
                 System.out.println("-----------");
+                rs.close();
 
                 System.out.println("----Printing Shop----");
                 sql = "SELECT * FROM shop";
@@ -339,6 +341,7 @@ public final class DBManager {
                     System.out.println("");
                 }
                 System.out.println("-----------");
+                rs.close();
 
                 System.out.println("----Printing Unlock----");
                 sql = "SELECT * FROM Unlock";
@@ -350,6 +353,7 @@ public final class DBManager {
                     System.out.println("");
                 }
                 System.out.println("-----------");
+                rs.close();
 
                 System.out.println("----Printing Field----");
                 sql = "SELECT * FROM Field";
@@ -373,6 +377,7 @@ public final class DBManager {
 
                 }
                 System.out.println("-----------");
+                rs.close();
 
                 System.out.println("----Printing Info----");
                 sql = "SELECT * FROM Info";
@@ -384,6 +389,7 @@ public final class DBManager {
                     System.out.println("");
                 }
                 System.out.println("--------");
+                rs.close();
 
             } catch (Throwable e) {
                 System.out.println("error" + e);
@@ -393,28 +399,25 @@ public final class DBManager {
     }
 
     /**
+     * Sets up a data for a new game.
      *
-     * @param name
-     * @return
+     * Sets up player name and creates a new data instance.
+     *
+     * @param name name for player
+     * @return Data
      */
     public Data newGame(String name) {
         Data data = new Data();
         data.setPlayerName(name);
-        if (!checkTableExisting("Player")) {
-            System.out.println("THE PLAYER DOESNT EXIST UH OH");
-        }
-        //Set details for shop 
-//        data = selectShop(0, data);
-
         return data;
     }
 
     public Data loadGame(int selection) {
         if (this.conn != null) {
-            System.out.println("ITS NOT LOADED");
+            System.err.println("ITS NOT LOADED");
         }
         try {
-            System.out.println("Load Game SELECTION" + selection);
+//            System.out.println("Load Game SELECTION" + selection);
 
             Data data = new Data();
             String sql = "SELECT * FROM Player WHERE slot =" + selection + "";
@@ -427,6 +430,8 @@ public final class DBManager {
                 data.setScore(rs.getInt("score"));
 
             }
+            rs.close();
+
             sql = "SELECT * FROM Field WHERE slot=" + selection + "";
             rs = this.myQuery(sql);
             String[][] plants = new String[3][3];
@@ -443,7 +448,8 @@ public final class DBManager {
                     j++;
                 }
             }
-
+            rs.close();
+            
             for (int k = 0; k < 3; k++) {
                 for (int l = 0; l < 3; l++) {
                     System.out.println(plants[k][l]);
@@ -560,8 +566,6 @@ public final class DBManager {
             /*the field array is set up to first pass in all plant data and then names
             for this reason the array gets set up in two parts first taking all non
             name details of plant then name details*/
-            
-            
             String[][] array = new String[9][15];
             //set up plant details in array.
             for (int i = 0; i < 3; i++) {
