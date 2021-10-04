@@ -40,9 +40,6 @@ public class Controller extends JFrame implements ActionListener, MouseListener 
 
     public Controller(PlantGameModel plantGameModel, PlantGameMain plantGameMain) throws IOException {
 
-//        //Sets up a cardlayout to be used by this controller
-//        card = new CardLayout();
-//        this.setLayout(card);
         //Starting conditions player is not planting watering or picking
         this.planting = false;
         this.plantToPlant = -1;
@@ -51,7 +48,6 @@ public class Controller extends JFrame implements ActionListener, MouseListener 
 
         //Set up the game model
         this.model = plantGameModel;
-//      model = new PlantGameModel();
 
         //Creates the main plant panel
         view = plantGameMain;
@@ -281,16 +277,16 @@ public class Controller extends JFrame implements ActionListener, MouseListener 
         }
 
 //        try {
-            //Unlock buttons
-            for (int i = 0; i < this.model.getUnlocks().size(); i++) {
-                if (sourceA == view.getUnlockSlot()[i]) {
+        //Unlock buttons
+        for (int i = 0; i < this.model.getUnlocks().size(); i++) {
+            if (sourceA == view.getUnlockSlot()[i]) {
 
-                    this.model.unlock(i + 1);
-                    //Re adds action listiener as it gets removed in view during unlock
-                    this.view.getPlantingButtons()[this.model.getShop().size() - 1].addActionListener(this);
-                    break;
-                }
+                this.model.unlock(i + 1);
+                //Re adds action listiener as it gets removed in view during unlock
+                this.view.getPlantingButtons()[this.model.getShop().size() - 1].addActionListener(this);
+                break;
             }
+        }
 //        } catch (NullPointerException ex) {
 //
 //        }
@@ -385,6 +381,5 @@ public class Controller extends JFrame implements ActionListener, MouseListener 
     public void mouseExited(MouseEvent e) {
 //        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
-
 
 }
