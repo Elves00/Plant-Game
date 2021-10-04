@@ -54,6 +54,7 @@ public final class DBManager {
 //                myUpdate("DROP TABLE Field");
 //                myUpdate("DROP TABLE Shop");
 //                myUpdate("DROP TABLE Unlock");
+                myUpdate("DROP TABLE Info");
 
                 if (!checkTableExisting("Player")) {
                     System.out.println("CREATING A PLAYER TABLE");
@@ -202,11 +203,129 @@ public final class DBManager {
                 }
                 System.out.println("-----------");
 
-                if (!checkTableExisting("Save")) {
-                    System.out.println("CREATING A SAVE TABLE");
-                    myUpdate("CREATE TABLE Save (slot INT)");
-                    myUpdate("INSERT INTO Save VALUES (1)");
+                if (!checkTableExisting("Info")) {
+                    System.out.println("CREATING Info TABLE");
+                    myUpdate("CREATE TABLE Info (information VARCHAR(14),line INT,words VARCHAR(254))");
+                    sql = "INSERT INTO Info (information,line,words) VALUES(?,?,?)";
+
+                    PreparedStatement preparedStatement = conn.prepareStatement(sql);
+
+                    String words = "Welcome to the Plant Game! Your main goal is to pick and plant crops to make enough money to pay the weeks rent. \n"
+                            + "\n"
+                            + "To select an option simply type the corresponding number on your keyboard and press enter.\n"
+                            + "\n"
+                            + "To plant a crop simply pick the plant crop option and type in the co-ordianates you want your plant to appear in the field. \n"
+                            + "Crops will not grow by themselves, they need water and time in order to become crops worth picking. \n"
+                            + "\n"
+                            + "Each crop type has it's own growth cycle from seed to fully grown. For a plant to move up a stage in the growth cycle you will\n"
+                            + "need to water it a certain number of times, as shown in the crop information panel. As well as watering crops require time \n"
+                            + "to grow; by pressing the next day button one day will pass and the crop will be one stage closer to growing. Some plants \n"
+                            + "take longer to grow then others and this information can be viewed in the plant information menu. \n"
+                            + "\n"
+                            + "A plant will not grow unless both enough time has passed since it's last growth and it has enough water. \n"
+                            + "\n"
+                            + "Once a crop has grown past the size of a seedling it will continue to grow in value. To realize this value you can use the \n"
+                            + "pick option. This will remove a plant from the specified co-ordinate in your field and add it's current value to your wallet.\n"
+                            + "The game ends once a player fails to meet rent which is paid every 5 days.  Enjoy the game :)";
+                    StringTokenizer st1 = new StringTokenizer(words, "\n");
+                    int count = 0;
+                    while (st1.hasMoreTokens()) {
+                        preparedStatement.setString(1, "Information");
+                        preparedStatement.setInt(2, count);
+                        preparedStatement.setString(3, st1.nextToken());
+                        preparedStatement.executeUpdate();
+                        count++;
+                    }
+
+                    words = "By selecting unlock you are entering the unlock shop. This is a shop where you may purchase new and better plants. If you chose to buy an unlock the corresponding plant will be \n"
+                            + "made avaliable to you next time you select the plant a plant option.";
+                    st1 = new StringTokenizer(words, "\n");
+                    count = 0;
+                    while (st1.hasMoreTokens()) {
+                        preparedStatement.setString(1, "Unlock");
+                        preparedStatement.setInt(2, count);
+                        preparedStatement.setString(3, st1.nextToken());
+                        preparedStatement.executeUpdate();
+                        count++;
+                    }
+                    count = 0;
+
+                    words = "By selecting the next day option the game will move to the next day. When the games moves to the next day all croops will have the \n"
+                            + "potential to grow to there next stage. A plant will grow as long as it has been watered enough and enough days have passed. Your energy\n"
+                            + "will also be set back to 100 at the start of the new day.";
+                    st1 = new StringTokenizer(words, "\n");
+                    count = 0;
+                    while (st1.hasMoreTokens()) {
+                        preparedStatement.setString(1, "Next Day");
+                        preparedStatement.setInt(2, count);
+                        preparedStatement.setString(3, st1.nextToken());
+                        preparedStatement.executeUpdate();
+                        count++;
+                    }
+                    count = 0;
+
+                    words = "When you select the pick a plant a view of the value of all plants within the field will be displayed. You will be prompted to enter a row and collumn number this represents the plant you would like to pick.\n"
+                            + "When a plant is picked it will be removed from the field and replaced by dirt unless it is a special plant such as truffle which will instead\n"
+                            + "replant itself when picked. A plant that is picked will transfer any value it has accumulated to you. For example a carrot with a value of 4$ when picked \n"
+                            + "will increase your total money by 4$.";
+                    st1 = new StringTokenizer(words, "\n");
+                    count = 0;
+                    while (st1.hasMoreTokens()) {
+                        preparedStatement.setString(1, "Pick Plant");
+                        preparedStatement.setInt(2, count);
+                        preparedStatement.setString(3, st1.nextToken());
+                        preparedStatement.executeUpdate();
+                        count++;
+                    }
+                    count = 0;
+
+                    words = "When you selecting water the field will be displayed with numbers representing how many times each plant has been watered and how many times it needs to be watered to gorw.\n"
+                            + "For example a carrot that has not been watered will display the numbers 0/2 representing that it has been watered 0 times and needs to be watered twice in order to grow. \n";
+                    st1 = new StringTokenizer(words, "\n");
+                    count = 0;
+                    while (st1.hasMoreTokens()) {
+                        preparedStatement.setString(1, "Water");
+                        preparedStatement.setInt(2, count);
+                        preparedStatement.setString(3, st1.nextToken());
+                        preparedStatement.executeUpdate();
+                        count++;
+                    }
+                    count = 0;
+
+                    words = "When you select the plant a plant option you may chose a plant to buy for your field. A plants cost is displayed next to it's selection number. Once you have purchased a plant you may select the \n"
+                            + "row and collumn you would like to plant the plant in. When a plant is planted it will replace any plant that is currently in the selected spot.";
+                    while (st1.hasMoreTokens()) {
+                        preparedStatement.setString(1, "Plant a Plant");
+                        preparedStatement.setInt(2, count);
+                        preparedStatement.setString(3, st1.nextToken());
+                        preparedStatement.executeUpdate();
+                        count++;
+                    }
+                    count = 0;
+
+                    words = "When you select the save game button a list of games will be displayed. By selecting one of the numbers you will override any save file that is currently there \n"
+                            + "and replace it with the save file of the game you are currently playing.";
+
+                    while (st1.hasMoreTokens()) {
+                        preparedStatement.setString(1, "Save Game");
+                        preparedStatement.setInt(2, count);
+                        preparedStatement.setString(3, st1.nextToken());
+                        preparedStatement.executeUpdate();
+                        count++;
+                    }
+                    count = 0;
                 }
+
+                System.out.println("----Printing Info----");
+                sql = "SELECT * FROM Info";
+                rs = this.myQuery(sql);
+                while (rs.next()) {
+                    System.out.print("" + rs.getString("information"));
+                    System.out.print(" " + rs.getInt("line"));
+                    System.out.print(" " + rs.getString("words"));
+                    System.out.println("");
+                }
+                System.out.println("--------");
 
             } catch (Throwable e) {
                 System.out.println("error" + e);

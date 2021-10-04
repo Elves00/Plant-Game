@@ -332,7 +332,7 @@ public class PlantGameModel extends Observable {
 
                     for (int k = 0; k < 2; k++) {
                         try {
-                            this.data.getPollinatePlants()[pollin[k]][pollin[5]] = true;
+                            this.data.getPollinatePlants()[pollin[4]][pollin[k + 2]] = true;
                         } //Avoids neigbours calling poisitons out of array bounds.
                         catch (ArrayIndexOutOfBoundsException a) {
 
