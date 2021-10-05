@@ -76,9 +76,10 @@ public final class Player extends Observable {
         gameState = new GameState();
     }
 
-    public Player(String name, float money, int day, int score) {
+    public Player(String name, float money, int energy, int day, int score) {
         setName(name);
         setMoney(money);
+        setEnergy(energy);
         setDay(day);
         setScore(score);
         //Player starting field

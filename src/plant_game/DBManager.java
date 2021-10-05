@@ -543,10 +543,10 @@ public final class DBManager {
     }
 
     /**
-     * 
+     *
      * @param slot
      * @param data
-     * @return 
+     * @return
      */
     public Data selectUnlockShop(int slot, Data data) {
         try {
@@ -695,8 +695,9 @@ public final class DBManager {
 
     /**
      * Updates the Unlock table based on information from data
+     *
      * @param slot
-     * @param data 
+     * @param data
      */
     public void saveUnlock(int slot, Data data) {
         try {

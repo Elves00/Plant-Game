@@ -143,7 +143,7 @@ public class PlantGameModel extends Observable {
             //SET ALL PLANTS 
             //SET ALL PLANT STATUS
             data = manager.loadGame(0);
-            player = new Player(data.getPlayerName(), data.getMoney(), data.getDay(), data.getScore());
+            player = new Player(data.getPlayerName(), data.getMoney(), data.getEnergy(), data.getDay(), data.getScore());
             //Sets all the plants but not all the stats
             player.getField().setAllPlants(data.getPlants());
 
@@ -157,7 +157,6 @@ public class PlantGameModel extends Observable {
             details.add(data.getUnlockCost());
 
             UnlockShop lin = new UnlockShop(details);
-            System.out.println("This is the unlocks" + lin);
             //Set the unlock shop with the details from jdbc
             setUnlocks(new UnlockShop(details));
             for (int i = 0; i < details.size(); i++) {
@@ -223,7 +222,7 @@ public class PlantGameModel extends Observable {
         //SET ALL PLANTS 
         //SET ALL PLANT STATUS
         data = manager.loadGame(selection + 1);
-        player = new Player(data.getPlayerName(), data.getMoney(), data.getDay(), data.getScore());
+        player = new Player(data.getPlayerName(), data.getMoney(), data.getEnergy(), data.getDay(), data.getScore());
 
         //Sets all the plants but not all the stats
         player.getField().setAllPlants(data.getPlants());
