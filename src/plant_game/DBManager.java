@@ -809,10 +809,79 @@ public final class DBManager {
                 preparedStatement.setInt(3, 100);
                 preparedStatement.setInt(4, 0);
                 preparedStatement.setInt(5, 0);
-                 preparedStatement.setInt(6, 0);
-                
+                preparedStatement.setInt(6, 0);
+
                 preparedStatement.executeUpdate();
             }
+
+            //Remove any remaining unlocks
+            sql = "DELETE FROM Unlock Where slot=?";
+            preparedStatement = conn.prepareStatement(sql);
+            preparedStatement.setInt(1, 0);
+            preparedStatement.executeUpdate();
+
+            //Re add unlocks
+            sql = "INSERT INTO Unlock(slot,name,cost) VALUES(?,?,?)";
+            preparedStatement = conn.prepareStatement(sql);
+
+            preparedStatement.setInt(1, 0);
+            preparedStatement.setString(2, "saffron");
+            preparedStatement.setInt(3, 400);
+            preparedStatement.executeUpdate();
+            preparedStatement.setInt(1, 0);
+            preparedStatement.setString(2, "truffle");
+            preparedStatement.setInt(3, 200);
+            preparedStatement.executeUpdate();
+            preparedStatement.setInt(1, 0);
+            preparedStatement.setString(2, "tulip");
+            preparedStatement.setInt(3, 30);
+            preparedStatement.executeUpdate();
+
+            sql = "UPDATE Field SET name=?,growtime=?,timeplanted=?,value=?,growcounter=?,growth=?,waterlimit=?,watercounter=?,price=?,pollinator=?,pollinated=? where x=? AND y=? AND slot=?";
+            preparedStatement = conn.prepareStatement(sql);
+            //Inserts the inital field values for slots 0,1,2,3,4,5 
+
+            for (int j = 0; j < 3; j++) {
+                for (int k = 0; k < 3; k++) {
+
+                    preparedStatement.setString(1, "dirt");
+                    preparedStatement.setInt(2, 0);
+                    preparedStatement.setInt(3, 0);
+                    preparedStatement.setInt(4, 0);
+                    preparedStatement.setInt(5, 0);
+                    preparedStatement.setInt(6, 0);
+                    preparedStatement.setInt(7, 10);
+                    preparedStatement.setInt(8, 0);
+                    preparedStatement.setInt(9, 10);
+                    preparedStatement.setBoolean(10, false);
+                    preparedStatement.setBoolean(11, false);
+                    preparedStatement.setInt(12, j);
+                    preparedStatement.setInt(13, k);
+                    preparedStatement.setInt(14, 0);
+                    preparedStatement.executeUpdate();
+                }
+            }
+
+            sql = "DELETE FROM Shop where slot=?";
+            preparedStatement = conn.prepareStatement(sql);
+            preparedStatement.setInt(1, 0);
+            preparedStatement.executeUpdate();
+
+            sql = "INSERT INTO SHOP(slot,name) VALUES(?,?)";
+
+            preparedStatement = conn.prepareStatement(sql);
+
+            preparedStatement.setInt(1, 0);
+            preparedStatement.setString(2, "broccoli");
+            preparedStatement.executeUpdate();
+            preparedStatement.setInt(1, 0);
+            preparedStatement.setString(2, "cabbage");
+            preparedStatement.executeUpdate();
+            preparedStatement.setInt(1, 0);
+            preparedStatement.setString(2, "carrot");
+            preparedStatement.executeUpdate();
+
+            System.out.println("YOU REACHED THE END");
 
         } catch (SQLException ex) {
             Logger.getLogger(DBManager.class.getName()).log(Level.SEVERE, null, ex);

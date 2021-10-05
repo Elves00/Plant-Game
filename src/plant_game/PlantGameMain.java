@@ -37,6 +37,34 @@ import javax.swing.border.Border;
 public class PlantGameMain extends JPanel implements Observer {
 
     /**
+     * @return the startView
+     */
+    public JPanel getStartView() {
+        return startView;
+    }
+
+    /**
+     * @param startView the startView to set
+     */
+    public void setStartView(JPanel startView) {
+        this.startView = startView;
+    }
+
+    /**
+     * @return the cards
+     */
+    public CardLayout getCards() {
+        return cards;
+    }
+
+    /**
+     * @param cards the cards to set
+     */
+    public void setCards(CardLayout cards) {
+        this.cards = cards;
+    }
+
+    /**
      * @return the unlockShop
      */
     public JButton getUnlockShop() {
@@ -298,8 +326,8 @@ public class PlantGameMain extends JPanel implements Observer {
 
     public void plantGameStart() throws IOException {
 
-        cards = new CardLayout();
-        startView.setLayout(cards);
+        setCards(new CardLayout());
+        getStartView().setLayout(getCards());
         //
 
         this.optionsPanel = new JPanel(new BorderLayout());
@@ -343,9 +371,9 @@ public class PlantGameMain extends JPanel implements Observer {
         this.loadGamePanelArange.add(getFive());
         loadGamePanel.add(loadGamePanelArange, BorderLayout.CENTER);
 
-        this.startView.add("a", this.optionsPanel);
-        this.startView.add("b", this.loadGamePanel);
-        this.startView.add("c", this.newGamePanel);
+        this.getStartView().add("a", this.optionsPanel);
+        this.getStartView().add("b", this.loadGamePanel);
+        this.getStartView().add("c", this.newGamePanel);
 
     }
 
@@ -425,7 +453,7 @@ public class PlantGameMain extends JPanel implements Observer {
         this.four.setText(saves[3]);
         this.five.setText(saves[4]);
         System.out.println("Swaping to panel b");
-        this.cards.show(this.startView, "b");
+        this.getCards().show(this.getStartView(), "b");
 
     }
 
@@ -611,11 +639,11 @@ public class PlantGameMain extends JPanel implements Observer {
         if (data.isStart() == true) {
             //Show starting panel
 
-            this.cards.show(this.startView, "a");
+            this.getCards().show(this.getStartView(), "a");
 
             //show new game panel
             if (data.isNewGame() == true) {
-                this.cards.show(this.startView, "c");
+                this.getCards().show(this.getStartView(), "c");
 
             } //Display the load game options
             else if (data.isLoadGame() == true) {
