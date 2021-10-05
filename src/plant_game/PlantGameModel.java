@@ -159,20 +159,12 @@ public class PlantGameModel extends Observable {
             UnlockShop lin = new UnlockShop(details);
             //Set the unlock shop with the details from jdbc
             setUnlocks(new UnlockShop(details));
-            for (int i = 0; i < details.size(); i++) {
-                System.out.println(details.get(i));
-            }
+           
 
             //Loads the shop from the database for the selected save slot
             data = manager.selectShop(0, data);
             setShop(data.getShop());
 
-            System.out.println("Unlock----:" + data.getUnlock() + data.getUnlockCost());
-            System.out.println("The unlock is:" + getUnlocks());
-
-            System.out.println("Shop----:" + data.getShop());
-
-            System.out.println("The shop is:" + getShop());
             //plant set size
             data.setPlantsetSize(PlantSet.values().length);
             //shop size
@@ -196,6 +188,9 @@ public class PlantGameModel extends Observable {
             setChanged();
             //pases the selcted save option to the plant game panel
             notifyObservers(data);
+
+            System.out.println(shop);
+            System.out.println(this.unlocks);
 
         } catch (IndexOutOfBoundsException on) {
             //There was no game stored in current game file so create a new game.
@@ -267,13 +262,15 @@ public class PlantGameModel extends Observable {
         data.setShopText(shopContent);
         //No longer in start up
         data.setStart(false);
-        System.out.println("WEEEEEEEEEE SET IT TRUE");
         //the game may progress to the main game
         data.setMainGame(true);
         //set change
         setChanged();
         //pases the selcted save option to the plant game panel
         notifyObservers(data);
+        System.out.println("Load Game shop and unlock");
+        System.out.println(shop);
+        System.out.println(unlocks);
 
     }
 

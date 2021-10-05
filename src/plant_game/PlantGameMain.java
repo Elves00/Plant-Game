@@ -424,28 +424,6 @@ public class PlantGameMain extends JPanel implements Observer {
 
         for (int i = 0; i < 3; i++) {
             for (int j = 0; j < 3; j++) {
-                System.out.print(water[i][j]);
-            }
-            System.out.println("");
-        }
-        System.out.println("");
-        for (int i = 0; i < 3; i++) {
-            for (int j = 0; j < 3; j++) {
-                System.out.print(pollin[i][j]);
-            }
-            System.out.println("");
-        }
-        System.out.println("");
-        for (int i = 0; i < 3; i++) {
-            for (int j = 0; j < 3; j++) {
-                System.out.print(plants[i][j]);
-            }
-            System.out.println("");
-        }
-        System.out.println("");
-
-        for (int i = 0; i < 3; i++) {
-            for (int j = 0; j < 3; j++) {
                 this.getFieldLabels()[i][j].setText(plants[i][j]);
                 if (water[i][j] && pollin[i][j]) {
                     this.getFieldLabels()[i][j].setBorder(mixedLine);
@@ -507,8 +485,23 @@ public class PlantGameMain extends JPanel implements Observer {
 
     }
 
+    /**
+     * Updates information displayed on the info area panel.
+     *
+     * @param infoArray
+     */
+    private void infoUpdate(String[] infoArray) {
+        String toDisplay = "";
+        for (int i = 0; i < infoArray.length; i++) {
+            toDisplay += infoArray[i] + "\n";
+        }
+        this.infoArea.setText(toDisplay);
+
+    }
+
     private void shopUpdate(int shopSize, String[] shopText) {
-        System.out.println("SHOP SIZE IS:" + shopSize);
+
+        System.out.println("Inserting:" + shopText[shopSize - 1]);
         //Sets a hidden jbutton to have the text of a new plant
         this.plantingButtons[shopSize - 1] = new JButton();
         this.plantingButtons[shopSize - 1].setText(shopText[shopSize - 1]);
@@ -525,28 +518,18 @@ public class PlantGameMain extends JPanel implements Observer {
 
     }
 
-    /**
-     * Updates information displayed on the info area panel.
-     *
-     * @param infoArray
-     */
-    private void infoUpdate(String[] infoArray) {
-        String toDisplay = "";
-        for (int i = 0; i < infoArray.length; i++) {
-            toDisplay += infoArray[i] + "\n";
-        }
-        this.infoArea.setText(toDisplay);
-
-    }
-
     private void shopStart(int plantSetSize, int shopSize, String[] shopText) {
-
+        System.out.println("Shop starting with:" + shopSize);
+        System.out.println("SHOP TEXT");
+        for (int i = 0; i < shopText.length; i++) {
+            System.out.println(shopText[i]);
+        }
         /*
             Update the shop buttons so that they display all items within the shop.
             Orignal buttons: one two three etc...
             After: broccolli cabage carrot etc...
          */
-        System.out.println("Shop starting with:" + plantSetSize);
+
         //If the planting buttons havn't been established establish it.
         if (this.plantingButtons == null) {
             this.plantingButtons = new JButton[plantSetSize + 1];
@@ -560,12 +543,11 @@ public class PlantGameMain extends JPanel implements Observer {
         }
 
         for (int i = 0; i < shopSize; i++) {
-
             //gets the associated button text from the players shop
             this.getPlantingButtons()[i].setText(shopText[i]);
             this.getPlantingButtons()[i].setVisible(true);
-
         }
+
         //Add back button after all plant buttons have been added so it is always left most option.
         this.getPlantingButtons()[shopSize] = this.plantBack;
         this.getPlantingButtons()[shopSize].setVisible(true);
@@ -608,7 +590,6 @@ public class PlantGameMain extends JPanel implements Observer {
             //score update
             scoreUpdate(data.getPlayerName(), data.getScore());
             buttonReset();
-
         }
 
         if (data.isStart() == true) {

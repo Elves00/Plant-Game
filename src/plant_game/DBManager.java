@@ -57,7 +57,7 @@ public final class DBManager {
 //                myUpdate("DROP TABLE Info");
 
                 if (!checkTableExisting("Player")) {
-                    System.out.println("CREATING A PLAYER TABLE");
+
                     //All tabel creation here
                     this.myUpdate("CREATE TABLE " + "Player" + " (slot INT,playerName VARCHAR(20),money FLOAT,energy INT ,day INT,score INT)");
                     //Inserts a player into each save slot.
@@ -68,7 +68,6 @@ public final class DBManager {
                 }
 
                 if (!checkTableExisting("Plant")) {
-                    System.out.println("CREATING A PLANT TABLE");
                     myUpdate("CREATE TABLE PLANT (name VARCHAR(10),growtime INT,timeplanted INT,value INT,growcounter INT, growth INT,waterlimit INT,watercounter INT,price INT,pollinator BOOLEAN,pollinated BOOLEAN)");
 
                     myUpdate("INSERT INTO Plant VALUES"
@@ -82,8 +81,6 @@ public final class DBManager {
                 }
 
                 if (!checkTableExisting("Shop")) {
-                    System.out.println("CREATING A Shop TABLE");
-//                      PreparedStatement pstmt = conn.prepareStatement(" UPDATE CARTABLE SET PRICE=? WHERE MODEL=?");
 
                     myUpdate("CREATE TABLE Shop (slot INT,name VARCHAR(10))");
                     String sql = "INSERT INTO SHOP(slot,name) VALUES(?,?)";
@@ -105,7 +102,7 @@ public final class DBManager {
                 }
 
                 if (!checkTableExisting("Unlock")) {
-                    System.out.println("CREATING A Unlock TABLE");
+
                     myUpdate("CREATE TABLE Unlock (slot INT,name VARCHAR(10),cost INT)");
 
                     String sql = "INSERT INTO Unlock(slot,name,cost) VALUES(?,?,?)";
@@ -128,9 +125,8 @@ public final class DBManager {
                 }
 
                 if (!checkTableExisting("Field")) {
-                    System.out.println("CREATING A FIELD TABLE");
-//                      PreparedStatement pstmt = conn.prepareStatement(" UPDATE CARTABLE SET PRICE=? WHERE MODEL=?");
 
+//                      PreparedStatement pstmt = conn.prepareStatement(" UPDATE CARTABLE SET PRICE=? WHERE MODEL=?");
                     myUpdate("CREATE TABLE Field (slot INT,x INT,y INT,name VARCHAR(10),growtime INT,timeplanted INT,value INT,growcounter INT, growth INT,waterlimit INT,watercounter INT,price INT,pollinator BOOLEAN,pollinated BOOLEAN)");
 
                     //Inserts the inital field values for slots 0,1,2,3,4,5 
@@ -145,7 +141,6 @@ public final class DBManager {
                 }
 
                 if (!checkTableExisting("Info")) {
-                    System.out.println("CREATING Info TABLE");
                     myUpdate("CREATE TABLE Info (information VARCHAR(14),line INT,words VARCHAR(254))");
                     String sql = "INSERT INTO Info (information,line,words) VALUES(?,?,?)";
 
@@ -412,6 +407,15 @@ public final class DBManager {
         return data;
     }
 
+    /**
+     * Loads a game using data from the database.
+     *
+     * Collects data for the player/field/shop and unlock from the tables and
+     * stores it in the Data class
+     *
+     * @param selection
+     * @return
+     */
     public Data loadGame(int selection) {
         if (this.conn != null) {
 
@@ -419,8 +423,7 @@ public final class DBManager {
             System.err.println("ITS NOT LOADED");
         }
         try {
-//            System.out.println("Load Game SELECTION" + selection);
-
+            //Gets player data.
             Data data = new Data();
             String sql = "SELECT * FROM Player WHERE slot =" + selection + "";
             ResultSet rs = this.myQuery(sql);
@@ -434,6 +437,7 @@ public final class DBManager {
             }
             rs.close();
 
+            //Gets field data.
             sql = "SELECT * FROM Field WHERE slot=" + selection + "";
             rs = this.myQuery(sql);
             String[][] plants = new String[3][3];
@@ -451,13 +455,6 @@ public final class DBManager {
                 }
             }
             rs.close();
-//
-//            for (int k = 0; k < 3; k++) {
-//                for (int l = 0; l < 3; l++) {
-//                    System.out.println(plants[k][l]);
-//                    System.out.println(plantsDescription[k][l]);
-//                }
-//            }
 
             //Plants in the field
             data.setPlants(plants);
@@ -467,31 +464,44 @@ public final class DBManager {
             data = selectShop(selection, data);
             data = selectUnlockShop(selection, data);
             return data;
+
         } catch (SQLException ex) {
             Logger.getLogger(DBManager.class.getName()).log(Level.SEVERE, null, ex);
         }
         return null;
     }
 
+    /**
+     * Loads information form the information table and stores it in the Data
+     * class.
+     *
+     * @param selection
+     * @param data
+     * @return
+     */
     public Data loadInfo(String selection, Data data) {
         try {
+            //Select all information
             String sql = "SELECT * FROM Info Where information='" + selection
                     + "'";
+            //set up array list to store information
             ArrayList<String> info = new ArrayList();
             ResultSet rs;
             rs = this.myQuery(sql);
-
+            //Cycles through all entrys adding to the info list,
             while (rs.next()) {
                 info.add(rs.getString("words"));
             }
             rs.close();
 
+            //stores the array list in an array to pass to data class.
             String[] words = new String[info.size()];
             for (int i = 0; i < info.size(); i++) {
                 words[i] = info.get(i);
             }
             data.setInfoText(words);
 
+            //Returns edieted data.
             return data;
         } catch (SQLException ex) {
             Logger.getLogger(DBManager.class.getName()).log(Level.SEVERE, null, ex);
@@ -509,7 +519,7 @@ public final class DBManager {
      */
     public Data selectShop(int selection, Data data) {
         try {
-            System.out.println("select shop " + selection);
+
             String sql = "SELECT * FROM Shop WHERE slot=" + selection;
 
             ResultSet rs;
@@ -519,6 +529,7 @@ public final class DBManager {
                 shop += rs.getString("name") + " ";
             }
             rs.close();
+
             data.setShop(shop);
             System.out.println("shop:" + shop);
             return data;
@@ -1011,7 +1022,6 @@ public final class DBManager {
         DBManager db = new DBManager();
         db.dbsetup();
         db.loadGame(1);
-        
 
     }
 }

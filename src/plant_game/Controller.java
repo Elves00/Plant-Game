@@ -38,6 +38,7 @@ public class Controller extends JFrame implements ActionListener, MouseListener 
     private boolean watering;
     private boolean picking;
     private boolean newGame;
+
     public Controller(PlantGameModel plantGameModel, PlantGameMain plantGameMain) throws IOException {
 
         //Starting conditions player is not planting watering or picking
@@ -52,8 +53,7 @@ public class Controller extends JFrame implements ActionListener, MouseListener 
         //Creates the main plant panel
         view = plantGameMain;
 
-        this.view.addActionListener(this); //adds the panel as a listener for all actions within the plantGamePanel
-        this.view.addMouseListener(this);
+        this.addListener();
 
 //        //Cardlayout views
         this.add(view);
@@ -73,6 +73,12 @@ public class Controller extends JFrame implements ActionListener, MouseListener 
         //Frame starts showing
         this.setVisible(true);
 
+    }
+
+    //Adds action and mouse listeners to the view
+    public void addListener() {
+        this.view.addActionListener(this); //adds the panel as a listener for all actions within the plantGamePanel
+        this.view.addMouseListener(this);
     }
 
     @Override
@@ -199,6 +205,7 @@ public class Controller extends JFrame implements ActionListener, MouseListener 
                 //This means if a user presses in the field it will plant this plant.
                 plantToPlant = i + 1;
                 planting = true;
+                break;
 
             }
         }
@@ -248,20 +255,24 @@ public class Controller extends JFrame implements ActionListener, MouseListener 
                 //Switch to high scores.
                 this.view.getMainCard().show(this.view, "a");
                 this.view.getCards().show(this.view.getStartView(), "a");
+                this.addListener();
             } catch (IOException ex) {
                 Logger.getLogger(Controller.class.getName()).log(Level.SEVERE, null, ex);
             }
         }
 
+        //Save view
         if (sourceA == view.getSave()) {
             this.model.saveView();
             this.view.getCard().show(this.view.getButtonPanel(), "e");
 
         }
+        //Checks which save button was inputed and actions it.
         for (int i = 0; i < 5; i++) {
             if (sourceA == view.getSaveSlot()[i]) {
                 try {
                     this.model.save(i + 1);
+                    break;
 
                 } catch (IOException ex) {
                     Logger.getLogger(Controller.class.getName()).log(Level.SEVERE, null, ex);
@@ -281,7 +292,6 @@ public class Controller extends JFrame implements ActionListener, MouseListener 
 
         }
 
-//        try {
         //Unlock buttons
         for (int i = 0; i < this.model.getUnlocks().size(); i++) {
             if (sourceA == view.getUnlockSlot()[i]) {
@@ -292,9 +302,6 @@ public class Controller extends JFrame implements ActionListener, MouseListener 
                 break;
             }
         }
-//        } catch (NullPointerException ex) {
-//
-//        }
 
         //Returns the user to the main card from the unlock view
         if (sourceA == view.getUnlockBack()) {
@@ -316,6 +323,7 @@ public class Controller extends JFrame implements ActionListener, MouseListener 
         for (int i = 0; i < 8; i++) {
             if (sourceA == view.getInfoSlot()[i]) {
                 this.model.getInfo(i);
+                break;
             }
         }
 
