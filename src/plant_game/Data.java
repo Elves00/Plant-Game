@@ -12,6 +12,20 @@ package plant_game;
 public class Data {
 
     /**
+     * @return the endGame
+     */
+    public boolean isEndGame() {
+        return endGame;
+    }
+
+    /**
+     * @param endGame the endGame to set
+     */
+    public void setEndGame(boolean endGame) {
+        this.endGame = endGame;
+    }
+
+    /**
      * @return the fieldDetails
      */
     public String[] getFieldDetails() {
@@ -148,6 +162,8 @@ public class Data {
 
     private boolean infoUpdate;
     private String[] infoText;
+
+    private boolean endGame;
 
     private String player;
 

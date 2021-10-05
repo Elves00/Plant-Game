@@ -786,6 +786,42 @@ public final class DBManager {
         System.out.println(unlock);
     }
 
+    /**
+     * Ends the current game in slot 0 and restore default values to the table.
+     *
+     * @return Data new game data with start set to false.
+     */
+    public Data endGame() {
+        Data data = new Data();
+        try {
+
+            String[] tableNames = new String[]{"Player,Shop,Field,Unlock"};
+
+            //Inserts a player into each save slot.
+            String sql = "UPDATE  Player SET playerName = ?,money=?,energy=?,day=?,score=? where slot =?";
+            PreparedStatement preparedStatement = conn.prepareStatement(sql);
+
+            for (int i = 0; i < tableNames.length; i++) {
+                System.out.println("Updating player table");
+//                preparedStatement.setString(1, tableNames[i]);
+                preparedStatement.setString(1, "empty");
+                preparedStatement.setFloat(2, 200);
+                preparedStatement.setInt(3, 100);
+                preparedStatement.setInt(4, 0);
+                preparedStatement.setInt(5, 0);
+                 preparedStatement.setInt(6, 0);
+                
+                preparedStatement.executeUpdate();
+            }
+
+        } catch (SQLException ex) {
+            Logger.getLogger(DBManager.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        data.setEndGame(true);
+        data.setStart(false);
+        return data;
+    }
+
     public Data loadText(Data data) {
         try {
             String loadText[] = new String[5];

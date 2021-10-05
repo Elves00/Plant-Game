@@ -243,7 +243,10 @@ public class Controller extends JFrame implements ActionListener, MouseListener 
             try {
                 this.model.nextDay();
             } catch (MoneyException ex) {
-                //When we reach here the game is ended so we switch to high scores.
+                //End game
+                
+                //Switch to high scores.
+                this.view.getMainCard().show(this.view, "a");
             } catch (IOException ex) {
                 Logger.getLogger(Controller.class.getName()).log(Level.SEVERE, null, ex);
             }

@@ -660,6 +660,9 @@ public class PlantGameMain extends JPanel implements Observer {
             this.infoUpdate(data.getInfoText());
         }
 
+        if (data.isEndGame()) {
+            //score update
+        }
     }
 
     /**
