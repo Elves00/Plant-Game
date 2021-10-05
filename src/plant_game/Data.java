@@ -164,7 +164,7 @@ public class Data {
     private String[] infoText;
 
     private boolean endGame;
-
+    
     private String player;
 
     public Data() {

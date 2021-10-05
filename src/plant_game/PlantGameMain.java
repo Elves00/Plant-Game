@@ -36,48 +36,6 @@ import javax.swing.border.Border;
  */
 public class PlantGameMain extends JPanel implements Observer {
 
-    /**
-     * @return the startView
-     */
-    public JPanel getStartView() {
-        return startView;
-    }
-
-    /**
-     * @param startView the startView to set
-     */
-    public void setStartView(JPanel startView) {
-        this.startView = startView;
-    }
-
-    /**
-     * @return the cards
-     */
-    public CardLayout getCards() {
-        return cards;
-    }
-
-    /**
-     * @param cards the cards to set
-     */
-    public void setCards(CardLayout cards) {
-        this.cards = cards;
-    }
-
-    /**
-     * @return the unlockShop
-     */
-    public JButton getUnlockShop() {
-        return unlockShop;
-    }
-
-    /**
-     * @param unlockShop the unlockShop to set
-     */
-    public void setUnlockShop(JButton unlockShop) {
-        this.unlockShop = unlockShop;
-    }
-
     private PlantGameModel plantGameModel;
     private JPanel fieldCard;
     private JPanel field;
@@ -438,10 +396,6 @@ public class PlantGameMain extends JPanel implements Observer {
         }
     }
 
-    public void startGame() {
-
-    }
-
     /**
      * Set text for loading
      */
@@ -593,7 +547,7 @@ public class PlantGameMain extends JPanel implements Observer {
             After: broccolli cabage carrot etc...
          */
         System.out.println("Shop starting with:" + plantSetSize);
-        //If the planting buttons havnt been established establish it.
+        //If the planting buttons havn't been established establish it.
         if (this.plantingButtons == null) {
             this.plantingButtons = new JButton[plantSetSize + 1];
 
@@ -632,10 +586,31 @@ public class PlantGameMain extends JPanel implements Observer {
 
     }
 
+    public void scoreUpdate(String playername, int score) {
+
+    }
+
+    /**
+     * Reset buttons once a game has ended so that back buttons continue to work
+     */
+    public void buttonReset() {
+        System.out.println("THE BIG OL RESET????");
+
+    }
+
     @Override
     public void update(Observable o, Object arg) {
 
         Data data = (Data) arg;
+
+        //If the game has ended update score and reset the button texts
+        if (data.isEndGame()) {
+            //score update
+            scoreUpdate(data.getPlayerName(), data.getScore());
+            buttonReset();
+
+        }
+
         if (data.isStart() == true) {
             //Show starting panel
 
@@ -688,9 +663,6 @@ public class PlantGameMain extends JPanel implements Observer {
             this.infoUpdate(data.getInfoText());
         }
 
-        if (data.isEndGame()) {
-            //score update
-        }
     }
 
     /**
@@ -978,6 +950,48 @@ public class PlantGameMain extends JPanel implements Observer {
      */
     public JPanel getMainView() {
         return mainView;
+    }
+
+    /**
+     * @return the startView
+     */
+    public JPanel getStartView() {
+        return startView;
+    }
+
+    /**
+     * @param startView the startView to set
+     */
+    public void setStartView(JPanel startView) {
+        this.startView = startView;
+    }
+
+    /**
+     * @return the cards
+     */
+    public CardLayout getCards() {
+        return cards;
+    }
+
+    /**
+     * @param cards the cards to set
+     */
+    public void setCards(CardLayout cards) {
+        this.cards = cards;
+    }
+
+    /**
+     * @return the unlockShop
+     */
+    public JButton getUnlockShop() {
+        return unlockShop;
+    }
+
+    /**
+     * @param unlockShop the unlockShop to set
+     */
+    public void setUnlockShop(JButton unlockShop) {
+        this.unlockShop = unlockShop;
     }
 
 }

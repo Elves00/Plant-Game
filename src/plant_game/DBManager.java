@@ -881,13 +881,11 @@ public final class DBManager {
             preparedStatement.setString(2, "carrot");
             preparedStatement.executeUpdate();
 
-            System.out.println("YOU REACHED THE END");
-
         } catch (SQLException ex) {
             Logger.getLogger(DBManager.class.getName()).log(Level.SEVERE, null, ex);
         }
         data.setEndGame(true);
-        data.setStart(false);
+
         return data;
     }
 
@@ -1013,6 +1011,7 @@ public final class DBManager {
         DBManager db = new DBManager();
         db.dbsetup();
         db.loadGame(1);
+        
 
     }
 }

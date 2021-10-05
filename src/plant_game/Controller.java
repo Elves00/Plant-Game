@@ -37,7 +37,7 @@ public class Controller extends JFrame implements ActionListener, MouseListener 
     private int plantToPlant;
     private boolean watering;
     private boolean picking;
-
+    private boolean newGame;
     public Controller(PlantGameModel plantGameModel, PlantGameMain plantGameMain) throws IOException {
 
         //Starting conditions player is not planting watering or picking
