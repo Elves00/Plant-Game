@@ -434,7 +434,6 @@ public final class DBManager {
             }
             rs.close();
 
-            
             sql = "SELECT * FROM Field WHERE slot=" + selection + "";
             rs = this.myQuery(sql);
             String[][] plants = new String[3][3];
