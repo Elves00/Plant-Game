@@ -238,11 +238,12 @@ public class Controller extends JFrame implements ActionListener, MouseListener 
             this.model.initialView();
         }
         //Progress the game to the next day.
+        //This is where the end game condition occurs as next day will eventually output a money exception.
         if (sourceA == view.getNextDay()) {
             try {
                 this.model.nextDay();
             } catch (MoneyException ex) {
-                Logger.getLogger(Controller.class.getName()).log(Level.SEVERE, null, ex);
+                //When we reach here the game is ended so we switch to high scores.
             } catch (IOException ex) {
                 Logger.getLogger(Controller.class.getName()).log(Level.SEVERE, null, ex);
             }
