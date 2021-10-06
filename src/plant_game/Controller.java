@@ -82,8 +82,6 @@ public class Controller extends JFrame implements ActionListener, MouseListener 
         this.view.addActionListener(this); //adds the panel as a listener for all actions within the plantGamePanel
         this.view.addMouseListener(this);
     }
-    
-    
 
     @Override
     public void actionPerformed(ActionEvent e) {
@@ -109,7 +107,6 @@ public class Controller extends JFrame implements ActionListener, MouseListener 
                 this.model.initialView();
                 this.view.getMainCard().show(this.view, "b");
                 this.pack();
-               
 
 //                this.card.show(this, "B");
             } catch (MoneyException ex) {
@@ -184,7 +181,6 @@ public class Controller extends JFrame implements ActionListener, MouseListener 
                 this.model.initialView();
                 this.view.getMainCard().show(this.view, "b");
                 this.pack();
-                
 
             } catch (IOException ex) {
                 Logger.getLogger(Controller.class.getName()).log(Level.SEVERE, null, ex);
