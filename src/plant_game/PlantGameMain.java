@@ -122,7 +122,7 @@ public class PlantGameMain extends JPanel implements Observer {
     private JList<Score> highScores;
     private JPanel highScorePanel;
     private JButton advance;
-
+    private JScrollPane highScoreScroll;
     // Declaration of objects of CardLayout class.
     private CardLayout cards;
 
@@ -230,10 +230,13 @@ public class PlantGameMain extends JPanel implements Observer {
 
         //High score display
         advance = new JButton("Continue");
-        highScores = new JList();
+
         highScorePanel = new JPanel(new BorderLayout());
-        highScorePanel.add(highScores, BorderLayout.CENTER);
+        highScores = new JList();
+        highScoreScroll = new JScrollPane(highScores);
+        highScorePanel.add(highScoreScroll, BorderLayout.CENTER);
         highScorePanel.add(advance, BorderLayout.SOUTH);
+
         this.add("c", this.highScorePanel);
 
         //Plant selection
@@ -656,7 +659,8 @@ public class PlantGameMain extends JPanel implements Observer {
     }
 
     public void scoreUpdate(String[] names, int[] scores) {
-        this.highScorePanel.remove(highScores);
+
+        this.highScorePanel.remove(highScoreScroll);
         OrderedList<Score> highscores = new OrderedList();
 
         for (int i = 0; i < 20; i++) {
@@ -667,7 +671,8 @@ public class PlantGameMain extends JPanel implements Observer {
         }
 
         this.highScores = new JList<Score>(highscores.toArray());
-        this.highScorePanel.add(highScores);
+        highScoreScroll = new JScrollPane(highScores);
+        this.highScorePanel.add(highScoreScroll, BorderLayout.CENTER);
 
     }
 
