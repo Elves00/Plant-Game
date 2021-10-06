@@ -11,104 +11,6 @@ package plant_game;
  */
 public class Data {
 
-    /**
-     * @return the endGame
-     */
-    public boolean isEndGame() {
-        return endGame;
-    }
-
-    /**
-     * @param endGame the endGame to set
-     */
-    public void setEndGame(boolean endGame) {
-        this.endGame = endGame;
-    }
-
-    /**
-     * @return the fieldDetails
-     */
-    public String[] getFieldDetails() {
-        return fieldDetails;
-    }
-
-    /**
-     * @param fieldDetails the fieldDetails to set
-     */
-    public void setFieldDetails(String[] fieldDetails) {
-        this.fieldDetails = fieldDetails;
-    }
-
-    /**
-     * @return the unlock
-     */
-    public String getUnlock() {
-        return unlock;
-    }
-
-    /**
-     * @param unlock the unlock to set
-     */
-    public void setUnlock(String unlock) {
-        this.unlock = unlock;
-    }
-
-    /**
-     * @return the unlockCost
-     */
-    public String getUnlockCost() {
-        return unlockCost;
-    }
-
-    /**
-     * @param unlockCost the unlockCost to set
-     */
-    public void setUnlockCost(String unlockCost) {
-        this.unlockCost = unlockCost;
-    }
-
-    /**
-     * @return the shop
-     */
-    public String getShop() {
-        return shop;
-    }
-
-    /**
-     * @param shop the shop to set
-     */
-    public void setShop(String shop) {
-        this.shop = shop;
-    }
-
-    /**
-     * @return the plantsDescription
-     */
-    public String[][] getPlantsDescription() {
-        return plantsDescription;
-    }
-
-    /**
-     * @param plantsDescription the plantsDescription to set
-     */
-    public void setPlantsDescription(String[][] plantsDescription) {
-        this.plantsDescription = plantsDescription;
-    }
-
-    /**
-     * @return the plants
-     */
-    public String[][] getPlants() {
-        return plants;
-    }
-
-    /**
-     * @param plants the plants to set
-     */
-    public void setPlants(String[][] plants) {
-        this.plants = plants;
-    }
-
     private boolean start;
     private int plantsetSize;
 
@@ -164,7 +66,12 @@ public class Data {
     private String[] infoText;
 
     private boolean endGame;
-    
+
+    //Stores information about highscores.
+    private int[] scores;
+    private String[] names;
+
+    //stores player.tostring
     private String player;
 
     public Data() {
@@ -629,5 +536,131 @@ public class Data {
      */
     public void setPlayer(String player) {
         this.player = player;
+    }
+
+    /**
+     * @return the scores
+     */
+    public int[] getScores() {
+        return scores;
+    }
+
+    /**
+     * @param scores the scores to set
+     */
+    public void setScores(int[] scores) {
+        this.scores = scores;
+    }
+
+    /**
+     * @return the names
+     */
+    public String[] getNames() {
+        return names;
+    }
+
+    /**
+     * @param names the names to set
+     */
+    public void setNames(String[] names) {
+        this.names = names;
+    }
+
+    /**
+     * @return the endGame
+     */
+    public boolean isEndGame() {
+        return endGame;
+    }
+
+    /**
+     * @param endGame the endGame to set
+     */
+    public void setEndGame(boolean endGame) {
+        this.endGame = endGame;
+    }
+
+    /**
+     * @return the fieldDetails
+     */
+    public String[] getFieldDetails() {
+        return fieldDetails;
+    }
+
+    /**
+     * @param fieldDetails the fieldDetails to set
+     */
+    public void setFieldDetails(String[] fieldDetails) {
+        this.fieldDetails = fieldDetails;
+    }
+
+    /**
+     * @return the unlock
+     */
+    public String getUnlock() {
+        return unlock;
+    }
+
+    /**
+     * @param unlock the unlock to set
+     */
+    public void setUnlock(String unlock) {
+        this.unlock = unlock;
+    }
+
+    /**
+     * @return the unlockCost
+     */
+    public String getUnlockCost() {
+        return unlockCost;
+    }
+
+    /**
+     * @param unlockCost the unlockCost to set
+     */
+    public void setUnlockCost(String unlockCost) {
+        this.unlockCost = unlockCost;
+    }
+
+    /**
+     * @return the shop
+     */
+    public String getShop() {
+        return shop;
+    }
+
+    /**
+     * @param shop the shop to set
+     */
+    public void setShop(String shop) {
+        this.shop = shop;
+    }
+
+    /**
+     * @return the plantsDescription
+     */
+    public String[][] getPlantsDescription() {
+        return plantsDescription;
+    }
+
+    /**
+     * @param plantsDescription the plantsDescription to set
+     */
+    public void setPlantsDescription(String[][] plantsDescription) {
+        this.plantsDescription = plantsDescription;
+    }
+
+    /**
+     * @return the plants
+     */
+    public String[][] getPlants() {
+        return plants;
+    }
+
+    /**
+     * @param plants the plants to set
+     */
+    public void setPlants(String[][] plants) {
+        this.plants = plants;
     }
 }
