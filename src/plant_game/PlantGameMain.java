@@ -23,6 +23,7 @@ import java.util.logging.Logger;
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
 import javax.swing.JLabel;
+import javax.swing.JList;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
@@ -116,6 +117,11 @@ public class PlantGameMain extends JPanel implements Observer {
 
     private JTextField username;
     private JButton submit;
+
+    //High scores end game
+    private JList<Score> highScores;
+    private JPanel highScorePanel;
+    private JButton advance;
 
     // Declaration of objects of CardLayout class.
     private CardLayout cards;
@@ -565,11 +571,19 @@ public class PlantGameMain extends JPanel implements Observer {
     }
 
     /**
-     * Save is always 5 slots
+     * Updates the text on save buttons.
      *
-     * @param saveText
+     * Reads each string from saveText and set buttons 1-5 to contain the text.
+     *
+     * @param saveText a String[] of length 5 with text for each save button.
      */
     public void save(String[] saveText) {
+
+        if (saveText.length != 5) {
+
+            throw new ArrayIndexOutOfBoundsException();
+
+        }
 
         for (int i = 0; i < 5; i++) {
             this.getSaveSlot()[i].setText(saveText[i]);
@@ -578,7 +592,13 @@ public class PlantGameMain extends JPanel implements Observer {
     }
 
     /**
-     * Reset buttons once a game has ended so that back buttons continue to work
+     * Resets the planting buttons and unlock shop buttons.
+     *
+     * This method is called once a game has ended reseting the planting buttons
+     * and unlock buttons back to there defaults. This is to ensure that the
+     * next game does not have residual buttons from the previous game.
+     *
+     * @param data
      */
     public void buttonReset(Data data) {
         System.out.println("THE BIG OL RESET????");
