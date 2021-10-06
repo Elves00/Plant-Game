@@ -870,7 +870,7 @@ public class PlantGame {
     }
 
     /**
-     * @param highscores the highscores to set
+     * @param highscores the high scores to set
      */
     public void setHighscores(OrderedList<Score> highscores) {
         this.highscores = highscores;

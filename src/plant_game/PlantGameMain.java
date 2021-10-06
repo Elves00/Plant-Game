@@ -462,6 +462,7 @@ public class PlantGameMain extends JPanel implements Observer {
         System.out.println("Inital size" + unlockSize);
         //Unlock setup
         for (int i = 0; i < unlockSize; i++) {
+            System.out.println("THE COUNT : "+i);
             this.unlockSlot[i].setText(unlockText[i]);
             this.unlockSlot[i].setVisible(true);
             this.unlockPanel.add(this.getUnlockSlot()[i]);
@@ -576,16 +577,16 @@ public class PlantGameMain extends JPanel implements Observer {
 
     }
 
-    public void scoreUpdate(String playername, int score) {
-
-    }
-
     /**
      * Reset buttons once a game has ended so that back buttons continue to work
      */
-    public void buttonReset() {
+    public void buttonReset(Data data) {
         System.out.println("THE BIG OL RESET????");
-
+        this.plantingButtons=null;
+        this.plantSelect.removeAll();
+        this.unlockSlot=null;
+        this.unlockPanel.removeAll();
+        
     }
 
     @Override
@@ -596,8 +597,8 @@ public class PlantGameMain extends JPanel implements Observer {
         //If the game has ended update score and reset the button texts
         if (data.isEndGame()) {
             //score update
-            scoreUpdate(data.getPlayerName(), data.getScore());
-            buttonReset();
+            //scoreUpdate(data.getPlayerName(), data.getScore());
+            buttonReset(data);
         }
 
         if (data.isStart() == true) {

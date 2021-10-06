@@ -122,6 +122,7 @@ public class PlantGameModel extends Observable {
         setUnlocks(new UnlockShop());
         //New game is selected
         data.setNewGame(true);
+
         setChanged();
         notifyObservers(data);
 
@@ -143,7 +144,7 @@ public class PlantGameModel extends Observable {
             //SET ALL PLANTS 
             //SET ALL PLANT STATUS
             data = manager.loadGame(0);
-            
+
             //Sets up the player based on data stored in the data class.
             player = new Player(data.getPlayerName(), data.getMoney(), data.getEnergy(), data.getDay(), data.getScore());
             //Sets all the plants but not all the stats
@@ -157,11 +158,11 @@ public class PlantGameModel extends Observable {
             details.add(data.getUnlock());
             details.add(data.getUnlockCost());
             setUnlocks(new UnlockShop(details));
-           
+
             //Sets the shop based on info stored in data.
             setShop(data.getShop());
 
-            //plant set size
+            //Establishs new data values for plant set size/shop size and shop content based on what the shop has been set to contain.
             data.setPlantsetSize(PlantSet.values().length);
             //shop size
             data.setShopSize(this.shop.size());
@@ -178,11 +179,14 @@ public class PlantGameModel extends Observable {
             }
             data.setShopText(shopContent);
 
+            //Once previous game has been selected the game is no longer in start up
             data.setStart(false);
+
+            //Game is now in main game
             data.setMainGame(true);
             //set change
             setChanged();
-            //pases the selcted save option to the plant game panel
+            //pases data to the view.
             notifyObservers(data);
 
             System.out.println("Previous game unlock and shop");
@@ -336,6 +340,7 @@ public class PlantGameModel extends Observable {
 
     public void unlockView() {
 
+        System.out.println("UNLOCK VIEW CALLED");
         //unlock starting
         data.setUnlockStart(true);
         //store size of unlock
@@ -486,6 +491,7 @@ public class PlantGameModel extends Observable {
     public void nextDay() throws MoneyException, IOException {
 
         try {
+//            System.out.println("Day:" + data.getDay());
             //Progresses to the next day.
             getPlayer().nextDay();
 
@@ -493,6 +499,8 @@ public class PlantGameModel extends Observable {
             fieldUpdate();
 
             data = playerData(data);
+            System.out.println("Day:" + data.getDay());
+
             manager.savePlayer(0, data);
 
         } catch (MoneyException me) {
@@ -626,7 +634,7 @@ public class PlantGameModel extends Observable {
     }
 
     /**
-     * @return the highscores
+     * @return the high scores
      */
     public OrderedList<Score> getHighscores() {
         return highscores;
