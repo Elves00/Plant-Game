@@ -439,6 +439,14 @@ public class PlantGameMain extends JPanel implements Observer {
         }
     }
 
+    /**
+     * Establishes the unlock panels buttons.
+     *
+     *
+     * @param plantSetSize Size of the games plant set
+     * @param unlockSize Size of the shop
+     * @param unlockText Text of each shop slot
+     */
     private void unlockStart(int plantSetSize, int unlockSize, String[] unlockText) {
 
         if (this.unlockSlot == null) {

@@ -519,7 +519,7 @@ public final class DBManager {
      */
     public Data selectShop(int selection, Data data) {
         try {
-
+            System.out.println("Selecting shop");
             String sql = "SELECT * FROM Shop WHERE slot=" + selection;
 
             ResultSet rs;
@@ -531,7 +531,7 @@ public final class DBManager {
             rs.close();
 
             data.setShop(shop);
-            System.out.println("shop:" + shop);
+
             return data;
         } catch (SQLException ex) {
             Logger.getLogger(DBManager.class.getName()).log(Level.SEVERE, null, ex);
@@ -599,7 +599,7 @@ public final class DBManager {
             System.out.println("UPDATING THE FIELD FOR SAVE " + slot);
             String sql = "Update Field set name=?,growtime =?,timeplanted=?,value=?,growcounter=?,growth=?,waterlimit=?,watercounter=?,price=?,pollinator=?,pollinated=? WHERE slot=? AND x=? AND y=?";
             PreparedStatement preparedStatement = conn.prepareStatement(sql);
-            System.out.println(field[0]);
+
 
             /*the field array is set up to first pass in all plant data and then names
             for this reason the array gets set up in two parts first taking all non
@@ -632,13 +632,6 @@ public final class DBManager {
                 for (int j = 0; j < 3; j++) {
                     array[j + i * 3][4] = st.nextToken();
                 }
-            }
-
-            for (int i = 0; i < 9; i++) {
-                for (int j = 0; j < 15; j++) {
-                    System.out.print(array[i][j]);
-                }
-                System.out.println("");
             }
 
             //Sets up the 9 plants within the field using the array.
@@ -681,6 +674,15 @@ public final class DBManager {
 
     }
 
+    /**
+     * Saves a player to the player table.
+     *
+     * Takes data stored within a Data class and updates each row of the player
+     * to match the content stored within
+     *
+     * @param slot
+     * @param data
+     */
     public void savePlayer(int slot, Data data) {
 
         try {
@@ -697,7 +699,7 @@ public final class DBManager {
             preparedStatement.setInt(6, slot);
 
             //Print the number of rows affected by update
-            System.out.println(preparedStatement.executeUpdate());
+            System.out.println("Rows affected: " + preparedStatement.executeUpdate());
 
         } catch (SQLException ex) {
             Logger.getLogger(DBManager.class.getName()).log(Level.SEVERE, null, ex);
@@ -724,8 +726,8 @@ public final class DBManager {
             StringTokenizer st2 = new StringTokenizer(data.getUnlockCost());
 
             preparedStatement = conn.prepareStatement(sql);
-            System.out.println("Unlock:" + data.getUnlock());
-            System.out.println("UnlockCost:" + data.getUnlockCost());
+//            System.out.println("Unlock:" + data.getUnlock());
+//            System.out.println("UnlockCost:" + data.getUnlockCost());
             while (st1.hasMoreTokens() && st2.hasMoreTokens()) {
 
                 preparedStatement.setString(1, st1.nextToken());
@@ -750,7 +752,7 @@ public final class DBManager {
             } catch (SQLException ex) {
                 Logger.getLogger(DBManager.class.getName()).log(Level.SEVERE, null, ex);
             }
-            System.out.println(unlock);
+//            System.out.println(unlock);
 
         } catch (SQLException ex) {
             Logger.getLogger(DBManager.class.getName()).log(Level.SEVERE, null, ex);
@@ -794,7 +796,7 @@ public final class DBManager {
         } catch (SQLException ex) {
             Logger.getLogger(DBManager.class.getName()).log(Level.SEVERE, null, ex);
         }
-        System.out.println(unlock);
+//        System.out.println(unlock);
     }
 
     /**

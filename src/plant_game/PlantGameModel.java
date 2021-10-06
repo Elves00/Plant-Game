@@ -143,6 +143,8 @@ public class PlantGameModel extends Observable {
             //SET ALL PLANTS 
             //SET ALL PLANT STATUS
             data = manager.loadGame(0);
+            
+            //Sets up the player based on data stored in the data class.
             player = new Player(data.getPlayerName(), data.getMoney(), data.getEnergy(), data.getDay(), data.getScore());
             //Sets all the plants but not all the stats
             player.getField().setAllPlants(data.getPlants());
@@ -150,19 +152,13 @@ public class PlantGameModel extends Observable {
             //Sets all the plants stats
             player.getField().setAllPlantStatus(data.getPlantsDescription());
 
-            //Load the unlock shop from the database for the selected save slot
-            data = manager.selectUnlockShop(0, data);
+            //Set the unlock shop with the details from data.
             ArrayList<String> details = new ArrayList();
             details.add(data.getUnlock());
             details.add(data.getUnlockCost());
-
-            UnlockShop lin = new UnlockShop(details);
-            //Set the unlock shop with the details from jdbc
             setUnlocks(new UnlockShop(details));
            
-
-            //Loads the shop from the database for the selected save slot
-            data = manager.selectShop(0, data);
+            //Sets the shop based on info stored in data.
             setShop(data.getShop());
 
             //plant set size
@@ -189,8 +185,10 @@ public class PlantGameModel extends Observable {
             //pases the selcted save option to the plant game panel
             notifyObservers(data);
 
+            System.out.println("Previous game unlock and shop");
             System.out.println(shop);
             System.out.println(this.unlocks);
+            System.out.println("");
 
         } catch (IndexOutOfBoundsException on) {
             //There was no game stored in current game file so create a new game.
@@ -236,13 +234,6 @@ public class PlantGameModel extends Observable {
         //Loads the shop from the database for the selected save slot
         data = manager.selectShop(selection + 1, data);
         setShop(data.getShop());
-
-        System.out.println("Unlock----:" + data.getUnlock() + data.getUnlockCost());
-        System.out.println("The unlock is:" + getUnlocks());
-
-        System.out.println("Shop----:" + data.getShop());
-
-        System.out.println("The shop is:" + getShop());
 
         //plant set size
         data.setPlantsetSize(PlantSet.values().length);
