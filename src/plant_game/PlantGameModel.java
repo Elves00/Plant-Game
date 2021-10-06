@@ -524,7 +524,7 @@ public class PlantGameModel extends Observable {
             data.setEndGame(false);
 
             //Throw the error to the controller.
-            throw new MoneyException();
+//            throw new MoneyException();
 
         }
 //        //set change

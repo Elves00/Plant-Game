@@ -229,9 +229,12 @@ public class PlantGameMain extends JPanel implements Observer {
         }
 
         //High score display
-        highScores = new JList();
-        highScorePanel = new JPanel();
         advance = new JButton("Continue");
+        highScores = new JList();
+        highScorePanel = new JPanel(new BorderLayout());
+        highScorePanel.add(highScores, BorderLayout.CENTER);
+        highScorePanel.add(advance, BorderLayout.SOUTH);
+        this.add("c", this.highScorePanel);
 
         //Plant selection
         this.plantSelect = new JPanel();
@@ -395,6 +398,8 @@ public class PlantGameMain extends JPanel implements Observer {
         this.three.addActionListener(actionListener);
         this.four.addActionListener(actionListener);
         this.five.addActionListener(actionListener);
+
+        this.getAdvance().addActionListener(actionListener);
 
     }
 
@@ -651,7 +656,7 @@ public class PlantGameMain extends JPanel implements Observer {
     }
 
     public void scoreUpdate(String[] names, int[] scores) {
-
+        this.highScorePanel.remove(highScores);
         OrderedList<Score> highscores = new OrderedList();
 
         for (int i = 0; i < 20; i++) {
@@ -662,6 +667,7 @@ public class PlantGameMain extends JPanel implements Observer {
         }
 
         this.highScores = new JList<Score>(highscores.toArray());
+        this.highScorePanel.add(highScores);
 
     }
 
@@ -675,6 +681,7 @@ public class PlantGameMain extends JPanel implements Observer {
             //score update
             scoreUpdate(data.getNames(), data.getScores());
             buttonReset(data);
+            this.mainCard.show(this, "c");
         }
 
         if (data.isStart() == true) {
@@ -1058,6 +1065,20 @@ public class PlantGameMain extends JPanel implements Observer {
      */
     public void setUnlockShop(JButton unlockShop) {
         this.unlockShop = unlockShop;
+    }
+
+    /**
+     * @return the advance
+     */
+    public JButton getAdvance() {
+        return advance;
+    }
+
+    /**
+     * @param advance the advance to set
+     */
+    public void setAdvance(JButton advance) {
+        this.advance = advance;
     }
 
 }

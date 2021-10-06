@@ -254,14 +254,6 @@ public class Controller extends JFrame implements ActionListener, MouseListener 
                 System.out.println(count);
                 count++;
                 this.model.nextDay();
-            } catch (MoneyException ex) {
-                //End game
-
-                //Switch to high scores.
-                this.view.getMainCard().show(this.view, "a");
-                this.view.getCards().show(this.view.getStartView(), "a");
-                this.view.buttonListener(this);
-
             } catch (IOException ex) {
                 Logger.getLogger(Controller.class.getName()).log(Level.SEVERE, null, ex);
             }
@@ -334,6 +326,13 @@ public class Controller extends JFrame implements ActionListener, MouseListener 
                 this.model.getInfo(i);
                 break;
             }
+        }
+        //Send the game back to the load game screen
+        if (sourceA == view.getAdvance()) {
+
+            this.view.getMainCard().show(this.view, "a");
+            this.view.getCards().show(this.view.getStartView(), "a");
+            this.view.buttonListener(this);
         }
 
     }
