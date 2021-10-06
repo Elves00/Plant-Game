@@ -22,6 +22,7 @@ public class Start {
             Controller controller = new Controller(model, view);
 
             model.addObserver(view); // Build connection between the view and the model.
+       
         } catch (IOException ex) {
             Logger.getLogger(Start.class.getName()).log(Level.SEVERE, null, ex);
         }

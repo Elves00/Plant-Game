@@ -264,6 +264,7 @@ public class Controller extends JFrame implements ActionListener, MouseListener 
                 //Switch to high scores.
                 this.view.getMainCard().show(this.view, "a");
                 this.view.getCards().show(this.view.getStartView(), "a");
+                this.view.buttonListener(this);
 
             } catch (IOException ex) {
                 Logger.getLogger(Controller.class.getName()).log(Level.SEVERE, null, ex);

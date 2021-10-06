@@ -462,7 +462,7 @@ public class PlantGameMain extends JPanel implements Observer {
         System.out.println("Inital size" + unlockSize);
         //Unlock setup
         for (int i = 0; i < unlockSize; i++) {
-            System.out.println("THE COUNT : "+i);
+            System.out.println("THE COUNT : " + i);
             this.unlockSlot[i].setText(unlockText[i]);
             this.unlockSlot[i].setVisible(true);
             this.unlockPanel.add(this.getUnlockSlot()[i]);
@@ -582,11 +582,47 @@ public class PlantGameMain extends JPanel implements Observer {
      */
     public void buttonReset(Data data) {
         System.out.println("THE BIG OL RESET????");
-        this.plantingButtons=null;
+        this.plantingButtons = null;
         this.plantSelect.removeAll();
-        this.unlockSlot=null;
+        this.unlockSlot = null;
         this.unlockPanel.removeAll();
-        
+
+        this.plantingButtons = new JButton[PlantSet.values().length + 1];
+        //Number of plant buttons plus a plantBack button
+        for (int i = 0; i < PlantSet.values().length + 1; i++) {
+            this.plantingButtons[i] = new JButton();
+            this.plantingButtons[i].setVisible(false);
+            this.plantSelect.add(this.plantingButtons[i]);
+        }
+
+        this.unlockSlot = new JButton[PlantSet.values().length - 2];
+        //Unlock setup
+        for (int i = 0; i < PlantSet.values().length - 2; i++) {
+            this.unlockSlot[i] = new JButton();
+            this.unlockSlot[i].setVisible(false);
+        }
+    }
+
+    /**
+     * Adds action listeners to both shop and unlock buttons.
+     *
+     * This method is called by the controller after the game has ended to re
+     * add listeners after the button slots are reset in preparation for the
+     * next game.
+     */
+    public void buttonListener(ActionListener actionListener) {
+
+        //Unlock listeners
+        for (int i = 0; i < getUnlockSlot().length; i++) {
+
+            getUnlockSlot()[i].addActionListener(actionListener);
+        }
+
+        //Action listners for planting options
+        for (int i = 0; i < getPlantingButtons().length; i++) {
+            getPlantingButtons()[i].addActionListener(actionListener);
+        }
+
     }
 
     @Override

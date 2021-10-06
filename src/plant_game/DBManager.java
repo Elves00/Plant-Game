@@ -585,6 +585,13 @@ public final class DBManager {
         return null;
     }
 
+    /**
+     * 
+     * @param selection
+     * @param plant
+     * @param data
+     * @return 
+     */
     public Data updateUnlock(int selection, String plant, Data data) {
         System.out.println("Deleting " + plant + " from save slot " + selection);
         String sql = "DELETE FROM Unlock WHERE slot=" + selection + " AND  name ='" + plant + "'";
@@ -594,6 +601,11 @@ public final class DBManager {
         return data;
     }
 
+    /**
+     * 
+     * @param slot
+     * @param field 
+     */
     public void saveField(int slot, String[] field) {
         try {
             System.out.println("UPDATING THE FIELD FOR SAVE " + slot);
@@ -936,6 +948,7 @@ public final class DBManager {
         return this.conn;
     }
 
+    
     public void establishConnection() {
         //If there is no existing connection try connect
         if (this.conn == null) {

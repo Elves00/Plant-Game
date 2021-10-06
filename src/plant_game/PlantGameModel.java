@@ -505,14 +505,20 @@ public class PlantGameModel extends Observable {
 
         } catch (MoneyException me) {
             System.out.println("Caught the moeny error in next day");
+
             //Updates the player score
             data.setScore(player.getScore());
+
             //Tells data base game is ending and to update data
             data = manager.endGame();
+
+            //Send data to view.
             setChanged();
             notifyObservers(data);
+
             //set end game back to false;
             data.setEndGame(false);
+
             //Throw the error to the controller.
             throw new MoneyException();
 
