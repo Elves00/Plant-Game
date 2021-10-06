@@ -228,6 +228,11 @@ public class PlantGameMain extends JPanel implements Observer {
             this.unlockSlot[i].setVisible(false);
         }
 
+        //High score display
+        highScores = new JList();
+        highScorePanel = new JPanel();
+        advance = new JButton("Continue");
+
         //Plant selection
         this.plantSelect = new JPanel();
         this.plantingButtons = new JButton[PlantSet.values().length + 1];
@@ -645,6 +650,21 @@ public class PlantGameMain extends JPanel implements Observer {
 
     }
 
+    public void scoreUpdate(String[] names, int[] scores) {
+
+        OrderedList<Score> highscores = new OrderedList();
+
+        for (int i = 0; i < 20; i++) {
+            if (!(names[i] == null && scores[i] == 0)) {
+                highscores.add(new Score(names[i], scores[i]));
+            }
+
+        }
+
+        this.highScores = new JList<Score>(highscores.toArray());
+
+    }
+
     @Override
     public void update(Observable o, Object arg) {
 
@@ -653,7 +673,7 @@ public class PlantGameMain extends JPanel implements Observer {
         //If the game has ended update score and reset the button texts
         if (data.isEndGame()) {
             //score update
-            //scoreUpdate(data.getPlayerName(), data.getScore());
+            scoreUpdate(data.getNames(), data.getScores());
             buttonReset(data);
         }
 

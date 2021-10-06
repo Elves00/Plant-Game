@@ -100,6 +100,17 @@ public class OrderedList<E extends Comparable<E>> extends AbstractList {
         return possible;
     }
 
+    public Score[] toArray() {
+        Score[] array = new Score[this.numElements];
+        int i = 0;
+        Iterator it = this.iterator();
+        while (it.hasNext()) {
+            array[i] = (Score) it.next();
+            i++;
+        }
+        return array;
+    }
+
     @Override
     public Object get(int index) {
 
