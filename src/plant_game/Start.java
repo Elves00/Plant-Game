@@ -17,7 +17,7 @@ public class Start {
 
     public static void main(String[] args) {
         try {
-            View view = new View();
+            PlantGameMain view = new PlantGameMain();
             PlantGameModel model = new PlantGameModel();
             Controller controller = new Controller(model, view);
 
