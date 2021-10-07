@@ -417,15 +417,65 @@ public final class DBManager {
     /**
      * Sets up a data for a new game.
      *
-     * Sets up player name and creates a new data instance.
+     * Sets up player name and creates a new data instance. Resets the unlock
+     * and shop selection.
      *
      * @param name name for player
      * @return Data
      */
     public Data newGame(String name) {
-        Data data = new Data();
-        data.setPlayerName(name);
-        return data;
+        try {
+            Data data = new Data();
+            data.setPlayerName(name);
+
+            //reset Unlock selection
+            String sql = "DELETE FROM Unlock where slot=?";
+            PreparedStatement preparedStatement = conn.prepareStatement(sql);
+            preparedStatement.setInt(1, 0);
+            preparedStatement.executeUpdate();
+
+            sql = "INSERT INTO Unlock (name,cost,slot) VALUES(?,?,?)";
+            preparedStatement = conn.prepareStatement(sql);
+            preparedStatement.setString(1, "saffron");
+            preparedStatement.setInt(2, 400);
+            preparedStatement.setInt(3, 0);
+            preparedStatement.executeUpdate();
+            preparedStatement.setString(1, "truffle");
+            preparedStatement.setInt(2, 200);
+            preparedStatement.setInt(3, 0);
+            preparedStatement.executeUpdate();
+            preparedStatement.setString(1, "tulip");
+            preparedStatement.setInt(2, 30);
+            preparedStatement.setInt(3, 0);
+            preparedStatement.executeUpdate();
+
+            //Reset shop selection
+            sql = "DELETE FROM Shop where slot=?";
+
+            preparedStatement = conn.prepareStatement(sql);
+
+            preparedStatement.setInt(1, 0);
+            preparedStatement.executeUpdate();
+
+            sql = "INSERT INTO Shop (slot , name) VALUES(?,?)";
+            preparedStatement = conn.prepareStatement(sql);
+
+            preparedStatement.setInt(1, 0);
+            preparedStatement.setString(2, "broccoli");
+            preparedStatement.executeUpdate();
+            preparedStatement.setInt(1, 0);
+            preparedStatement.setString(2, "cabbage");
+            preparedStatement.executeUpdate();
+            preparedStatement.setInt(1, 0);
+            preparedStatement.setString(2, "carrot");
+            preparedStatement.executeUpdate();
+            return data;
+
+        } catch (SQLException ex) {
+            Logger.getLogger(DBManager.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return null;
+
     }
 
     /**
@@ -637,77 +687,6 @@ public final class DBManager {
     }
 
     /**
-     *
-     * @param slot
-     * @param field
-     */
-    public void saveField(int slot, String[] field) {
-        try {
-//            System.out.println("UPDATING THE FIELD FOR SAVE " + slot);
-            String sql = "Update Field set name=?,growtime =?,timeplanted=?,value=?,growcounter=?,growth=?,waterlimit=?,watercounter=?,price=?,pollinator=?,pollinated=? WHERE slot=? AND x=? AND y=?";
-            PreparedStatement preparedStatement = conn.prepareStatement(sql);
-
-
-            /*the field array is set up to first pass in all plant data and then names
-            for this reason the array gets set up in two parts first taking all non
-            name details of plant then name details*/
-            String[][] array = new String[9][15];
-            //set up plant details in array.
-            for (int i = 0; i < 3; i++) {
-                StringTokenizer st = new StringTokenizer(field[i]);
-                for (int j = 0; j < 3; j++) {
-                    array[j + i * 3][1] = "" + slot;
-                    array[j + i * 3][2] = "" + j;
-                    array[j + i * 3][3] = "" + i;
-                    array[j + i * 3][5] = st.nextToken();
-                    array[j + i * 3][6] = st.nextToken();
-                    array[j + i * 3][7] = st.nextToken();
-                    array[j + i * 3][8] = st.nextToken();
-                    array[j + i * 3][9] = st.nextToken();
-                    array[j + i * 3][10] = st.nextToken();
-                    array[j + i * 3][11] = st.nextToken();
-                    array[j + i * 3][12] = st.nextToken();
-                    array[j + i * 3][13] = st.nextToken();
-                    array[j + i * 3][14] = st.nextToken();
-
-                }
-            }
-            //Set up plant names in array
-            for (int i = 0; i < 3; i++) {
-
-                StringTokenizer st = new StringTokenizer(field[i + 3]);
-                for (int j = 0; j < 3; j++) {
-                    array[j + i * 3][4] = st.nextToken();
-                }
-            }
-
-            //Sets up the 9 plants within the field using the array.
-            for (int i = 0; i < 9; i++) {
-
-                preparedStatement.setString(1, array[i][4]);
-                preparedStatement.setInt(2, parseInt(array[i][5]));
-                preparedStatement.setInt(3, parseInt(array[i][6]));
-                preparedStatement.setInt(4, parseInt(array[i][7]));
-                preparedStatement.setInt(5, parseInt(array[i][8]));
-                preparedStatement.setInt(6, parseInt(array[i][9]));
-                preparedStatement.setInt(7, parseInt(array[i][10]));
-                preparedStatement.setInt(8, parseInt(array[i][11]));
-                preparedStatement.setInt(9, parseInt(array[i][12]));
-                preparedStatement.setBoolean(10, parseBoolean(array[i][13]));
-                preparedStatement.setBoolean(11, parseBoolean(array[i][14]));
-                preparedStatement.setInt(12, parseInt(array[i][1]));
-                preparedStatement.setInt(13, parseInt(array[i][2]));
-                preparedStatement.setInt(14, parseInt(array[i][3]));
-                preparedStatement.executeUpdate();
-
-            }
-
-        } catch (SQLException ex) {
-            Logger.getLogger(DBManager.class.getName()).log(Level.SEVERE, null, ex);
-        }
-    }
-
-    /**
      * Saves a player to the player table.
      *
      * Takes data stored within a Data class and updates each row of the player
@@ -783,8 +762,20 @@ public final class DBManager {
             } catch (SQLException ex) {
                 Logger.getLogger(DBManager.class.getName()).log(Level.SEVERE, null, ex);
             }
-//            System.out.println(unlock);
 
+            System.out.println("----Printing Unlock----");
+            sql = "SELECT * FROM Unlock";
+            rs = this.myQuery(sql);
+            while (rs.next()) {
+                System.out.print("" + rs.getInt("slot"));
+                System.out.print(" " + rs.getString("name"));
+                System.out.print(" " + rs.getInt("cost"));
+                System.out.println("");
+            }
+            System.out.println("-----------");
+            rs.close();
+
+//            System.out.println(unlock);
         } catch (SQLException ex) {
             Logger.getLogger(DBManager.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -828,6 +819,77 @@ public final class DBManager {
             Logger.getLogger(DBManager.class.getName()).log(Level.SEVERE, null, ex);
         }
 //        System.out.println(unlock);
+    }
+
+    /**
+     *
+     * @param slot
+     * @param field
+     */
+    public void saveField(int slot, String[] field) {
+        try {
+//            System.out.println("UPDATING THE FIELD FOR SAVE " + slot);
+            String sql = "Update Field set name=?,growtime =?,timeplanted=?,value=?,growcounter=?,growth=?,waterlimit=?,watercounter=?,price=?,pollinator=?,pollinated=? WHERE slot=? AND x=? AND y=?";
+            PreparedStatement preparedStatement = conn.prepareStatement(sql);
+
+
+            /*the field array is set up to first pass in all plant data and then names
+            for this reason the array gets set up in two parts first taking all non
+            name details of plant then name details*/
+            String[][] array = new String[9][15];
+            //set up plant details in array.
+            for (int i = 0; i < 3; i++) {
+                StringTokenizer st = new StringTokenizer(field[i]);
+                for (int j = 0; j < 3; j++) {
+                    array[j + i * 3][1] = "" + slot;
+                    array[j + i * 3][2] = "" + j;
+                    array[j + i * 3][3] = "" + i;
+                    array[j + i * 3][5] = st.nextToken();
+                    array[j + i * 3][6] = st.nextToken();
+                    array[j + i * 3][7] = st.nextToken();
+                    array[j + i * 3][8] = st.nextToken();
+                    array[j + i * 3][9] = st.nextToken();
+                    array[j + i * 3][10] = st.nextToken();
+                    array[j + i * 3][11] = st.nextToken();
+                    array[j + i * 3][12] = st.nextToken();
+                    array[j + i * 3][13] = st.nextToken();
+                    array[j + i * 3][14] = st.nextToken();
+
+                }
+            }
+            //Set up plant names in array
+            for (int i = 0; i < 3; i++) {
+
+                StringTokenizer st = new StringTokenizer(field[i + 3]);
+                for (int j = 0; j < 3; j++) {
+                    array[j + i * 3][4] = st.nextToken();
+                }
+            }
+
+            //Sets up the 9 plants within the field using the array.
+            for (int i = 0; i < 9; i++) {
+
+                preparedStatement.setString(1, array[i][4]);
+                preparedStatement.setInt(2, parseInt(array[i][5]));
+                preparedStatement.setInt(3, parseInt(array[i][6]));
+                preparedStatement.setInt(4, parseInt(array[i][7]));
+                preparedStatement.setInt(5, parseInt(array[i][8]));
+                preparedStatement.setInt(6, parseInt(array[i][9]));
+                preparedStatement.setInt(7, parseInt(array[i][10]));
+                preparedStatement.setInt(8, parseInt(array[i][11]));
+                preparedStatement.setInt(9, parseInt(array[i][12]));
+                preparedStatement.setBoolean(10, parseBoolean(array[i][13]));
+                preparedStatement.setBoolean(11, parseBoolean(array[i][14]));
+                preparedStatement.setInt(12, parseInt(array[i][1]));
+                preparedStatement.setInt(13, parseInt(array[i][2]));
+                preparedStatement.setInt(14, parseInt(array[i][3]));
+                preparedStatement.executeUpdate();
+
+            }
+
+        } catch (SQLException ex) {
+            Logger.getLogger(DBManager.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 
     /**

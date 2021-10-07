@@ -127,8 +127,19 @@ public class PlantGameModel extends Observable {
 
     }
 
+    /**
+     * Saves the current game and notifys the data class of changes.
+     *
+     * Save game to current game and set main menu to true telling the data
+     * class to preform main menu actions. afterwards create a new data class as
+     * the options present to the player all require a fresh data object.
+     */
     public void mainMenu() {
         this.save(0);
+        data.setMainMenu(true);
+        setChanged();
+        notifyObservers(data);
+        data.setMainMenu(false);
         this.data = new Data();
     }
 

@@ -12,6 +12,20 @@ package plant_game;
 public class Data {
 
     /**
+     * @return the mainMenu
+     */
+    public boolean isMainMenu() {
+        return mainMenu;
+    }
+
+    /**
+     * @param mainMenu the mainMenu to set
+     */
+    public void setMainMenu(boolean mainMenu) {
+        this.mainMenu = mainMenu;
+    }
+
+    /**
      * @return the checkScores
      */
     public boolean isCheckScores() {
@@ -119,6 +133,8 @@ public class Data {
 
     private String warning;
     private boolean warningCheck;
+    
+    private boolean mainMenu;
 
     public Data() {
         start = true;

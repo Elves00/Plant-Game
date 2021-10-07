@@ -228,6 +228,7 @@ public class Controller extends JFrame implements ActionListener, MouseListener 
         if (sourceA == view.getMainMenu()) {
 
             this.model.mainMenu();
+            this.view.buttonListener(this);
 
             //show the main menu
             this.view.getMainCard().show(this.view, "a");
