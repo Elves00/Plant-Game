@@ -37,27 +37,6 @@ import javax.swing.border.Border;
  */
 public class PlantGameMain extends JPanel implements Observer {
 
-    /**
-     * @return the highScoreBack
-     */
-    public JButton getHighScoreBack() {
-        return highScoreBack;
-    }
-
-    /**
-     * @return the mainMenu
-     */
-    public JButton getMainMenu() {
-        return mainMenu;
-    }
-
-    /**
-     * @return the highScoresButton
-     */
-    public JButton getHighScoresButton() {
-        return highScoresButton;
-    }
-
     private PlantGameModel plantGameModel;
     private JPanel fieldCard;
     private JPanel field;
@@ -254,13 +233,8 @@ public class PlantGameMain extends JPanel implements Observer {
         this.gameOptions.add(highScoresButton);
         this.gameOptions.add(mainMenu);
 
-        //Unlocks initial length starts as the base set - 3 + 1 as you always start with 3 plants and we need one extra slot for the back button
-        this.unlockSlot = new JButton[PlantSet.values().length - 2];
-        //Unlock setup
-        for (int i = 0; i < PlantSet.values().length - 2; i++) {
-            this.unlockSlot[i] = new JButton();
-            this.unlockSlot[i].setVisible(false);
-        }
+        //Set up the unlock buttons
+        this.unlockButtons();
 
         //High score display
         advance = new JButton("Continue");
@@ -273,14 +247,9 @@ public class PlantGameMain extends JPanel implements Observer {
 
         //Plant selection
         this.plantSelect = new JPanel();
-        this.plantingButtons = new JButton[PlantSet.values().length + 1];
 
-        //Number of plant buttons plus a plantBack button
-        for (int i = 0; i < PlantSet.values().length + 1; i++) {
-            this.plantingButtons[i] = new JButton();
-            this.plantingButtons[i].setVisible(false);
-            this.plantSelect.add(this.plantingButtons[i]);
-        }
+        //Sets up the plant shop buttons
+        this.plantShopButtons();
 
         //Watering Panel
         this.wateringPanel = new JPanel();
@@ -340,6 +309,34 @@ public class PlantGameMain extends JPanel implements Observer {
             Logger.getLogger(PlantGameMain.class.getName()).log(Level.SEVERE, null, ex);
         }
 
+    }
+
+    /**
+     * Sets up the shop with blank buttons.
+     */
+    public void plantShopButtons() {
+        this.plantingButtons = new JButton[PlantSet.values().length + 1];
+
+        //Number of plant buttons plus a plantBack button
+        for (int i = 0; i < PlantSet.values().length + 1; i++) {
+            this.plantingButtons[i] = new JButton();
+            this.plantingButtons[i].setVisible(false);
+            this.plantSelect.add(this.plantingButtons[i]);
+        }
+
+    }
+
+    /**
+     * Sets up the unlocks with blank buttons.
+     */
+    public void unlockButtons() {
+        //Unlocks initial length starts as the base set - 3 + 1 as you always start with 3 plants and we need one extra slot for the back button
+        this.unlockSlot = new JButton[PlantSet.values().length - 2];
+        //Unlock setup
+        for (int i = 0; i < PlantSet.values().length - 2; i++) {
+            this.unlockSlot[i] = new JButton();
+            this.unlockSlot[i].setVisible(false);
+        }
     }
 
     public void plantGameStart() throws IOException {
@@ -653,33 +650,41 @@ public class PlantGameMain extends JPanel implements Observer {
     /**
      * Resets the planting buttons and unlock shop buttons.
      *
-     * This method is called once a game has ended reseting the planting buttons
-     * and unlock buttons back to there defaults. This is to ensure that the
-     * next game does not have residual buttons from the previous game.
+     * This method is called once a game has ended resetting the planting
+     * buttons and unlock buttons back to there defaults. This is to ensure that
+     * the next game does not have residual buttons from the previous game.
      *
      * @param data
      */
     public void buttonReset(Data data) {
-        System.out.println("THE BIG OL RESET????");
+
+        //remove all buttons from both unlock slot and plant select
         this.plantingButtons = null;
         this.plantSelect.removeAll();
         this.unlockSlot = null;
         this.unlockPanel.removeAll();
 
-        this.plantingButtons = new JButton[PlantSet.values().length + 1];
-        //Number of plant buttons plus a plantBack button
-        for (int i = 0; i < PlantSet.values().length + 1; i++) {
-            this.plantingButtons[i] = new JButton();
-            this.plantingButtons[i].setVisible(false);
-            this.plantSelect.add(this.plantingButtons[i]);
-        }
+//        //Create an array of jbuttons of intial size as in constructor.
+//        this.plantingButtons = new JButton[PlantSet.values().length + 1];
+//
+//        //Number of plant buttons plus a plantBack button
+//        for (int i = 0; i < PlantSet.values().length + 1; i++) {
+//            this.plantingButtons[i] = new JButton();
+//            this.plantingButtons[i].setVisible(false);
+//            this.plantSelect.add(this.plantingButtons[i]);
+//        }
+//
+//        //Create an array of jbuttons of inital size in constructor
+//        this.unlockSlot = new JButton[PlantSet.values().length - 2];
+//        //Unlock setup
+//        for (int i = 0; i < PlantSet.values().length - 2; i++) {
+//            this.unlockSlot[i] = new JButton();
+//            this.unlockSlot[i].setVisible(false);
+//        }
 
-        this.unlockSlot = new JButton[PlantSet.values().length - 2];
-        //Unlock setup
-        for (int i = 0; i < PlantSet.values().length - 2; i++) {
-            this.unlockSlot[i] = new JButton();
-            this.unlockSlot[i].setVisible(false);
-        }
+//Sets up the shop and unlocks with blank buttons.
+        this.plantShopButtons();
+        this.unlockButtons();
     }
 
     /**
@@ -689,7 +694,7 @@ public class PlantGameMain extends JPanel implements Observer {
      * add listeners after the button slots are reset in preparation for the
      * next game.
      */
-    public void buttonListener(ActionListener actionListener) {
+    public void updateListener(ActionListener actionListener) {
 
         //Unlock listeners
         for (int i = 0; i < getUnlockSlot().length; i++) {
@@ -716,28 +721,47 @@ public class PlantGameMain extends JPanel implements Observer {
      */
     public void scoreUpdate(Data data) {
 
+        //Remove the previous high score scorll from the view.
+        this.highScorePanel.remove(highScoreScroll);
+
+        //information from data.
         String[] names = data.getNames();
         int[] scores = data.getScores();
-        this.highScorePanel.remove(highScoreScroll);
+
         OrderedList<Score> highscores = new OrderedList();
 
+        //High scores only cares about 20 values.
         for (int i = 0; i < 20; i++) {
+            //if there are defualt values stored in both arrays don't add.
             if (!(names[i] == null && scores[i] == 0)) {
                 highscores.add(new Score(names[i], scores[i]));
             }
 
         }
 
+        //Create a new jlist using the orderlist
         this.highScores = new JList<Score>(highscores.toArray());
         highScoreScroll = new JScrollPane(highScores);
+        //add the jlist to the panel.
         this.highScorePanel.add(highScoreScroll, BorderLayout.CENTER);
 
     }
 
+    /**
+     * Updates the text stored in the warning message label
+     *
+     * @param warning text to update.
+     */
     public void warningUpdate(String warning) {
         this.warning.setText(warning);
     }
 
+    /**
+     * Updates the class caused by changes in the observed model
+     *
+     * @param o
+     * @param arg
+     */
     @Override
     public void update(Observable o, Object arg) {
 
@@ -754,13 +778,11 @@ public class PlantGameMain extends JPanel implements Observer {
         //if the game is starting
         if (data.isStart() == true) {
             //Show starting panel
-
             this.getCards().show(this.getStartView(), "a");
 
             //show new game panel
             if (data.isNewGame() == true) {
                 this.getCards().show(this.getStartView(), "c");
-
             } //Display the load game options
             else if (data.isLoadGame() == true) {
                 setLoadText(data.getLoadText());
@@ -768,7 +790,6 @@ public class PlantGameMain extends JPanel implements Observer {
             }
 
         }
-
         if (data.isMainMenu()) {
             buttonReset(data);
         }
@@ -1159,6 +1180,27 @@ public class PlantGameMain extends JPanel implements Observer {
      */
     public void setAdvance(JButton advance) {
         this.advance = advance;
+    }
+
+    /**
+     * @return the highScoreBack
+     */
+    public JButton getHighScoreBack() {
+        return highScoreBack;
+    }
+
+    /**
+     * @return the mainMenu
+     */
+    public JButton getMainMenu() {
+        return mainMenu;
+    }
+
+    /**
+     * @return the highScoresButton
+     */
+    public JButton getHighScoresButton() {
+        return highScoresButton;
     }
 
 }
