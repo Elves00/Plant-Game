@@ -769,6 +769,9 @@ public class PlantGameMain extends JPanel implements Observer {
 
         }
 
+        if (data.isMainMenu()) {
+            buttonReset(data);
+        }
         //The main game
         if (data.isMainGame() == true) {
             this.mainCard.show(this, "b");
