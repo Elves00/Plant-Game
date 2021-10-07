@@ -28,43 +28,39 @@ public class Controller extends JFrame implements ActionListener, MouseListener 
 
     private PlantGameModel model;
     //CARDS
-    private PlantGameMain view;
-
-    private CardLayout card;
+    private View view;
 
     //Main field
     private boolean planting;
     private int plantToPlant;
     private boolean watering;
     private boolean picking;
-    private boolean newGame;
-    int count;
 
-    public Controller(PlantGameModel plantGameModel, PlantGameMain plantGameMain) throws IOException {
+    public Controller(PlantGameModel plantGameModel, View plantGameMain) throws IOException {
 
         //Starting conditions player is not planting watering or picking
-        this.planting = false;
-        this.plantToPlant = -1;
-        this.watering = false;
-        this.picking = false;
-        count = 0;
+        planting = false;
+        plantToPlant = -1;
+        watering = false;
+        picking = false;
 
         //Set up the game model
         this.model = plantGameModel;
 
         //Creates the main plant panel
-        view = plantGameMain;
+        this.view = plantGameMain;
 
+        //Adds listeners to the view.
         this.addListener();
 
-//        //Cardlayout views
+        //Cardlayout views
         this.add(view);
         //Start game
         this.model.alternatStart();
 
         // kill all threads when frame closes
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-//        frame.getContentPane().add(new Controller(pg, pgm));
+        //Pack the frame to resize to appropriate size
         this.pack();
         //position the frame in the middle of the screen
         Toolkit tk = Toolkit.getDefaultToolkit();
@@ -277,8 +273,7 @@ public class Controller extends JFrame implements ActionListener, MouseListener 
         //This is where the end game condition occurs as next day will eventually output a money exception.
         if (sourceA == view.getNextDay()) {
             try {
-//                System.out.println(count);
-                count++;
+
                 this.model.nextDay();
             } catch (IOException ex) {
                 Logger.getLogger(Controller.class.getName()).log(Level.SEVERE, null, ex);
@@ -304,8 +299,7 @@ public class Controller extends JFrame implements ActionListener, MouseListener 
 
         //Returns the user to the main card from the save view
         if (sourceA == view.getSaveBack()) {
-//            System.out.println(count);
-            count++;
+
             this.view.getCard().show(this.view.getButtonPanel(), "a");
 
         }
