@@ -325,7 +325,7 @@ public final class Player extends Observable {
 
     /**
      *
-     * @return Player money and energy.
+     * @return Player money ,energy and score.
      */
     public String toString() {
 
