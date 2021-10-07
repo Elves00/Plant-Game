@@ -91,6 +91,7 @@ public class Controller extends JFrame implements ActionListener, MouseListener 
         if (sourceA == view.getNewGame()) {
 
             try {
+
                 this.model.newGame();
             } catch (MoneyException ex) {
                 Logger.getLogger(Controller.class.getName()).log(Level.SEVERE, null, ex);
@@ -106,9 +107,10 @@ public class Controller extends JFrame implements ActionListener, MouseListener 
 
                 this.model.initialView();
                 this.view.getMainCard().show(this.view, "b");
+                //return view to start card
+                this.view.getCards().show(this.view.getStartView(), "a");
                 this.pack();
 
-//                this.card.show(this, "B");
             } catch (MoneyException ex) {
                 Logger.getLogger(Controller.class.getName()).log(Level.SEVERE, null, ex);
             } catch (FileNotFoundException ex) {
@@ -224,8 +226,12 @@ public class Controller extends JFrame implements ActionListener, MouseListener 
 
         //Return to the load screen.
         if (sourceA == view.getMainMenu()) {
+
+            this.model.mainMenu();
+
             //show the main menu
             this.view.getMainCard().show(this.view, "a");
+
         }
 
         //Highscores
@@ -270,7 +276,7 @@ public class Controller extends JFrame implements ActionListener, MouseListener 
         //This is where the end game condition occurs as next day will eventually output a money exception.
         if (sourceA == view.getNextDay()) {
             try {
-                System.out.println(count);
+//                System.out.println(count);
                 count++;
                 this.model.nextDay();
             } catch (IOException ex) {
@@ -288,19 +294,16 @@ public class Controller extends JFrame implements ActionListener, MouseListener 
         //Checks which save button was inputed and actions it.
         for (int i = 0; i < 5; i++) {
             if (sourceA == view.getSaveSlot()[i]) {
-                try {
-                    this.model.save(i + 1);
-                    break;
 
-                } catch (IOException ex) {
-                    Logger.getLogger(Controller.class.getName()).log(Level.SEVERE, null, ex);
-                }
+                this.model.save(i + 1);
+                break;
+
             }
         }
 
         //Returns the user to the main card from the save view
         if (sourceA == view.getSaveBack()) {
-            System.out.println(count);
+//            System.out.println(count);
             count++;
             this.view.getCard().show(this.view.getButtonPanel(), "a");
 

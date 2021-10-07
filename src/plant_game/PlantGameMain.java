@@ -751,6 +751,7 @@ public class PlantGameMain extends JPanel implements Observer {
             this.mainCard.show(this, "c");
         }
 
+        //if the game is starting
         if (data.isStart() == true) {
             //Show starting panel
 

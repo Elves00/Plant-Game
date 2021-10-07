@@ -540,7 +540,7 @@ public final class DBManager {
      */
     public Data selectShop(int selection, Data data) {
         try {
-            System.out.println("Selecting shop");
+//            System.out.println("Selecting shop");
             String sql = "SELECT * FROM Shop WHERE slot=" + selection;
 
             ResultSet rs;
@@ -568,7 +568,7 @@ public final class DBManager {
      * @param plant plant to be inserted
      */
     public void updateShop(int selection, String plant) {
-        System.out.println("Inserting " + plant + " into save slot " + selection);
+//        System.out.println("Inserting " + plant + " into save slot " + selection);
         String sql = "INSERT INTO Shop VALUES(" + selection + ",'" + plant + "'  )";
         myUpdate(sql);
 
@@ -582,7 +582,7 @@ public final class DBManager {
      */
     public Data selectUnlockShop(int slot, Data data) {
         try {
-            System.out.println("Unlock " + slot);
+//            System.out.println("Unlock " + slot);
 
             String sql = "SELECT * FROM Unlock WHERE slot=" + slot;
 
@@ -614,12 +614,26 @@ public final class DBManager {
      * @return
      */
     public Data updateUnlock(int selection, String plant, Data data) {
-        System.out.println("Deleting " + plant + " from save slot " + selection);
+//        System.out.println("Deleting " + plant + " from save slot " + selection);
         String sql = "DELETE FROM Unlock WHERE slot=" + selection + " AND  name ='" + plant + "'";
         myUpdate(sql);
 
         data = selectUnlockShop(selection, data);
         return data;
+    }
+
+    /**
+     * Saves the unlock player and shop
+     *
+     * @param slot
+     * @param data
+     */
+    public void saveGame(int slot, Data data) {
+        savePlayer(slot, data);
+        saveUnlock(slot, data);
+        saveShop(slot, data);
+        saveField(slot, data.getFieldDetails());
+
     }
 
     /**
@@ -629,7 +643,7 @@ public final class DBManager {
      */
     public void saveField(int slot, String[] field) {
         try {
-            System.out.println("UPDATING THE FIELD FOR SAVE " + slot);
+//            System.out.println("UPDATING THE FIELD FOR SAVE " + slot);
             String sql = "Update Field set name=?,growtime =?,timeplanted=?,value=?,growcounter=?,growth=?,waterlimit=?,watercounter=?,price=?,pollinator=?,pollinated=? WHERE slot=? AND x=? AND y=?";
             PreparedStatement preparedStatement = conn.prepareStatement(sql);
 
@@ -694,20 +708,6 @@ public final class DBManager {
     }
 
     /**
-     * Saves the unlock player and shop
-     *
-     * @param slot
-     * @param data
-     */
-    public void saveGame(int slot, Data data) {
-        savePlayer(slot, data);
-        saveUnlock(slot, data);
-        saveShop(slot, data);
-        saveField(slot, data.getFieldDetails());
-
-    }
-
-    /**
      * Saves a player to the player table.
      *
      * Takes data stored within a Data class and updates each row of the player
@@ -732,8 +732,7 @@ public final class DBManager {
             preparedStatement.setInt(6, slot);
 
             //Print the number of rows affected by update
-            System.out.println("Rows affected: " + preparedStatement.executeUpdate());
-
+//            System.out.println("Rows affected: " + preparedStatement.executeUpdate());
         } catch (SQLException ex) {
             Logger.getLogger(DBManager.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -759,8 +758,7 @@ public final class DBManager {
             StringTokenizer st2 = new StringTokenizer(data.getUnlockCost());
 
             preparedStatement = conn.prepareStatement(sql);
-//            System.out.println("Unlock:" + data.getUnlock());
-//            System.out.println("UnlockCost:" + data.getUnlockCost());
+
             while (st1.hasMoreTokens() && st2.hasMoreTokens()) {
 
                 preparedStatement.setString(1, st1.nextToken());
@@ -848,7 +846,7 @@ public final class DBManager {
             PreparedStatement preparedStatement = conn.prepareStatement(sql);
 
             for (int i = 0; i < tableNames.length; i++) {
-                System.out.println("Updating player table");
+//                System.out.println("Updating player table");
 //                preparedStatement.setString(1, tableNames[i]);
                 preparedStatement.setString(1, "empty");
                 preparedStatement.setFloat(2, 200);
@@ -944,7 +942,7 @@ public final class DBManager {
      */
     public void updateScores(Data data) {
 
-        System.out.println("UPDATING SCORES");
+//        System.out.println("UPDATING SCORES");
         try {
             //Retrieve all scores
             String sql = "Select * FROM Scores Where id=20";
@@ -993,7 +991,7 @@ public final class DBManager {
                 }
 
                 //Insert a new score to the list.
-                System.out.println("THE ID FOR INSERTION IS:" + id);
+//                System.out.println("THE ID FOR INSERTION IS:" + id);
                 sql = "INSERT INTO Scores(id,playerName,score) VALUES(?,?,?)";
                 PreparedStatement preparedStatement = conn.prepareStatement(sql);
                 preparedStatement.setInt(1, id);
@@ -1018,7 +1016,7 @@ public final class DBManager {
      */
     public Data loadScores(Data data) {
         try {
-            System.out.println("LOADING SCORES");
+//            System.out.println("LOADING SCORES");
 
             int[] scores = new int[20];
             String[] playerName = new String[20];

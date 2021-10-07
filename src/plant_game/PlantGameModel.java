@@ -97,12 +97,7 @@ public class PlantGameModel extends Observable {
         //pases the selcted save option to the plant game panel
         notifyObservers(data);
 
-        try {
-            this.save(0);
-
-        } catch (IOException ex) {
-            Logger.getLogger(PlantGameModel.class.getName()).log(Level.SEVERE, null, ex);
-        }
+        this.save(0);
 
     }
 
@@ -122,7 +117,7 @@ public class PlantGameModel extends Observable {
         setUnlocks(new UnlockShop());
         //New game is selected
         data.setNewGame(true);
-
+//        data.setStart(true);
         //Loads the scores table to data to display in the view.
         data = manager.loadScores(data);
 
@@ -130,6 +125,11 @@ public class PlantGameModel extends Observable {
         notifyObservers(data);
         data.setCheckScores(false);
 
+    }
+
+    public void mainMenu() {
+        this.save(0);
+        this.data = new Data();
     }
 
     /**
@@ -357,7 +357,7 @@ public class PlantGameModel extends Observable {
 
     public void unlockView() {
 
-        System.out.println("UNLOCK VIEW CALLED");
+//        System.out.println("UNLOCK VIEW CALLED");
         //unlock starting
         data.setUnlockStart(true);
         //store size of unlock
@@ -397,7 +397,7 @@ public class PlantGameModel extends Observable {
         data.setShopText(shopContent);
 
         //Updates the shop in the database for the current player
-        System.out.println("Updateing with :" + shopContent[shop.size() - 1]);
+//        System.out.println("Updateing with :" + shopContent[shop.size() - 1]);
         manager.updateShop(0, shopContent[shop.size() - 1]);
 
         data.setShopUpdate(true);
@@ -440,7 +440,7 @@ public class PlantGameModel extends Observable {
         data.setSaveStart(true);
         manager.loadText(data);
         data.setSaveText(data.getLoadText());
-        System.out.println("save text " + data.getUnlockText());
+//        System.out.println("save text " + data.getUnlockText());
 //        //set change
 //        setChanged();
 //        //pases the selcted save option to the plant game panel
@@ -453,7 +453,7 @@ public class PlantGameModel extends Observable {
 
     }
 
-    public void save(int selection) throws IOException {
+    public void save(int selection) {
 
         //updates current data wit shop and unlock
         data = manager.selectShop(0, data);
@@ -516,12 +516,12 @@ public class PlantGameModel extends Observable {
             fieldUpdate();
 
             data = playerData(data);
-            System.out.println("Day:" + data.getDay());
+//            System.out.println("Day:" + data.getDay());
 
             manager.savePlayer(0, data);
 
         } catch (MoneyException me) {
-            System.out.println("Caught the moeny error in next day");
+//            System.out.println("Caught the moeny error in next day");
 
             //Updates the player score
             data.setScore(player.getScore());
