@@ -168,7 +168,9 @@ public final class Player extends Observable {
             setEnergy(getEnergy() - 20);
             increaseMoney(getField().pickPlant(x, y));
         } else {
-            System.out.println("Out of energy go to sleep.");
+
+            throw new ResourceException("Player is out of Energy");
+
         }
 
     }
@@ -189,7 +191,8 @@ public final class Player extends Observable {
             setEnergy(getEnergy() - 10);
             getField().water(x, y);
         } else {
-            System.out.println("Out of energy go to sleep.");
+
+            throw new ResourceException("Player is out of Energy");
         }
     }
 
@@ -210,10 +213,14 @@ public final class Player extends Observable {
             setMoney(getMoney() - plant.getPrice());
             //plants a new plant
             getField().newPlant(plant, x, y);
-        } else if (getEnergy() - 20 < 0) {
-            System.out.println("Not enough energy go to sleep.");
-        } else {
+        } else if (getEnergy() - 20 < 0 && getMoney() - plant.getPrice()<0) {
+         throw new ResourceException("Player is out of Money and Energy");
+        } else if(getMoney() - plant.getPrice()<0){
             System.out.println("Out of money pick some plants");
+            throw new ResourceException("Player is out of Money pick some plants");
+        } else
+        {
+            throw new ResourceException("Player is out of Energy");
         }
 
     }
@@ -235,8 +242,7 @@ public final class Player extends Observable {
     public void setMoney(float money) throws MoneyException {
         //Throw an exception and end the game
         if (this.money < 0) {
-            //so this shouldn't throw if the player is bellow and wants to pick
-            System.out.println(money);
+
             throw new MoneyException();
         } else {
             this.money = money;
@@ -329,6 +335,6 @@ public final class Player extends Observable {
      */
     public String toString() {
 
-        return "Money:" + getMoney() + "$ Energy:" + getEnergy() + " Score:"+getScore();
+        return "Money:" + getMoney() + "$ Energy:" + getEnergy() + " Score:" + getScore();
     }
 }

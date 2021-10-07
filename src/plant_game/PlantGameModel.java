@@ -332,10 +332,19 @@ public class PlantGameModel extends Observable {
 
     public void plantAPlant(int selection, int x, int y) throws InstantiationException, IllegalAccessException {
 
-        getPlayer().newPlant(getShop().getPlant(selection - 1), x - 1, y - 1);
-        //Update the field
-        fieldUpdate();
+        try {
+            getPlayer().newPlant(getShop().getPlant(selection - 1), x - 1, y - 1);
+            //Update the field
+            fieldUpdate();
+        } catch (ResourceException e) {
+            data.setWarningCheck(true);
+            data.setWarning(e.getMessage());
+            //Notifys view of data changes
+            setChanged();
+            notifyObservers(data);
+            data.setWarningCheck(false);
 
+        }
     }
 
     public void unlockView() {
@@ -525,7 +534,6 @@ public class PlantGameModel extends Observable {
 
             //Throw the error to the controller.
 //            throw new MoneyException();
-
         }
 //        //set change
 //        setChanged();
@@ -544,10 +552,19 @@ public class PlantGameModel extends Observable {
     }
 
     public void water(int x, int y) {
-        getPlayer().waterPlant(x, y);
-        //Update the field
-        fieldUpdate();
+        try {
+            getPlayer().waterPlant(x, y);
+            //Update the field
+            fieldUpdate();
 
+        } catch (ResourceException e) {
+            data.setWarningCheck(true);
+            data.setWarning(e.getMessage());
+            //Notifys view of data changes
+            setChanged();
+            notifyObservers(data);
+            data.setWarningCheck(false);
+        }
 //        //set change
 //        setChanged();
 //        //pases the selcted save option to the plant game panel
@@ -567,7 +584,17 @@ public class PlantGameModel extends Observable {
         //Update the field
         fieldUpdate();
         data.setFieldPick(false);
-        getPlayer().pickPlant(i, j);
+        try {
+            getPlayer().pickPlant(i, j);
+        } catch (ResourceException e) {
+            data.setWarningCheck(true);
+            data.setWarning(e.getMessage());
+            //Notifys view of data changes
+            setChanged();
+            notifyObservers(data);
+            data.setWarningCheck(false);
+
+        }
 
     }
 

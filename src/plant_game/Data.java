@@ -11,6 +11,34 @@ package plant_game;
  */
 public class Data {
 
+    /**
+     * @return the warningCheck
+     */
+    public boolean isWarningCheck() {
+        return warningCheck;
+    }
+
+    /**
+     * @param warningCheck the warningCheck to set
+     */
+    public void setWarningCheck(boolean warningCheck) {
+        this.warningCheck = warningCheck;
+    }
+
+    /**
+     * @return the warning
+     */
+    public String getWarning() {
+        return warning;
+    }
+
+    /**
+     * @param warning the warning to set
+     */
+    public void setWarning(String warning) {
+        this.warning = warning;
+    }
+
     private boolean start;
     private int plantsetSize;
 
@@ -74,6 +102,9 @@ public class Data {
     //stores player.tostring
     private String player;
 
+    private String warning;
+    private boolean warningCheck;
+
     public Data() {
         start = true;
         viewPlants = new String[3][3];
@@ -87,6 +118,7 @@ public class Data {
                 pollinatePlants[i][j] = false;
             }
         }
+        warningCheck = false;
 
     }
 

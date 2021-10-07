@@ -42,8 +42,12 @@ public class PlantGameMain extends JPanel implements Observer {
     private JPanel field;
     private JLabel[][] fieldLabels;
 
+    
     private JPanel buttonPanel;
     private JPanel plantSelect;
+    
+    private JLabel warning; 
+    private JPanel bottomPanel;
 
     private JButton[] plantingButtons;
 
@@ -266,7 +270,14 @@ public class PlantGameMain extends JPanel implements Observer {
         this.buttonPanel.add("f", unlockPanel);
         this.buttonPanel.add("g", infoPanel);
 
-        this.mainView.add(this.buttonPanel, BorderLayout.SOUTH);
+        
+        this.warning=new JLabel("",SwingConstants.CENTER);
+        
+        this.bottomPanel= new JPanel(new BorderLayout());
+        bottomPanel.add(this.warning,BorderLayout.NORTH);
+        bottomPanel.add(this.buttonPanel,BorderLayout.SOUTH);
+        this.mainView.add(this.bottomPanel, BorderLayout.SOUTH);
+        
         this.mainView.add(this.playerHeader, BorderLayout.NORTH);
         this.cardField = new CardLayout();
         this.fieldCard = new JPanel(getCardField());
@@ -688,6 +699,10 @@ public class PlantGameMain extends JPanel implements Observer {
 
     }
 
+    public void warningUpdate(String warning)
+    {
+        this.warning.setText(warning);
+    }
     @Override
     public void update(Observable o, Object arg) {
 
@@ -751,6 +766,15 @@ public class PlantGameMain extends JPanel implements Observer {
 
         if (data.isInfoUpdate()) {
             this.infoUpdate(data.getInfoText());
+        }
+        
+        if(data.isWarningCheck())
+        {
+            this.warningUpdate(data.getWarning());
+        }
+        else
+        {
+            this.warningUpdate("");
         }
 
     }
