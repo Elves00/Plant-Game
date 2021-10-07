@@ -123,8 +123,12 @@ public class PlantGameModel extends Observable {
         //New game is selected
         data.setNewGame(true);
 
+        //Loads the scores table to data to display in the view.
+        data = manager.loadScores(data);
+
         setChanged();
         notifyObservers(data);
+        data.setCheckScores(false);
 
     }
 
@@ -184,10 +188,12 @@ public class PlantGameModel extends Observable {
 
             //Game is now in main game
             data.setMainGame(true);
-            //set change
+            //Loads the scores table to data to display in the view.
+            data = manager.loadScores(data);
+
             setChanged();
-            //pases data to the view.
             notifyObservers(data);
+            data.setCheckScores(false);
 
             System.out.println("Previous game unlock and shop");
             System.out.println(shop);
@@ -259,10 +265,12 @@ public class PlantGameModel extends Observable {
         data.setStart(false);
         //the game may progress to the main game
         data.setMainGame(true);
-        //set change
+        //Loads the scores table to data to display in the view.
+        data = manager.loadScores(data);
+
         setChanged();
-        //pases the selcted save option to the plant game panel
         notifyObservers(data);
+        data.setCheckScores(false);
         System.out.println("Load Game shop and unlock");
         System.out.println(shop);
         System.out.println(unlocks);
@@ -529,6 +537,7 @@ public class PlantGameModel extends Observable {
             //Send data to view.
             setChanged();
             notifyObservers(data);
+            data.setCheckScores(false);
 
             //set end game back to false;
             data.setEndGame(false);

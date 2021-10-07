@@ -12,6 +12,20 @@ package plant_game;
 public class Data {
 
     /**
+     * @return the checkScores
+     */
+    public boolean isCheckScores() {
+        return checkScores;
+    }
+
+    /**
+     * @param checkScores the checkScores to set
+     */
+    public void setCheckScores(boolean checkScores) {
+        this.checkScores = checkScores;
+    }
+
+    /**
      * @return the warningCheck
      */
     public boolean isWarningCheck() {
@@ -96,6 +110,7 @@ public class Data {
     private boolean endGame;
 
     //Stores information about highscores.
+    private boolean checkScores;
     private int[] scores;
     private String[] names;
 

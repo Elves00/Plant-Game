@@ -398,12 +398,12 @@ public final class DBManager {
                 sql = "SELECT * FROM Scores";
                 rs = this.myQuery(sql);
                 while (rs.next()) {
-                    System.out.print(""+ rs.getInt("id"));
+                    System.out.print("" + rs.getInt("id"));
                     System.out.print(" " + rs.getString("playerName"));
                     System.out.print(" " + rs.getInt("score"));
                     System.out.println("");
                 }
-                
+
                 System.out.println("-----------");
                 rs.close();
 
@@ -1035,7 +1035,7 @@ public final class DBManager {
 
             data.setScores(scores);
             data.setNames(playerName);
-
+            data.setCheckScores(true);
             return data;
         } catch (SQLException ex) {
             Logger.getLogger(DBManager.class.getName()).log(Level.SEVERE, null, ex);

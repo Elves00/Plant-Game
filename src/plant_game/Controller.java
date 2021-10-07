@@ -221,6 +221,19 @@ public class Controller extends JFrame implements ActionListener, MouseListener 
             System.out.println("Pressing back");
 
         }
+        
+        //Return to the load screen.
+        if(sourceA == view.getMainMenu())
+        {
+            //show the main menu
+            this.view.getMainCard().show(this.view, "a");
+        }
+        
+        //Highscores
+        if(sourceA == view.getHighScoresButton())
+        {
+            this.view.getCard().show(this.view.getButtonPanel(), "h");
+        }
 
         //Watering
         if (sourceA == view.getWater()) {

@@ -37,16 +37,29 @@ import javax.swing.border.Border;
  */
 public class PlantGameMain extends JPanel implements Observer {
 
+    /**
+     * @return the mainMenu
+     */
+    public JButton getMainMenu() {
+        return mainMenu;
+    }
+
+    /**
+     * @return the highScoresButton
+     */
+    public JButton getHighScoresButton() {
+        return highScoresButton;
+    }
+
     private PlantGameModel plantGameModel;
     private JPanel fieldCard;
     private JPanel field;
     private JLabel[][] fieldLabels;
 
-    
     private JPanel buttonPanel;
     private JPanel plantSelect;
-    
-    private JLabel warning; 
+
+    private JLabel warning;
     private JPanel bottomPanel;
 
     private JButton[] plantingButtons;
@@ -58,6 +71,8 @@ public class PlantGameMain extends JPanel implements Observer {
     private JButton information;
     private JButton unlockShop;
     private JButton save;
+    private JButton mainMenu;
+    private JButton highScoresButton;
     private JPanel gameOptions;
 
     private JPanel startView;
@@ -206,6 +221,8 @@ public class PlantGameMain extends JPanel implements Observer {
         this.information = new JButton("Information");
         this.save = new JButton("Save");
         this.unlockShop = new JButton("Shop");
+        this.mainMenu = new JButton("Main Menu");
+        this.highScoresButton = new JButton("Highscores");
         this.playerHeader = new JLabel("", SwingConstants.CENTER);
 
         //this.plantGameModel.getPlayer().toString()
@@ -223,6 +240,8 @@ public class PlantGameMain extends JPanel implements Observer {
         this.gameOptions.add(save);
         this.gameOptions.add(information);
         this.gameOptions.add(unlockShop);
+        this.gameOptions.add(highScoresButton);
+        this.gameOptions.add(mainMenu);
 
         //Unlocks initial length starts as the base set - 3 + 1 as you always start with 3 plants and we need one extra slot for the back button
         this.unlockSlot = new JButton[PlantSet.values().length - 2];
@@ -269,15 +288,17 @@ public class PlantGameMain extends JPanel implements Observer {
         this.buttonPanel.add("e", savePanel);
         this.buttonPanel.add("f", unlockPanel);
         this.buttonPanel.add("g", infoPanel);
+        
+        /*SO THIS IS KINDA WORKING*/
+        this.buttonPanel.add("h", highScorePanel);
 
-        
-        this.warning=new JLabel("",SwingConstants.CENTER);
-        
-        this.bottomPanel= new JPanel(new BorderLayout());
-        bottomPanel.add(this.warning,BorderLayout.NORTH);
-        bottomPanel.add(this.buttonPanel,BorderLayout.SOUTH);
+        this.warning = new JLabel("", SwingConstants.CENTER);
+
+        this.bottomPanel = new JPanel(new BorderLayout());
+        bottomPanel.add(this.warning, BorderLayout.NORTH);
+        bottomPanel.add(this.buttonPanel, BorderLayout.SOUTH);
         this.mainView.add(this.bottomPanel, BorderLayout.SOUTH);
-        
+
         this.mainView.add(this.playerHeader, BorderLayout.NORTH);
         this.cardField = new CardLayout();
         this.fieldCard = new JPanel(getCardField());
@@ -378,6 +399,8 @@ public class PlantGameMain extends JPanel implements Observer {
         getSaveBack().addActionListener(actionListener);
         getUnlockShop().addActionListener(actionListener);
         getInfoBack().addActionListener(actionListener);
+        getHighScoresButton().addActionListener(actionListener);
+        getMainMenu().addActionListener(actionListener);
 
         //Unlock listeners
         for (int i = 0; i < getUnlockSlot().length; i++) {
@@ -699,10 +722,10 @@ public class PlantGameMain extends JPanel implements Observer {
 
     }
 
-    public void warningUpdate(String warning)
-    {
+    public void warningUpdate(String warning) {
         this.warning.setText(warning);
     }
+
     @Override
     public void update(Observable o, Object arg) {
 
@@ -767,16 +790,16 @@ public class PlantGameMain extends JPanel implements Observer {
         if (data.isInfoUpdate()) {
             this.infoUpdate(data.getInfoText());
         }
-        
-        if(data.isWarningCheck())
-        {
+
+        if (data.isWarningCheck()) {
             this.warningUpdate(data.getWarning());
-        }
-        else
-        {
+        } else {
             this.warningUpdate("");
         }
 
+        if (data.isCheckScores()) {
+            scoreUpdate(data);
+        }
     }
 
     /**
