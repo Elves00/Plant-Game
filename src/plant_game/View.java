@@ -607,7 +607,7 @@ public class View extends JPanel implements Observer {
         }
 
         for (int i = 0; i < 5; i++) {
-            System.out.println("Save text:"+saveText[i]);
+            System.out.println(saveText[i]);
             this.getSaveSlot()[i].setText(saveText[i]);
         }
 
@@ -764,7 +764,6 @@ public class View extends JPanel implements Observer {
             updatePlayer(data.getPlayer());
         }
         if (data.isSaveStart()) {
-            System.out.println("Save start is working");
             save(data.getSaveText());
         }
 
