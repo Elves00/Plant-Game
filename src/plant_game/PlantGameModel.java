@@ -520,6 +520,7 @@ public class PlantGameModel extends Observable {
 
             //Updates the scores table within the database.
             manager.updateScores(data);
+
             //Tells data base game is ending and to update data
             data = manager.endGame();
             //Loads the scores table to data to display in the view.
