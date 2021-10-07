@@ -38,6 +38,13 @@ import javax.swing.border.Border;
 public class PlantGameMain extends JPanel implements Observer {
 
     /**
+     * @return the highScoreBack
+     */
+    public JButton getHighScoreBack() {
+        return highScoreBack;
+    }
+
+    /**
      * @return the mainMenu
      */
     public JButton getMainMenu() {
@@ -142,6 +149,9 @@ public class PlantGameMain extends JPanel implements Observer {
     private JPanel highScorePanel;
     private JButton advance;
     private JScrollPane highScoreScroll;
+    private JButton highScoreBack;
+    private JPanel highScoreButtonPanel;
+
     // Declaration of objects of CardLayout class.
     private CardLayout cards;
 
@@ -213,6 +223,7 @@ public class PlantGameMain extends JPanel implements Observer {
         this.plantBack = new JButton("Back");
         this.waterBack = new JButton("Back");
         this.pickBack = new JButton("Back");
+        this.highScoreBack = new JButton("Back");
 
         this.plant = new JButton("Plant");
         this.water = new JButton("Water");
@@ -260,8 +271,6 @@ public class PlantGameMain extends JPanel implements Observer {
         highScorePanel.add(highScoreScroll, BorderLayout.CENTER);
         highScorePanel.add(advance, BorderLayout.SOUTH);
 
-        this.add("c", this.highScorePanel);
-
         //Plant selection
         this.plantSelect = new JPanel();
         this.plantingButtons = new JButton[PlantSet.values().length + 1];
@@ -288,9 +297,11 @@ public class PlantGameMain extends JPanel implements Observer {
         this.buttonPanel.add("e", savePanel);
         this.buttonPanel.add("f", unlockPanel);
         this.buttonPanel.add("g", infoPanel);
-        
+
+        this.highScoreButtonPanel = new JPanel();
+        highScoreButtonPanel.add(this.highScoreBack);
         /*SO THIS IS KINDA WORKING*/
-        this.buttonPanel.add("h", highScorePanel);
+        this.buttonPanel.add("h", highScoreButtonPanel);
 
         this.warning = new JLabel("", SwingConstants.CENTER);
 
@@ -318,7 +329,7 @@ public class PlantGameMain extends JPanel implements Observer {
 
         this.fieldCard.add("a", this.field);
         this.fieldCard.add("b", this.infoAreaPanel);
-
+        this.fieldCard.add("c", this.highScorePanel);
         //Adds the mainView to the panel
         this.mainView.add(this.fieldCard, BorderLayout.CENTER);
 
@@ -401,6 +412,7 @@ public class PlantGameMain extends JPanel implements Observer {
         getInfoBack().addActionListener(actionListener);
         getHighScoresButton().addActionListener(actionListener);
         getMainMenu().addActionListener(actionListener);
+        getHighScoreBack().addActionListener(actionListener);
 
         //Unlock listeners
         for (int i = 0; i < getUnlockSlot().length; i++) {
