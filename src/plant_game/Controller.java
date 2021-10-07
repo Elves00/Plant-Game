@@ -119,55 +119,11 @@ public class Controller extends JFrame implements ActionListener, MouseListener 
             this.model.loadGameView();
         }
 
-        //Large block of buttons used to load a save slot
-        if (sourceA == view.getOne()) {
-            try {
-                this.model.loadGame(0);
+        for (int i = 0; i < 5; i++) {
+            if (sourceA == view.getLoadButtons()[i]) {
+                this.model.loadGame(i);
                 this.model.initialView();
                 this.pack();
-
-            } catch (IOException ex) {
-                Logger.getLogger(Controller.class.getName()).log(Level.SEVERE, null, ex);
-            }
-        }
-        if (sourceA == view.getTwo()) {
-            try {
-                this.model.loadGame(1);
-                this.model.initialView();
-                this.pack();
-
-            } catch (IOException ex) {
-                Logger.getLogger(Controller.class.getName()).log(Level.SEVERE, null, ex);
-            }
-        }
-        if (sourceA == view.getThree()) {
-            try {
-                this.model.loadGame(2);
-                this.model.initialView();
-                this.pack();
-
-            } catch (IOException ex) {
-                Logger.getLogger(Controller.class.getName()).log(Level.SEVERE, null, ex);
-            }
-        }
-        if (sourceA == view.getFour()) {
-            try {
-                this.model.loadGame(3);
-                this.model.initialView();
-                this.pack();
-
-            } catch (IOException ex) {
-                Logger.getLogger(Controller.class.getName()).log(Level.SEVERE, null, ex);
-            }
-        }
-        if (sourceA == view.getFive()) {
-            try {
-                this.model.loadGame(4);
-                this.model.initialView();
-                this.pack();
-
-            } catch (IOException ex) {
-                Logger.getLogger(Controller.class.getName()).log(Level.SEVERE, null, ex);
             }
         }
 

@@ -231,7 +231,7 @@ public class PlantGameModel extends Observable {
 
     }
 
-    protected void loadGame(int selection) throws IOException {
+    protected void loadGame(int selection)  {
 
         //SET ALL PLANTS 
         //SET ALL PLANT STATUS
