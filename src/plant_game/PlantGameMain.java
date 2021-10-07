@@ -658,8 +658,20 @@ public class PlantGameMain extends JPanel implements Observer {
 
     }
 
-    public void scoreUpdate(String[] names, int[] scores) {
+    /**
+     * Updates the score display using data from the data class.
+     *
+     * Sets up a list of scores composed of scores and names stored within the
+     * data class. Once the list is created it is used to create a new Jlist
+     * with a scroller.
+     *
+     * @param names
+     * @param scores
+     */
+    public void scoreUpdate(Data data) {
 
+        String[] names = data.getNames();
+        int[] scores = data.getScores();
         this.highScorePanel.remove(highScoreScroll);
         OrderedList<Score> highscores = new OrderedList();
 
@@ -684,7 +696,7 @@ public class PlantGameMain extends JPanel implements Observer {
         //If the game has ended update score and reset the button texts
         if (data.isEndGame()) {
             //score update
-            scoreUpdate(data.getNames(), data.getScores());
+            scoreUpdate(data);
             buttonReset(data);
             this.mainCard.show(this, "c");
         }

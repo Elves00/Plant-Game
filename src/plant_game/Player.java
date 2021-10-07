@@ -329,6 +329,6 @@ public final class Player extends Observable {
      */
     public String toString() {
 
-        return "Money:" + getMoney() + "$ Energy:" + getEnergy();
+        return "Money:" + getMoney() + "$ Energy:" + getEnergy() + " Score:"+getScore();
     }
 }
