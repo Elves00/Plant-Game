@@ -710,8 +710,8 @@ public final class DBManager {
             preparedStatement.setInt(5, data.getScore());
             preparedStatement.setInt(6, slot);
 
-            //Print the number of rows affected by update
-//            System.out.println("Rows affected: " + preparedStatement.executeUpdate());
+            preparedStatement.executeUpdate();
+
         } catch (SQLException ex) {
             Logger.getLogger(DBManager.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -1117,11 +1117,13 @@ public final class DBManager {
                 rs = preparedStatement.executeQuery();
                 while (rs.next()) {
                     loadText[i - 1] = rs.getString("playerName");
+
                 }
                 rs.close();
             }
 
             data.setLoadText(loadText);
+
             return data;
         } catch (SQLException ex) {
             Logger.getLogger(DBManager.class.getName()).log(Level.SEVERE, null, ex);

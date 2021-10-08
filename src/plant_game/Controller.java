@@ -26,7 +26,7 @@ import javax.swing.JPanel;
  */
 public class Controller extends JFrame implements ActionListener, MouseListener {
 
-    private PlantGameModel model;
+    private Model model;
     //CARDS
     private View view;
 
@@ -36,8 +36,9 @@ public class Controller extends JFrame implements ActionListener, MouseListener 
     private boolean watering;
     private boolean picking;
 
-    public Controller(PlantGameModel plantGameModel, View plantGameMain) throws IOException {
-
+    public Controller(Model plantGameModel, View plantGameMain) throws IOException {
+        
+        this.setTitle("Plant Game");
         //Starting conditions player is not planting watering or picking
         planting = false;
         plantToPlant = -1;

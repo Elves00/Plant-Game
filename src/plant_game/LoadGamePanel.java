@@ -27,9 +27,9 @@ public class LoadGamePanel extends JPanel implements ActionListener, Observer {
     private JButton four;
     private JButton five;
 
-    private PlantGameModel plantGameModel;
+    private Model plantGameModel;
 
-    public LoadGamePanel(PlantGameModel plantGameModel) {
+    public LoadGamePanel(Model plantGameModel) {
 
         this.plantGameModel = plantGameModel;
         this.plantGameModel.addObserver(this);

@@ -18,7 +18,7 @@ public class Start {
     public static void main(String[] args) {
         try {
             View view = new View();
-            PlantGameModel model = new PlantGameModel();
+            Model model = new Model();
             Controller controller = new Controller(model, view);
 
             model.addObserver(view); // Build connection between the view and the model.
