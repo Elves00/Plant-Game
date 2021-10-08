@@ -17,12 +17,12 @@ public class Start {
 
     public static void main(String[] args) {
         try {
-            PlantGameMain view = new PlantGameMain();
-            PlantGameModel model = new PlantGameModel();
+            View view = new View();
+            Model model = new Model();
             Controller controller = new Controller(model, view);
 
             model.addObserver(view); // Build connection between the view and the model.
-       
+
         } catch (IOException ex) {
             Logger.getLogger(Start.class.getName()).log(Level.SEVERE, null, ex);
         }
