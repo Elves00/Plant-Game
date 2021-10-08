@@ -43,8 +43,6 @@ public class View extends JPanel implements Observer {
     private JPanel fieldCard;
     private JPanel field = new JPanel(new GridLayout(3, 3));
     private JLabel[][] fieldLabels = new JLabel[3][3];
-    ;
-       
 
     //Bar that holds the main game buttons
     private JPanel buttonPanel;
@@ -95,21 +93,22 @@ public class View extends JPanel implements Observer {
     private String[] searchTerm = new String[]{"Information", "plants", "Plant a Plant", "Pick Plant", "Water", "Next day", "Unlock", "Save game"};
 
     //PLANT GAME START
-    private JPanel optionsPanel;
-    private JPanel loadGamePanelArange;
-    private JPanel loadGamePanel;
-    private JPanel newGamePanel;
+    private JPanel optionsPanel = new JPanel(new BorderLayout());
+    private JPanel loadGamePanelArange = new JPanel();
+    private JPanel loadGamePanel = new JPanel(new BorderLayout());
+    private JPanel newGamePanel = new JPanel();
 
-    private JPanel startupPanel;
-    private JButton newGame;
-    private JButton previousGame;
-    private JButton loadGame;
-    private JLabel loadInfo;
+    private JPanel startupPanel = new JPanel();
+    private JButton newGame = new JButton("New Game");
+    private JButton previousGame = new JButton("Previous Game");
+    private JButton loadGame = new JButton("Load Game");
+
+    private JLabel loadInfo = new JLabel("The Plant Game", SwingConstants.CENTER);
 
     private JButton[] loadButtons = new JButton[5];
 
-    private JTextField username;
-    private JButton submit;
+    private JTextField username = new JTextField(20);
+    private JButton submit = new JButton("Submit");
 
     //High scores end game
     private JList<Score> highScores = new JList();
@@ -290,34 +289,20 @@ public class View extends JPanel implements Observer {
         getStartView().setLayout(getCards());
         //
 
-        this.optionsPanel = new JPanel(new BorderLayout());
-        this.loadGamePanel = new JPanel(new BorderLayout());
-        this.newGamePanel = new JPanel();
-
-        this.username = new JTextField(20);
         this.newGamePanel.add(this.getUsername());
 
-        this.submit = new JButton("Submit");
-//        this.submit.addActionListener(this);
         this.newGamePanel.add(this.getSubmit());
 
-        this.newGame = new JButton("New Game");
-        this.previousGame = new JButton("Previous Game");
-        this.loadGame = new JButton("Load Game");
         Font fancy = new Font("verdana", Font.BOLD | Font.ITALIC, 28);
 
-        this.loadInfo = new JLabel("The Plant Game", SwingConstants.CENTER);
         this.loadInfo.setFont(fancy);
 
         //Panel for options buttons
-        this.startupPanel = new JPanel();
-
         this.optionsPanel.add(loadInfo, BorderLayout.CENTER);
         this.startupPanel.add(getNewGame());
         this.startupPanel.add(getPreviousGame());
         this.startupPanel.add(getLoadGame());
         this.optionsPanel.add(startupPanel, BorderLayout.SOUTH);
-        loadGamePanelArange = new JPanel();
 
         //Set up 5 load game buttons 
         for (int i = 0; i < 5; i++) {
