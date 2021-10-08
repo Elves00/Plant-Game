@@ -37,7 +37,7 @@ public class Controller extends JFrame implements ActionListener, MouseListener 
     private boolean picking;
 
     public Controller(Model plantGameModel, View plantGameMain) throws IOException {
-        
+
         this.setTitle("Plant Game");
         //Starting conditions player is not planting watering or picking
         planting = false;
@@ -115,7 +115,7 @@ public class Controller extends JFrame implements ActionListener, MouseListener 
             }
         }
 
-        //If pressed opens the load game view showing 5 save slots to load from
+        //If pressed opens the load game view showing 5 updateSaveText slots to load from
         if (sourceA == view.getLoadGame()) {
             this.model.loadGameView();
         }
@@ -219,6 +219,7 @@ public class Controller extends JFrame implements ActionListener, MouseListener 
             this.view.getCard().show(this.view.getButtonPanel(), "d");
             //sets picking condition to true.
             picking = true;
+            System.out.println("PICKING true");
         }
         //Returns the user to the main card and disables picking
         if (sourceA == view.getPickBack()) {
@@ -244,7 +245,7 @@ public class Controller extends JFrame implements ActionListener, MouseListener 
             this.view.getCard().show(this.view.getButtonPanel(), "e");
 
         }
-        //Checks which save button was inputed and actions it.
+        //Checks which updateSaveText button was inputed and actions it.
         for (int i = 0; i < 5; i++) {
             if (sourceA == view.getSaveSlot()[i]) {
 
@@ -254,7 +255,7 @@ public class Controller extends JFrame implements ActionListener, MouseListener 
             }
         }
 
-        //Returns the user to the main card from the save view
+        //Returns the user to the main card from the updateSaveText view
         if (sourceA == view.getSaveBack()) {
 
             this.view.getCard().show(this.view.getButtonPanel(), "a");
@@ -352,7 +353,9 @@ public class Controller extends JFrame implements ActionListener, MouseListener 
 
                     }
                     if (picking) {
+                        //picks the plant at click position.
                         this.model.pick(i, j);
+
                     }
 
                 }
