@@ -26,45 +26,42 @@ import javax.swing.JPanel;
  */
 public class Controller extends JFrame implements ActionListener, MouseListener {
 
-    private PlantGameModel model;
+    private Model model;
     //CARDS
-    private PlantGameMain view;
-
-    private CardLayout card;
+    private View view;
 
     //Main field
     private boolean planting;
     private int plantToPlant;
     private boolean watering;
     private boolean picking;
-    private boolean newGame;
-    int count;
 
-    public Controller(PlantGameModel plantGameModel, PlantGameMain plantGameMain) throws IOException {
+    public Controller(Model plantGameModel, View plantGameMain) throws IOException {
 
+        this.setTitle("Plant Game");
         //Starting conditions player is not planting watering or picking
-        this.planting = false;
-        this.plantToPlant = -1;
-        this.watering = false;
-        this.picking = false;
-        count = 0;
+        planting = false;
+        plantToPlant = -1;
+        watering = false;
+        picking = false;
 
         //Set up the game model
         this.model = plantGameModel;
 
         //Creates the main plant panel
-        view = plantGameMain;
+        this.view = plantGameMain;
 
+        //Adds listeners to the view.
         this.addListener();
 
-//        //Cardlayout views
+        //Cardlayout views
         this.add(view);
         //Start game
         this.model.alternatStart();
 
         // kill all threads when frame closes
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-//        frame.getContentPane().add(new Controller(pg, pgm));
+        //Pack the frame to resize to appropriate size
         this.pack();
         //position the frame in the middle of the screen
         Toolkit tk = Toolkit.getDefaultToolkit();
@@ -118,60 +115,16 @@ public class Controller extends JFrame implements ActionListener, MouseListener 
             }
         }
 
-        //If pressed opens the load game view showing 5 save slots to load from
+        //If pressed opens the load game view showing 5 updateSaveText slots to load from
         if (sourceA == view.getLoadGame()) {
             this.model.loadGameView();
         }
 
-        //Large block of buttons used to load a save slot
-        if (sourceA == view.getOne()) {
-            try {
-                this.model.loadGame(0);
+        for (int i = 0; i < 5; i++) {
+            if (sourceA == view.getLoadButtons()[i]) {
+                this.model.loadGame(i);
                 this.model.initialView();
                 this.pack();
-
-            } catch (IOException ex) {
-                Logger.getLogger(Controller.class.getName()).log(Level.SEVERE, null, ex);
-            }
-        }
-        if (sourceA == view.getTwo()) {
-            try {
-                this.model.loadGame(1);
-                this.model.initialView();
-                this.pack();
-
-            } catch (IOException ex) {
-                Logger.getLogger(Controller.class.getName()).log(Level.SEVERE, null, ex);
-            }
-        }
-        if (sourceA == view.getThree()) {
-            try {
-                this.model.loadGame(2);
-                this.model.initialView();
-                this.pack();
-
-            } catch (IOException ex) {
-                Logger.getLogger(Controller.class.getName()).log(Level.SEVERE, null, ex);
-            }
-        }
-        if (sourceA == view.getFour()) {
-            try {
-                this.model.loadGame(3);
-                this.model.initialView();
-                this.pack();
-
-            } catch (IOException ex) {
-                Logger.getLogger(Controller.class.getName()).log(Level.SEVERE, null, ex);
-            }
-        }
-        if (sourceA == view.getFive()) {
-            try {
-                this.model.loadGame(4);
-                this.model.initialView();
-                this.pack();
-
-            } catch (IOException ex) {
-                Logger.getLogger(Controller.class.getName()).log(Level.SEVERE, null, ex);
             }
         }
 
@@ -228,7 +181,7 @@ public class Controller extends JFrame implements ActionListener, MouseListener 
         if (sourceA == view.getMainMenu()) {
 
             this.model.mainMenu();
-            this.view.buttonListener(this);
+            this.view.updateListener(this);
 
             //show the main menu
             this.view.getMainCard().show(this.view, "a");
@@ -266,6 +219,7 @@ public class Controller extends JFrame implements ActionListener, MouseListener 
             this.view.getCard().show(this.view.getButtonPanel(), "d");
             //sets picking condition to true.
             picking = true;
+            System.out.println("PICKING true");
         }
         //Returns the user to the main card and disables picking
         if (sourceA == view.getPickBack()) {
@@ -277,8 +231,7 @@ public class Controller extends JFrame implements ActionListener, MouseListener 
         //This is where the end game condition occurs as next day will eventually output a money exception.
         if (sourceA == view.getNextDay()) {
             try {
-//                System.out.println(count);
-                count++;
+
                 this.model.nextDay();
             } catch (IOException ex) {
                 Logger.getLogger(Controller.class.getName()).log(Level.SEVERE, null, ex);
@@ -292,7 +245,7 @@ public class Controller extends JFrame implements ActionListener, MouseListener 
             this.view.getCard().show(this.view.getButtonPanel(), "e");
 
         }
-        //Checks which save button was inputed and actions it.
+        //Checks which updateSaveText button was inputed and actions it.
         for (int i = 0; i < 5; i++) {
             if (sourceA == view.getSaveSlot()[i]) {
 
@@ -302,10 +255,9 @@ public class Controller extends JFrame implements ActionListener, MouseListener 
             }
         }
 
-        //Returns the user to the main card from the save view
+        //Returns the user to the main card from the updateSaveText view
         if (sourceA == view.getSaveBack()) {
-//            System.out.println(count);
-            count++;
+
             this.view.getCard().show(this.view.getButtonPanel(), "a");
 
         }
@@ -355,7 +307,7 @@ public class Controller extends JFrame implements ActionListener, MouseListener 
 
             this.view.getMainCard().show(this.view, "a");
             this.view.getCards().show(this.view.getStartView(), "a");
-            this.view.buttonListener(this);
+            this.view.updateListener(this);
         }
 
     }
@@ -401,7 +353,9 @@ public class Controller extends JFrame implements ActionListener, MouseListener 
 
                     }
                     if (picking) {
+                        //picks the plant at click position.
                         this.model.pick(i, j);
+
                     }
 
                 }

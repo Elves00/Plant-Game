@@ -18,7 +18,7 @@ import java.util.logging.Logger;
  *
  * @author breco
  */
-public class PlantGameModel extends Observable {
+public class Model extends Observable {
 
     private Player player;
     private PlantSelection shop;
@@ -36,7 +36,7 @@ public class PlantGameModel extends Observable {
     /**
      * Sets up the initial variables of a plant game.
      */
-    public PlantGameModel() {
+    public Model() {
         //Information search terms for use in update
         searchTerm = new String[]{"Information", "Plants", "Plant a Plant", "Pick Plant", "Water", "Next Day", "Unlock", "Save Game"};
         manager = new DBManager();
@@ -83,9 +83,9 @@ public class PlantGameModel extends Observable {
             try {
                 shopContent[i] = this.shop.getPlant(i).toString();
             } catch (InstantiationException ex) {
-                Logger.getLogger(PlantGameModel.class.getName()).log(Level.SEVERE, null, ex);
+                Logger.getLogger(Model.class.getName()).log(Level.SEVERE, null, ex);
             } catch (IllegalAccessException ex) {
-                Logger.getLogger(PlantGameModel.class.getName()).log(Level.SEVERE, null, ex);
+                Logger.getLogger(Model.class.getName()).log(Level.SEVERE, null, ex);
             }
         }
         data.setShopText(shopContent);
@@ -187,9 +187,9 @@ public class PlantGameModel extends Observable {
                 try {
                     shopContent[i] = this.shop.getPlant(i).toString();
                 } catch (InstantiationException ex) {
-                    Logger.getLogger(PlantGameModel.class.getName()).log(Level.SEVERE, null, ex);
+                    Logger.getLogger(Model.class.getName()).log(Level.SEVERE, null, ex);
                 } catch (IllegalAccessException ex) {
-                    Logger.getLogger(PlantGameModel.class.getName()).log(Level.SEVERE, null, ex);
+                    Logger.getLogger(Model.class.getName()).log(Level.SEVERE, null, ex);
                 }
             }
             data.setShopText(shopContent);
@@ -231,7 +231,7 @@ public class PlantGameModel extends Observable {
 
     }
 
-    protected void loadGame(int selection) throws IOException {
+    protected void loadGame(int selection) {
 
         //SET ALL PLANTS 
         //SET ALL PLANT STATUS
@@ -266,9 +266,9 @@ public class PlantGameModel extends Observable {
             try {
                 shopContent[i] = this.shop.getPlant(i).toString();
             } catch (InstantiationException ex) {
-                Logger.getLogger(PlantGameModel.class.getName()).log(Level.SEVERE, null, ex);
+                Logger.getLogger(Model.class.getName()).log(Level.SEVERE, null, ex);
             } catch (IllegalAccessException ex) {
-                Logger.getLogger(PlantGameModel.class.getName()).log(Level.SEVERE, null, ex);
+                Logger.getLogger(Model.class.getName()).log(Level.SEVERE, null, ex);
             }
         }
         data.setShopText(shopContent);
@@ -306,6 +306,7 @@ public class PlantGameModel extends Observable {
         //update data to contain the plant information
         for (int i = 0; i < 3; i++) {
             for (int j = 0; j < 3; j++) {
+                //If the palyer is picking money is display rather than plant name
                 if (data.isFieldPick()) {
                     data.getViewPlants()[i][j] = getPlayer().getField().getPlant(i, j).getValue() + "$";
                 } else {
@@ -400,9 +401,9 @@ public class PlantGameModel extends Observable {
             try {
                 shopContent[i] = this.shop.getPlant(i).toString();
             } catch (InstantiationException ex) {
-                Logger.getLogger(PlantGameModel.class.getName()).log(Level.SEVERE, null, ex);
+                Logger.getLogger(Model.class.getName()).log(Level.SEVERE, null, ex);
             } catch (IllegalAccessException ex) {
-                Logger.getLogger(PlantGameModel.class.getName()).log(Level.SEVERE, null, ex);
+                Logger.getLogger(Model.class.getName()).log(Level.SEVERE, null, ex);
             }
         }
         data.setShopText(shopContent);
@@ -475,6 +476,7 @@ public class PlantGameModel extends Observable {
 
         data.setSaveStart(true);
         manager.loadText(data);
+        System.out.println("Save load text: " + data.getLoadText()[0]);
         data.setSaveText(data.getLoadText());
 
 //        //set change
@@ -532,7 +534,7 @@ public class PlantGameModel extends Observable {
             manager.savePlayer(0, data);
 
         } catch (MoneyException me) {
-//            System.out.println("Caught the moeny error in next day");
+            System.out.println("Caught the moeny error in next day");
 
             //Updates the player score
             data.setScore(player.getScore());
@@ -592,6 +594,11 @@ public class PlantGameModel extends Observable {
 //        notifyObservers("Water");
     }
 
+    /**
+     * Notify the view that the player intends to pick a plant.
+     *
+     * Once the view has been notified set field pick back to false.
+     */
     public void pickView() {
         data.setFieldPick(true);
         //Update the field
@@ -601,12 +608,17 @@ public class PlantGameModel extends Observable {
     }
 
     public void pick(int i, int j) {
-        data.setFieldPick(true);
-        //Update the field
-        fieldUpdate();
-        data.setFieldPick(false);
+
         try {
+            //Pick a plant throws resource exception if unable to plant.
             getPlayer().pickPlant(i, j);
+            //Update field with pick display.
+            data.setFieldPick(true);
+            //Update the field
+            fieldUpdate();
+            data.setFieldPick(false);
+            
+            
         } catch (ResourceException e) {
             data.setWarningCheck(true);
             data.setWarning(e.getMessage());
