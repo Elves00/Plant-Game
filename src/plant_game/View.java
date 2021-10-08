@@ -47,7 +47,7 @@ public class View extends JPanel implements Observer {
        
 
     //Bar that holds the main game buttons
-    private JPanel buttonPanel = new JPanel(getCard());
+    private JPanel buttonPanel;
 
     private JPanel plantSelect = new JPanel();
 
@@ -182,6 +182,7 @@ public class View extends JPanel implements Observer {
         }
         //Add the back button to save display
         this.savePanel.add(this.saveBack);
+        buttonPanel = new JPanel(getCard());
 
         //Adds the different game buttons to the main game bar.
         this.gameOptions.add(plant);
