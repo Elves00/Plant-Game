@@ -423,28 +423,48 @@ public class Model extends Observable {
 
     public void unlock(int i) {
 
-        //Remove from current save slot
-        data = manager.updateUnlock(0, getUnlocks().toData(i - 1), data);
-        getUnlocks().price(getPlayer(), getShop(), i);
+        try {
+            //Throws resource exception if player doesn't have enough money to unlock the selection.
+            getUnlocks().price(getPlayer(), getShop(), i);
 
-        //unlock starting
-        data.setUnlockUpdate(true);
-        //store size of unlock
-        data.setUnlockSize(getUnlocks().size());
-        //Store the content of unlock into a string array
-        String[] unlockText = new String[getUnlocks().size()];
-        for (int j = 0; j < getUnlocks().size(); j++) {
-            unlockText[j] = getUnlocks().toView(j);
+            //Remove the selected unlock from current save slot in the database.
+            data = manager.updateUnlock(0, getUnlocks().toData(i - 1), data);
+
+            //unlock starting
+            data.setUnlockUpdate(true);
+            //store size of unlock
+            data.setUnlockSize(getUnlocks().size());
+            //Store the content of unlock into a string array
+            String[] unlockText = new String[getUnlocks().size()];
+            for (int j = 0; j < getUnlocks().size(); j++) {
+                unlockText[j] = getUnlocks().toView(j);
+            }
+            data.setUnlockText(unlockText);
+            //Updates player data.
+            data = playerData(data);
+            //Saves the player to current save.
+            manager.savePlayer(0, data);
+
+            //set change
+            setChanged();
+            //pases data to observer.
+            notifyObservers(data);
+
+            //Unlock no longer starting
+            data.setUnlockUpdate(false);
+            //Updates the shop
+            shopUpdate();
+        } catch (ResourceException re) {
+            //Sets warning message
+            data.setWarning(re.getMessage());
+            data.setWarningCheck(true);
+            //set change
+            setChanged();
+            //passes data to the view.
+            notifyObservers(data);
+            //Set warning back to false after view updates.
+            data.setWarningCheck(false);
         }
-        data.setUnlockText(unlockText);
-        manager.savePlayer(0, data);
-        //set change
-        setChanged();
-        //pases the selcted save option to the plant game panel
-        notifyObservers(data);
-        //Unlock no longer starting
-        data.setUnlockUpdate(false);
-        shopUpdate();
 
     }
 
@@ -617,8 +637,7 @@ public class Model extends Observable {
             //Update the field
             fieldUpdate();
             data.setFieldPick(false);
-            
-            
+
         } catch (ResourceException e) {
             data.setWarningCheck(true);
             data.setWarning(e.getMessage());

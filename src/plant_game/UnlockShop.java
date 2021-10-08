@@ -113,7 +113,8 @@ public class UnlockShop extends Observable implements ToFile {
             plantselection.unlock(view.get(Selection - 1));
             view.remove(Selection - 1);
         } catch (MoneyException me) {
-            System.out.println("Unlock failed you don't have enough money");
+            
+            throw new ResourceException("Unlock failed you don't have enough money");
         }
 
     }
