@@ -421,6 +421,12 @@ public class Model extends Observable {
         data.setShopUpdate(false);
     }
 
+    /**
+     * Unlocks a plant from the unlock shop for the current game.
+     *
+     *
+     * @param i
+     */
     public void unlock(int i) {
 
         try {
