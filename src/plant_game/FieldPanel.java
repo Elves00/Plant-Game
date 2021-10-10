@@ -5,17 +5,10 @@
  */
 package plant_game;
 
-import java.awt.GridLayout;
-import javax.swing.JLabel;
-import javax.swing.JPanel;
-
 /**
  *
  * @author breco
  */
-public class FieldPanel extends JPanel {
-
-    private JPanel field = new JPanel(new GridLayout(3, 3));
-    private JLabel[][] fieldLabels = new JLabel[3][3];
-
+public class FieldPanel {
+    
 }
