@@ -6,8 +6,6 @@
 package plant_game;
 
 import java.awt.GridLayout;
-import java.awt.event.ActionListener;
-import java.awt.event.MouseListener;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.SwingConstants;
@@ -30,19 +28,6 @@ public class FieldPanel {
         }
     }
 
-    public void addActionListener(ActionListener actionListener) {
-
-    }
-
-    public void addMouseListener(MouseListener mouseListener) {
-          //Listeners for the field panels
-        for (int i = 0; i < 3; i++) {
-            for (int j = 0; j < 3; j++) {
-                getFieldLabels()[i][j].addMouseListener(mouseListener);
-            }
-        }
-    }
-
     /**
      * @return the field
      */
@@ -55,5 +40,9 @@ public class FieldPanel {
      */
     public JLabel[][] getFieldLabels() {
         return fieldLabels;
+    }
+    
+    public static void main(String[] args) {
+        System.out.println("This works");
     }
 }

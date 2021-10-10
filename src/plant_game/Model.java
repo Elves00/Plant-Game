@@ -8,7 +8,6 @@ package plant_game;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.InputMismatchException;
 import java.util.Observable;
 import java.util.Scanner;
 import java.util.logging.Level;
@@ -19,6 +18,7 @@ import java.util.logging.Logger;
  * @author breco
  */
 public class Model extends Observable {
+   
 
     private Player player;
     private PlantSelection shop;

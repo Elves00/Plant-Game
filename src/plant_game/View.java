@@ -32,6 +32,7 @@ import javax.swing.border.Border;
  */
 public class View extends JPanel implements Observer {
 
+ 
     //Model view is observing
     private Model plantGameModel;
 
