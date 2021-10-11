@@ -18,7 +18,6 @@ import java.util.logging.Logger;
  * @author breco
  */
 public class Model extends Observable {
-   
 
     private Player player;
     private PlantSelection shop;
@@ -156,8 +155,6 @@ public class Model extends Observable {
         try {
 
             //loads the last game.
-            //SET ALL PLANTS 
-            //SET ALL PLANT STATUS
             data = manager.loadGame(0);
 
             //Sets up the player based on data stored in the data class.
@@ -544,10 +541,10 @@ public class Model extends Observable {
         return data;
     }
 
-    public void nextDay() throws MoneyException, IOException {
+    public void nextDay() throws MoneyException, FileNotFoundException {
 
         try {
-//            System.out.println("Day:" + data.getDay());
+
             //Progresses to the next day.
             getPlayer().nextDay();
 
@@ -555,7 +552,6 @@ public class Model extends Observable {
             fieldUpdate();
 
             data = playerData(data);
-//            System.out.println("Day:" + data.getDay());
 
             manager.savePlayer(0, data);
 

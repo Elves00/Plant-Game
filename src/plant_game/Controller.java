@@ -96,7 +96,6 @@ public class Controller extends JFrame implements ActionListener, MouseListener 
                 Logger.getLogger(Controller.class.getName()).log(Level.SEVERE, null, ex);
             }
         }
-
         //Gets text from the text field and creates a new player using the inputed text
         if (sourceA == view.getSubmit()) {
             try {
@@ -114,24 +113,23 @@ public class Controller extends JFrame implements ActionListener, MouseListener 
                 Logger.getLogger(Controller.class.getName()).log(Level.SEVERE, null, ex);
             }
         }
-
         //If pressed opens the load game view showing 5 updateSaveText slots to load from
         if (sourceA == view.getLoadGame()) {
             this.model.loadGameView();
         }
-
+        //Checks all load buttons for actions preformed.
         for (int i = 0; i < 5; i++) {
             if (sourceA == view.getLoadButtons()[i]) {
                 this.model.loadGame(i);
                 this.model.initialView();
                 this.pack();
+                //return view to start card
+                this.view.getCards().show(this.view.getStartView(), "a");
             }
         }
-
         //loads the previous saved game.
         if (sourceA == view.getPreviousGame()) {
             try {
-                System.out.println("previous game clicked");
                 this.model.previousGame();
                 this.model.initialView();
                 this.view.getMainCard().show(this.view, "b");
@@ -145,10 +143,6 @@ public class Controller extends JFrame implements ActionListener, MouseListener 
                 Logger.getLogger(Controller.class.getName()).log(Level.SEVERE, null, ex);
             }
         }
-
-        /*
-        Planting section has the buttons that manage planting
-         */
         //Player is planting a plant in the field
         if (sourceA == view.getPlant()) {
 
@@ -167,32 +161,25 @@ public class Controller extends JFrame implements ActionListener, MouseListener 
 
             }
         }
-
         //Returns the user to the main card and disables planting
         if (sourceA == view.getPlantBack()) {
             //Swtich view to the selection of plants available to plant
             this.view.getCard().show(this.view.getButtonPanel(), "a");
             planting = false;
-            System.out.println("Pressing back");
 
         }
-
         //Return to the load screen.
         if (sourceA == view.getMainMenu()) {
-
             this.model.mainMenu();
             this.view.updateListener(this);
-
             //show the main menu
             this.view.getMainCard().show(this.view, "a");
 
         }
-
         //Highscores
         if (sourceA == view.getHighScoresButton()) {
             this.view.getCard().show(this.view.getButtonPanel(), "h");
             this.view.getCardField().show(this.view.getFieldCard(), "c");
-            System.out.println("SHIFITED TO C");
             this.view.getAdvance().setVisible(false);
         }
         //Highscore back
@@ -201,7 +188,6 @@ public class Controller extends JFrame implements ActionListener, MouseListener 
             this.view.getCardField().show(this.view.getFieldCard(), "a");
             this.view.getAdvance().setVisible(true);
         }
-
         //Watering
         if (sourceA == view.getWater()) {
             //sets water condition to true.
@@ -220,7 +206,6 @@ public class Controller extends JFrame implements ActionListener, MouseListener 
             this.view.getCard().show(this.view.getButtonPanel(), "d");
             //sets picking condition to true.
             picking = true;
-            System.out.println("PICKING true");
         }
         //Returns the user to the main card and disables picking
         if (sourceA == view.getPickBack()) {
@@ -232,7 +217,6 @@ public class Controller extends JFrame implements ActionListener, MouseListener 
         //This is where the end game condition occurs as next day will eventually output a money exception.
         if (sourceA == view.getNextDay()) {
             try {
-
                 this.model.nextDay();
             } catch (IOException ex) {
                 Logger.getLogger(Controller.class.getName()).log(Level.SEVERE, null, ex);
@@ -270,7 +254,9 @@ public class Controller extends JFrame implements ActionListener, MouseListener 
         }
 
         //Unlock buttons
-        for (int i = 0; i < this.model.getUnlocks().size(); i++) {
+
+        for (int i = 0; i < view.getUnlockSlot().length; i++) {
+
             if (sourceA == view.getUnlockSlot()[i]) {
 
                 this.model.unlock(i + 1);
@@ -313,7 +299,6 @@ public class Controller extends JFrame implements ActionListener, MouseListener 
 
     }
 
-//MOUSE INPUTE
     @Override
     public void mouseClicked(MouseEvent e) {
 //        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
@@ -325,11 +310,6 @@ public class Controller extends JFrame implements ActionListener, MouseListener 
         for (int i = 0; i < 3; i++) {
             for (int j = 0; j < 3; j++) {
                 if (sourceA == this.view.getFieldLabels()[i][j]) {
-                    System.out.println("YOU PRESSED THE FIELD PLANT IS:" + this.model.getPlayer().getField().getPlantArray()[i][j].toString());
-                    System.out.println("Water" + this.model.getPlayer().getField().getPlantArray()[i][j].getWaterCount() + "/" + this.model.getPlayer().getField().getPlantArray()[i][j].getWaterLimit());
-                    System.out.println("Value" + this.model.getPlayer().getField().getPlantArray()[i][j].getValue());
-                    System.out.println("X clicked is:" + i);
-                    System.out.println("X clicked is:" + j);
                     if (planting) {
                         try {
                             //Plant a plant at row i collumn j
@@ -340,10 +320,6 @@ public class Controller extends JFrame implements ActionListener, MouseListener 
                         } catch (IllegalAccessException ex) {
                             Logger.getLogger(Controller.class.getName()).log(Level.SEVERE, null, ex);
                         }
-//                        //Switch the panel view back to the main view from planting view
-//                        this.view.getCard().show(this.view.getSouthPanel(), "a");
-//                        //Switch the panel view back to the main view from planting view
-//                        this.view.getCard().show(this.view.getSouthPanel(), "a");
 
                     }
                     if (watering) {

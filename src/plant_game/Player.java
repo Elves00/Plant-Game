@@ -100,7 +100,7 @@ public final class Player extends Observable {
      * @throws plant_game.MoneyException
      * @throws java.io.FileNotFoundException
      */
-    public void nextDay() throws MoneyException, FileNotFoundException, IOException {
+    public void nextDay() throws MoneyException, FileNotFoundException {
 
         getField().nextDay();
         setDay(getDay() + 1);

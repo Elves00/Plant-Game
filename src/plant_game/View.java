@@ -198,10 +198,12 @@ public class View extends JPanel implements Observer {
 
         //Watering Panel
         this.wateringPanel.add(this.waterBack);
+        //Buttons for highscore options
+        this.highScoreButtonPanel.add(this.highScoreBack);
 
         //Picking Panel
         this.pickingPanel.add(this.pickBack);
-
+        //Adds the main options to the button panel.
         this.buttonPanel.add("a", this.gameOptions);
         this.buttonPanel.add("b", this.plantSelect);
         this.buttonPanel.add("c", this.wateringPanel);
@@ -209,9 +211,6 @@ public class View extends JPanel implements Observer {
         this.buttonPanel.add("e", this.savePanel);
         this.buttonPanel.add("f", this.unlockPanel);
         this.buttonPanel.add("g", this.infoPanel);
-
-        this.highScoreButtonPanel.add(this.highScoreBack);
-        /*SO THIS IS KINDA WORKING*/
         this.buttonPanel.add("h", this.highScoreButtonPanel);
 
         this.bottomPanel.add(this.warning, BorderLayout.NORTH);
