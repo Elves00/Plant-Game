@@ -6,33 +6,47 @@
 package plant_game;
 
 import java.awt.GridLayout;
+import java.awt.event.MouseListener;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.SwingConstants;
 
 /**
+ * The field panel is a panel consisting of 9 JLabels which are used to
+ * represent the plant game field.
  *
  * @author breco
  */
-public class FieldPanel {
+public class FieldPanel extends JPanel {
 
-    private JPanel field = new JPanel(new GridLayout(3, 3));
+    //Label array.
     private JLabel[][] fieldLabels = new JLabel[3][3];
 
     public FieldPanel() {
+        super();
+        //Sets up a grid layout to arrange the labels.
+        this.setLayout(new GridLayout(3, 3));
         for (int i = 0; i < 3; i++) {
             for (int j = 0; j < 3; j++) {
+                //Sets labels to start with default name
                 this.fieldLabels[i][j] = new JLabel("", SwingConstants.CENTER);
-                this.field.add(this.fieldLabels[i][j]);
+                this.add(this.fieldLabels[i][j]);
             }
         }
+
     }
 
     /**
-     * @return the field
+     * Adds mouseListener to all field labels.
      */
-    public JPanel getField() {
-        return field;
+    @Override
+    public void addMouseListener(MouseListener mouseListener) {
+        //Listeners for the field panels
+        for (int i = 0; i < 3; i++) {
+            for (int j = 0; j < 3; j++) {
+                getFieldLabels()[i][j].addMouseListener(mouseListener);
+            }
+        }
     }
 
     /**
@@ -41,8 +55,5 @@ public class FieldPanel {
     public JLabel[][] getFieldLabels() {
         return fieldLabels;
     }
-    
-    public static void main(String[] args) {
-        System.out.println("This works");
-    }
+
 }
