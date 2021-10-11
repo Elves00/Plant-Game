@@ -60,8 +60,6 @@ public class UnlockShop extends Observable implements ToFile {
 
         while (st.hasMoreTokens()) {
             holder = st.nextToken();
-            System.out.println("Holder part 1:" + holder);
-
             //Cycles through all plants in the plant set
             for (PlantSet p : PlantSet.values()) {
                 //When a string matches the toString of a plant in the enum set adds the plant to the unlock view.
@@ -101,19 +99,28 @@ public class UnlockShop extends Observable implements ToFile {
      * @param player Player purchasing from shop.
      * @param plantselection The Plant selection the player has access to.
      * @param Selection The player selection.
-     * @return
+     * @return returns the data of the plant that was removed.
      */
-    public void price(Player player, PlantSelection plantselection, int Selection) {
+    public String price(Player player, PlantSelection plantselection, int Selection) {
         //Gets the place
         try {
             if (Selection < 1 || Selection > view.size()) {
                 throw new ArrayIndexOutOfBoundsException("Selection out of bounds. Current Selection=" + Selection);
             }
+
             player.setMoney(player.getMoney() - unlocks.get(view.get(Selection - 1).toString()));
+
+            //Plant selected to be unlocked
+            String p = view.get(Selection - 1).toString();
+
             plantselection.unlock(view.get(Selection - 1));
             view.remove(Selection - 1);
+
+            //Returns the selected plant
+            return p;
         } catch (MoneyException me) {
-            System.out.println("Unlock failed you don't have enough money");
+            throw new ResourceException("Unlock failed you don't have enough money");
+
         }
 
     }

@@ -9,7 +9,6 @@ import java.awt.BorderLayout;
 import java.awt.CardLayout;
 import java.awt.Color;
 import java.awt.Font;
-import java.awt.GridLayout;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseListener;
 import java.util.Observable;
@@ -32,39 +31,19 @@ import javax.swing.border.Border;
  */
 public class View extends JPanel implements Observer {
 
-    /**
-     * @return the loadButtons
-     */
-    public JButton[] getLoadButtons() {
-        return loadButtons;
-    }
-
+    //Model view is observing
     private Model plantGameModel;
-    private JPanel fieldCard;
-    private JPanel field = new JPanel(new GridLayout(3, 3));
-    private JLabel[][] fieldLabels = new JLabel[3][3];
 
     //Bar that holds the main game buttons
     private JPanel buttonPanel;
 
     private JPanel plantSelect = new JPanel();
-
-    private JLabel warning = new JLabel("", SwingConstants.CENTER);
-    private JPanel bottomPanel = new JPanel(new BorderLayout());
-
+    //Array to store various plant buttons for planting plants
     private JButton[] plantingButtons;
 
-    private JPanel gameOptions = new JPanel();
-
-    private JPanel startView = new JPanel();
-    ;
-    private JPanel mainView = new JPanel();
-
-    private CardLayout mainCard = new CardLayout();
-    private BorderLayout border = new BorderLayout();
-
-    private CardLayout card = new CardLayout();
-    private CardLayout cardField = new CardLayout();
+    //Panel and label to display warning messages for invalid input
+    private JLabel warning = new JLabel("", SwingConstants.CENTER);
+    private JPanel bottomPanel = new JPanel(new BorderLayout());
 
     //Highlight for water full and pollinating.
     //Create borders to highlight when plants are watered or pollinated
@@ -72,52 +51,68 @@ public class View extends JPanel implements Observer {
     private Border yellowLine = BorderFactory.createLineBorder(Color.yellow);
     private Border mixedLine = BorderFactory.createCompoundBorder(blueLine, yellowLine);
 
-    private JPanel pickingPanel = new JPanel();
-    private JPanel wateringPanel = new JPanel();
-
+    //Main view componets field and player header.
+    private JPanel mainView = new JPanel();
     private JLabel playerHeader = new JLabel("", SwingConstants.CENTER);
+    private FieldPanel field = new FieldPanel();
 
-    //Save 
+    //Displays different views in the area occupied by the field.
+    private JPanel fieldCard;
+
+    //Button holder and display for save game action.
     private JButton[] saveSlot = new JButton[5];
     private JPanel savePanel = new JPanel();
 
-    private JButton[] unlockSlot;
-
+    //Panels and buttons controlling the information buttons display and button options
     private JPanel infoPanel = new JPanel(new BorderLayout());
     private JButton[] infoSlot = new JButton[8];
     private JPanel infoAreaButtons = new JPanel();
-    private JTextArea infoArea = new JTextArea();
-    private JPanel infoAreaPanel = new JPanel(new BorderLayout());
-    private JScrollPane infoScroller;
+//    private JScrollPane infoScroller;
+//    private JTextArea infoArea = new JTextArea();
+    private InformationAreaPanel infoAreaPanel = new InformationAreaPanel();
 
+    //String array of database search terms.
     private String[] searchTerm = new String[]{"Information", "plants", "Plant a Plant", "Pick Plant", "Water", "Next day", "Unlock", "Save game"};
 
-    //PLANT GAME START
+    //Panel holding load game information once a player has selected load game
     private JPanel optionsPanel = new JPanel(new BorderLayout());
-    private JPanel loadGamePanelArange = new JPanel();
-    private JPanel loadGamePanel = new JPanel(new BorderLayout());
-    private JPanel newGamePanel = new JPanel();
 
-    private JPanel startupPanel = new JPanel();
-    private JButton newGame = new JButton("New Game");
-    private JButton previousGame = new JButton("Previous Game");
-    private JButton loadGame = new JButton("Load Game");
-
-    private JLabel loadInfo = new JLabel("The Plant Game", SwingConstants.CENTER);
-
-    private JButton[] loadButtons = new JButton[5];
-
+    //New game option
+    private JPanel newGamePanel = new JPanel(new BorderLayout());
+    private JPanel newGameSouth = new JPanel();
+    //Area for inputing user information
     private JTextField username = new JTextField(20);
     private JButton submit = new JButton("Submit");
 
-    //High scores end game
-    private JList<Score> highScores = new JList();
-    private JPanel highScorePanel = new JPanel(new BorderLayout());
-    private JButton advance = new JButton("Continue");
-    private JScrollPane highScoreScroll;
+    //Panel which holds the three game loading options
+    private JPanel startView = new JPanel();
+    private JPanel startupPanel = new JPanel();
+    //Label which holds the game title.
+    private JLabel loadInfo = new JLabel("The Plant Game", SwingConstants.CENTER);
+    private JButton newGame = new JButton("New Game");
+    private JButton previousGame = new JButton("Previous Game");
+    private JButton loadGame = new JButton("Load Game");
+    //Load game option
+    private JPanel loadGamePanel = new JPanel(new BorderLayout());
+    private JPanel loadGamePanelArange = new JPanel();
+    private JButton[] loadButtons = new JButton[5];
+
+    //Displays and holds information on highscore option.
+//    private JList<Score> highScores = new JList();
+    private HighScorePanel highScorePanel = new HighScorePanel();
+    private HighScorePanel endHighScorePanel = new HighScorePanel(new JButton("Continue"));
+//    private JButton advance = new JButton("Continue");
+//    private JScrollPane highScoreScroll;
     private JPanel highScoreButtonPanel = new JPanel();
 
+    //Panels to display when picking or watering are selected.
+    private JPanel pickingPanel = new JPanel();
+    private JPanel wateringPanel = new JPanel();
+
+    //Displays buttons associated with unlocking
     private JPanel unlockPanel = new JPanel();
+    //JButton array holding the buttons for different unlock options
+    private JButton[] unlockSlot;
 
     //Back buttons which return player to the main plant game view.
     private JButton unlockBack = new JButton("Back");
@@ -128,7 +123,10 @@ public class View extends JPanel implements Observer {
     private JButton infoBack = new JButton("Back");
     private JButton saveBack = new JButton("Back");
 
-    //The main game buttons displayed on the bottom of main view panel.
+    //Holds the main game options such as plant water and pick buttons.
+    private JPanel gameOptions = new JPanel();
+
+    //The main game buttons displayed on the game options panel
     private JButton plant = new JButton("Plant");
     private JButton water = new JButton("Water");
     private JButton pick = new JButton("Pick");
@@ -139,8 +137,11 @@ public class View extends JPanel implements Observer {
     private JButton mainMenu = new JButton("Main Menu");
     private JButton highScoresButton = new JButton("Highscores");
 
-    // Declaration of objects of CardLayout class.
+    //Card layouts used by the various JPanels.
     private CardLayout cards;
+    private CardLayout mainCard = new CardLayout();
+    private CardLayout card = new CardLayout();
+    private CardLayout cardField = new CardLayout();
 
     //So to follow MVC we need to be passed the information we need to know from update
     public View() {
@@ -155,7 +156,7 @@ public class View extends JPanel implements Observer {
         this.add("b", this.mainView);
 
         //Sets the main view to have a border layout.
-        this.mainView.setLayout(this.border);
+        this.mainView.setLayout(new BorderLayout());
 
         //Adds 8 jbuttons to InfoAreaButtons to represent the different information choices.
         for (int i = 0; i < 8; i++) {
@@ -165,12 +166,7 @@ public class View extends JPanel implements Observer {
 
         //Adds a back button to the info area buttons.
         this.infoAreaButtons.add(this.infoBack);
-        //Dissalows player access to the info area ie cant type or edit.
-        this.infoArea.setEditable(false);
-        //Set up info scroller
-        this.infoScroller = new JScrollPane(this.infoArea);
-        //Display the info scroller in the centre of the main view.
-        this.infoAreaPanel.add(this.infoScroller, BorderLayout.CENTER);
+
         //Set up the info panel containing the information buttons
         this.infoPanel.add(this.infoAreaButtons, BorderLayout.SOUTH);
 
@@ -197,21 +193,17 @@ public class View extends JPanel implements Observer {
         //Set up the unlock buttons
         this.establishUnlockButtons();
 
-        //Create scroll bar for highscore jlist.
-        this.highScoreScroll = new JScrollPane(this.highScores);
-        //High score display
-        this.highScorePanel.add(this.highScoreScroll, BorderLayout.CENTER);
-        this.highScorePanel.add(this.advance, BorderLayout.SOUTH);
-
         //Sets up the plant shop buttons
         this.establishPlantButtons();
 
         //Watering Panel
         this.wateringPanel.add(this.waterBack);
+        //Buttons for highscore options
+        this.highScoreButtonPanel.add(this.highScoreBack);
 
         //Picking Panel
         this.pickingPanel.add(this.pickBack);
-
+        //Adds the main options to the button panel.
         this.buttonPanel.add("a", this.gameOptions);
         this.buttonPanel.add("b", this.plantSelect);
         this.buttonPanel.add("c", this.wateringPanel);
@@ -219,9 +211,6 @@ public class View extends JPanel implements Observer {
         this.buttonPanel.add("e", this.savePanel);
         this.buttonPanel.add("f", this.unlockPanel);
         this.buttonPanel.add("g", this.infoPanel);
-
-        this.highScoreButtonPanel.add(this.highScoreBack);
-        /*SO THIS IS KINDA WORKING*/
         this.buttonPanel.add("h", this.highScoreButtonPanel);
 
         this.bottomPanel.add(this.warning, BorderLayout.NORTH);
@@ -232,20 +221,13 @@ public class View extends JPanel implements Observer {
 
         this.fieldCard = new JPanel(getCardField());
 
-        for (int i = 0; i < 3; i++) {
-            for (int j = 0; j < 3; j++) {
-                this.fieldLabels[i][j] = new JLabel("", SwingConstants.CENTER);
-                this.field.add(this.fieldLabels[i][j]);
-            }
-        }
-
         this.fieldCard.add("a", this.field);
         this.fieldCard.add("b", this.infoAreaPanel);
         this.fieldCard.add("c", this.highScorePanel);
         //Adds the mainView to the panel
         this.mainView.add(this.fieldCard, BorderLayout.CENTER);
 
-        this.add("c", this.highScorePanel);
+        this.add("c", this.endHighScorePanel);
         //Adds details to the start panel
         plantGameStart();
 
@@ -284,13 +266,15 @@ public class View extends JPanel implements Observer {
         setCards(new CardLayout());
         getStartView().setLayout(getCards());
 
-        this.newGamePanel.add(this.getUsername());
-
-        this.newGamePanel.add(this.getSubmit());
-
+        //Sets up a fancy title.
         Font fancy = new Font("verdana", Font.BOLD | Font.ITALIC, 28);
-
         this.loadInfo.setFont(fancy);
+
+        //username text field and submision button to new game panel.
+        this.newGameSouth.add(this.getUsername());
+        this.newGameSouth.add(this.getSubmit());
+        this.newGamePanel.add(loadInfo, BorderLayout.CENTER);
+        this.newGamePanel.add(this.newGameSouth, BorderLayout.SOUTH);
 
         //Panel for options buttons
         this.optionsPanel.add(loadInfo, BorderLayout.CENTER);
@@ -303,11 +287,11 @@ public class View extends JPanel implements Observer {
         for (int i = 0; i < 5; i++) {
             this.loadButtons[i] = new JButton("" + i);
         }
-
+        //Adds them to a panel arranging them ina  line.
         for (JButton load : getLoadButtons()) {
             this.loadGamePanelArange.add(load);
         }
-
+        //Adds the panel to the centre display of the load game panely.
         loadGamePanel.add(loadGamePanelArange, BorderLayout.CENTER);
 
         this.getStartView().add("a", this.optionsPanel);
@@ -316,6 +300,11 @@ public class View extends JPanel implements Observer {
 
     }
 
+    /**
+     * Adds actionListener to all buttons within the plant game
+     *
+     * @param actionListener
+     */
     public void addActionListener(ActionListener actionListener) {
         //Main plant game button lisiteners
         getPlant().addActionListener(actionListener);
@@ -355,44 +344,42 @@ public class View extends JPanel implements Observer {
             getInfoSlot()[i].addActionListener(actionListener);
         }
 
-        //Start plant game button lisitners
-        this.submit.addActionListener(actionListener);
-
-        this.newGame.addActionListener(actionListener);
-        this.previousGame.addActionListener(actionListener);
-        this.loadGame.addActionListener(actionListener);
-
-        this.getAdvance().addActionListener(actionListener);
-
+        //Action listeners for laod game buttons.
         for (JButton loadButton : getLoadButtons()) {
             loadButton.addActionListener(actionListener);
         }
 
+        //Button lisitners for options related to the first plant game view displayed on game launch
+        this.submit.addActionListener(actionListener);
+        this.newGame.addActionListener(actionListener);
+        this.previousGame.addActionListener(actionListener);
+        this.loadGame.addActionListener(actionListener);
+//
+//        this.highScorePanel.addActionListener(actionListener);
+        this.endHighScorePanel.addActionListener(actionListener);
+
     }
 
     @Override
+    /**
+     * Adds mouseListener to all field labels.
+     */
     public void addMouseListener(MouseListener mouseListener) {
-        //Listeners for the field panels
-        for (int i = 0; i < 3; i++) {
-            for (int j = 0; j < 3; j++) {
-                getFieldLabels()[i][j].addMouseListener(mouseListener);
-            }
-        }
+        field.addMouseListener(mouseListener);
     }
 
     /**
-     * Set text for loading
+     * Set text of load game buttons based on string input.
      *
-     * @param saves
+     * Sets each button name then switches the start view to display them.
+     *
+     * @param saves String[] containing name for all buttons.
      */
     public void setLoadText(String[] saves) {
-
         for (int i = 0; i < 5; i++) {
             this.loadButtons[i].setText(saves[0]);
         }
-
         this.getCards().show(this.getStartView(), "b");
-
     }
 
     /**
@@ -404,11 +391,24 @@ public class View extends JPanel implements Observer {
         this.playerHeader.setText(playerHeader);
     }
 
+    /**
+     * Updates the JLabels displaying field information.
+     *
+     * Updates the displayed field to correctly display the contents of the
+     * models field and sets a border to indicate if a plant is watered and if a
+     * plant is pollinated.
+     *
+     * @param plants
+     * @param water
+     * @param pollin
+     */
     public void updateField(String[][] plants, Boolean[][] water, Boolean[][] pollin) {
 
         for (int i = 0; i < 3; i++) {
             for (int j = 0; j < 3; j++) {
+                //Updates field labels to display the correct plant
                 this.getFieldLabels()[i][j].setText(plants[i][j]);
+                //If a plant is watered and pollinated display a mixed line
                 if (water[i][j] && pollin[i][j]) {
                     this.getFieldLabels()[i][j].setBorder(mixedLine);
                 } else if (water[i][j]) {
@@ -417,6 +417,7 @@ public class View extends JPanel implements Observer {
 
                     this.getFieldLabels()[i][j].setBorder(yellowLine);
                 } else {
+                    //A plant has no border if no condition is met.
                     this.getFieldLabels()[i][j].setBorder(null);
                 }
             }
@@ -426,6 +427,11 @@ public class View extends JPanel implements Observer {
     /**
      * Establishes the unlock panels buttons.
      *
+     * Creates an array of unlock buttons containing text matching the unlocks
+     * avaliable to the underlying model. For example if the unlocks truffle and
+     * tulip are avaliable two unlock slot buttons will be set to visible with
+     * matching text. A back button is then added after them which will return
+     * players to the main display.
      *
      * @param plantSetSize Size of the games plant set
      * @param unlockSize Size of the shop
@@ -444,21 +450,22 @@ public class View extends JPanel implements Observer {
 
         }
 
-        //Unlock setup
+        //Sets the text of each button inside the unlock slot to match the information passed to it then sets there visibility to true.
         for (int i = 0; i < unlockSize; i++) {
             this.unlockSlot[i].setText(unlockText[i]);
             this.unlockSlot[i].setVisible(true);
             this.unlockPanel.add(this.getUnlockSlot()[i]);
         }
-        //Places back button at the end
+        //Places back button at the end of the currently visable unlocks
         this.unlockSlot[unlockSize] = this.unlockBack;
         this.unlockPanel.add(this.getUnlockSlot()[unlockSize]);
 
+        //Adds the unlock view to the button panel.
         this.buttonPanel.add("f", unlockPanel);
     }
 
     /**
-     * Updates the unlock shop to display the text stored within the inputed
+     * Updates the unlock shop to display the text stored within an inputted
      * string array.
      *
      * Sets text of each button within unlock slot to match text stored in the
@@ -493,11 +500,7 @@ public class View extends JPanel implements Observer {
      * @param infoArray
      */
     private void updateInformationDisplay(String[] infoArray) {
-        String toDisplay = "";
-        for (String infoArray1 : infoArray) {
-            toDisplay += infoArray1 + "\n";
-        }
-        this.infoArea.setText(toDisplay);
+        infoAreaPanel.updateInformationDisplay(infoArray);
 
     }
 
@@ -566,14 +569,13 @@ public class View extends JPanel implements Observer {
      */
     public void updateSaveText(String[] saveText) {
 
+        //Save text should always have 5 values.
         if (saveText.length != 5) {
-
             throw new ArrayIndexOutOfBoundsException();
-
         }
 
+        //Sets the names of each save button to match the inputted text array.
         for (int i = 0; i < 5; i++) {
-            System.out.println("Save text: " + saveText[i]);
             this.getSaveSlot()[i].setText(saveText[i]);
         }
 
@@ -603,8 +605,9 @@ public class View extends JPanel implements Observer {
 
     /**
      * Adds action listeners to both shop and unlock buttons.This method is
-     * called by the controller after the game has ended to re add listeners
-     * after the button slots are reset in preparation for the next game.
+     * called by the controller after the game has ended or shifted to the main
+     * menu to re add listeners after the button slots are reset in preparation
+     * for the next game.
      *
      * @param actionListener
      */
@@ -632,27 +635,29 @@ public class View extends JPanel implements Observer {
      */
     public void updateScore(String[] names, int[] scores) {
 
-        //Remove the previous high score scorll from the view.
-        this.highScorePanel.remove(highScoreScroll);
-
-        OrderedList<Score> highscores = new OrderedList();
-
-        //High scores only cares about 20 values.
-        for (int i = 0; i < 20; i++) {
-            //if there are defualt values stored in both arrays don't add.
-            if (!(names[i] == null && scores[i] == 0)) {
-                highscores.add(new Score(names[i], scores[i]));
-            }
-
-        }
-
-        //Create a new jlist using the orderlist
-        this.highScores = new JList<>(highscores.toArray());
-
-        highScoreScroll = new JScrollPane(highScores);
-
-        //add the jlist to the panel.
-        this.highScorePanel.add(highScoreScroll, BorderLayout.CENTER);
+        this.highScorePanel.updateScore(names, scores);
+        this.endHighScorePanel.updateScore(names, scores);
+//        //Remove the previous high score scorll from the view.
+//        this.highScorePanel.remove(this.highScorePanel.getHighScoreScroll());
+//
+//        OrderedList<Score> highscores = new OrderedList();
+//
+//        //High scores only cares about 20 values.
+//        for (int i = 0; i < 20; i++) {
+//            //if there are defualt values stored in both arrays don't add.
+//            if (!(names[i] == null && scores[i] == 0)) {
+//                highscores.add(new Score(names[i], scores[i]));
+//            }
+//
+//        }
+//
+//        //Create a new jlist using the orderlist
+//        this.highScores = new JList<>(highscores.toArray());
+//
+//        highScoreScroll = new JScrollPane(highScores);
+//
+//        //add the jlist to the panel.
+//        this.highScorePanel.add(highScoreScroll, BorderLayout.CENTER);
 
     }
 
@@ -744,6 +749,7 @@ public class View extends JPanel implements Observer {
         }
 
         if (data.isCheckScores()) {
+            System.out.println("Check the scores?");
             updateScore(data.getNames(), data.getScores());
         }
     }
@@ -766,7 +772,7 @@ public class View extends JPanel implements Observer {
      * @return the fieldLabels
      */
     public JLabel[][] getFieldLabels() {
-        return fieldLabels;
+        return this.field.getFieldLabels();
     }
 
     /**
@@ -1046,14 +1052,7 @@ public class View extends JPanel implements Observer {
      * @return the advance
      */
     public JButton getAdvance() {
-        return advance;
-    }
-
-    /**
-     * @param advance the advance to set
-     */
-    public void setAdvance(JButton advance) {
-        this.advance = advance;
+        return this.endHighScorePanel.getAdvance();
     }
 
     /**
@@ -1077,4 +1076,10 @@ public class View extends JPanel implements Observer {
         return highScoresButton;
     }
 
+    /**
+     * @return the loadButtons
+     */
+    public JButton[] getLoadButtons() {
+        return loadButtons;
+    }
 }

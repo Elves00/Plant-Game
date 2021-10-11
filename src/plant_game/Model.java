@@ -8,7 +8,6 @@ package plant_game;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.InputMismatchException;
 import java.util.Observable;
 import java.util.Scanner;
 import java.util.logging.Level;
@@ -40,7 +39,7 @@ public class Model extends Observable {
         //Information search terms for use in update
         searchTerm = new String[]{"Information", "Plants", "Plant a Plant", "Pick Plant", "Water", "Next Day", "Unlock", "Save Game"};
         manager = new DBManager();
-        manager.dbsetup();
+        manager.constructDatabse();
         data = new Data();
         //Establishes file manage.
         this.files = new GameState();
@@ -156,8 +155,6 @@ public class Model extends Observable {
         try {
 
             //loads the last game.
-            //SET ALL PLANTS 
-            //SET ALL PLANT STATUS
             data = manager.loadGame(0);
 
             //Sets up the player based on data stored in the data class.
@@ -245,7 +242,7 @@ public class Model extends Observable {
         player.getField().setAllPlantStatus(data.getPlantsDescription());
 
         //Load the unlock shop from the database for the selected save slot
-        data = manager.selectUnlockShop(selection + 1, data);
+        data = manager.loadUnlock(selection + 1, data);
         ArrayList<String> details = new ArrayList();
         details.add(data.getUnlock());
         details.add(data.getUnlockCost());
@@ -253,7 +250,7 @@ public class Model extends Observable {
         setUnlocks(new UnlockShop(details));
 
         //Loads the shop from the database for the selected save slot
-        data = manager.selectShop(selection + 1, data);
+        data = manager.loadShop(selection + 1, data);
         setShop(data.getShop());
 
         //plant set size
@@ -421,30 +418,56 @@ public class Model extends Observable {
         data.setShopUpdate(false);
     }
 
+    /**
+     * Unlocks a plant from the unlock shop for the current game.
+     *
+     *
+     * @param i
+     */
     public void unlock(int i) {
 
-        //Remove from current save slot
-        data = manager.updateUnlock(0, getUnlocks().toData(i - 1), data);
-        getUnlocks().price(getPlayer(), getShop(), i);
+        try {
+            //Throws resource exception if player doesn't have enough money to unlock the selection.
+            String unlocked = getUnlocks().price(getPlayer(), getShop(), i);
 
-        //unlock starting
-        data.setUnlockUpdate(true);
-        //store size of unlock
-        data.setUnlockSize(getUnlocks().size());
-        //Store the content of unlock into a string array
-        String[] unlockText = new String[getUnlocks().size()];
-        for (int j = 0; j < getUnlocks().size(); j++) {
-            unlockText[j] = getUnlocks().toView(j);
+            //Remove the selected unlock from current save slot in the database.
+            data = manager.updateUnlock(0, unlocked, data);
+
+            //unlock starting
+            data.setUnlockUpdate(true);
+            //store size of unlock
+            data.setUnlockSize(getUnlocks().size());
+            //Store the content of unlock into a string array
+            String[] unlockText = new String[getUnlocks().size()];
+            for (int j = 0; j < getUnlocks().size(); j++) {
+                unlockText[j] = getUnlocks().toView(j);
+            }
+            data.setUnlockText(unlockText);
+            //Updates player data.
+            data = playerData(data);
+            //Saves the player to current save.
+            manager.savePlayer(0, data);
+
+            //set change
+            setChanged();
+            //pases data to observer.
+            notifyObservers(data);
+
+            //Unlock no longer starting
+            data.setUnlockUpdate(false);
+            //Updates the shop
+            shopUpdate();
+        } catch (ResourceException re) {
+            //Sets warning message
+            data.setWarning(re.getMessage());
+            data.setWarningCheck(true);
+            //set change
+            setChanged();
+            //passes data to the view.
+            notifyObservers(data);
+            //Set warning back to false after view updates.
+            data.setWarningCheck(false);
         }
-        data.setUnlockText(unlockText);
-        manager.savePlayer(0, data);
-        //set change
-        setChanged();
-        //pases the selcted save option to the plant game panel
-        notifyObservers(data);
-        //Unlock no longer starting
-        data.setUnlockUpdate(false);
-        shopUpdate();
 
     }
 
@@ -468,8 +491,8 @@ public class Model extends Observable {
     public void save(int selection) {
 
         //updates current data wit shop and unlock
-        data = manager.selectShop(0, data);
-        data = manager.selectUnlockShop(0, data);
+        data = manager.loadShop(0, data);
+        data = manager.loadUnlock(0, data);
         data = fieldUpdateData(selection, data);
         data = playerData(data);
         manager.saveGame(selection, data);
@@ -518,10 +541,10 @@ public class Model extends Observable {
         return data;
     }
 
-    public void nextDay() throws MoneyException, IOException {
+    public void nextDay() throws MoneyException, FileNotFoundException {
 
         try {
-//            System.out.println("Day:" + data.getDay());
+
             //Progresses to the next day.
             getPlayer().nextDay();
 
@@ -529,7 +552,6 @@ public class Model extends Observable {
             fieldUpdate();
 
             data = playerData(data);
-//            System.out.println("Day:" + data.getDay());
 
             manager.savePlayer(0, data);
 
@@ -617,8 +639,7 @@ public class Model extends Observable {
             //Update the field
             fieldUpdate();
             data.setFieldPick(false);
-            
-            
+
         } catch (ResourceException e) {
             data.setWarningCheck(true);
             data.setWarning(e.getMessage());
