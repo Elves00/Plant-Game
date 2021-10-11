@@ -9,7 +9,6 @@ import java.awt.BorderLayout;
 import java.awt.CardLayout;
 import java.awt.Color;
 import java.awt.Font;
-import java.awt.GridLayout;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseListener;
 import java.util.Observable;
@@ -55,9 +54,6 @@ public class View extends JPanel implements Observer {
     //Main view componets field and player header.
     private JPanel mainView = new JPanel();
     private JLabel playerHeader = new JLabel("", SwingConstants.CENTER);
-
-//    private JPanel field = new JPanel(new GridLayout(3, 3));
-//    private JLabel[][] fieldLabels = new JLabel[3][3];
     private FieldPanel field = new FieldPanel();
 
     //Displays different views in the area occupied by the field.
@@ -102,10 +98,11 @@ public class View extends JPanel implements Observer {
     private JButton[] loadButtons = new JButton[5];
 
     //Displays and holds information on highscore option.
-    private JList<Score> highScores = new JList();
-    private JPanel highScorePanel = new JPanel(new BorderLayout());
-    private JButton advance = new JButton("Continue");
-    private JScrollPane highScoreScroll;
+//    private JList<Score> highScores = new JList();
+    private HighScorePanel highScorePanel = new HighScorePanel();
+      private HighScorePanel endHighScorePanel = new HighScorePanel(new JButton("Continue"));
+//    private JButton advance = new JButton("Continue");
+//    private JScrollPane highScoreScroll;
     private JPanel highScoreButtonPanel = new JPanel();
 
     //Panels to display when picking or watering are selected.
@@ -201,12 +198,6 @@ public class View extends JPanel implements Observer {
         //Set up the unlock buttons
         this.establishUnlockButtons();
 
-        //Create scroll bar for highscore jlist.
-        this.highScoreScroll = new JScrollPane(this.highScores);
-        //High score display
-        this.highScorePanel.add(this.highScoreScroll, BorderLayout.CENTER);
-        this.highScorePanel.add(this.advance, BorderLayout.SOUTH);
-
         //Sets up the plant shop buttons
         this.establishPlantButtons();
 
@@ -242,7 +233,7 @@ public class View extends JPanel implements Observer {
         //Adds the mainView to the panel
         this.mainView.add(this.fieldCard, BorderLayout.CENTER);
 
-        this.add("c", this.highScorePanel);
+        this.add("c", this.endHighScorePanel);
         //Adds details to the start panel
         plantGameStart();
 
@@ -369,7 +360,9 @@ public class View extends JPanel implements Observer {
         this.newGame.addActionListener(actionListener);
         this.previousGame.addActionListener(actionListener);
         this.loadGame.addActionListener(actionListener);
-        this.getAdvance().addActionListener(actionListener);
+//
+//        this.highScorePanel.addActionListener(actionListener);
+        this.endHighScorePanel.addActionListener(actionListener);
 
     }
 
@@ -652,27 +645,29 @@ public class View extends JPanel implements Observer {
      */
     public void updateScore(String[] names, int[] scores) {
 
-        //Remove the previous high score scorll from the view.
-        this.highScorePanel.remove(highScoreScroll);
-
-        OrderedList<Score> highscores = new OrderedList();
-
-        //High scores only cares about 20 values.
-        for (int i = 0; i < 20; i++) {
-            //if there are defualt values stored in both arrays don't add.
-            if (!(names[i] == null && scores[i] == 0)) {
-                highscores.add(new Score(names[i], scores[i]));
-            }
-
-        }
-
-        //Create a new jlist using the orderlist
-        this.highScores = new JList<>(highscores.toArray());
-
-        highScoreScroll = new JScrollPane(highScores);
-
-        //add the jlist to the panel.
-        this.highScorePanel.add(highScoreScroll, BorderLayout.CENTER);
+        this.highScorePanel.updateScore(names, scores);
+        this.endHighScorePanel.updateScore(names, scores);
+//        //Remove the previous high score scorll from the view.
+//        this.highScorePanel.remove(this.highScorePanel.getHighScoreScroll());
+//
+//        OrderedList<Score> highscores = new OrderedList();
+//
+//        //High scores only cares about 20 values.
+//        for (int i = 0; i < 20; i++) {
+//            //if there are defualt values stored in both arrays don't add.
+//            if (!(names[i] == null && scores[i] == 0)) {
+//                highscores.add(new Score(names[i], scores[i]));
+//            }
+//
+//        }
+//
+//        //Create a new jlist using the orderlist
+//        this.highScores = new JList<>(highscores.toArray());
+//
+//        highScoreScroll = new JScrollPane(highScores);
+//
+//        //add the jlist to the panel.
+//        this.highScorePanel.add(highScoreScroll, BorderLayout.CENTER);
 
     }
 
@@ -764,6 +759,7 @@ public class View extends JPanel implements Observer {
         }
 
         if (data.isCheckScores()) {
+            System.out.println("Check the scores?");
             updateScore(data.getNames(), data.getScores());
         }
     }
@@ -1066,15 +1062,9 @@ public class View extends JPanel implements Observer {
      * @return the advance
      */
     public JButton getAdvance() {
-        return advance;
+        return this.endHighScorePanel.getAdvance();
     }
 
-    /**
-     * @param advance the advance to set
-     */
-    public void setAdvance(JButton advance) {
-        this.advance = advance;
-    }
 
     /**
      * @return the highScoreBack

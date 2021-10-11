@@ -192,6 +192,7 @@ public class Controller extends JFrame implements ActionListener, MouseListener 
         if (sourceA == view.getHighScoresButton()) {
             this.view.getCard().show(this.view.getButtonPanel(), "h");
             this.view.getCardField().show(this.view.getFieldCard(), "c");
+            System.out.println("SHIFITED TO C");
             this.view.getAdvance().setVisible(false);
         }
         //Highscore back
