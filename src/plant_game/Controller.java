@@ -253,23 +253,25 @@ public class Controller extends JFrame implements ActionListener, MouseListener 
 
         }
 
-        //Unlock buttons
-
-        for (int i = 0; i < view.getUnlockSlot().length; i++) {
-
-            if (sourceA == view.getUnlockSlot()[i]) {
-
-                this.model.unlock(i + 1);
-                //Re adds action listiener as it gets removed in view during unlock
-                this.view.getPlantingButtons()[this.model.getShop().size() - 1].addActionListener(this);
-                break;
-            }
-        }
-
-        //Returns the user to the main card from the unlock view
+        /*Checks if the source was the unlock back button if not checks if it was from within the unlock slot
+          Set up this way to avoid treating the back button as an unlock button since it is also within the unlock slot array.
+         */
         if (sourceA == view.getUnlockBack()) {
+            //Switchs the view back to the main button panel
             this.view.getCard().show(this.view.getButtonPanel(), "a");
 
+        } else {
+            //Cycle through all unlcok buttons.
+            for (int i = 0; i < view.getUnlockSlot().length; i++) {
+
+                if (sourceA == view.getUnlockSlot()[i]) {
+                    //unlock the selected plant
+                    this.model.unlock(i + 1);
+                    //Re adds action listiener as it gets removed in view during unlock
+                    this.view.getPlantingButtons()[this.model.getShop().size() - 1].addActionListener(this);
+                    break;
+                }
+            }
         }
         //Information
         if (sourceA == view.getInformation()) {

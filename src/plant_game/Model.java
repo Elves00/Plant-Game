@@ -39,7 +39,7 @@ public class Model extends Observable {
         //Information search terms for use in update
         searchTerm = new String[]{"Information", "Plants", "Plant a Plant", "Pick Plant", "Water", "Next Day", "Unlock", "Save Game"};
         manager = new DBManager();
-        manager.dbsetup();
+        manager.constructDatabse();
         data = new Data();
         //Establishes file manage.
         this.files = new GameState();
@@ -428,10 +428,10 @@ public class Model extends Observable {
 
         try {
             //Throws resource exception if player doesn't have enough money to unlock the selection.
-            getUnlocks().price(getPlayer(), getShop(), i);
+            String unlocked = getUnlocks().price(getPlayer(), getShop(), i);
 
             //Remove the selected unlock from current save slot in the database.
-            data = manager.updateUnlock(0, getUnlocks().toData(i - 1), data);
+            data = manager.updateUnlock(0, unlocked, data);
 
             //unlock starting
             data.setUnlockUpdate(true);
