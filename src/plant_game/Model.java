@@ -242,7 +242,7 @@ public class Model extends Observable {
         player.getField().setAllPlantStatus(data.getPlantsDescription());
 
         //Load the unlock shop from the database for the selected save slot
-        data = manager.selectUnlockShop(selection + 1, data);
+        data = manager.loadUnlock(selection + 1, data);
         ArrayList<String> details = new ArrayList();
         details.add(data.getUnlock());
         details.add(data.getUnlockCost());
@@ -250,7 +250,7 @@ public class Model extends Observable {
         setUnlocks(new UnlockShop(details));
 
         //Loads the shop from the database for the selected save slot
-        data = manager.selectShop(selection + 1, data);
+        data = manager.loadShop(selection + 1, data);
         setShop(data.getShop());
 
         //plant set size
@@ -491,8 +491,8 @@ public class Model extends Observable {
     public void save(int selection) {
 
         //updates current data wit shop and unlock
-        data = manager.selectShop(0, data);
-        data = manager.selectUnlockShop(0, data);
+        data = manager.loadShop(0, data);
+        data = manager.loadUnlock(0, data);
         data = fieldUpdateData(selection, data);
         data = playerData(data);
         manager.saveGame(selection, data);

@@ -358,7 +358,6 @@ public final class DBManager {
                     createUnlockTable();
                 }
 
-                //Creates the scores table. Orginally there is no values in score.
                 if (!checkTableExisting("Scores")) {
                     createScoresTable();
                 }
@@ -486,7 +485,8 @@ public final class DBManager {
     }
 
     /**
-     * Sets up a data for a new game.
+     * Sets up a Data object containing all necessary information to create a
+     * new Game.
      *
      * Sets up player name and creates a new data instance. Resets the unlock
      * and shop selection.
@@ -498,13 +498,14 @@ public final class DBManager {
         try {
             Data data = new Data();
             data.setPlayerName(name);
+            //Saves the new player to the current game slot.
+            this.savePlayer(0, data);
 
-            //reset Unlock selection
-            String sql = "DELETE FROM Unlock where slot=?";
+            //Remove any existing unlock values in the current game slot.
+            String sql = "DELETE FROM Unlock where slot=0";
             PreparedStatement preparedStatement = conn.prepareStatement(sql);
-            preparedStatement.setInt(1, 0);
             preparedStatement.executeUpdate();
-
+            //Insert saffron truffle and tulip into the current game slot.
             sql = "INSERT INTO Unlock (name,cost,slot) VALUES(?,?,?)";
             preparedStatement = conn.prepareStatement(sql);
             preparedStatement.setString(1, "saffron");
@@ -520,17 +521,15 @@ public final class DBManager {
             preparedStatement.setInt(3, 0);
             preparedStatement.executeUpdate();
 
-            //Reset shop selection
+            //Remove any exsiting shop values in the current game slot
             sql = "DELETE FROM Shop where slot=?";
-
             preparedStatement = conn.prepareStatement(sql);
-
             preparedStatement.setInt(1, 0);
             preparedStatement.executeUpdate();
 
+            //Insert broccoli cabbage and carrot into the current game slot
             sql = "INSERT INTO Shop (slot , name) VALUES(?,?)";
             preparedStatement = conn.prepareStatement(sql);
-
             preparedStatement.setInt(1, 0);
             preparedStatement.setString(2, "broccoli");
             preparedStatement.executeUpdate();
@@ -551,7 +550,7 @@ public final class DBManager {
     }
 
     /**
-     * Loads a game using data from the database.
+     * Loads a game using from the database storing information in Data class.
      *
      * Collects data for the player/field/shop and unlock from the tables and
      * stores it in the Data class
@@ -560,14 +559,29 @@ public final class DBManager {
      * @return
      */
     public Data loadGame(int selection) {
-        if (this.conn != null) {
+        //sets up data object
+        Data data = new Data();
+        data = this.loadPlayer(selection, data);
+        data = this.loadField(selection, data);
+        //Sets up the shop for the selected save
+        data = loadShop(selection, data);
+        //Sets up the unlocks for the selected save
+        data = loadUnlock(selection, data);
+        return data;
 
-        } else {
-            System.err.println("ITS NOT LOADED");
-        }
+    }
+
+    /**
+     * Loads a players information and stores it into data class.
+     *
+     * @param selection
+     * @param data
+     * @return
+     */
+    public Data loadPlayer(int selection, Data data) {
+
         try {
-            //Gets player data.
-            Data data = new Data();
+            //Save a player from the slot the method has been called with.
             String sql = "SELECT * FROM Player WHERE slot =" + selection + "";
             ResultSet rs = this.myQuery(sql);
             while (rs.next()) {
@@ -579,47 +593,74 @@ public final class DBManager {
 
             }
             rs.close();
+            return data;
+        } catch (SQLException ex) {
+            Logger.getLogger(DBManager.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return null;
+    }
 
-            //Gets field data.
-            sql = "SELECT * FROM Field WHERE slot=" + selection + "";
+    /**
+     * Loads a fields information and stores it into data class.
+     *
+     * @param selection
+     * @param data
+     * @return
+     */
+    public Data loadField(int selection, Data data) {
+        try {
+            //Retrieves the slots field and stores it in the data object.
+            String sql = "SELECT * FROM Field WHERE slot=" + selection + "";
+            ResultSet rs;
             rs = this.myQuery(sql);
-            String[][] plants = new String[3][3];
+            //Strings to store plantNames names.
+            String[][] plantNames = new String[3][3];
+            //Strings to store plantNames details.
             String[][] plantsDescription = new String[3][3];
             int i = 0;
             int j = 0;
             while (rs.next()) {
-                plants[i][j] = rs.getString("name");
-                plantsDescription[i][j] = rs.getString("growtime") + " " + rs.getString("timePlanted") + " " + rs.getString("value") + " " + rs.getString("growcounter") + " " + rs.getString("growth") + " " + rs.getString("waterLimit") + " " + rs.getString("watercounter") + " " + rs.getString("price") + " " + rs.getString("pollinator");
+                //Saves name to name holder
+                plantNames[i][j] = rs.getString("name");
+                //Saves details
+                plantsDescription[i][j] = rs.getString("growtime") + " "
+                        + rs.getString("timePlanted") + " "
+                        + rs.getString("value") + " "
+                        + rs.getString("growcounter") + " "
+                        + rs.getString("growth") + " "
+                        + rs.getString("waterLimit") + " "
+                        + rs.getString("watercounter") + " "
+                        + rs.getString("price") + " "
+                        + rs.getString("pollinator");
 
                 i++;
+                //Since it's a 3 by 3 array we need to reset i once it reaches 3
                 if (i == 3) {
                     i = 0;
                     j++;
                 }
+
             }
             rs.close();
-
-            //Plants in the field
-            data.setPlants(plants);
+            //Stores plant names in data.
+            data.setPlants(plantNames);
+            //Stores plant descriptions in data.
             data.setPlantsDescription(plantsDescription);
-
-            //Sets up the shop and unlocks shop in data.
-            data = selectShop(selection, data);
-            data = selectUnlockShop(selection, data);
             return data;
-
         } catch (SQLException ex) {
-            Logger.getLogger(DBManager.class
-                    .getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(DBManager.class.getName()).log(Level.SEVERE, null, ex);
         }
         return null;
     }
 
     /**
      * Loads information form the information table and stores it in the Data
-     * class.
+     * Object.
      *
-     * @param selection
+     * Uses selection as a primary key to retrieve all the words stored within
+     * information table related to the key.
+     *
+     * @param selection key to be retrieved from information table
      * @param data
      * @return
      */
@@ -638,14 +679,45 @@ public final class DBManager {
             }
             rs.close();
 
-            //stores the array list in an array to pass to data class.
-            String[] words = new String[info.size()];
-            for (int i = 0; i < info.size(); i++) {
-                words[i] = info.get(i);
-            }
-            data.setInfoText(words);
+            //Stores the arraylist as a string[] in the data object.
+            data.setInfoText(info.toArray(new String[info.size()]));
 
             //Returns edieted data.
+            return data;
+        } catch (SQLException ex) {
+            Logger.getLogger(DBManager.class
+                    .getName()).log(Level.SEVERE, null, ex);
+        }
+        return null;
+    }
+
+    /**
+     * Loads the details stored within the score table and updates data.
+     *
+     *
+     * @param data
+     * @return
+     */
+    public Data loadScores(Data data) {
+        try {
+//            System.out.println("LOADING SCORES");
+
+            int[] scores = new int[20];
+            String[] playerName = new String[20];
+            String sql = "Select * From Scores";
+            ResultSet rs;
+            rs = this.myQuery(sql);
+            int i = 0;
+            while (rs.next()) {
+                scores[i] = rs.getInt("score");
+                playerName[i] = rs.getString("playerName");
+                i++;
+
+            }
+
+            data.setScores(scores);
+            data.setNames(playerName);
+            data.setCheckScores(true);
             return data;
         } catch (SQLException ex) {
             Logger.getLogger(DBManager.class
@@ -662,7 +734,7 @@ public final class DBManager {
      * @param data data to save shop details to
      * @return data
      */
-    public Data selectShop(int selection, Data data) {
+    public Data loadShop(int selection, Data data) {
         try {
 //            System.out.println("Selecting shop");
             String sql = "SELECT * FROM Shop WHERE slot=" + selection;
@@ -686,17 +758,33 @@ public final class DBManager {
         return null;
     }
 
-    /**
-     * Inserts a new plant into the shop table.
-     *
-     * @param selection which shop to insert the plant into
-     * @param plant plant to be inserted
-     */
-    public void updateShop(int selection, String plant) {
-//        System.out.println("Inserting " + plant + " into save slot " + selection);
-        String sql = "INSERT INTO Shop VALUES(" + selection + ",'" + plant + "'  )";
-        myUpdate(sql);
+    public Data loadText(Data data) {
+        try {
+            String loadText[] = new String[5];
 
+            String sql = "SELECT * FROM Player where slot=?";
+
+            PreparedStatement preparedStatement = conn.prepareStatement(sql);
+            ResultSet rs;
+            for (int i = 1; i < 6; i++) {
+                preparedStatement.setInt(1, i);
+
+                rs = preparedStatement.executeQuery();
+                while (rs.next()) {
+                    loadText[i - 1] = rs.getString("playerName");
+
+                }
+                rs.close();
+            }
+
+            data.setLoadText(loadText);
+
+            return data;
+        } catch (SQLException ex) {
+            Logger.getLogger(DBManager.class
+                    .getName()).log(Level.SEVERE, null, ex);
+        }
+        return null;
     }
 
     /**
@@ -705,7 +793,7 @@ public final class DBManager {
      * @param data
      * @return
      */
-    public Data selectUnlockShop(int slot, Data data) {
+    public Data loadUnlock(int slot, Data data) {
         try {
 //            System.out.println("Unlock " + slot);
 
@@ -744,8 +832,96 @@ public final class DBManager {
         String sql = "DELETE FROM Unlock WHERE slot=" + selection + " AND  name ='" + plant + "'";
         myUpdate(sql);
 
-        data = selectUnlockShop(selection, data);
+        data = loadUnlock(selection, data);
         return data;
+    }
+
+    /**
+     * Updates the scores table.
+     *
+     * Adds a score to the score table if there are less then 20 scores.If there
+     * are more then 20 scores drop the lowest value if the lowest value is the
+     * new score to be inputted don't add. the lowest.
+     */
+    public void updateScores(Data data) {
+
+//        System.out.println("UPDATING SCORES");
+        try {
+            //Retrieve all scores
+            String sql = "Select * FROM Scores Where id=20";
+            boolean exists = false;
+            ResultSet rs;
+            rs = this.myQuery(sql);
+            while (rs.next()) {
+                //If we reach here id 20 is present.
+                exists = true;
+            }
+            rs.close();
+
+            if (exists) {
+
+                sql = "Select * FROM Scores";
+                //Set up an int to store the lowest recorded score id
+                int lowestScore = data.getScore();
+                int id = 1;
+                rs = this.myQuery(sql);
+                while (rs.next()) {
+                    if (rs.getInt("score") < lowestScore) {
+                        id = rs.getInt("id");
+                        lowestScore = rs.getInt("score");
+                    }
+
+                }
+
+                //Updates the table with the lowest score being replaced
+                if (lowestScore != data.getScore()) {
+                    sql = "Update Scores set score=?,playerName=? where id=?";
+                    PreparedStatement preparedStatement = conn.prepareStatement(sql);
+                    preparedStatement.setInt(1, data.getScore());
+                    preparedStatement.setString(2, data.getPlayerName());
+                    preparedStatement.setInt(3, id);
+                    preparedStatement.executeUpdate();
+                }
+
+            } else {
+                //Since there is less then 20 high scores we count the number of scores.
+                sql = "Select * FROM Scores";
+                //Id starts at one so we always add the score with a new id.
+                int id = 1;
+                rs = this.myQuery(sql);
+                while (rs.next()) {
+                    id++;
+                }
+
+                //Insert a new score to the list.
+//                System.out.println("THE ID FOR INSERTION IS:" + id);
+                sql = "INSERT INTO Scores(id,playerName,score) VALUES(?,?,?)";
+                PreparedStatement preparedStatement = conn.prepareStatement(sql);
+                preparedStatement.setInt(1, id);
+                preparedStatement.setString(2, data.getPlayerName());
+                preparedStatement.setInt(3, data.getScore());
+                preparedStatement.executeUpdate();
+
+            }
+
+        } catch (SQLException ex) {
+            Logger.getLogger(DBManager.class
+                    .getName()).log(Level.SEVERE, null, ex);
+        }
+
+    }
+
+    /**
+     * Inserts a new plant into the shop table.
+     *
+     * @param selection which shop to insert the plant into
+     * @param plant plant to be inserted
+     */
+    public void updateShop(int selection, String plant) {
+//        System.out.println("Inserting " + plant + " into save slot " + selection);
+        String sql = "INSERT INTO Shop VALUES(" + selection + ",'" + plant + "'  )";
+        myUpdate(sql);
+
     }
 
     /**
@@ -891,20 +1067,6 @@ public final class DBManager {
             Logger.getLogger(DBManager.class
                     .getName()).log(Level.SEVERE, null, ex);
         }
-
-//        String check = "Select * From Shop Where slot=" + slot;
-//        ResultSet rs;
-//        rs = this.myQuery(check);
-//        String unlock = "";
-//        try {
-//            while (rs.next()) {
-//                unlock += rs.getString("name");
-//
-//            }
-//            rs.close();
-//        } catch (SQLException ex) {
-//            Logger.getLogger(DBManager.class.getName()).log(Level.SEVERE, null, ex);
-//        }
     }
 
     /**
@@ -956,7 +1118,7 @@ public final class DBManager {
                 }
             }
 
-            //Sets up the 9 plants within the field using the array.
+            //Sets up the 9 plantNames within the field using the array.
             for (int i = 0; i < 9; i++) {
 
                 preparedStatement.setString(1, array[i][4]);
@@ -1083,145 +1245,6 @@ public final class DBManager {
         data.setEndGame(true);
 
         return data;
-    }
-
-    /**
-     * Updates the scores table.
-     *
-     * Adds a score to the score table if there are less then 20 scores.If there
-     * are more then 20 scores drop the lowest value if the lowest value is the
-     * new score to be inputted don't add. the lowest.
-     */
-    public void updateScores(Data data) {
-
-//        System.out.println("UPDATING SCORES");
-        try {
-            //Retrieve all scores
-            String sql = "Select * FROM Scores Where id=20";
-            boolean exists = false;
-            ResultSet rs;
-            rs = this.myQuery(sql);
-            while (rs.next()) {
-                //If we reach here id 20 is present.
-                exists = true;
-            }
-            rs.close();
-
-            if (exists) {
-
-                sql = "Select * FROM Scores";
-                //Set up an int to store the lowest recorded score id
-                int lowestScore = data.getScore();
-                int id = 1;
-                rs = this.myQuery(sql);
-                while (rs.next()) {
-                    if (rs.getInt("score") < lowestScore) {
-                        id = rs.getInt("id");
-                        lowestScore = rs.getInt("score");
-                    }
-
-                }
-
-                //Updates the table with the lowest score being replaced
-                if (lowestScore != data.getScore()) {
-                    sql = "Update Scores set score=?,playerName=? where id=?";
-                    PreparedStatement preparedStatement = conn.prepareStatement(sql);
-                    preparedStatement.setInt(1, data.getScore());
-                    preparedStatement.setString(2, data.getPlayerName());
-                    preparedStatement.setInt(3, id);
-                    preparedStatement.executeUpdate();
-                }
-
-            } else {
-                //Since there is less then 20 high scores we count the number of scores.
-                sql = "Select * FROM Scores";
-                //Id starts at one so we always add the score with a new id.
-                int id = 1;
-                rs = this.myQuery(sql);
-                while (rs.next()) {
-                    id++;
-                }
-
-                //Insert a new score to the list.
-//                System.out.println("THE ID FOR INSERTION IS:" + id);
-                sql = "INSERT INTO Scores(id,playerName,score) VALUES(?,?,?)";
-                PreparedStatement preparedStatement = conn.prepareStatement(sql);
-                preparedStatement.setInt(1, id);
-                preparedStatement.setString(2, data.getPlayerName());
-                preparedStatement.setInt(3, data.getScore());
-                preparedStatement.executeUpdate();
-
-            }
-
-        } catch (SQLException ex) {
-            Logger.getLogger(DBManager.class
-                    .getName()).log(Level.SEVERE, null, ex);
-        }
-
-    }
-
-    /**
-     * Loads the details stored within the score table and updates data.
-     *
-     *
-     * @param data
-     * @return
-     */
-    public Data loadScores(Data data) {
-        try {
-//            System.out.println("LOADING SCORES");
-
-            int[] scores = new int[20];
-            String[] playerName = new String[20];
-            String sql = "Select * From Scores";
-            ResultSet rs;
-            rs = this.myQuery(sql);
-            int i = 0;
-            while (rs.next()) {
-                scores[i] = rs.getInt("score");
-                playerName[i] = rs.getString("playerName");
-                i++;
-
-            }
-
-            data.setScores(scores);
-            data.setNames(playerName);
-            data.setCheckScores(true);
-            return data;
-        } catch (SQLException ex) {
-            Logger.getLogger(DBManager.class
-                    .getName()).log(Level.SEVERE, null, ex);
-        }
-        return null;
-    }
-
-    public Data loadText(Data data) {
-        try {
-            String loadText[] = new String[5];
-
-            String sql = "SELECT * FROM Player where slot=?";
-
-            PreparedStatement preparedStatement = conn.prepareStatement(sql);
-            ResultSet rs;
-            for (int i = 1; i < 6; i++) {
-                preparedStatement.setInt(1, i);
-
-                rs = preparedStatement.executeQuery();
-                while (rs.next()) {
-                    loadText[i - 1] = rs.getString("playerName");
-
-                }
-                rs.close();
-            }
-
-            data.setLoadText(loadText);
-
-            return data;
-        } catch (SQLException ex) {
-            Logger.getLogger(DBManager.class
-                    .getName()).log(Level.SEVERE, null, ex);
-        }
-        return null;
     }
 
     /**
