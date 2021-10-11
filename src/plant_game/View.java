@@ -32,7 +32,6 @@ import javax.swing.border.Border;
  */
 public class View extends JPanel implements Observer {
 
- 
     //Model view is observing
     private Model plantGameModel;
 
@@ -56,8 +55,11 @@ public class View extends JPanel implements Observer {
     //Main view componets field and player header.
     private JPanel mainView = new JPanel();
     private JLabel playerHeader = new JLabel("", SwingConstants.CENTER);
-    private JPanel field = new JPanel(new GridLayout(3, 3));
-    private JLabel[][] fieldLabels = new JLabel[3][3];
+
+//    private JPanel field = new JPanel(new GridLayout(3, 3));
+//    private JLabel[][] fieldLabels = new JLabel[3][3];
+    private FieldPanel field = new FieldPanel();
+
     //Displays different views in the area occupied by the field.
     private JPanel fieldCard;
 
@@ -234,13 +236,6 @@ public class View extends JPanel implements Observer {
 
         this.fieldCard = new JPanel(getCardField());
 
-        for (int i = 0; i < 3; i++) {
-            for (int j = 0; j < 3; j++) {
-                this.fieldLabels[i][j] = new JLabel("", SwingConstants.CENTER);
-                this.field.add(this.fieldLabels[i][j]);
-            }
-        }
-
         this.fieldCard.add("a", this.field);
         this.fieldCard.add("b", this.infoAreaPanel);
         this.fieldCard.add("c", this.highScorePanel);
@@ -383,12 +378,7 @@ public class View extends JPanel implements Observer {
      * Adds mouseListener to all field labels.
      */
     public void addMouseListener(MouseListener mouseListener) {
-        //Listeners for the field panels
-        for (int i = 0; i < 3; i++) {
-            for (int j = 0; j < 3; j++) {
-                getFieldLabels()[i][j].addMouseListener(mouseListener);
-            }
-        }
+        field.addMouseListener(mouseListener);
     }
 
     /**
@@ -796,7 +786,7 @@ public class View extends JPanel implements Observer {
      * @return the fieldLabels
      */
     public JLabel[][] getFieldLabels() {
-        return fieldLabels;
+        return this.field.getFieldLabels();
     }
 
     /**
