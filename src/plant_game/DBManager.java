@@ -40,6 +40,29 @@ public final class DBManager {
     }
 
     /**
+     * Creates the default player table with 6 players with intial starting
+     * values.
+     */
+    public void createPlayerTable() {
+
+        //All tabel creation here
+        this.myUpdate("CREATE TABLE " + "Player" + " (slot INT,playerName VARCHAR(20),money FLOAT,energy INT ,day INT,score INT)");
+        //Inserts a player into each save slot.
+        for (int i = 0; i < 6; i++) {
+            myUpdate("INSERT INTO Player VALUES (" + i + ",'Empty',200,100,0,0)");
+        }
+
+    }
+
+    /**
+     * Creates the default plant table with 6 players with intial starting
+     * values.
+     */
+    public void createPlantTable() {
+
+    }
+
+    /**
      * Create the method
      */
     public void dbsetup() {
@@ -50,38 +73,21 @@ public final class DBManager {
             try {
 
                 conn = DriverManager.getConnection(URL, USER_NAME, PASSWORD);
-//                myUpdate("DROP TABLE Player");
-//                myUpdate("DROP TABLE Field");
-//                myUpdate("DROP TABLE Shop");
-//                myUpdate("DROP TABLE Unlock");
-//                myUpdate("DROP TABLE Info");
-//                myUpdate("DROP TABLE Scores");
+                //                myUpdate("DROP TABLE Player");
+                //                myUpdate("DROP TABLE Field");
+                //                myUpdate("DROP TABLE Shop");
+                //                myUpdate("DROP TABLE Unlock");
+                //                myUpdate("DROP TABLE Info");
+                //                myUpdate("DROP TABLE Scores");
 
+                //Check for all necessary tables and creates any that do not exist.
                 if (!checkTableExisting("Player")) {
-
-                    //All tabel creation here
-                    this.myUpdate("CREATE TABLE " + "Player" + " (slot INT,playerName VARCHAR(20),money FLOAT,energy INT ,day INT,score INT)");
-                    //Inserts a player into each save slot.
-                    for (int i = 0; i < 6; i++) {
-                        myUpdate("INSERT INTO Player VALUES (" + i + ",'Empty',200,100,0,0)");
-                    }
-
+                    createPlayerTable();
                 }
 
-                if (!checkTableExisting("Plant")) {
-                    myUpdate("CREATE TABLE PLANT (name VARCHAR(10),growtime INT,timeplanted INT,value INT,growcounter INT, growth INT,waterlimit INT,watercounter INT,price INT,pollinator BOOLEAN,pollinated BOOLEAN)");
 
-                    myUpdate("INSERT INTO Plant VALUES"
-                            + "   ('broccoli',3,0,0,6,0,3,0,10,FALSE,FALSE),"
-                            + "\n ('cabbage',4,0,0,4,0,2,0,10,FALSE,FALSE),"
-                            + "\n ('carrot',2,0,0,3,0,2,0,10,FALSE,FALSE),"
-                            + "\n ('dirt',0,0,0,0,0,10,0,10,FALSE,FALSE),"
-                            + "\n ('saffron',2,0,0,2,0,3,0,10,TRUE,FALSE),"
-                            + "\n ('truffle',10,0,0,4,0,1,0,10,FALSE,FALSE),"
-                            + "\n ('tulip',10,0,0,4,0,1,0,10,FALSE,FALSE)");
-                }
-
-                if (!checkTableExisting("Shop")) {
+                if (!checkTableExisting(
+                        "Shop")) {
 
                     myUpdate("CREATE TABLE Shop (slot INT,name VARCHAR(10))");
                     String sql = "INSERT INTO SHOP(slot,name) VALUES(?,?)";
@@ -102,7 +108,8 @@ public final class DBManager {
 
                 }
 
-                if (!checkTableExisting("Unlock")) {
+                if (!checkTableExisting(
+                        "Unlock")) {
 
                     myUpdate("CREATE TABLE Unlock (slot INT,name VARCHAR(10),cost INT)");
 
@@ -126,13 +133,15 @@ public final class DBManager {
                 }
 
                 //Creates the scores table. Orginally there is no values in score.
-                if (!checkTableExisting("Scores")) {
+                if (!checkTableExisting(
+                        "Scores")) {
 
                     myUpdate("CREATE TABLE Scores (id INT,playerName VARCHAR(20),score INT)");
 
                 }
 
-                if (!checkTableExisting("Field")) {
+                if (!checkTableExisting(
+                        "Field")) {
 
 //                      PreparedStatement pstmt = conn.prepareStatement(" UPDATE CARTABLE SET PRICE=? WHERE MODEL=?");
                     myUpdate("CREATE TABLE Field (slot INT,x INT,y INT,name VARCHAR(10),growtime INT,timeplanted INT,value INT,growcounter INT, growth INT,waterlimit INT,watercounter INT,price INT,pollinator BOOLEAN,pollinated BOOLEAN)");
@@ -148,7 +157,8 @@ public final class DBManager {
 
                 }
 
-                if (!checkTableExisting("Info")) {
+                if (!checkTableExisting(
+                        "Info")) {
                     myUpdate("CREATE TABLE Info (information VARCHAR(14),line INT,words VARCHAR(254))");
                     String sql = "INSERT INTO Info (information,line,words) VALUES(?,?,?)";
 
@@ -322,10 +332,12 @@ public final class DBManager {
                     preparedStatement.close();
                 }
 
-                System.out.println("----Printing Player----");
+                System.out.println(
+                        "----Printing Player----");
                 //Player
                 String sql = "SELECT * FROM Player";
                 ResultSet rs = this.myQuery(sql);
+
                 while (rs.next()) {
                     System.out.print("" + rs.getInt("slot"));
                     System.out.print(" " + rs.getString("playerName"));
@@ -335,35 +347,47 @@ public final class DBManager {
                     System.out.print(" " + rs.getInt("score"));
                     System.out.println("");
                 }
-                System.out.println("-----------");
+
+                System.out.println(
+                        "-----------");
                 rs.close();
 
-                System.out.println("----Printing Shop----");
+                System.out.println(
+                        "----Printing Shop----");
                 sql = "SELECT * FROM shop";
                 rs = this.myQuery(sql);
+
                 while (rs.next()) {
                     System.out.print("" + rs.getInt("slot"));
                     System.out.print(" " + rs.getString("name"));
                     System.out.println("");
                 }
-                System.out.println("-----------");
+
+                System.out.println(
+                        "-----------");
                 rs.close();
 
-                System.out.println("----Printing Unlock----");
+                System.out.println(
+                        "----Printing Unlock----");
                 sql = "SELECT * FROM Unlock";
                 rs = this.myQuery(sql);
+
                 while (rs.next()) {
                     System.out.print("" + rs.getInt("slot"));
                     System.out.print(" " + rs.getString("name"));
                     System.out.print(" " + rs.getInt("cost"));
                     System.out.println("");
                 }
-                System.out.println("-----------");
+
+                System.out.println(
+                        "-----------");
                 rs.close();
 
-                System.out.println("----Printing Field----");
+                System.out.println(
+                        "----Printing Field----");
                 sql = "SELECT * FROM Field";
                 rs = this.myQuery(sql);
+
                 while (rs.next()) {
                     System.out.print("" + rs.getInt("slot"));
                     System.out.print(" " + rs.getInt("x"));
@@ -382,7 +406,9 @@ public final class DBManager {
                     System.out.println("");
 
                 }
-                System.out.println("-----------");
+
+                System.out.println(
+                        "-----------");
                 rs.close();
 //
 //                System.out.println("----Printing Info----");
@@ -397,9 +423,11 @@ public final class DBManager {
 //                System.out.println("-----------");
 //                rs.close();
 
-                System.out.println("----Printing Scores----");
+                System.out.println(
+                        "----Printing Scores----");
                 sql = "SELECT * FROM Scores";
                 rs = this.myQuery(sql);
+
                 while (rs.next()) {
                     System.out.print("" + rs.getInt("id"));
                     System.out.print(" " + rs.getString("playerName"));
@@ -407,7 +435,8 @@ public final class DBManager {
                     System.out.println("");
                 }
 
-                System.out.println("-----------");
+                System.out.println(
+                        "-----------");
                 rs.close();
 
             } catch (Throwable e) {
@@ -475,7 +504,8 @@ public final class DBManager {
             return data;
 
         } catch (SQLException ex) {
-            Logger.getLogger(DBManager.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(DBManager.class
+                    .getName()).log(Level.SEVERE, null, ex);
         }
         return null;
 
@@ -540,7 +570,8 @@ public final class DBManager {
             return data;
 
         } catch (SQLException ex) {
-            Logger.getLogger(DBManager.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(DBManager.class
+                    .getName()).log(Level.SEVERE, null, ex);
         }
         return null;
     }
@@ -578,7 +609,8 @@ public final class DBManager {
             //Returns edieted data.
             return data;
         } catch (SQLException ex) {
-            Logger.getLogger(DBManager.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(DBManager.class
+                    .getName()).log(Level.SEVERE, null, ex);
         }
         return null;
     }
@@ -608,7 +640,8 @@ public final class DBManager {
 
             return data;
         } catch (SQLException ex) {
-            Logger.getLogger(DBManager.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(DBManager.class
+                    .getName()).log(Level.SEVERE, null, ex);
         }
         System.err.println("ERROR REACHED HERE");
         return null;
@@ -654,7 +687,8 @@ public final class DBManager {
             data.setUnlockCost(unlockCost);
             return data;
         } catch (SQLException ex) {
-            Logger.getLogger(DBManager.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(DBManager.class
+                    .getName()).log(Level.SEVERE, null, ex);
         }
         return null;
     }
@@ -716,7 +750,8 @@ public final class DBManager {
             preparedStatement.executeUpdate();
 
         } catch (SQLException ex) {
-            Logger.getLogger(DBManager.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(DBManager.class
+                    .getName()).log(Level.SEVERE, null, ex);
         }
     }
 
@@ -763,7 +798,8 @@ public final class DBManager {
                 }
                 rs.close();
             } catch (SQLException ex) {
-                Logger.getLogger(DBManager.class.getName()).log(Level.SEVERE, null, ex);
+                Logger.getLogger(DBManager.class
+                        .getName()).log(Level.SEVERE, null, ex);
             }
 
             System.out.println("----Printing Unlock----");
@@ -780,11 +816,20 @@ public final class DBManager {
 
 //            System.out.println(unlock);
         } catch (SQLException ex) {
-            Logger.getLogger(DBManager.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(DBManager.class
+                    .getName()).log(Level.SEVERE, null, ex);
         }
 
     }
 
+    /**
+     * Saves the state of the shop to the shop table based on data input.
+     *
+     * Overrides any data saved in the shop table for the selected slot.
+     *
+     * @param slot key of save
+     * @param data
+     */
     public void saveShop(int slot, Data data) {
         try {
             String sql = "DELETE FROM Shop where slot=?";
@@ -804,29 +849,32 @@ public final class DBManager {
                 preparedStatement.executeUpdate();
             }
         } catch (SQLException ex) {
-            Logger.getLogger(DBManager.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(DBManager.class
+                    .getName()).log(Level.SEVERE, null, ex);
         }
 
-        String check = "Select * From Shop Where slot=" + slot;
-        ResultSet rs;
-        rs = this.myQuery(check);
-        String unlock = "";
-
-        try {
-            while (rs.next()) {
-                unlock += rs.getString("name");
-
-            }
-            rs.close();
-        } catch (SQLException ex) {
-            Logger.getLogger(DBManager.class.getName()).log(Level.SEVERE, null, ex);
-        }
-//        System.out.println(unlock);
+//        String check = "Select * From Shop Where slot=" + slot;
+//        ResultSet rs;
+//        rs = this.myQuery(check);
+//        String unlock = "";
+//        try {
+//            while (rs.next()) {
+//                unlock += rs.getString("name");
+//
+//            }
+//            rs.close();
+//        } catch (SQLException ex) {
+//            Logger.getLogger(DBManager.class.getName()).log(Level.SEVERE, null, ex);
+//        }
     }
 
     /**
+     * Saves the state of the plant game field to the field table based on data
+     * input.
      *
-     * @param slot
+     * Updates information on the selected field matching the slot selection.
+     *
+     * @param slot key to update in field.
      * @param field
      */
     public void saveField(int slot, String[] field) {
@@ -891,7 +939,8 @@ public final class DBManager {
             }
 
         } catch (SQLException ex) {
-            Logger.getLogger(DBManager.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(DBManager.class
+                    .getName()).log(Level.SEVERE, null, ex);
         }
     }
 
@@ -911,8 +960,6 @@ public final class DBManager {
             PreparedStatement preparedStatement = conn.prepareStatement(sql);
 
             for (int i = 0; i < tableNames.length; i++) {
-//                System.out.println("Updating player table");
-//                preparedStatement.setString(1, tableNames[i]);
                 preparedStatement.setString(1, "empty");
                 preparedStatement.setFloat(2, 200);
                 preparedStatement.setInt(3, 100);
@@ -991,7 +1038,8 @@ public final class DBManager {
             preparedStatement.executeUpdate();
 
         } catch (SQLException ex) {
-            Logger.getLogger(DBManager.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(DBManager.class
+                    .getName()).log(Level.SEVERE, null, ex);
         }
         data.setEndGame(true);
 
@@ -1067,7 +1115,8 @@ public final class DBManager {
             }
 
         } catch (SQLException ex) {
-            Logger.getLogger(DBManager.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(DBManager.class
+                    .getName()).log(Level.SEVERE, null, ex);
         }
 
     }
@@ -1101,7 +1150,8 @@ public final class DBManager {
             data.setCheckScores(true);
             return data;
         } catch (SQLException ex) {
-            Logger.getLogger(DBManager.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(DBManager.class
+                    .getName()).log(Level.SEVERE, null, ex);
         }
         return null;
     }
@@ -1129,7 +1179,8 @@ public final class DBManager {
 
             return data;
         } catch (SQLException ex) {
-            Logger.getLogger(DBManager.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(DBManager.class
+                    .getName()).log(Level.SEVERE, null, ex);
         }
         return null;
     }
