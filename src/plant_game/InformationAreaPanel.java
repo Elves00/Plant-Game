@@ -35,7 +35,7 @@ public class InformationAreaPanel extends JPanel {
      *
      * @param infoArray
      */
-    public void updateInformationDisplay(String[] infoArray) {
+    public void updateInformationDisplay(String... infoArray) {
         String toDisplay = "";
         for (String infoArray1 : infoArray) {
             toDisplay += infoArray1 + "\n";
