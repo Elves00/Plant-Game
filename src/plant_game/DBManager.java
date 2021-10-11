@@ -181,8 +181,8 @@ public final class DBManager {
                         count++;
                     }
 
-                    words = "By selecting unlock you are entering the unlock shop. This is a shop where you may purchase new and better plants. If you chose to buy an unlock the corresponding plant will be \n"
-                            + "made avaliable to you next time you select the plant a plant option.";
+                    words = "By selecting unlock you are entering the unlock shop. This is a shop where you may purchase new and better plants. If you chose \n"
+                            + " to buy an unlock the corresponding plant will be made avaliable to you next time you select the plant a plant option.";
                     st1 = new StringTokenizer(words, "\n");
                     count = 0;
                     while (st1.hasMoreTokens()) {
@@ -208,10 +208,11 @@ public final class DBManager {
                     }
                     count = 0;
 
-                    words = "When you select the pick a plant a view of the value of all plants within the field will be displayed. You will be prompted to enter a row and collumn number this represents the plant you would like to pick.\n"
-                            + "When a plant is picked it will be removed from the field and replaced by dirt unless it is a special plant such as truffle which will instead\n"
-                            + "replant itself when picked. A plant that is picked will transfer any value it has accumulated to you. For example a carrot with a value of 4$ when picked \n"
-                            + "will increase your total money by 4$.";
+                    words = "When you select the pick a plant a view of the value of all plants within the field will be displayed. You will be prompted to enter \n"
+                            + "a row and collumn number this represents the plant you would like to pick.When a plant is picked it will be removed from the field \n"
+                            + " and replaced by dirt unless it is a special plant such as truffle which will instead replant itself when picked. A plant that is \n "
+                            + "picked will transfer any value it has accumulated to you. For example a carrot with a value of 4$ when picked will increase your \n"
+                            + "total money by 4$.";
                     st1 = new StringTokenizer(words, "\n");
                     count = 0;
                     while (st1.hasMoreTokens()) {
@@ -223,8 +224,9 @@ public final class DBManager {
                     }
                     count = 0;
 
-                    words = "When you selecting water the field will be displayed with numbers representing how many times each plant has been watered and how many times it needs to be watered to gorw.\n"
-                            + "For example a carrot that has not been watered will display the numbers 0/2 representing that it has been watered 0 times and needs to be watered twice in order to grow. \n";
+                    words = "When you selecting water the field will be displayed with numbers representing how many times each plant has been watered and how many\n"
+                            + " times it needs to be watered to gorw. For example a carrot that has not been watered will display the numbers 0/2 representing that \n"
+                            + " it has been watered 0 times and needs to be watered twice in order to grow.";
                     st1 = new StringTokenizer(words, "\n");
                     count = 0;
                     while (st1.hasMoreTokens()) {
@@ -236,8 +238,9 @@ public final class DBManager {
                     }
                     count = 0;
 
-                    words = "When you select the plant a plant option you may chose a plant to buy for your field. A plants cost is displayed next to it's selection number. Once you have purchased a plant you may select the \n"
-                            + "row and collumn you would like to plant the plant in. When a plant is planted it will replace any plant that is currently in the selected spot.";
+                    words = "When you select the plant a plant option you may chose a plant to buy for your field. A plants cost is displayed next to it's selection\n"
+                            + " number. Once you have purchased a plant you may select the row and collumn you would like to plant the plant in. When a plant is \n"
+                            + " planted it will replace any plant that is currently in the selected spot.";
                     st1 = new StringTokenizer(words, "\n");
                     while (st1.hasMoreTokens()) {
                         preparedStatement.setString(1, "Plant a Plant");
@@ -248,8 +251,8 @@ public final class DBManager {
                     }
                     count = 0;
 
-                    words = "When you select the save game button a list of games will be displayed. By selecting one of the numbers you will override any save file that is currently there \n"
-                            + "and replace it with the save file of the game you are currently playing.";
+                    words = "When you select the save game button a list of games will be displayed. By selecting one of the numbers you will override any save \n"
+                            + "file that is currently there and replace it with the save file of the game you are currently playing.";
                     st1 = new StringTokenizer(words, "\n");
                     while (st1.hasMoreTokens()) {
                         preparedStatement.setString(1, "Save Game");

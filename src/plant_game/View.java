@@ -67,9 +67,9 @@ public class View extends JPanel implements Observer {
     private JPanel infoPanel = new JPanel(new BorderLayout());
     private JButton[] infoSlot = new JButton[8];
     private JPanel infoAreaButtons = new JPanel();
-    private JTextArea infoArea = new JTextArea();
-    private JPanel infoAreaPanel = new JPanel(new BorderLayout());
-    private JScrollPane infoScroller;
+//    private JScrollPane infoScroller;
+//    private JTextArea infoArea = new JTextArea();
+    private InformationAreaPanel infoAreaPanel = new InformationAreaPanel();
 
     //String array of database search terms.
     private String[] searchTerm = new String[]{"Information", "plants", "Plant a Plant", "Pick Plant", "Water", "Next day", "Unlock", "Save game"};
@@ -100,7 +100,7 @@ public class View extends JPanel implements Observer {
     //Displays and holds information on highscore option.
 //    private JList<Score> highScores = new JList();
     private HighScorePanel highScorePanel = new HighScorePanel();
-      private HighScorePanel endHighScorePanel = new HighScorePanel(new JButton("Continue"));
+    private HighScorePanel endHighScorePanel = new HighScorePanel(new JButton("Continue"));
 //    private JButton advance = new JButton("Continue");
 //    private JScrollPane highScoreScroll;
     private JPanel highScoreButtonPanel = new JPanel();
@@ -166,12 +166,7 @@ public class View extends JPanel implements Observer {
 
         //Adds a back button to the info area buttons.
         this.infoAreaButtons.add(this.infoBack);
-        //Dissalows player access to the info area ie cant type or edit.
-        this.infoArea.setEditable(false);
-        //Set up info scroller
-        this.infoScroller = new JScrollPane(this.infoArea);
-        //Display the info scroller in the centre of the main view.
-        this.infoAreaPanel.add(this.infoScroller, BorderLayout.CENTER);
+
         //Set up the info panel containing the information buttons
         this.infoPanel.add(this.infoAreaButtons, BorderLayout.SOUTH);
 
@@ -506,11 +501,7 @@ public class View extends JPanel implements Observer {
      * @param infoArray
      */
     private void updateInformationDisplay(String[] infoArray) {
-        String toDisplay = "";
-        for (String infoArray1 : infoArray) {
-            toDisplay += infoArray1 + "\n";
-        }
-        this.infoArea.setText(toDisplay);
+        infoAreaPanel.updateInformationDisplay(infoArray);
 
     }
 
@@ -1064,7 +1055,6 @@ public class View extends JPanel implements Observer {
     public JButton getAdvance() {
         return this.endHighScorePanel.getAdvance();
     }
-
 
     /**
      * @return the highScoreBack

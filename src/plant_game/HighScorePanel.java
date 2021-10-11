@@ -49,7 +49,6 @@ public class HighScorePanel extends JPanel {
      * @param score a JList containing all scores.
      */
     public void updateScore(String[] names, int[] scores) {
-        System.out.println("REACHED HERE");
         //Remove the previous high score scorll from the view.
         this.remove(this.getHighScoreScroll());
 
