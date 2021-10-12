@@ -59,6 +59,7 @@ public class View extends JPanel implements Observer {
 
     //Panel and label to display warning messages for invalid input
     private JLabel warning = new JLabel("", SwingConstants.CENTER);
+    private JLabel warningStartMenu = new JLabel("", SwingConstants.CENTER);
     private JPanel bottomPanel = new JPanel(new BorderLayout());
 
     //Highlight for water full and pollinating.
@@ -296,6 +297,7 @@ public class View extends JPanel implements Observer {
         this.newGameSouth.add(this.getSubmit());
         this.newGamePanel.add(this.enterUsername, BorderLayout.CENTER);
         this.newGamePanel.add(this.newGameSouth, BorderLayout.SOUTH);
+        this.newGamePanel.add(this.warning, BorderLayout.NORTH);
 
         //Panel for options buttons
         this.optionsPanel.add(gameTitle, BorderLayout.CENTER);
@@ -450,6 +452,89 @@ public class View extends JPanel implements Observer {
     }
 
     /**
+     * Updates the unlock shop to display the text stored within an inputted
+     * string array.
+     *
+     * Sets text of each button within unlock slot to match text stored in the
+     * unlockText[]. After all text is updated shifts the back button to the
+     * last slot.
+     *
+     * @param unlockSize
+     * @param unlockText
+     */
+    private void updateUnlock(int unlockSize, String[] unlockText) {
+        //Make other buttons invisible
+        for (int i = unlockSize; i < unlockSlot.length; i++) {
+            this.unlockSlot[i].setVisible(false);
+
+        }
+        //Redo button labels
+        for (int i = 0; i < unlockSize; i++) {
+            this.unlockSlot[i].setText(unlockText[i]);
+            this.unlockSlot[i].setVisible(true);
+
+        }
+        //Add back button to end
+        this.unlockSlot[unlockSize] = this.unlockBack;
+        this.unlockSlot[unlockSize].setText("Back");
+        this.unlockSlot[unlockSize].setVisible(true);
+
+    }
+
+    /**
+     * Updates information displayed on the info area panel.
+     *
+     * @param infoArray
+     */
+    private void updateInformationDisplay(String[] infoArray) {
+        infoAreaPanel.updateInformationDisplay(infoArray);
+
+    }
+
+    /**
+     * Updates the buttons displayed in the shop.
+     *
+     * Adds an item to the shop display by setting the second to last position
+     * in the planting buttons array to equal the text of the last item in the
+     * input shopText.
+     *
+     * The back button is then shifted to the end of the array.
+     *
+     *
+     * @param shopSize
+     * @param shopText
+     */
+    private void updateShop(int shopSize, String[] shopText) {
+
+        //Sets a hidden jbutton to have the text of a new plant
+        this.plantingButtons[shopSize - 1] = new JButton();
+        this.plantingButtons[shopSize - 1].setText(shopText[shopSize - 1]);
+        this.plantingButtons[shopSize - 1].setVisible(true);
+
+        //Add back button to end of planting buttons
+        this.plantingButtons[shopSize] = this.plantBack;
+        this.plantingButtons[shopSize].setText("Back");
+        this.plantingButtons[shopSize].setVisible(true);
+
+        //add the new jbutton and back button  to the plant select panel.
+        this.plantSelect.add(this.plantingButtons[shopSize - 1]);
+        this.plantSelect.add(this.plantingButtons[shopSize]);
+
+    }
+
+    /**
+     * Sets the visibility of the load game buttons based on a boolean array.
+     *
+     * @param visible
+     */
+    public void setLoadGameVisibility(boolean[] visible) {
+
+        for (int i = 0; i < 5; i++) {
+            this.loadButtons[i].setVisible(visible[i]);
+        }
+    }
+
+    /**
      * Establishes the unlock panels buttons.
      *
      * Creates an array of unlock buttons containing text matching the unlocks
@@ -490,63 +575,13 @@ public class View extends JPanel implements Observer {
     }
 
     /**
-     * Updates the unlock shop to display the text stored within an inputted
-     * string array.
+     * Sets the plant buttons to display the text stored within an inputed text
+     * array.
      *
-     * Sets text of each button within unlock slot to match text stored in the
-     * unlockText[]. After all text is updated shifts the back button to the
-     * last slot.
-     *
-     * @param unlockSize
-     * @param unlockText
+     * @param plantSetSize
+     * @param shopSize
+     * @param shopText
      */
-    private void updateUnlock(int unlockSize, String[] unlockText) {
-        //Make other buttons invisible
-        for (int i = unlockSize; i < unlockSlot.length; i++) {
-            this.unlockSlot[i].setVisible(false);
-
-        }
-        //Redo button labels
-        for (int i = 0; i < unlockSize; i++) {
-            this.unlockSlot[i].setText(unlockText[i]);
-            this.unlockSlot[i].setVisible(true);
-
-        }
-        //Add back button to end
-        this.unlockSlot[unlockSize] = this.unlockBack;
-        this.unlockSlot[unlockSize].setText("Back");
-        this.unlockSlot[unlockSize].setVisible(true);
-
-    }
-
-    /**
-     * Updates information displayed on the info area panel.
-     *
-     * @param infoArray
-     */
-    private void updateInformationDisplay(String[] infoArray) {
-        infoAreaPanel.updateInformationDisplay(infoArray);
-
-    }
-
-    private void updateShop(int shopSize, String[] shopText) {
-
-        //Sets a hidden jbutton to have the text of a new plant
-        this.plantingButtons[shopSize - 1] = new JButton();
-        this.plantingButtons[shopSize - 1].setText(shopText[shopSize - 1]);
-        this.plantingButtons[shopSize - 1].setVisible(true);
-
-        //Add back button to end of planting buttons
-        this.plantingButtons[shopSize] = this.plantBack;
-        this.plantingButtons[shopSize].setText("Back");
-        this.plantingButtons[shopSize].setVisible(true);
-
-        //add the new jbutton and back button  to the plant select panel.
-        this.plantSelect.add(this.plantingButtons[shopSize - 1]);
-        this.plantSelect.add(this.plantingButtons[shopSize]);
-
-    }
-
     private void setShop(int plantSetSize, int shopSize, String[] shopText) {
 
         for (String shopText1 : shopText) {
@@ -669,13 +704,7 @@ public class View extends JPanel implements Observer {
      */
     public void updateWarningMessage(String warning) {
         this.warning.setText(warning);
-    }
 
-    public void setLoadGameVisibility(boolean[] visible) {
-
-        for (int i = 0; i < 5; i++) {
-            this.loadButtons[i].setVisible(visible[i]);
-        }
     }
 
     /**
@@ -698,7 +727,6 @@ public class View extends JPanel implements Observer {
 
         }
         if (data.isLoadGameChanged()) {
-            System.out.println("HERE");
             setLoadGameVisibility(data.getLoadGameVisible());
         }
 

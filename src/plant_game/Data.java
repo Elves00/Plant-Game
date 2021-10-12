@@ -11,104 +11,6 @@ package plant_game;
  */
 public class Data {
 
-    /**
-     * @return the loadGameChanged
-     */
-    public boolean isLoadGameChanged() {
-        return loadGameChanged;
-    }
-
-    /**
-     * @param loadGameChanged the loadGameChanged to set
-     */
-    public void setLoadGameChanged(boolean loadGameChanged) {
-        this.loadGameChanged = loadGameChanged;
-    }
-
-    /**
-     * @return the loadGameVisible
-     */
-    public boolean[] getLoadGameVisible() {
-        return loadGameVisible;
-    }
-
-    /**
-     * @param loadGameVisible the loadGameVisible to set
-     */
-    public void setLoadGameVisible(boolean loadGameVisible[]) {
-        this.loadGameVisible = loadGameVisible;
-    }
-
-    /**
-     * @return the previousGameVisible
-     */
-    public boolean isPreviousGameVisible() {
-        return previousGameVisible;
-    }
-
-    /**
-     * @param previousGameVisible the previousGameVisible to set
-     */
-    public void setPreviousGameVisible(boolean previousGameVisible) {
-        this.previousGameVisible = previousGameVisible;
-    }
-
-    /**
-     * @return the mainMenu
-     */
-    public boolean isMainMenu() {
-        return mainMenu;
-    }
-
-    /**
-     * @param mainMenu the mainMenu to set
-     */
-    public void setMainMenu(boolean mainMenu) {
-        this.mainMenu = mainMenu;
-    }
-
-    /**
-     * @return the checkScores
-     */
-    public boolean isCheckScores() {
-        return checkScores;
-    }
-
-    /**
-     * @param checkScores the checkScores to set
-     */
-    public void setCheckScores(boolean checkScores) {
-        this.checkScores = checkScores;
-    }
-
-    /**
-     * @return the warningCheck
-     */
-    public boolean isWarningCheck() {
-        return warningCheck;
-    }
-
-    /**
-     * @param warningCheck the warningCheck to set
-     */
-    public void setWarningCheck(boolean warningCheck) {
-        this.warningCheck = warningCheck;
-    }
-
-    /**
-     * @return the warning
-     */
-    public String getWarning() {
-        return warning;
-    }
-
-    /**
-     * @param warning the warning to set
-     */
-    public void setWarning(String warning) {
-        this.warning = warning;
-    }
-
     private boolean start;
     private int plantsetSize;
 
@@ -773,4 +675,103 @@ public class Data {
     public void setPlants(String[][] plants) {
         this.plants = plants;
     }
+
+    /**
+     * @return the loadGameChanged
+     */
+    public boolean isLoadGameChanged() {
+        return loadGameChanged;
+    }
+
+    /**
+     * @param loadGameChanged the loadGameChanged to set
+     */
+    public void setLoadGameChanged(boolean loadGameChanged) {
+        this.loadGameChanged = loadGameChanged;
+    }
+
+    /**
+     * @return the loadGameVisible
+     */
+    public boolean[] getLoadGameVisible() {
+        return loadGameVisible;
+    }
+
+    /**
+     * @param loadGameVisible the loadGameVisible to set
+     */
+    public void setLoadGameVisible(boolean loadGameVisible[]) {
+        this.loadGameVisible = loadGameVisible;
+    }
+
+    /**
+     * @return the previousGameVisible
+     */
+    public boolean isPreviousGameVisible() {
+        return previousGameVisible;
+    }
+
+    /**
+     * @param previousGameVisible the previousGameVisible to set
+     */
+    public void setPreviousGameVisible(boolean previousGameVisible) {
+        this.previousGameVisible = previousGameVisible;
+    }
+
+    /**
+     * @return the mainMenu
+     */
+    public boolean isMainMenu() {
+        return mainMenu;
+    }
+
+    /**
+     * @param mainMenu the mainMenu to set
+     */
+    public void setMainMenu(boolean mainMenu) {
+        this.mainMenu = mainMenu;
+    }
+
+    /**
+     * @return the checkScores
+     */
+    public boolean isCheckScores() {
+        return checkScores;
+    }
+
+    /**
+     * @param checkScores the checkScores to set
+     */
+    public void setCheckScores(boolean checkScores) {
+        this.checkScores = checkScores;
+    }
+
+    /**
+     * @return the warningCheck
+     */
+    public boolean isWarningCheck() {
+        return warningCheck;
+    }
+
+    /**
+     * @param warningCheck the warningCheck to set
+     */
+    public void setWarningCheck(boolean warningCheck) {
+        this.warningCheck = warningCheck;
+    }
+
+    /**
+     * @return the warning
+     */
+    public String getWarning() {
+        return warning;
+    }
+
+    /**
+     * @param warning the warning to set
+     */
+    public void setWarning(String warning) {
+        this.warning = warning;
+    }
+
 }

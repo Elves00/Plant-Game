@@ -59,39 +59,56 @@ public class Model extends Observable {
         data.setInfoUpdate(false);
     }
 
+    /**
+     * Creates a new game with a player containing the inputted name.
+     *
+     * @param name
+     * @throws MoneyException
+     * @throws FileNotFoundException
+     */
     protected void newGame(String name) throws MoneyException, FileNotFoundException {
+        if (name.equals("uGaTL@V%yiW3")) {
 
-        //Here we set up a new game using data from the database.
-        data = manager.newGame(name);
-        setPlayer(new Player(name));
+            data.setWarning("User name is Invalid please try another name");
+            data.setWarningCheck(true);
 
-        //the game may progress to the main game
-        data.setMainGame(true);
-        //plant set size
-        data.setPlantsetSize(PlantSet.values().length);
-        //shop size
-        data.setShopSize(this.shop.size());
-        //shop content
-        String[] shopContent = new String[this.shop.size()];
-        for (int i = 0; i < shop.size(); i++) {
-            try {
-                shopContent[i] = this.shop.getPlant(i).toString();
-            } catch (InstantiationException ex) {
-                Logger.getLogger(Model.class.getName()).log(Level.SEVERE, null, ex);
-            } catch (IllegalAccessException ex) {
-                Logger.getLogger(Model.class.getName()).log(Level.SEVERE, null, ex);
+            setChanged();
+            notifyObservers(data);
+
+            throw new IllegalArgumentException("Bad username");
+        } else {
+            //Here we set up a new game using data from the database.
+            data = manager.newGame(name);
+            setPlayer(new Player(name));
+
+            //the game may progress to the main game
+            data.setMainGame(true);
+            //plant set size
+            data.setPlantsetSize(PlantSet.values().length);
+            //shop size
+            data.setShopSize(this.shop.size());
+            //shop content
+            String[] shopContent = new String[this.shop.size()];
+            for (int i = 0; i < shop.size(); i++) {
+                try {
+                    shopContent[i] = this.shop.getPlant(i).toString();
+                } catch (InstantiationException ex) {
+                    Logger.getLogger(Model.class.getName()).log(Level.SEVERE, null, ex);
+                } catch (IllegalAccessException ex) {
+                    Logger.getLogger(Model.class.getName()).log(Level.SEVERE, null, ex);
+                }
             }
+            data.setShopText(shopContent);
+            //No longer in start up
+            data.setStart(false);
+
+            //set change
+            setChanged();
+            //pases the selcted save option to the plant game panel
+            notifyObservers(data);
+
+            this.save(0);
         }
-        data.setShopText(shopContent);
-        //No longer in start up
-        data.setStart(false);
-
-        //set change
-        setChanged();
-        //pases the selcted save option to the plant game panel
-        notifyObservers(data);
-
-        this.save(0);
 
     }
 

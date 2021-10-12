@@ -74,6 +74,7 @@ public final class DBManager {
 
         try {
             Data data = new Data();
+            //Load game is not vissable if a play has the name bellow and is not the current game slot.
             String sql = "SELECT * FROM PLAYER WHERE playerName='uGaTL@V%yiW3'AND slot>0";
 
             ResultSet rs;
@@ -85,6 +86,7 @@ public final class DBManager {
             }
             rs.close();
 
+            //Previous game button is vissible only if the current game slot does not include this player name
             sql = "SELECT * FROM PLAYER WHERE playerName='uGaTL@V%yiW3' AND slot=0";
 
             rs = this.myQuery(sql);

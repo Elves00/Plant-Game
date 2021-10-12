@@ -106,10 +106,12 @@ public class Controller extends JFrame implements ActionListener, MouseListener 
                 this.view.getCards().show(this.view.getStartView(), "a");
                 this.pack();
 
-            } catch (MoneyException ex) {
+            } catch (MoneyException | FileNotFoundException ex) {
                 Logger.getLogger(Controller.class.getName()).log(Level.SEVERE, null, ex);
-            } catch (FileNotFoundException ex) {
-                Logger.getLogger(Controller.class.getName()).log(Level.SEVERE, null, ex);
+            }
+            catch(IllegalArgumentException ie)
+            {
+                
             }
         }
         //If pressed opens the load game view showing 5 updateSaveText slots to load from
