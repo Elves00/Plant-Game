@@ -33,6 +33,20 @@ import javax.swing.border.Border;
  */
 public class View extends JPanel implements Observer {
 
+    /**
+     * @return the loadGameBack
+     */
+    public JButton getLoadGameBack() {
+        return loadGameBack;
+    }
+
+    /**
+     * @param loadGameBack the loadGameBack to set
+     */
+    public void setLoadGameBack(JButton loadGameBack) {
+        this.loadGameBack = loadGameBack;
+    }
+
     //Model view is observing
     private Model plantGameModel;
 
@@ -126,6 +140,7 @@ public class View extends JPanel implements Observer {
     private JButton highScoreBack = new JButton("Back");
     private JButton infoBack = new JButton("Back");
     private JButton saveBack = new JButton("Back");
+    private JButton loadGameBack = new JButton("Back");
 
     //Holds the main game options such as plant water and pick buttons.
     private JPanel gameOptions = new JPanel();
@@ -297,6 +312,8 @@ public class View extends JPanel implements Observer {
         for (JButton load : getLoadButtons()) {
             this.loadGamePanelArange.add(load);
         }
+
+        this.loadGamePanelArange.add(this.loadGameBack);
         //Adds the panel to the centre display of the load game panely.
         loadGamePanel.add(loadGamePanelArange, BorderLayout.SOUTH);
         loadGamePanel.add(this.selectLoad, BorderLayout.CENTER);
@@ -330,6 +347,7 @@ public class View extends JPanel implements Observer {
         getHighScoresButton().addActionListener(actionListener);
         getMainMenu().addActionListener(actionListener);
         getHighScoreBack().addActionListener(actionListener);
+        getLoadGameBack().addActionListener(actionListener);
 
         //Unlock listeners
         for (JButton unlockSlot1 : getUnlockSlot()) {
@@ -653,6 +671,13 @@ public class View extends JPanel implements Observer {
         this.warning.setText(warning);
     }
 
+    public void setLoadGameVisibility(boolean[] visible) {
+
+        for (int i = 0; i < 5; i++) {
+            this.loadButtons[i].setVisible(visible[i]);
+        }
+    }
+
     /**
      * Updates the class caused by changes in the observed model
      *
@@ -670,6 +695,17 @@ public class View extends JPanel implements Observer {
             updateScore(data.getNames(), data.getScores());
             resetButtons();
             this.mainCard.show(this, "c");
+
+        }
+        if (data.isLoadGameChanged()) {
+            System.out.println("HERE");
+            setLoadGameVisibility(data.getLoadGameVisible());
+        }
+
+        if (!data.isPreviousGame()) {
+            this.previousGame.setVisible(data.isPreviousGame());
+        } else {
+            this.previousGame.setVisible(data.isPreviousGame());
         }
 
         //if the game is starting
@@ -687,9 +723,11 @@ public class View extends JPanel implements Observer {
             }
 
         }
+
         if (data.isMainMenu()) {
             resetButtons();
         }
+
         //The main game
         if (data.isMainGame() == true) {
             this.mainCard.show(this, "b");

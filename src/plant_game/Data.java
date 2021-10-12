@@ -12,6 +12,48 @@ package plant_game;
 public class Data {
 
     /**
+     * @return the loadGameChanged
+     */
+    public boolean isLoadGameChanged() {
+        return loadGameChanged;
+    }
+
+    /**
+     * @param loadGameChanged the loadGameChanged to set
+     */
+    public void setLoadGameChanged(boolean loadGameChanged) {
+        this.loadGameChanged = loadGameChanged;
+    }
+
+    /**
+     * @return the loadGameVisible
+     */
+    public boolean[] getLoadGameVisible() {
+        return loadGameVisible;
+    }
+
+    /**
+     * @param loadGameVisible the loadGameVisible to set
+     */
+    public void setLoadGameVisible(boolean loadGameVisible[]) {
+        this.loadGameVisible = loadGameVisible;
+    }
+
+    /**
+     * @return the previousGameVisible
+     */
+    public boolean isPreviousGameVisible() {
+        return previousGameVisible;
+    }
+
+    /**
+     * @param previousGameVisible the previousGameVisible to set
+     */
+    public void setPreviousGameVisible(boolean previousGameVisible) {
+        this.previousGameVisible = previousGameVisible;
+    }
+
+    /**
      * @return the mainMenu
      */
     public boolean isMainMenu() {
@@ -133,8 +175,12 @@ public class Data {
 
     private String warning;
     private boolean warningCheck;
-    
+
     private boolean mainMenu;
+
+    private boolean previousGameVisible;
+    private boolean[] loadGameVisible;
+    private boolean loadGameChanged;
 
     public Data() {
         start = true;
@@ -151,6 +197,7 @@ public class Data {
         }
         warningCheck = false;
 
+        loadGameVisible = new boolean[]{true, true, true, true, true};
     }
 
     /**

@@ -46,17 +46,61 @@ public final class DBManager {
     }
 
     public boolean constructDatabse() {
+//        myUpdate("DROP TABLE Player");
+//        myUpdate("DROP TABLE Field");
+//        myUpdate("DROP TABLE Shop");
+//        myUpdate("DROP TABLE Unlock");
+//        myUpdate("DROP TABLE Info");
+//        myUpdate("DROP TABLE Scores");
         if (construct.dbsetup()) {
             return true;
         } else {
             return false;
         }
-//                               myUpdate("DROP TABLE Player");
-//                                myUpdate("DROP TABLE Field");
-//                                myUpdate("DROP TABLE Shop");
-//                                myUpdate("DROP TABLE Unlock");
-//                                myUpdate("DROP TABLE Info");
-//                                myUpdate("DROP TABLE Scores");
+
+    }
+
+    /**
+     * Creates a data object with initial conditions for the view.
+     *
+     * The views previous game button and load game options visibility is
+     * determined by the pressence of a particular username in the database
+     * table. This username only occurce when there is a default value occupying
+     * a particular save slot. 
+     *
+     * @return Data
+     */
+    public Data start() {
+
+        try {
+            Data data = new Data();
+            String sql = "SELECT * FROM PLAYER WHERE playerName='uGaTL@V%yiW3'AND slot>0";
+
+            ResultSet rs;
+            rs = this.myQuery(sql);
+            while (rs.next()) {
+                data.getLoadGameVisible()[rs.getInt("slot") - 1] = false;
+                System.out.println(rs.getInt("slot"));
+
+            }
+            rs.close();
+
+            sql = "SELECT * FROM PLAYER WHERE playerName='uGaTL@V%yiW3' AND slot=0";
+
+            rs = this.myQuery(sql);
+            if (rs.next()) {
+                data.setPreviousGame(false);
+            } else {
+                data.setPreviousGame(true);
+            }
+            rs.close();
+
+            data.setLoadGameChanged(true);
+            return data;
+        } catch (SQLException ex) {
+            Logger.getLogger(DBManager.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return null;
 
     }
 
@@ -710,7 +754,7 @@ public final class DBManager {
             PreparedStatement preparedStatement = conn.prepareStatement(sql);
 
             for (int i = 0; i < tableNames.length; i++) {
-                preparedStatement.setString(1, "empty");
+                preparedStatement.setString(1, "uGaTL@V%yiW3");
                 preparedStatement.setFloat(2, 200);
                 preparedStatement.setInt(3, 100);
                 preparedStatement.setInt(4, 0);
@@ -874,4 +918,5 @@ public final class DBManager {
         db.loadGame(1);
 
     }
+
 }

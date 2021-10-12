@@ -19,9 +19,9 @@ public class Start {
         try {
             View view = new View();
             Model model = new Model();
-            Controller controller = new Controller(model, view);
-
             model.addObserver(view); // Build connection between the view and the model.
+
+            Controller controller = new Controller(model, view);
 
         } catch (IOException ex) {
             Logger.getLogger(Start.class.getName()).log(Level.SEVERE, null, ex);

@@ -44,20 +44,19 @@ public class Controller extends JFrame implements ActionListener, MouseListener 
         plantToPlant = -1;
         watering = false;
         picking = false;
+        //Set  the main plant panel
+        this.view = plantGameMain;
 
         //Set up the game model
         this.model = plantGameModel;
-
-        //Creates the main plant panel
-        this.view = plantGameMain;
+        //Call start to change visibility of buttons based on database state
+        this.model.start();
 
         //Adds listeners to the view.
         this.addListener();
 
         //Cardlayout views
         this.add(view);
-        //Start game
-        this.model.alternatStart();
 
         // kill all threads when frame closes
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -127,21 +126,16 @@ public class Controller extends JFrame implements ActionListener, MouseListener 
                 this.view.getCards().show(this.view.getStartView(), "a");
             }
         }
+        if (sourceA == view.getLoadGameBack()) {
+            //return view to start card
+            this.view.getCards().show(this.view.getStartView(), "a");
+        }
         //loads the previous saved game.
         if (sourceA == view.getPreviousGame()) {
-            try {
-                this.model.previousGame();
-                this.model.initialView();
-                this.view.getMainCard().show(this.view, "b");
-                this.pack();
-
-            } catch (IOException ex) {
-                Logger.getLogger(Controller.class.getName()).log(Level.SEVERE, null, ex);
-            } catch (InstantiationException ex) {
-                Logger.getLogger(Controller.class.getName()).log(Level.SEVERE, null, ex);
-            } catch (IllegalAccessException ex) {
-                Logger.getLogger(Controller.class.getName()).log(Level.SEVERE, null, ex);
-            }
+            this.model.previousGame();
+            this.model.initialView();
+            this.view.getMainCard().show(this.view, "b");
+            this.pack();
         }
         //Player is planting a plant in the field
         if (sourceA == view.getPlant()) {

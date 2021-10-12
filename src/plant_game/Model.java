@@ -6,10 +6,8 @@
 package plant_game;
 
 import java.io.FileNotFoundException;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Observable;
-import java.util.Scanner;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -22,11 +20,7 @@ public class Model extends Observable {
     private Player player;
     private PlantSelection shop;
     private UnlockShop unlocks;
-    private GameState files;
-    private final String endline;
-    private final Scanner scan;
     private OrderedList<Score> highscores;
-    private Boolean input;
     private String[] searchTerm;
 
     private DBManager manager;
@@ -40,22 +34,23 @@ public class Model extends Observable {
         searchTerm = new String[]{"Information", "Plants", "Plant a Plant", "Pick Plant", "Water", "Next Day", "Unlock", "Save Game"};
         manager = new DBManager();
         manager.constructDatabse();
-        data = new Data();
-        //Establishes file manage.
-        this.files = new GameState();
-        //Recieved gui input
-        this.input = false;
-        //Endline save.
-        this.endline = "---------------------------------------------------------";
-        //Sacnner to be used,
-        this.scan = new Scanner(System.in);
+
+    }
+
+    /**
+     * Calls the manager to determine the visibility of certain view components
+     * based on table data.
+     *
+     *
+     */
+    public void start() {
+        data = manager.start();
+        setChanged();
+        //pases the selcted save option to the plant game panel
+        notifyObservers(data);
     }
 
     public void getInfo(int i) {
-//        //set change
-//        setChanged();
-//        //pases the selcted save option to the plant game panel
-//        notifyObservers("Info " + i);
         data = manager.loadInfo(searchTerm[i], data);
         data.setInfoUpdate(true);
         setChanged();
@@ -101,6 +96,23 @@ public class Model extends Observable {
     }
 
     /**
+     * Saves the current game and notifies the data class of changes.
+     *
+     * Save game to current game and set main menu to true telling the data
+     * class to preform main menu actions. afterwards create a new data class as
+     * the options present to the player all require a fresh data object.
+     */
+    public void mainMenu() {
+        this.save(0);
+        this.data = manager.start();
+        data.setMainMenu(true);
+        setChanged();
+        notifyObservers(data);
+        data.setMainMenu(false);
+
+    }
+
+    /**
      * Creates a new game using a user generated name to establish player and
      * new files.
      *
@@ -127,92 +139,14 @@ public class Model extends Observable {
     }
 
     /**
-     * Saves the current game and notifys the data class of changes.
+     * Loads a game from the current game file.
      *
-     * Save game to current game and set main menu to true telling the data
-     * class to preform main menu actions. afterwards create a new data class as
-     * the options present to the player all require a fresh data object.
      */
-    public void mainMenu() {
-        this.save(0);
-        data.setMainMenu(true);
-        setChanged();
-        notifyObservers(data);
-        data.setMainMenu(false);
-        this.data = new Data();
-    }
+    protected void previousGame() {
 
-    /**
-     * Loads a game from the current game file. If no game is available start a
-     * new game.
-     *
-     * @throws IOException
-     * @throws FileNotFoundException
-     * @throws FileLoadErrorException
-     */
-    protected void previousGame() throws IOException, FileNotFoundException, FileLoadErrorException, InstantiationException, IllegalAccessException {
-
-        try {
-
-            //loads the last game.
-            data = manager.loadGame(0);
-
-            //Sets up the player based on data stored in the data class.
-            player = new Player(data.getPlayerName(), data.getMoney(), data.getEnergy(), data.getDay(), data.getScore());
-            //Sets all the plants but not all the stats
-            player.getField().setAllPlants(data.getPlants());
-
-            //Sets all the plants stats
-            player.getField().setAllPlantStatus(data.getPlantsDescription());
-
-            //Set the unlock shop with the details from data.
-            ArrayList<String> details = new ArrayList();
-            details.add(data.getUnlock());
-            details.add(data.getUnlockCost());
-            setUnlocks(new UnlockShop(details));
-
-            //Sets the shop based on info stored in data.
-            setShop(data.getShop());
-
-            //Establishs new data values for plant set size/shop size and shop content based on what the shop has been set to contain.
-            data.setPlantsetSize(PlantSet.values().length);
-            //shop size
-            data.setShopSize(this.shop.size());
-            //shop content
-            String[] shopContent = new String[this.shop.size()];
-            for (int i = 0; i < shop.size(); i++) {
-                try {
-                    shopContent[i] = this.shop.getPlant(i).toString();
-                } catch (InstantiationException ex) {
-                    Logger.getLogger(Model.class.getName()).log(Level.SEVERE, null, ex);
-                } catch (IllegalAccessException ex) {
-                    Logger.getLogger(Model.class.getName()).log(Level.SEVERE, null, ex);
-                }
-            }
-            data.setShopText(shopContent);
-
-            //Once previous game has been selected the game is no longer in start up
-            data.setStart(false);
-
-            //Game is now in main game
-            data.setMainGame(true);
-            //Loads the scores table to data to display in the view.
-            data = manager.loadScores(data);
-
-            setChanged();
-            notifyObservers(data);
-            data.setCheckScores(false);
-
-            System.out.println("Previous game unlock and shop");
-            System.out.println(shop);
-            System.out.println(this.unlocks);
-            System.out.println("");
-
-        } catch (IndexOutOfBoundsException on) {
-            //There was no game stored in current game file so create a new game.
-            System.out.println("There is no current game file starting new game...");
-            newGame();
-        }
+        //loads the last game.
+        data = manager.loadGame(0);
+        loadGame(0);
     }
 
     /**
@@ -652,28 +586,6 @@ public class Model extends Observable {
 
     }
 
-    public void alternatStart() throws IOException {
-
-        //Highscores load.
-        setHighscores((OrderedList<Score>) files.loadHighScore());
-
-        //Condition for the main while loop which runs the game
-        boolean flag;
-        flag = true;
-        //Variable for storing user input
-        int anwser = 0;
-
-        //Start of display
-        System.out.println(endline);
-
-//        //set change
-//        setChanged();
-//        //pases the selcted save option to the plant game panel
-//        notifyObservers("Options a");
-        data.setStart(true);
-
-    }
-
     /**
      * @return the player
      */
@@ -736,20 +648,6 @@ public class Model extends Observable {
      */
     public void setHighscores(OrderedList<Score> highscores) {
         this.highscores = highscores;
-    }
-
-    /**
-     * @return the files
-     */
-    public GameState getFiles() {
-        return files;
-    }
-
-    /**
-     * @param files the files to set
-     */
-    public void setFiles(GameState files) {
-        this.files = files;
     }
 
 }
