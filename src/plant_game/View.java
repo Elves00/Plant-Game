@@ -17,15 +17,17 @@ import java.util.Observer;
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
 import javax.swing.JLabel;
-import javax.swing.JList;
 import javax.swing.JPanel;
-import javax.swing.JScrollPane;
-import javax.swing.JTextArea;
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 import javax.swing.border.Border;
 
 /**
+ * The view contains all the display components of the GUI.
+ *
+ * This view is primarly concerend with displaying the information of the plant
+ * game.
+ *
  *
  * @author breco
  */
@@ -88,7 +90,9 @@ public class View extends JPanel implements Observer {
     private JPanel startView = new JPanel();
     private JPanel startupPanel = new JPanel();
     //Label which holds the game title.
-    private JLabel loadInfo = new JLabel("The Plant Game", SwingConstants.CENTER);
+    private JLabel gameTitle = new JLabel("The Plant Game", SwingConstants.CENTER);
+    private JLabel enterUsername = new JLabel("Enter your username", SwingConstants.CENTER);
+    private JLabel selectLoad = new JLabel("Select game to load", SwingConstants.CENTER);
     private JButton newGame = new JButton("New Game");
     private JButton previousGame = new JButton("Previous Game");
     private JButton loadGame = new JButton("Load Game");
@@ -268,16 +272,18 @@ public class View extends JPanel implements Observer {
 
         //Sets up a fancy title.
         Font fancy = new Font("verdana", Font.BOLD | Font.ITALIC, 28);
-        this.loadInfo.setFont(fancy);
-
+        //Set components in the start panel to match font.
+        this.gameTitle.setFont(fancy);
+        this.enterUsername.setFont(fancy);
+        this.selectLoad.setFont(fancy);
         //username text field and submision button to new game panel.
         this.newGameSouth.add(this.getUsername());
         this.newGameSouth.add(this.getSubmit());
-        this.newGamePanel.add(loadInfo, BorderLayout.CENTER);
+        this.newGamePanel.add(this.enterUsername, BorderLayout.CENTER);
         this.newGamePanel.add(this.newGameSouth, BorderLayout.SOUTH);
 
         //Panel for options buttons
-        this.optionsPanel.add(loadInfo, BorderLayout.CENTER);
+        this.optionsPanel.add(gameTitle, BorderLayout.CENTER);
         this.startupPanel.add(getNewGame());
         this.startupPanel.add(getPreviousGame());
         this.startupPanel.add(getLoadGame());
@@ -292,7 +298,8 @@ public class View extends JPanel implements Observer {
             this.loadGamePanelArange.add(load);
         }
         //Adds the panel to the centre display of the load game panely.
-        loadGamePanel.add(loadGamePanelArange, BorderLayout.CENTER);
+        loadGamePanel.add(loadGamePanelArange, BorderLayout.SOUTH);
+        loadGamePanel.add(this.selectLoad, BorderLayout.CENTER);
 
         this.getStartView().add("a", this.optionsPanel);
         this.getStartView().add("b", this.loadGamePanel);
@@ -377,7 +384,7 @@ public class View extends JPanel implements Observer {
      */
     public void setLoadText(String[] saves) {
         for (int i = 0; i < 5; i++) {
-            this.loadButtons[i].setText(saves[0]);
+            this.loadButtons[i].setText(saves[i]);
         }
         this.getCards().show(this.getStartView(), "b");
     }
@@ -523,8 +530,7 @@ public class View extends JPanel implements Observer {
     }
 
     private void setShop(int plantSetSize, int shopSize, String[] shopText) {
-        System.out.println("Shop starting with:" + shopSize);
-        System.out.println("SHOP TEXT");
+
         for (String shopText1 : shopText) {
             System.out.println(shopText1);
         }
@@ -626,39 +632,16 @@ public class View extends JPanel implements Observer {
     }
 
     /**
-     * Updates the score display using data from the data class.Sets up a list
-     * of scores composed of scores and names stored within the data class.Once
-     * the list is created it is used to create a new Jlist with a scroller.
+     * Updates the score panel
      *
      *
-     * @param data
+     * @param names array of player names
+     * @param scores array of player scores
      */
     public void updateScore(String[] names, int[] scores) {
 
         this.highScorePanel.updateScore(names, scores);
         this.endHighScorePanel.updateScore(names, scores);
-//        //Remove the previous high score scorll from the view.
-//        this.highScorePanel.remove(this.highScorePanel.getHighScoreScroll());
-//
-//        OrderedList<Score> highscores = new OrderedList();
-//
-//        //High scores only cares about 20 values.
-//        for (int i = 0; i < 20; i++) {
-//            //if there are defualt values stored in both arrays don't add.
-//            if (!(names[i] == null && scores[i] == 0)) {
-//                highscores.add(new Score(names[i], scores[i]));
-//            }
-//
-//        }
-//
-//        //Create a new jlist using the orderlist
-//        this.highScores = new JList<>(highscores.toArray());
-//
-//        highScoreScroll = new JScrollPane(highScores);
-//
-//        //add the jlist to the panel.
-//        this.highScorePanel.add(highScoreScroll, BorderLayout.CENTER);
-
     }
 
     /**
@@ -683,7 +666,6 @@ public class View extends JPanel implements Observer {
 
         //If the game has ended update score and reset the button texts
         if (data.isEndGame()) {
-            System.out.println("WE REACHED HERE");
             //score update
             updateScore(data.getNames(), data.getScores());
             resetButtons();
