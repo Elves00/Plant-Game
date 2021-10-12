@@ -64,8 +64,8 @@ public class Dirt extends Plant {
      * Does not check if there is an evolotion when called.
      */
     @Override
-    public void checkEvolution() {
-
+    public boolean checkEvolution() {
+        return false;
     }
 
     /**

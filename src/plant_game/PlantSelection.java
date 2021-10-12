@@ -76,7 +76,6 @@ public class PlantSelection implements ToFile {
             getPlants().put(getPlants().size(), toUnlock);
         } //This should never occur.
         else {
-            System.err.println("OH NO IN PLANT SLECTION UNLOCK");
 
             throw new IllegalArgumentException("Plant already unlocked");
         }
@@ -110,19 +109,17 @@ public class PlantSelection implements ToFile {
             //Checks the player has enough money if so purchases the upgrade.
             if (player.getMoney() - getPlants().get(x).getPrice() > 0) {
                 player.setMoney(player.getMoney() - getPlants().get(x).getPrice());
-
+               
                 return true;
                 //Player cant afford let the player know.
             } else {
-                System.out.println("You can't afford this");
                 return false;
             }
             //end
 
         } catch (ArrayIndexOutOfBoundsException a) {
-            //catch and print error
-            System.err.println();
-            System.err.println("out of bounds in purchasePlant PlantSelection");
+       
+
             return false;
 
         }

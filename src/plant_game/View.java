@@ -396,20 +396,6 @@ public class View extends JPanel implements Observer {
     }
 
     /**
-     * Set text of load game buttons based on string input.
-     *
-     * Sets each button name then switches the start view to display them.
-     *
-     * @param saves String[] containing name for all buttons.
-     */
-    public void setLoadText(String[] saves) {
-        for (int i = 0; i < 5; i++) {
-            this.loadButtons[i].setText(saves[i]);
-        }
-        this.getCards().show(this.getStartView(), "b");
-    }
-
-    /**
      * Updates the player header to display player status
      *
      * @param playerHeader
@@ -520,6 +506,42 @@ public class View extends JPanel implements Observer {
         this.plantSelect.add(this.plantingButtons[shopSize - 1]);
         this.plantSelect.add(this.plantingButtons[shopSize]);
 
+    }
+
+    /**
+     * Resets the planting buttons and unlock shop buttons.
+     *
+     * This method is called once a game has ended resetting the planting
+     * buttons and unlock buttons back to there defaults. This is to ensure that
+     * the next game does not have residual buttons from the previous game.
+     *
+     * @param data
+     */
+    public void resetButtons() {
+
+        //remove all buttons from both unlock slot and plant select
+        this.plantingButtons = null;
+        this.plantSelect.removeAll();
+        this.unlockSlot = null;
+        this.unlockPanel.removeAll();
+
+        //Sets up the shop and unlocks with blank buttons.
+        this.establishPlantButtons();
+        this.establishUnlockButtons();
+    }
+
+    /**
+     * Set text of load game buttons based on string input.
+     *
+     * Sets each button name then switches the start view to display them.
+     *
+     * @param saves String[] containing name for all buttons.
+     */
+    public void setLoadText(String[] saves) {
+        for (int i = 0; i < 5; i++) {
+            this.loadButtons[i].setText(saves[i]);
+        }
+        this.getCards().show(this.getStartView(), "b");
     }
 
     /**
@@ -641,28 +663,6 @@ public class View extends JPanel implements Observer {
     }
 
     /**
-     * Resets the planting buttons and unlock shop buttons.
-     *
-     * This method is called once a game has ended resetting the planting
-     * buttons and unlock buttons back to there defaults. This is to ensure that
-     * the next game does not have residual buttons from the previous game.
-     *
-     * @param data
-     */
-    public void resetButtons() {
-
-        //remove all buttons from both unlock slot and plant select
-        this.plantingButtons = null;
-        this.plantSelect.removeAll();
-        this.unlockSlot = null;
-        this.unlockPanel.removeAll();
-
-        //Sets up the shop and unlocks with blank buttons.
-        this.establishPlantButtons();
-        this.establishUnlockButtons();
-    }
-
-    /**
      * Adds action listeners to both shop and unlock buttons.This method is
      * called by the controller after the game has ended or shifted to the main
      * menu to re add listeners after the button slots are reset in preparation
@@ -736,7 +736,7 @@ public class View extends JPanel implements Observer {
             this.previousGame.setVisible(data.isPreviousGame());
         }
 
-        //if the game is starting
+        //Checks if the game is in the start panel with options to load game, new game and previous game
         if (data.isStart() == true) {
             //Show starting panel
             this.getCards().show(this.getStartView(), "a");
@@ -747,9 +747,7 @@ public class View extends JPanel implements Observer {
             } //Display the load game options
             else if (data.isLoadGame() == true) {
                 setLoadText(data.getLoadText());
-
             }
-
         }
 
         if (data.isMainMenu()) {

@@ -175,12 +175,15 @@ abstract class Plant implements ToFile {
     /**
      * A plant evolves to the next phase if it has meet the water limit and
      * growCounter
+     *
+     * @return True if the plant calls grow method
      */
-    public void checkEvolution() {
+    public boolean checkEvolution() {
         if (getWaterCount() >= getWaterLimit() && getGrowth() < getGrowCounter() && getTimePlanted() >= getGrowTime()) {
             grow();
-            System.out.println(this.toString() + " is growing");
+            return true;
         }
+        return false;
     }
 
     /**
