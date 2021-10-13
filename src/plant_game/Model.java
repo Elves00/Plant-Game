@@ -163,7 +163,8 @@ public class Model extends Observable {
 
         //loads the last game.
         data = manager.loadGame(0);
-        loadGame(0);
+        //Adds one in load method so start as -1
+        loadGame(-1);
     }
 
     /**
@@ -230,9 +231,6 @@ public class Model extends Observable {
         setChanged();
         notifyObservers(data);
         data.setCheckScores(false);
-        System.out.println("Load Game shop and unlock");
-        System.out.println(shop);
-        System.out.println(unlocks);
 
     }
 

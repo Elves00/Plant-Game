@@ -657,7 +657,12 @@ public class View extends JPanel implements Observer {
 
         //Sets the names of each save button to match the inputted text array.
         for (int i = 0; i < 5; i++) {
-            this.getSaveSlot()[i].setText(saveText[i]);
+            if (!saveText[i].equals("uGaTL@V%yiW3")) {
+                this.getSaveSlot()[i].setText(saveText[i]);
+                this.getSaveSlot()[i].setVisible(true);
+            } else {
+                this.getSaveSlot()[i].setVisible(false);
+            }
         }
 
     }
