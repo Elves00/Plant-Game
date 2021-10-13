@@ -659,9 +659,9 @@ public class View extends JPanel implements Observer {
         for (int i = 0; i < 5; i++) {
             if (!saveText[i].equals("uGaTL@V%yiW3")) {
                 this.getSaveSlot()[i].setText(saveText[i]);
-                this.getSaveSlot()[i].setVisible(true);
+
             } else {
-                this.getSaveSlot()[i].setVisible(false);
+                this.getSaveSlot()[i].setText("" + (i + 1));
             }
         }
 
