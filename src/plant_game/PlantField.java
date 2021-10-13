@@ -52,17 +52,17 @@ import java.util.logging.Logger;
 public final class PlantField {
 
     private Plant[][] plantArray;
-    static final int arrayLength = 3;
+    static final int ARRAY_LENGTH = 3;
 
     /**
      * Creates the planting field which is a 3 by 3 grid which plants can be
      * planted into
      */
     public PlantField() {
-        plantArray = new Plant[arrayLength][arrayLength];
+        plantArray = new Plant[ARRAY_LENGTH][ARRAY_LENGTH];
         //Creates a plant array of size 3 by 3 filled with dirt.
-        for (int i = 0; i < arrayLength; i++) {
-            for (int j = 0; j < arrayLength; j++) {
+        for (int i = 0; i < ARRAY_LENGTH; i++) {
+            for (int j = 0; j < ARRAY_LENGTH; j++) {
                 getPlantArray()[i][j] = new Dirt();
 
             }
@@ -82,8 +82,8 @@ public final class PlantField {
         String[][] water = new String[3][3];
         String w;
         //Cycles the array
-        for (int i = 0; i < arrayLength; i++) {
-            for (int j = 0; j < arrayLength; j++) {
+        for (int i = 0; i < ARRAY_LENGTH; i++) {
+            for (int j = 0; j < ARRAY_LENGTH; j++) {
                 //Gets how much a plant has been watered and how much it needs to be watered to evolve and saves to string.
                 w = getPlantArray()[i][j].getWaterCount() + "/" + getPlantArray()[i][j].getWaterLimit();
                 water[i][j] = w;
@@ -102,8 +102,8 @@ public final class PlantField {
     public String[][] getValueState() {
         String[][] value = new String[3][3];
         String w = "";
-        for (int i = 0; i < arrayLength; i++) {
-            for (int j = 0; j < arrayLength; j++) {
+        for (int i = 0; i < ARRAY_LENGTH; i++) {
+            for (int j = 0; j < ARRAY_LENGTH; j++) {
                 //Saves how much money each plant is worth and saves it in the appropriate location.
                 w = "$" + getPlantArray()[i][j].getValue();
                 value[i][j] = w;
@@ -122,8 +122,8 @@ public final class PlantField {
     public String[][] getGrowthState() {
         String[][] growth = new String[3][3];
         String w = "";
-        for (int i = 0; i < arrayLength; i++) {
-            for (int j = 0; j < arrayLength; j++) {
+        for (int i = 0; i < ARRAY_LENGTH; i++) {
+            for (int j = 0; j < ARRAY_LENGTH; j++) {
                 //Finds out how much each plant has grown and how many more evolutions are possible
                 w = getPlantArray()[i][j].getGrowth() + "/" + getPlantArray()[i][j].getGrowCounter();
                 growth[i][j] = w;
@@ -143,8 +143,8 @@ public final class PlantField {
     public String[][] getDayState() {
         String[][] days = new String[3][3];
         String w = "";
-        for (int i = 0; i < arrayLength; i++) {
-            for (int j = 0; j < arrayLength; j++) {
+        for (int i = 0; i < ARRAY_LENGTH; i++) {
+            for (int j = 0; j < ARRAY_LENGTH; j++) {
                 //PLACEHOLDER
                 w = getPlantArray()[i][j].getTimePlanted() + "/" + getPlantArray()[i][j].getGrowTime();
                 days[i][j] = w;
@@ -162,9 +162,9 @@ public final class PlantField {
      */
     public void setAllPlants(ArrayList<Plant> plants) {
         int count = 9;
-        for (int i = 0; i < arrayLength; i++) {
-            for (int j = 0; j < arrayLength; j++) {
-                getPlantArray()[i][j] = plants.get(arrayLength * arrayLength - count);
+        for (int i = 0; i < ARRAY_LENGTH; i++) {
+            for (int j = 0; j < ARRAY_LENGTH; j++) {
+                getPlantArray()[i][j] = plants.get(ARRAY_LENGTH * ARRAY_LENGTH - count);
                 count--;
             }
         }
@@ -178,8 +178,8 @@ public final class PlantField {
      */
     public void setAllPlants(String[][] plants) {
 
-        for (int i = 0; i < arrayLength; i++) {
-            for (int j = 0; j < arrayLength; j++) {
+        for (int i = 0; i < ARRAY_LENGTH; i++) {
+            for (int j = 0; j < ARRAY_LENGTH; j++) {
 
                 //Search through the plant set and add the appropriate plant to the filed
                 for (PlantSet p : PlantSet.values()) {
@@ -206,8 +206,8 @@ public final class PlantField {
      * plant stats
      */
     public void setAllPlantStatus(ArrayList<String> details) {
-        for (int i = 0; i < arrayLength; i++) {
-            for (int j = 0; j < arrayLength; j++) {
+        for (int i = 0; i < ARRAY_LENGTH; i++) {
+            for (int j = 0; j < ARRAY_LENGTH; j++) {
                 getPlantArray()[i][j].fromFile(details.get(i * 3 + j));
             }
         }
@@ -222,8 +222,8 @@ public final class PlantField {
      */
     public void setAllPlantStatus(String[][] details) {
 
-        for (int i = 0; i < arrayLength; i++) {
-            for (int j = 0; j < arrayLength; j++) {
+        for (int i = 0; i < ARRAY_LENGTH; i++) {
+            for (int j = 0; j < ARRAY_LENGTH; j++) {
                 getPlantArray()[i][j].fromFile(details[i][j]);
             }
         }
@@ -253,8 +253,8 @@ public final class PlantField {
      * triggers the nextDay on all plants within the array.
      */
     public void nextDay() {
-        for (int i = 0; i < arrayLength; i++) {
-            for (int j = 0; j < arrayLength; j++) {
+        for (int i = 0; i < ARRAY_LENGTH; i++) {
+            for (int j = 0; j < ARRAY_LENGTH; j++) {
                 getPlantArray()[i][j].nextDay();
             }
         }
@@ -266,8 +266,8 @@ public final class PlantField {
      * Checks the array to if a plant has pollinated the field
      */
     public void pollinate() {
-        for (int i = 0; i < arrayLength; i++) {
-            for (int j = 0; j < arrayLength; j++) {
+        for (int i = 0; i < ARRAY_LENGTH; i++) {
+            for (int j = 0; j < ARRAY_LENGTH; j++) {
                 if (getPlantArray()[i][j].isPollinator()) {
 
                     polinateNeighbours(getNeighbours(i, j));
@@ -332,7 +332,7 @@ public final class PlantField {
      */
     public void water(int x, int y) {
         try {
-            if (x > arrayLength || y > arrayLength || x < 0 || y < 0) {
+            if (x > ARRAY_LENGTH || y > ARRAY_LENGTH || x < 0 || y < 0) {
                 //Check the access attempt is within the gird
                 throw new ArrayIndexOutOfBoundsException();
             }
@@ -340,7 +340,7 @@ public final class PlantField {
             getPlantArray()[x][y].water();
 
         } catch (ArrayIndexOutOfBoundsException a) {
-            System.err.println("PLACEHOLDER WATER");
+
         }
 
     }
@@ -384,8 +384,8 @@ public final class PlantField {
     public String[] toFile() {
         String[] croops = new String[6];
         String fieldContent = "";
-        for (int i = 0; i < arrayLength; i++) {
-            for (int j = 0; j < arrayLength; j++) {
+        for (int i = 0; i < ARRAY_LENGTH; i++) {
+            for (int j = 0; j < ARRAY_LENGTH; j++) {
                 fieldContent = fieldContent + getPlantArray()[i][j].toFile() + " ";
             }
             croops[i] = fieldContent;
@@ -393,9 +393,9 @@ public final class PlantField {
             fieldContent = "";
         }
 
-        for (int i = 0; i < arrayLength; i++) {
+        for (int i = 0; i < ARRAY_LENGTH; i++) {
 
-            for (int j = 0; j < arrayLength; j++) {
+            for (int j = 0; j < ARRAY_LENGTH; j++) {
                 fieldContent = fieldContent + " " + getPlantArray()[i][j];
             }
             croops[i + 3] = fieldContent;
@@ -429,9 +429,9 @@ public final class PlantField {
         String fieldContent = "";
 
         //Cycels through each array spot and adds the information to the string.
-        for (int i = 0; i < arrayLength; i++) {
+        for (int i = 0; i < ARRAY_LENGTH; i++) {
             fieldContent += "|";
-            for (int j = 0; j < arrayLength; j++) {
+            for (int j = 0; j < ARRAY_LENGTH; j++) {
                 fieldContent = fieldContent + " " + getPlantArray()[i][j];
                 if (getPlantArray()[i][j].toString().length() < 9) {
                     for (int k = getPlantArray()[i][j].toString().length() - 1; k < 9; k++) {

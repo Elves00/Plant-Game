@@ -359,14 +359,28 @@ public class PlantFieldTest {
         System.out.println("polinateNeighbours");
         int[] neighbours = null;
         PlantField instance = new PlantField();
-        instance.polinateNeighbours(neighbours);
+
         boolean check = false;
         try {
-
+            instance.polinateNeighbours(neighbours);
         } catch (IllegalArgumentException ie) {
             check = true;
         }
         assertTrue(check);
+
+        //Check pollination works on neighbours
+        instance.newPlant(new Broccoli(), 0, 1);
+        instance.newPlant(new Broccoli(), 2, 1);
+        instance.newPlant(new Broccoli(), 1, 0);
+        instance.newPlant(new Broccoli(), 1, 2);
+        neighbours = instance.getNeighbours(1, 1);
+        instance.polinateNeighbours(neighbours);
+
+        assertTrue(instance.getPlant(0, 1).isPollinated());
+        assertTrue(instance.getPlant(2, 1).isPollinated());
+        assertTrue(instance.getPlant(1, 0).isPollinated());
+        assertTrue(instance.getPlant(1, 2).isPollinated());
+
     }
 
     /**
@@ -378,11 +392,10 @@ public class PlantFieldTest {
         int x = 0;
         int y = 0;
         PlantField instance = new PlantField();
-        int[] expResult = null;
+        int[] expResult = new int[]{-1, 1, -1, 1, 0, 0};
         int[] result = instance.getNeighbours(x, y);
         assertArrayEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+
     }
 
     /**
@@ -394,9 +407,18 @@ public class PlantFieldTest {
         int x = 0;
         int y = 0;
         PlantField instance = new PlantField();
+        instance.newPlant(new Broccoli(), x, y);
         instance.water(x, y);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+        Plant broco = new Broccoli();
+        broco.water();
+        assertEquals(instance.getPlant(x, y).toFile(), broco.toFile());
+
+        //Just checking it doesnt break when things are out of bounds
+        instance.water(-1, y);
+        instance.water(4, y);
+        instance.water(x, -1);
+        instance.water(x, 4);
+
     }
 
     /**
@@ -408,11 +430,28 @@ public class PlantFieldTest {
         int x = 0;
         int y = 0;
         PlantField instance = new PlantField();
+
         int expResult = 0;
         int result = instance.pickPlant(x, y);
         assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+
+        instance.newPlant(new Broccoli(), x, y);
+        result = instance.pickPlant(x, y);
+        assertEquals(expResult, result);
+
+        instance.newPlant(new Broccoli(), 1, 1);
+        instance.getPlant(1, 1).setValue(100);
+        expResult = 100;
+        result = instance.pickPlant(1, 1);
+        assertEquals(expResult, result);
+
+        instance.newPlant(new Truffle(), x, y);
+        expResult = 0;
+        result = instance.pickPlant(x, y);
+        assertEquals(expResult, result);
+
+        assertEquals(new Truffle().toFile(), instance.getPlant(x, y).toFile());
+
     }
 
     /**
@@ -422,11 +461,24 @@ public class PlantFieldTest {
     public void testToFile() {
         System.out.println("toFile");
         PlantField instance = new PlantField();
-        String[] expResult = null;
+        String[] expResult = new String[6];
+
+        for (int i = 0; i < 3; i++) {
+            expResult[i] = "0 0 0 0 0 10 0 10 false false 0 0 0 0 0 10 0 10 false false 0 0 0 0 0 10 0 10 false false ";
+            expResult[i + 3] = " dirt dirt dirt";
+        }
+
         String[] result = instance.toFile();
+
         assertArrayEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+
+        instance.newPlant(new Broccoli(), 0, 0);
+        result = instance.toFile();
+        expResult[0] = "3 0 0 6 0 3 0 10 false false 0 0 0 0 0 10 0 10 false false 0 0 0 0 0 10 0 10 false false ";
+        expResult[3] = " broccoli dirt dirt";
+
+        assertArrayEquals(expResult, result);
+
     }
 
     /**
@@ -436,11 +488,16 @@ public class PlantFieldTest {
     public void testGetPlantArray() {
         System.out.println("getPlantArray");
         PlantField instance = new PlantField();
-        Plant[][] expResult = null;
+        Plant[][] expResult = new Plant[3][3];
+        for (int i = 0; i < 3; i++) {
+            for (int j = 0; j < 3; j++) {
+                expResult[i][j] = instance.getPlant(i, j);
+
+            }
+        }
+
         Plant[][] result = instance.getPlantArray();
         assertArrayEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
     }
 
     /**
@@ -452,8 +509,29 @@ public class PlantFieldTest {
         Plant[][] plantArray = null;
         PlantField instance = new PlantField();
         instance.setPlantArray(plantArray);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+
+        assertNull(instance.getPlantArray());
+
+        plantArray = new Plant[3][3];
+
+        for (int i = 0; i < 3; i++) {
+            for (int j = 0; j < 3; j++) {
+                plantArray[i][j] = new Dirt();
+            }
+        }
+        instance.setPlantArray(plantArray);
+        assertArrayEquals(plantArray, instance.getPlantArray());
+
+        for (int i = 0; i < 3; i++) {
+            for (int j = 0; j < 3; j++) {
+                plantArray[i][j] = new Broccoli();
+                instance.newPlant(new Broccoli(), i, j);
+            }
+        }
+
+        instance.setPlantArray(plantArray);
+        assertArrayEquals(plantArray, instance.getPlantArray());
+
     }
 
     /**
@@ -463,11 +541,20 @@ public class PlantFieldTest {
     public void testToString() {
         System.out.println("toString");
         PlantField instance = new PlantField();
-        String expResult = "";
+        String expResult = "| dirt       dirt       dirt      |\n"
+                + "| dirt       dirt       dirt      |\n"
+                + "| dirt       dirt       dirt      |";
         String result = instance.toString();
         assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+
+        instance.newPlant(new Broccoli(), 2, 0);
+        instance.newPlant(new Truffle(), 1, 1);
+        expResult = "| dirt       dirt       dirt      |\n"
+                + "| dirt       truffle    dirt      |\n"
+                + "| broccoli   dirt       dirt      |";
+        result = instance.toString();
+
+        assertEquals(expResult, result);
     }
 
 }
