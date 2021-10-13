@@ -259,13 +259,13 @@ public final class PlantField {
             }
         }
         //checks who get's pollinated.
-        checkPolination();
+        pollinate();
     }
 
     /**
      * Checks the array to if a plant has pollinated the field
      */
-    public void checkPolination() {
+    public void pollinate() {
         for (int i = 0; i < arrayLength; i++) {
             for (int j = 0; j < arrayLength; j++) {
                 if (getPlantArray()[i][j].isPollinator()) {
@@ -282,6 +282,9 @@ public final class PlantField {
      * @param neighbours
      */
     public void polinateNeighbours(int[] neighbours) {
+        if (neighbours == null) {
+            throw new IllegalArgumentException();
+        }
         for (int i = 0; i < 2; i++) {
             //Check above bellow 
             try {

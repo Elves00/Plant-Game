@@ -109,7 +109,7 @@ public class PlantSelection implements ToFile {
             //Checks the player has enough money if so purchases the upgrade.
             if (player.getMoney() - getPlants().get(x).getPrice() > 0) {
                 player.setMoney(player.getMoney() - getPlants().get(x).getPrice());
-               
+
                 return true;
                 //Player cant afford let the player know.
             } else {
@@ -118,7 +118,6 @@ public class PlantSelection implements ToFile {
             //end
 
         } catch (ArrayIndexOutOfBoundsException a) {
-       
 
             return false;
 
@@ -148,8 +147,7 @@ public class PlantSelection implements ToFile {
             //Catch any inputs out of range and dissplay an error line
         } catch (ArrayIndexOutOfBoundsException a) {
 
-            System.err.println(a + "PLACE HOLDER getPlant PlantSELECTION");
-            return new Dirt();
+            return null;
 
         }
 
@@ -170,10 +168,7 @@ public class PlantSelection implements ToFile {
 
             //Catch any inputs out of range and dissplay an error line
         } catch (ArrayIndexOutOfBoundsException a) {
-
-            System.err.println(a + "PLACE HOLDER getPlant PlantSELECTION");
             return new Dirt().toString();
-
         }
 
     }

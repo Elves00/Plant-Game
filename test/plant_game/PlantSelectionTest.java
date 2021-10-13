@@ -21,23 +21,23 @@ import static org.junit.Assert.*;
  * @author breco
  */
 public class PlantSelectionTest {
-
+    
     public PlantSelectionTest() {
     }
-
+    
     @BeforeClass
     public static void setUpClass() {
     }
-
+    
     @AfterClass
     public static void tearDownClass() {
     }
-
+    
     @Before
     public void setUp() {
-
+        
     }
-
+    
     @After
     public void tearDown() {
     }
@@ -51,31 +51,31 @@ public class PlantSelectionTest {
         Plant toUnlock = new Saffron();
         PlantSelection instance = new PlantSelection();
         instance.unlock(toUnlock);
-
+        
         try {
             Assert.assertEquals("Plant unlocked", instance.getPlant(3).toFile(), new Saffron().toFile());
         } catch (InstantiationException | IllegalAccessException ex) {
             Logger.getLogger(PlantSelectionTest.class.getName()).log(Level.SEVERE, null, ex);
         }
-
+        
         boolean reached = false;
-
+        
         try {
             instance.unlock(toUnlock);
         } catch (IllegalArgumentException ie) {
             reached = true;
         }
         Assert.assertTrue("Test 1", reached);
-
+        
         reached = false;
-
+        
         try {
             instance.unlock(null);
         } catch (IllegalArgumentException ie) {
             reached = true;
         }
         Assert.assertFalse("Test 2", reached);
-
+        
     }
 
     /**
@@ -96,7 +96,7 @@ public class PlantSelectionTest {
         expResult = false;
         result = instance.purchasePlant(player, x);
         assertEquals("Test 2", expResult, result);
-
+        
         player.setMoney(200);
 
         //Index to large
@@ -106,7 +106,7 @@ public class PlantSelectionTest {
         //Index to small
         result = instance.purchasePlant(player, -3);
         assertEquals("Test 4", expResult, result);
-
+        
     }
 
     /**
@@ -119,8 +119,18 @@ public class PlantSelectionTest {
         PlantSelection instance = new PlantSelection();
         Plant expResult = new Broccoli();
         Plant result = instance.getPlant(x);
-        assertEquals("Test 1",expResult.toFile(), result.toFile());
-    
+        assertEquals("Test 1", expResult.toFile(), result.toFile());
+
+        //Index to small expecte null
+        expResult = null;
+        result = instance.getPlant(-1);
+        assertEquals("Test 2", expResult, result);
+
+        //Index to large expecte null
+        expResult = null;
+        result = instance.getPlant(11);
+        assertEquals("Test 2", expResult, result);
+        
     }
 
     /**
@@ -131,11 +141,22 @@ public class PlantSelectionTest {
         System.out.println("getPlantName");
         int x = 0;
         PlantSelection instance = new PlantSelection();
-        String expResult = "";
+        String expResult = "broccoli";
         String result = instance.getPlantName(x);
-        assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+        assertEquals("Test 1", expResult, result);
+
+        //Index to large
+        x = 5;
+        expResult = new Dirt().toString();
+        result = instance.getPlantName(x);
+        assertEquals("Test 2", expResult, result);
+
+        //Index to small
+        x = -1;
+        expResult = new Dirt().toString();
+        result = instance.getPlantName(x);
+        assertEquals("Test 3", expResult, result);
+        
     }
 
     /**
@@ -145,11 +166,17 @@ public class PlantSelectionTest {
     public void testSize() {
         System.out.println("size");
         PlantSelection instance = new PlantSelection();
-        int expResult = 0;
+        int expResult = 3;
         int result = instance.size();
         assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+
+        //Size increased by 1 
+        instance.unlock(new Saffron());
+        
+        expResult = 4;
+        result = instance.size();
+        assertEquals(expResult, result);
+        
     }
 
     /**
@@ -159,11 +186,17 @@ public class PlantSelectionTest {
     public void testToFile() {
         System.out.println("toFile");
         PlantSelection instance = new PlantSelection();
-        String expResult = "";
+        String expResult = "broccoli cabbage carrot ";
         String result = instance.toFile();
-        assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+        assertEquals("Test 1", expResult, result);
+        
+        instance.unlock(new Truffle());
+
+        //To file with a new plant
+        expResult = "broccoli cabbage carrot truffle ";
+        result = instance.toFile();
+        assertEquals("Test 2", expResult, result);
+        
     }
 
     /**
@@ -173,11 +206,13 @@ public class PlantSelectionTest {
     public void testGetPlants() {
         System.out.println("getPlants");
         PlantSelection instance = new PlantSelection();
-        HashMap<Integer, Plant> expResult = null;
+        HashMap<Integer, Plant> expResult = new HashMap<Integer, Plant>();
+        expResult.put(0, PlantSet.BROCCOLI.getPlant());
+        expResult.put(1, PlantSet.CABBAGE.getPlant());
+        expResult.put(2, PlantSet.CARROT.getPlant());
         HashMap<Integer, Plant> result = instance.getPlants();
         assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+        
     }
 
     /**
@@ -186,11 +221,13 @@ public class PlantSelectionTest {
     @Test
     public void testSetPlants() {
         System.out.println("setPlants");
-        HashMap<Integer, Plant> plants = null;
+        HashMap<Integer, Plant> plants = new HashMap<Integer, Plant>();
+        plants.put(0, PlantSet.BROCCOLI.getPlant());
+        plants.put(1, PlantSet.CABBAGE.getPlant());
+        plants.put(2, PlantSet.CARROT.getPlant());
         PlantSelection instance = new PlantSelection();
         instance.setPlants(plants);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+        
     }
 
     /**
@@ -200,11 +237,16 @@ public class PlantSelectionTest {
     public void testToString() {
         System.out.println("toString");
         PlantSelection instance = new PlantSelection();
-        String expResult = "";
+        String expResult = "1. broccoli 10$ 2. cabbage 10$ 3. carrot 10$ ";
         String result = instance.toString();
         assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
-    }
 
+        //After adding a plant
+        instance.unlock(new Saffron());
+        expResult = "1. broccoli 10$ 2. cabbage 10$ 3. carrot 10$ 4. saffron 10$ ";
+        result = instance.toString();
+        assertEquals(expResult, result);
+        
+    }
+    
 }
