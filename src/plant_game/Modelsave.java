@@ -32,16 +32,19 @@ public class Modelsave extends Observable {
 
     /**
      * Creates a new game using a user generated name to establish player and
-     * new files.
+     * new files.Creates a new player using the file managers newPlayer option
+     * and provides a helpful start up message for a new player
      *
-     * Creates a new player using the file managers newPlayer option and
-     * provides a helpful start up message for a new player
      *
+     * @param data
+     * @param plantselection
+     * @param unlock
+     * @return
      * @throws MoneyException
      * @throws FileNotFoundException
      */
     protected Data newGame(Data data, PlantSelection plantselection, UnlockShop unlock) throws MoneyException, FileNotFoundException {
-        System.out.println("THE WRONG GAME?????");
+
         shop = plantselection;
         unlocks = unlock;
 
@@ -64,6 +67,8 @@ public class Modelsave extends Observable {
      * Creates a new game with a player containing the inputted name.
      *
      * @param name
+     * @param data
+     * @param player
      * @throws MoneyException
      * @throws FileNotFoundException
      */
@@ -112,17 +117,19 @@ public class Modelsave extends Observable {
             setChanged();
             notifyObservers(data);
             //Save to current game slot.
-            data = this.save(0, data);
+            data = this.save(0, data, player);
         }
         return data;
     }
 
     /**
-     * Loads a selected plant game from the database.
+     * Loads a selected plant game from the database.Will load a plant game from
+     * the data base.
      *
-     * Will load a plant game from the data base.
      *
      * @param selection
+     * @param data
+     * @return
      */
     protected Data loadGame(int selection, Data data) {
 
@@ -181,6 +188,9 @@ public class Modelsave extends Observable {
 
     /**
      * Notify the observe to display the options for loading game
+     *
+     * @param data
+     * @return
      */
     protected Data loadGameView(Data data) {
         data.setLoadGame(true);
@@ -194,10 +204,11 @@ public class Modelsave extends Observable {
     }
 
     /**
-     * Loads a game from the current game file.
+     * Loads a game from the current game file.Calls load game for slot zero.
      *
-     * Calls load game for slot zero.
      *
+     * @param data
+     * @return
      */
     protected Data previousGame(Data data) {
         //loads the last game.
@@ -207,23 +218,43 @@ public class Modelsave extends Observable {
         return data;
     }
 
+    /**
+     * Updates the view of the saves
+     *
+     * @param data
+     * @return
+     */
     public Data saveView(Data data) {
+        //set save view start to true
         data.setSaveStart(true);
-        manager.loadText(data);
+        //sets the text in the data class.
+        data = manager.loadText(data);
         data.setSaveText(data.getLoadText());
+        //passes data to view
         setChanged();
-        //pases the selcted save option to the plant game panel
         notifyObservers(data);
+        //set save view reset
         data.setSaveStart(false);
         return data;
 
     }
 
-    public Data save(int selection, Data data) {
-
+    /**
+     * Saves the current game to the database.
+     *
+     * loads information about the state of the current game and passes it to
+     * the manager in order to save.
+     *
+     * @param selection
+     * @param data
+     * @return
+     */
+    public Data save(int selection, Data data, Player player) {
+        this.player = player;
         //updates current data wit shop and unlock
         data = manager.loadShop(0, data);
         data = manager.loadUnlock(0, data);
+        data = manager.loadPlayer(0, data);
         data = fieldUpdateData(selection, data);
         data = playerData(data);
         manager.saveGame(selection, data);

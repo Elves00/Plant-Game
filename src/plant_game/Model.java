@@ -161,7 +161,7 @@ public class Model extends Observable {
 
     public void save(int selection) {
 
-        data = modelSave.save(selection, data);
+        data = modelSave.save(selection, data, player);
 
     }
 
