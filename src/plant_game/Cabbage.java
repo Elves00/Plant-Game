@@ -5,9 +5,6 @@
  */
 package plant_game;
 
-import static java.lang.Integer.parseInt;
-import java.util.StringTokenizer;
-
 /**
  * Cabbage
  *

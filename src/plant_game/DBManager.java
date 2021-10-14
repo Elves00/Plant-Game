@@ -19,6 +19,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 /**
+ * Controls the data retrieval and updating of data for the plant game.
  *
  * @author breco
  */
@@ -65,7 +66,7 @@ public final class DBManager {
      * The views previous game button and load game options visibility is
      * determined by the pressence of a particular username in the database
      * table. This username only occurce when there is a default value occupying
-     * a particular save slot. 
+     * a particular save slot.
      *
      * @return Data
      */
@@ -854,13 +855,11 @@ public final class DBManager {
             try {
                 System.out.println("SHOULD ESTABLISH HERE");
                 conn = DriverManager.getConnection(URL, USER_NAME, PASSWORD);
-                //System.out.println(URL + "   CONNECTED....");
             } catch (SQLException ex) {
-//                Logger.getLogger(H02_DBOperations.class.getName()).log(Level.SEVERE, null, ex);
 
             }
         }
-        System.out.println(conn);
+
     }
 
     public void closeConnections() {
@@ -868,7 +867,6 @@ public final class DBManager {
             try {
                 conn.close();
             } catch (SQLException ex) {
-//                FLogger.getLogger(H02_DBOperations.class.getName()).log(Level.SEVERE, null, ex);
             }
         }
     }
@@ -878,6 +876,11 @@ public final class DBManager {
         throw new CloneNotSupportedException();
     }
 
+    /**
+     * Preforms a query of the database
+     * @param sql
+     * @return 
+     */
     public ResultSet myQuery(String sql) {
 
         Connection connection = this.conn;
@@ -895,6 +898,10 @@ public final class DBManager {
         return resultSet;
     }
 
+    /**
+     * Preforms a update of the database
+     * @param sql 
+     */
     public void myUpdate(String sql) {
 
         Connection connection = this.conn;

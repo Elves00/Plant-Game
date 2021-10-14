@@ -38,6 +38,7 @@ public class FieldPanel extends JPanel {
 
     /**
      * Adds mouseListener to all field labels.
+     * @param mouseListener
      */
     @Override
     public void addMouseListener(MouseListener mouseListener) {

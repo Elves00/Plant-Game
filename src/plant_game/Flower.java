@@ -5,9 +5,6 @@
  */
 package plant_game;
 
-import static java.lang.Integer.parseInt;
-import java.util.StringTokenizer;
-
 /**
  * A flower is a type of plant which is a pollinator so has pollinator return
  * true.
@@ -58,9 +55,9 @@ public class Flower extends Plant {
 
     @Override
     /**
-     * Standard nextDay action increment timeplanted and update plant value.
+     * Standard nextDay action increment time planted and update plant value.
      * Implemented when the nextDay button is pressed. Increments the
-     * timeplanted value by 1 Also increases the value of the crop by growth.
+     * time planted value by 1 Also increases the value of the crop by growth.
      */
     public void nextDay() {
 
@@ -84,7 +81,6 @@ public class Flower extends Plant {
         //Grows every three days?
         this.setWaterCount(0);
         this.setGrowth(this.getGrowth() + 1);
-
         this.setTimePlanted(0);
         return true;
     }

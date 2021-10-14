@@ -5,7 +5,6 @@
  */
 package plant_game;
 
-import java.awt.CardLayout;
 import java.awt.Dimension;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
@@ -16,9 +15,7 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import javax.swing.JButton;
 import javax.swing.JFrame;
-import javax.swing.JPanel;
 
 /**
  *
@@ -26,9 +23,9 @@ import javax.swing.JPanel;
  */
 public class Controller extends JFrame implements ActionListener, MouseListener {
 
-    private Model model;
+    private final Model model;
     //CARDS
-    private View view;
+    private final View view;
 
     //Main field
     private boolean planting;
@@ -39,14 +36,15 @@ public class Controller extends JFrame implements ActionListener, MouseListener 
     public Controller(Model plantGameModel, View plantGameMain) throws IOException {
 
         this.setTitle("Plant Game");
+
         //Starting conditions player is not planting watering or picking
-        planting = false;
-        plantToPlant = -1;
-        watering = false;
-        picking = false;
+        this.planting = false;
+        this.plantToPlant = -1;
+        this.watering = false;
+        this.picking = false;
+
         //Set  the main plant panel
         this.view = plantGameMain;
-
         //Set up the game model
         this.model = plantGameModel;
         //Call start to change visibility of buttons based on database state
@@ -70,10 +68,12 @@ public class Controller extends JFrame implements ActionListener, MouseListener 
                 (screenDimension.height - frameDimension.height) / 2);
         //Frame starts showing
         this.setVisible(true);
-
     }
 
-    //Adds action and mouse listeners to the view
+    /**
+     * Adds action and mouse listeners to the view
+     *
+     */
     public void addListener() {
         this.view.addActionListener(this); //adds the panel as a listener for all actions within the plantGamePanel
         this.view.addMouseListener(this);
@@ -82,18 +82,19 @@ public class Controller extends JFrame implements ActionListener, MouseListener 
     @Override
     public void actionPerformed(ActionEvent e) {
         Object sourceA = e.getSource();
-
+        //Switch case not used as multiple buttons have changing text.
+        
         //Creates a new game shifting the view to the jtext field for creating a new player
         if (sourceA == view.getNewGame()) {
 
             try {
-
                 this.model.newGame();
             } catch (MoneyException ex) {
                 Logger.getLogger(Controller.class.getName()).log(Level.SEVERE, null, ex);
             } catch (FileNotFoundException ex) {
                 Logger.getLogger(Controller.class.getName()).log(Level.SEVERE, null, ex);
             }
+
         }
         //Gets text from the text field and creates a new player using the inputed text
         if (sourceA == view.getSubmit()) {
@@ -108,10 +109,8 @@ public class Controller extends JFrame implements ActionListener, MouseListener 
 
             } catch (MoneyException | FileNotFoundException ex) {
                 Logger.getLogger(Controller.class.getName()).log(Level.SEVERE, null, ex);
-            }
-            catch(IllegalArgumentException ie)
-            {
-                
+            } catch (IllegalArgumentException ie) {
+
             }
         }
         //If pressed opens the load game view showing 5 updateSaveText slots to load from
@@ -298,11 +297,6 @@ public class Controller extends JFrame implements ActionListener, MouseListener 
     }
 
     @Override
-    public void mouseClicked(MouseEvent e) {
-//        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    @Override
     public void mousePressed(MouseEvent e) {
         Object sourceA = e.getSource();
         for (int i = 0; i < 3; i++) {
@@ -337,22 +331,21 @@ public class Controller extends JFrame implements ActionListener, MouseListener 
             }
         }
 
-//        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
     @Override
     public void mouseReleased(MouseEvent e) {
-//        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
     @Override
     public void mouseEntered(MouseEvent e) {
-//        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
     @Override
     public void mouseExited(MouseEvent e) {
-//        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
+    @Override
+    public void mouseClicked(MouseEvent e) {
+    }
 }

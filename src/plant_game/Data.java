@@ -84,6 +84,9 @@ public class Data {
     private boolean[] loadGameVisible;
     private boolean loadGameChanged;
 
+    /**
+     * 
+     */
     public Data() {
         start = true;
         viewPlants = new String[3][3];
