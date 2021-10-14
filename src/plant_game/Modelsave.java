@@ -23,6 +23,9 @@ public class Modelsave extends Observable {
     private PlantSelection shop;
     private UnlockShop unlocks;
 
+    private final String[] searchTerm = new String[]{"Information", "Plants", "Plant a Plant", "Pick Plant", "Water", "Next Day", "Unlock", "Save Game"};
+
+    
     public Modelsave(DBManager manager) {
         this.manager = manager;
 
@@ -284,6 +287,25 @@ public class Modelsave extends Observable {
     public Data fieldUpdateData(int selection, Data data) {
         data.setFieldDetails(player.getField().toFile());
         manager.saveField(0, data.getFieldDetails());
+        return data;
+    }
+
+    /**
+     * Retrieves information stored within the information table and passes it
+     * to the view.
+     *
+     *
+     * @param selection
+     */
+    public Data getInfo(int selection, Data data) {
+        data = manager.loadInfo(searchTerm[selection], data);
+        data.setInfoUpdate(true);
+
+        //passes data to the view.
+        setChanged();
+        notifyObservers(data);
+        //Update complete set back to fale
+        data.setInfoUpdate(false);
         return data;
     }
 

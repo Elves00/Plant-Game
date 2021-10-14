@@ -21,9 +21,9 @@ public class Model extends Observable {
     private PlantSelection shop;
     private UnlockShop unlocks;
     private OrderedList<Score> highscores;
-    private final String[] searchTerm = new String[]{"Information", "Plants", "Plant a Plant", "Pick Plant", "Water", "Next Day", "Unlock", "Save Game"};
-
+ 
     private Modelsave modelSave;
+    private ModelRun modelRun;
     private DBManager manager;
     Data data;
 
@@ -36,6 +36,7 @@ public class Model extends Observable {
         manager = new DBManager();
         manager.constructDatabse();
         modelSave = new Modelsave(manager);
+        modelRun = new ModelRun(manager);
     }
 
     /**
@@ -61,14 +62,7 @@ public class Model extends Observable {
      * @param selection
      */
     public void getInfo(int selection) {
-        data = manager.loadInfo(searchTerm[selection], data);
-        data.setInfoUpdate(true);
-
-        //passes data to the view.
-        setChanged();
-        notifyObservers(data);
-        //Update complete set back to fale
-        data.setInfoUpdate(false);
+        data = modelSave.getInfo(selection,data);
     }
 
     /**
@@ -175,273 +169,86 @@ public class Model extends Observable {
         shopUpdate();
     }
 
-    public Data fieldUpdateData(int selection, Data data) {
-        data.setFieldDetails(player.getField().toFile());
-        manager.saveField(0, data.getFieldDetails());
-        return data;
-    }
-
-    public void fieldUpdate() {
-
-        //updates the current players field data in the database
-        data = fieldUpdateData(0, data);
-
-        //update data to contain the plant information
-        for (int i = 0; i < 3; i++) {
-            for (int j = 0; j < 3; j++) {
-                //If the palyer is picking money is display rather than plant name
-                if (data.isFieldPick()) {
-                    data.getViewPlants()[i][j] = getPlayer().getField().getPlant(i, j).getValue() + "$";
-                } else {
-                    data.getViewPlants()[i][j] = getPlayer().getField().getPlantArray()[i][j].toString();
-                }
-
-                data.getWaterPlants()[i][j] = getPlayer().getField().getPlantArray()[i][j].getWaterCount() >= getPlayer().getField().getPlantArray()[i][j].getWaterLimit();
-                if (getPlayer().getField().getPlantArray()[i][j].isPollinator()) {
-                    int[] pollin = this.getPlayer().getField().getNeighbours(i, j);
-
-                    //Section searches through above and bellow the pollinator and sets there border to either yellow or mixed border
-                    for (int k = 0; k < 2; k++) {
-                        try {
-                            this.data.getPollinatePlants()[pollin[k]][pollin[5]] = true;
-
-                        } //Avoids neigbours calling poisitons out of array bounds.
-                        catch (ArrayIndexOutOfBoundsException a) {
-
-                        }
-                    }
-
-                    for (int k = 0; k < 2; k++) {
-                        try {
-                            this.data.getPollinatePlants()[pollin[4]][pollin[k + 2]] = true;
-                        } //Avoids neigbours calling poisitons out of array bounds.
-                        catch (ArrayIndexOutOfBoundsException a) {
-
-                        }
-                    }
-
-                }
-            }
-        }
-        data.setFieldUpdate(true);
-        data = playerData(data);
-        setChanged();
-        //pases the selcted save option to the plant game panel
-        notifyObservers(data);
-        //Update finished set back to false.
-        data.setFieldUpdate(false);
-
-    }
-
     public void plantAPlant(int selection, int x, int y) throws InstantiationException, IllegalAccessException {
 
-        try {
-            getPlayer().newPlant(getShop().getPlant(selection - 1), x - 1, y - 1);
-            //Update the field
-            fieldUpdate();
-        } catch (ResourceException e) {
-            data.setWarningCheck(true);
-            data.setWarning(e.getMessage());
-            //Notifys view of data changes
-            setChanged();
-            notifyObservers(data);
-            data.setWarningCheck(false);
+        modelRun.setPlayer(player);
+        modelRun.setShop(shop);
+        data = getModelRun().plantAPlant(selection, x, y, data);
+        player = getModelRun().getPlayer();
 
-        }
     }
 
     public void unlockView() {
 
-        //unlock starting
-        data.setUnlockStart(true);
-        //store size of unlock
-        data.setUnlockSize(getUnlocks().size());
-        //Store the content of unlock into a string array
-        String[] unlockText = new String[getUnlocks().size()];
-        for (int i = 0; i < getUnlocks().size(); i++) {
-            unlockText[i] = getUnlocks().toView(i);
-        }
-        data.setUnlockText(unlockText);
-
-        //set change
-        setChanged();
-        //pases the selcted save option to the plant game panel
-        notifyObservers(data);
-        //Unlock no longer starting
-        data.setUnlockStart(false);
+        modelRun.setUnlocks(unlocks);
+        data = modelRun.unlockView(data);
 
     }
 
     public void shopUpdate() {
-        //plant set size
-        data.setPlantsetSize(PlantSet.values().length);
-        //shop size
-        data.setShopSize(this.shop.size());
-        //shop content
-        String[] shopContent = new String[this.shop.size()];
-        for (int i = 0; i < shop.size(); i++) {
-            try {
-                shopContent[i] = this.shop.getPlant(i).toString();
-            } catch (InstantiationException ex) {
-                Logger.getLogger(Model.class.getName()).log(Level.SEVERE, null, ex);
-            } catch (IllegalAccessException ex) {
-                Logger.getLogger(Model.class.getName()).log(Level.SEVERE, null, ex);
-            }
-        }
-        data.setShopText(shopContent);
 
-        //Updates the shop in the database for the current player
-        manager.updateShop(0, shopContent[shop.size() - 1]);
+        modelRun.setShop(shop);
+        modelRun.setPlayer(player);
 
-        data.setShopUpdate(true);
-        manager.savePlayer(0, data);
-        //set change
-        setChanged();
-        //pases the selcted save option to the plant game panel
-        notifyObservers(data);
-        data.setShopUpdate(false);
+        data = modelRun.shopUpdate(data);
+
+        shop = modelRun.getShop();
+        player = modelRun.getPlayer();
+
     }
 
     /**
      * Unlocks a plant from the unlock shop for the current game.
      *
      *
-     * @param i
+     * @param selection
      */
-    public void unlock(int i) {
+    public void unlock(int selection) {
 
-        try {
-            //Throws resource exception if player doesn't have enough money to unlock the selection.
-            String unlocked = getUnlocks().price(getPlayer(), getShop(), i);
+        modelRun.setPlayer(player);
+        modelRun.setUnlocks(unlocks);
+        modelRun.setShop(shop);
 
-            //Remove the selected unlock from current save slot in the database.
-            data = manager.updateUnlock(0, unlocked, data);
+        data = modelRun.unlock(selection, data);
 
-            //unlock starting
-            data.setUnlockUpdate(true);
-            //store size of unlock
-            data.setUnlockSize(getUnlocks().size());
-            //Store the content of unlock into a string array
-            String[] unlockText = new String[getUnlocks().size()];
-            for (int j = 0; j < getUnlocks().size(); j++) {
-                unlockText[j] = getUnlocks().toView(j);
-            }
-            data.setUnlockText(unlockText);
-            //Updates player data.
-            data = playerData(data);
-            //Saves the player to current save.
-            manager.savePlayer(0, data);
-
-            //set change
-            setChanged();
-            //pases data to observer.
-            notifyObservers(data);
-
-            //Unlock no longer starting
-            data.setUnlockUpdate(false);
-            //Updates the shop
-            shopUpdate();
-        } catch (ResourceException re) {
-            //Sets warning message
-            data.setWarning(re.getMessage());
-            data.setWarningCheck(true);
-            //set change
-            setChanged();
-            //passes data to the view.
-            notifyObservers(data);
-            //Set warning back to false after view updates.
-            data.setWarningCheck(false);
-        }
+        unlocks = modelRun.getUnlocks();
+        player = modelRun.getPlayer();
+        shop = modelRun.getShop();
 
     }
 
     public void initialView() {
         //Update the field
-        fieldUpdate();
-    }
+        modelRun.setPlayer(player);
+        data = modelRun.fieldUpdate(data);
 
-    public Data playerData(Data data) {
-        data.setPlayer(this.getPlayer().toString());
-        data.setPlayerName(player.getName());
-        data.setMoney(player.getMoney());
-        data.setEnergy(player.getEnergy());
-        data.setDay(player.getDay());
-        data.setScore(player.getScore());
-        return data;
     }
 
     public void nextDay() throws MoneyException, FileNotFoundException {
 
-        try {
+        modelRun.setPlayer(player);
+        modelRun.setShop(shop);
+        modelRun.setUnlocks(unlocks);
 
-            //Progresses to the next day.
-            getPlayer().nextDay();
+        data = modelRun.nextDay(data);
 
-            //Update the field
-            fieldUpdate();
+        player = modelRun.getPlayer();
+        shop = modelRun.getShop();
+        unlocks = modelRun.getUnlocks();
 
-            data = playerData(data);
-
-            manager.savePlayer(0, data);
-
-        } catch (MoneyException me) {
-
-            //Updates the player score
-            data.setScore(player.getScore());
-
-            //Updates the scores table within the database.
-            manager.updateScores(data);
-
-            //Tells data base game is ending and to update data
-            data = manager.endGame();
-            //Loads the scores table to data to display in the view.
-            data = manager.loadScores(data);
-
-            //Send data to view.
-            setChanged();
-            notifyObservers(data);
-            data.setCheckScores(false);
-
-            //set end game back to false;
-            data.setEndGame(false);
-
-            //Throw the error to the controller.
-//            throw new MoneyException();
-        }
-//        //set change
-//        setChanged();
-//        //pases the selcted save option to the plant game panel
-//        notifyObservers("Next Day");
     }
 
     public void waterView() {
         //Update the field
-        fieldUpdate();
-//        //set change
-//        setChanged();
-//        //pases the selcted save option to the plant game panel
-//        notifyObservers("Water View");
+        modelRun.setPlayer(player);
+        data = modelRun.waterView(data);
 
     }
 
     public void water(int x, int y) {
-        try {
-            getPlayer().waterPlant(x, y);
-            //Update the field
-            fieldUpdate();
-
-        } catch (ResourceException e) {
-            data.setWarningCheck(true);
-            data.setWarning(e.getMessage());
-            //Notifys view of data changes
-            setChanged();
-            notifyObservers(data);
-            data.setWarningCheck(false);
-        }
-//        //set change
-//        setChanged();
-//        //pases the selcted save option to the plant game panel
-//        notifyObservers("Water");
+        modelRun.setPlayer(player);
+        data = modelRun.water(x, y, data);
+        player = modelRun.getPlayer();
     }
 
     /**
@@ -450,33 +257,16 @@ public class Model extends Observable {
      * Once the view has been notified set field pick back to false.
      */
     public void pickView() {
-        data.setFieldPick(true);
-        //Update the field
-        fieldUpdate();
-        data.setFieldPick(false);
+        modelRun.setPlayer(player);
+        data = modelRun.pickView(data);
 
     }
 
     public void pick(int i, int j) {
 
-        try {
-            //Pick a plant throws resource exception if unable to plant.
-            getPlayer().pickPlant(i, j);
-            //Update field with pick display.
-            data.setFieldPick(true);
-            //Update the field
-            fieldUpdate();
-            data.setFieldPick(false);
-
-        } catch (ResourceException e) {
-            data.setWarningCheck(true);
-            data.setWarning(e.getMessage());
-            //Notifys view of data changes
-            setChanged();
-            notifyObservers(data);
-            data.setWarningCheck(false);
-
-        }
+        modelRun.setPlayer(player);
+        data = modelRun.pick(i, j, data);
+        player = modelRun.getPlayer();
 
     }
 
@@ -549,5 +339,12 @@ public class Model extends Observable {
      */
     public Modelsave getModelSave() {
         return modelSave;
+    }
+
+    /**
+     * @return the modelRun
+     */
+    public ModelRun getModelRun() {
+        return modelRun;
     }
 }
