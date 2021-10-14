@@ -761,6 +761,7 @@ public class View extends JPanel implements Observer {
 
         //The main game
         if (data.isMainGame() == true) {
+            System.out.println("IN HERE");
             this.mainCard.show(this, "b");
             setShop(data.getPlantsetSize(), data.getShopSize(), data.getShopText());
         }

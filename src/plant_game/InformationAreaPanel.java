@@ -17,8 +17,8 @@ import javax.swing.JTextArea;
  */
 public class InformationAreaPanel extends JPanel {
 
-    private JScrollPane infoScroller;
-    private JTextArea infoArea = new JTextArea();
+    private final JScrollPane infoScroller;
+    private final JTextArea infoArea = new JTextArea();
 
     public InformationAreaPanel() {
         super();

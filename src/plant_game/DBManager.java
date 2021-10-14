@@ -851,9 +851,11 @@ public final class DBManager {
 
     public void establishConnection() {
         //If there is no existing connection try connect
+
+        System.out.println(this.conn);
         if (this.conn == null) {
             try {
-                System.out.println("SHOULD ESTABLISH HERE");
+
                 conn = DriverManager.getConnection(URL, USER_NAME, PASSWORD);
             } catch (SQLException ex) {
 
@@ -862,10 +864,29 @@ public final class DBManager {
 
     }
 
+    /**
+     * Reastablishs a connenction if the connection was closed.
+     */
+    public void openConnections() {
+
+        try {
+            if (conn.isClosed()) {
+
+                conn = DriverManager.getConnection(URL, USER_NAME, PASSWORD);
+
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(DBManager.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
+    }
+
     public void closeConnections() {
         if (conn != null) {
+
             try {
                 conn.close();
+
             } catch (SQLException ex) {
             }
         }
@@ -878,8 +899,9 @@ public final class DBManager {
 
     /**
      * Preforms a query of the database
+     *
      * @param sql
-     * @return 
+     * @return
      */
     public ResultSet myQuery(String sql) {
 
@@ -900,7 +922,8 @@ public final class DBManager {
 
     /**
      * Preforms a update of the database
-     * @param sql 
+     *
+     * @param sql
      */
     public void myUpdate(String sql) {
 

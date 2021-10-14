@@ -20,7 +20,7 @@ public class Start {
             View view = new View();
             Model model = new Model();
             model.addObserver(view); // Build connection between the view and the model.
-
+            model.getModelSave().addObserver(view);
             Controller controller = new Controller(model, view);
 
         } catch (IOException ex) {

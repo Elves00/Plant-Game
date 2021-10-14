@@ -21,41 +21,53 @@ public class Model extends Observable {
     private PlantSelection shop;
     private UnlockShop unlocks;
     private OrderedList<Score> highscores;
-    private String[] searchTerm;
+    private final String[] searchTerm = new String[]{"Information", "Plants", "Plant a Plant", "Pick Plant", "Water", "Next Day", "Unlock", "Save Game"};
 
+    private Modelsave modelSave;
     private DBManager manager;
     Data data;
 
     /**
-     * Sets up the initial variables of a plant game.
+     * Sets up the database for the plant Game.
+     *
      */
     public Model() {
         //Information search terms for use in update
-        searchTerm = new String[]{"Information", "Plants", "Plant a Plant", "Pick Plant", "Water", "Next Day", "Unlock", "Save Game"};
         manager = new DBManager();
         manager.constructDatabse();
-
+        modelSave = new Modelsave(manager);
     }
 
     /**
-     * Calls the manager to determine the visibility of certain view components
-     * based on table data.
+     * Determines the visibility of the load game buttons and previous game
+     * button based on data within the data table.
      *
+     * This is effectivly a middle man method.
      *
      */
     public void start() {
         data = manager.start();
+        //passes data to the view
         setChanged();
-        //pases the selcted save option to the plant game panel
         notifyObservers(data);
+
     }
 
-    public void getInfo(int i) {
-        data = manager.loadInfo(searchTerm[i], data);
+    /**
+     * Retrieves information stored within the information table and passes it
+     * to the view.
+     *
+     *
+     * @param selection
+     */
+    public void getInfo(int selection) {
+        data = manager.loadInfo(searchTerm[selection], data);
         data.setInfoUpdate(true);
+
+        //passes data to the view.
         setChanged();
-        //pases the selcted save option to the plant game panel
         notifyObservers(data);
+        //Update complete set back to fale
         data.setInfoUpdate(false);
     }
 
@@ -67,48 +79,8 @@ public class Model extends Observable {
      * @throws FileNotFoundException
      */
     protected void newGame(String name) throws MoneyException, FileNotFoundException {
-        if (name.equals("uGaTL@V%yiW3")) {
-
-            data.setWarning("User name is Invalid please try another name");
-            data.setWarningCheck(true);
-
-            setChanged();
-            notifyObservers(data);
-
-            throw new IllegalArgumentException("Bad username");
-        } else {
-            //Here we set up a new game using data from the database.
-            data = manager.newGame(name);
-            setPlayer(new Player(name));
-
-            //the game may progress to the main game
-            data.setMainGame(true);
-            //plant set size
-            data.setPlantsetSize(PlantSet.values().length);
-            //shop size
-            data.setShopSize(this.shop.size());
-            //shop content
-            String[] shopContent = new String[this.shop.size()];
-            for (int i = 0; i < shop.size(); i++) {
-                try {
-                    shopContent[i] = this.shop.getPlant(i).toString();
-                } catch (InstantiationException ex) {
-                    Logger.getLogger(Model.class.getName()).log(Level.SEVERE, null, ex);
-                } catch (IllegalAccessException ex) {
-                    Logger.getLogger(Model.class.getName()).log(Level.SEVERE, null, ex);
-                }
-            }
-            data.setShopText(shopContent);
-            //No longer in start up
-            data.setStart(false);
-
-            //set change
-            setChanged();
-            //pases the selcted save option to the plant game panel
-            notifyObservers(data);
-
-            this.save(0);
-        }
+        setPlayer(new Player(name));
+        data = modelSave.newGame(name, data, getPlayer());
 
     }
 
@@ -120,11 +92,14 @@ public class Model extends Observable {
      * the options present to the player all require a fresh data object.
      */
     public void mainMenu() {
+        //save to current game to allowing returning
         this.save(0);
+        //restart the data
         this.data = manager.start();
         data.setMainMenu(true);
         setChanged();
         notifyObservers(data);
+        //main menu complete revert to false
         data.setMainMenu(false);
 
     }
@@ -140,97 +115,59 @@ public class Model extends Observable {
      * @throws FileNotFoundException
      */
     protected void newGame() throws MoneyException, FileNotFoundException {
-        //Establish inital plantselection and unlock shop.
+
         setShop(new PlantSelection());
         setUnlocks(new UnlockShop());
-        //New game is selected
-        data.setNewGame(true);
-//        data.setStart(true);
-        //Loads the scores table to data to display in the view.
-        data = manager.loadScores(data);
 
-        setChanged();
-        notifyObservers(data);
-        data.setCheckScores(false);
+        this.modelSave.newGame(data, getShop(), getUnlocks());
 
     }
 
     /**
      * Loads a game from the current game file.
      *
+     * Calls load game for slot zero.
+     *
      */
     protected void previousGame() {
 
-        //loads the last game.
-        data = manager.loadGame(0);
-        //Adds one in load method so start as -1
-        loadGame(-1);
+        data = modelSave.previousGame(data);
     }
 
     /**
      * Notify the observe to display the options for loading game
      */
     protected void loadGameView() {
-        data.setLoadGame(true);
-        //Sets up the load text in data
-        data = manager.loadText(data);
 
-        setChanged();
-        notifyObservers(data);
+        data = modelSave.loadGameView(data);
 
     }
 
+    /**
+     * Loads a selected plant game from the database.
+     *
+     * Will load a plant game from the data base.
+     *
+     * @param selection
+     */
     protected void loadGame(int selection) {
 
-        //SET ALL PLANTS 
-        //SET ALL PLANT STATUS
-        data = manager.loadGame(selection + 1);
-        player = new Player(data.getPlayerName(), data.getMoney(), data.getEnergy(), data.getDay(), data.getScore());
+        data = modelSave.loadGame(selection, data);
+        player = modelSave.getPlayer();
+        unlocks = modelSave.getUnlocks();
+        shop = modelSave.getShop();
 
-        //Sets all the plants but not all the stats
-        player.getField().setAllPlants(data.getPlants());
+    }
 
-        //Sets all the plants stats
-        player.getField().setAllPlantStatus(data.getPlantsDescription());
+    public void save(int selection) {
 
-        //Load the unlock shop from the database for the selected save slot
-        data = manager.loadUnlock(selection + 1, data);
-        ArrayList<String> details = new ArrayList();
-        details.add(data.getUnlock());
-        details.add(data.getUnlockCost());
-        //Set the unlock shop with the details from jdbc
-        setUnlocks(new UnlockShop(details));
+        data = modelSave.save(selection, data);
 
-        //Loads the shop from the database for the selected save slot
-        data = manager.loadShop(selection + 1, data);
-        setShop(data.getShop());
+    }
 
-        //plant set size
-        data.setPlantsetSize(PlantSet.values().length);
-        //shop size
-        data.setShopSize(this.shop.size());
-        //shop content
-        String[] shopContent = new String[this.shop.size()];
-        for (int i = 0; i < shop.size(); i++) {
-            try {
-                shopContent[i] = this.shop.getPlant(i).toString();
-            } catch (InstantiationException ex) {
-                Logger.getLogger(Model.class.getName()).log(Level.SEVERE, null, ex);
-            } catch (IllegalAccessException ex) {
-                Logger.getLogger(Model.class.getName()).log(Level.SEVERE, null, ex);
-            }
-        }
-        data.setShopText(shopContent);
-        //No longer in start up
-        data.setStart(false);
-        //the game may progress to the main game
-        data.setMainGame(true);
-        //Loads the scores table to data to display in the view.
-        data = manager.loadScores(data);
+    public void saveView() {
 
-        setChanged();
-        notifyObservers(data);
-        data.setCheckScores(false);
+        data = modelSave.saveView(data);
 
     }
 
@@ -315,7 +252,6 @@ public class Model extends Observable {
 
     public void unlockView() {
 
-//        System.out.println("UNLOCK VIEW CALLED");
         //unlock starting
         data.setUnlockStart(true);
         //store size of unlock
@@ -355,7 +291,6 @@ public class Model extends Observable {
         data.setShopText(shopContent);
 
         //Updates the shop in the database for the current player
-//        System.out.println("Updateing with :" + shopContent[shop.size() - 1]);
         manager.updateShop(0, shopContent[shop.size() - 1]);
 
         data.setShopUpdate(true);
@@ -420,53 +355,6 @@ public class Model extends Observable {
 
     }
 
-    public void saveView() {
-        data.setSaveStart(true);
-        manager.loadText(data);
-        data.setSaveText(data.getLoadText());
-//        System.out.println("save text " + data.getUnlockText());
-//        //set change
-//        setChanged();
-//        //pases the selcted save option to the plant game panel
-//        notifyObservers("Initial Save");
-        //set change
-        setChanged();
-        //pases the selcted save option to the plant game panel
-        notifyObservers(data);
-        data.setSaveStart(false);
-
-    }
-
-    public void save(int selection) {
-
-        //updates current data wit shop and unlock
-        data = manager.loadShop(0, data);
-        data = manager.loadUnlock(0, data);
-        data = fieldUpdateData(selection, data);
-        data = playerData(data);
-        manager.saveGame(selection, data);
-
-        data.setSaveStart(true);
-        manager.loadText(data);
-        System.out.println("Save load text: " + data.getLoadText()[0]);
-        data.setSaveText(data.getLoadText());
-
-//        //set change
-//        setChanged();
-//        //pases the selcted save option to the plant game panel
-//        notifyObservers("Initial Save");
-        //set change
-        setChanged();
-        //pases the selcted save option to the plant game panel
-        notifyObservers(data);
-        data.setSaveStart(false);
-
-//        //set change
-//        setChanged();
-//        //pases the selcted save option to the plant game panel
-//        notifyObservers("Initial Save");
-    }
-
     public void initialView() {
         //Update the field
         fieldUpdate();
@@ -479,14 +367,6 @@ public class Model extends Observable {
         data.setEnergy(player.getEnergy());
         data.setDay(player.getDay());
         data.setScore(player.getScore());
-        return data;
-    }
-
-    public Data shopData(Data data) {
-        return data;
-    }
-
-    public Data unlockData(Data data) {
         return data;
     }
 
@@ -505,7 +385,6 @@ public class Model extends Observable {
             manager.savePlayer(0, data);
 
         } catch (MoneyException me) {
-            System.out.println("Caught the moeny error in next day");
 
             //Updates the player score
             data.setScore(player.getScore());
@@ -665,4 +544,10 @@ public class Model extends Observable {
         this.highscores = highscores;
     }
 
+    /**
+     * @return the modelSave
+     */
+    public Modelsave getModelSave() {
+        return modelSave;
+    }
 }

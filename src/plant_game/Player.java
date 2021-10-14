@@ -104,7 +104,6 @@ public final class Player extends Observable {
 
         //Next day decreases money and chucks out a money exception if player is banktrupt
         if (rentDue() > 0) {
-            System.out.println(rentDue() + "$ is due");
             setMoney(getMoney() - rentDue());
         }
 
@@ -209,7 +208,7 @@ public final class Player extends Observable {
         } else if (getEnergy() - 20 < 0 && getMoney() - plant.getPrice() < 0) {
             throw new ResourceException("Player is out of Money and Energy");
         } else if (getMoney() - plant.getPrice() < 0) {
-            System.out.println("Out of money pick some plants");
+          
             throw new ResourceException("Player is out of Money pick some plants");
         } else {
             throw new ResourceException("Player is out of Energy");
