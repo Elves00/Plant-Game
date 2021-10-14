@@ -25,12 +25,8 @@ public class Modelsave extends Observable {
 
     private final String[] searchTerm = new String[]{"Information", "Plants", "Plant a Plant", "Pick Plant", "Water", "Next Day", "Unlock", "Save Game"};
 
-    
     public Modelsave(DBManager manager) {
         this.manager = manager;
-
-//        manager.closeConnections();
-//        manager.openConnections();
     }
 
     /**
@@ -195,7 +191,7 @@ public class Modelsave extends Observable {
      * @param data
      * @return
      */
-    protected Data loadGameView(Data data) {
+    protected Data viewLoadGame(Data data) {
         data.setLoadGame(true);
         //Sets up the load text in data
         data = manager.loadText(data);
@@ -227,7 +223,7 @@ public class Modelsave extends Observable {
      * @param data
      * @return
      */
-    public Data saveView(Data data) {
+    public Data viewSave(Data data) {
         //set save view start to true
         data.setSaveStart(true);
         //sets the text in the data class.

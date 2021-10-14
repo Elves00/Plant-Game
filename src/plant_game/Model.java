@@ -17,14 +17,17 @@ import java.util.logging.Logger;
  */
 public class Model extends Observable {
 
+    //Model items
     private Player player;
     private PlantSelection shop;
     private UnlockShop unlocks;
-    private OrderedList<Score> highscores;
- 
+
+    //Model method managers
     private Modelsave modelSave;
     private ModelRun modelRun;
     private DBManager manager;
+
+    //Data to be passed between methods
     Data data;
 
     /**
@@ -32,9 +35,10 @@ public class Model extends Observable {
      *
      */
     public Model() {
-        //Information search terms for use in update
+        //Database controls.
         manager = new DBManager();
         manager.constructDatabse();
+        //Methods implementation of saving and running methods.
         modelSave = new Modelsave(manager);
         modelRun = new ModelRun(manager);
     }
@@ -43,7 +47,7 @@ public class Model extends Observable {
      * Determines the visibility of the load game buttons and previous game
      * button based on data within the data table.
      *
-     * This is effectivly a middle man method.
+     * This is efectively a middle man method.
      *
      */
     public void start() {
@@ -58,11 +62,10 @@ public class Model extends Observable {
      * Retrieves information stored within the information table and passes it
      * to the view.
      *
-     *
      * @param selection
      */
     public void getInfo(int selection) {
-        data = modelSave.getInfo(selection,data);
+        data = modelSave.getInfo(selection, data);
     }
 
     /**
@@ -129,15 +132,6 @@ public class Model extends Observable {
     }
 
     /**
-     * Notify the observe to display the options for loading game
-     */
-    protected void loadGameView() {
-
-        data = modelSave.loadGameView(data);
-
-    }
-
-    /**
      * Loads a selected plant game from the database.
      *
      * Will load a plant game from the data base.
@@ -159,16 +153,15 @@ public class Model extends Observable {
 
     }
 
-    public void saveView() {
-
-        data = modelSave.saveView(data);
-
-    }
-
-    public void plantAPlantView() {
-        shopUpdate();
-    }
-
+    /**
+     * Plants a specified plant at a specified location.
+     *
+     * @param selection the plant you wish to plant index position in shop.
+     * @param x column
+     * @param y row
+     * @throws InstantiationException
+     * @throws IllegalAccessException
+     */
     public void plantAPlant(int selection, int x, int y) throws InstantiationException, IllegalAccessException {
 
         modelRun.setPlayer(player);
@@ -178,28 +171,8 @@ public class Model extends Observable {
 
     }
 
-    public void unlockView() {
-
-        modelRun.setUnlocks(unlocks);
-        data = modelRun.unlockView(data);
-
-    }
-
-    public void shopUpdate() {
-
-        modelRun.setShop(shop);
-        modelRun.setPlayer(player);
-
-        data = modelRun.shopUpdate(data);
-
-        shop = modelRun.getShop();
-        player = modelRun.getPlayer();
-
-    }
-
     /**
      * Unlocks a plant from the unlock shop for the current game.
-     *
      *
      * @param selection
      */
@@ -217,13 +190,12 @@ public class Model extends Observable {
 
     }
 
-    public void initialView() {
-        //Update the field
-        modelRun.setPlayer(player);
-        data = modelRun.fieldUpdate(data);
-
-    }
-
+    /**
+     * Progress the player to the next day.
+     *
+     * @throws MoneyException
+     * @throws FileNotFoundException
+     */
     public void nextDay() throws MoneyException, FileNotFoundException {
 
         modelRun.setPlayer(player);
@@ -238,13 +210,12 @@ public class Model extends Observable {
 
     }
 
-    public void waterView() {
-        //Update the field
-        modelRun.setPlayer(player);
-        data = modelRun.waterView(data);
-
-    }
-
+    /**
+     * Waters a plant within the player field.
+     *
+     * @param x row
+     * @param y column
+     */
     public void water(int x, int y) {
         modelRun.setPlayer(player);
         data = modelRun.water(x, y, data);
@@ -252,20 +223,87 @@ public class Model extends Observable {
     }
 
     /**
-     * Notify the view that the player intends to pick a plant.
+     * Picks a plant within the player field.
      *
-     * Once the view has been notified set field pick back to false.
+     * @param i row
+     * @param j column
      */
-    public void pickView() {
-        modelRun.setPlayer(player);
-        data = modelRun.pickView(data);
-
-    }
-
     public void pick(int i, int j) {
 
         modelRun.setPlayer(player);
         data = modelRun.pick(i, j, data);
+        player = modelRun.getPlayer();
+
+    }
+
+    /**
+     * Notify the view that the player intends to pick a plant.
+     *
+     * Once the view has been notified set field pick back to false.
+     */
+    public void viewPick() {
+        modelRun.setPlayer(player);
+        data = modelRun.viewPick(data);
+
+    }
+
+    /**
+     * Sets up the information in order to display the watering state of the
+     * player field.
+     */
+    public void viewWater() {
+        //Update the field
+        modelRun.setPlayer(player);
+        data = modelRun.viewWater(data);
+
+    }
+
+    /**
+     * Sets up the inital view of the play field.
+     */
+    public void viewInitalField() {
+        //Update the field
+        modelRun.setPlayer(player);
+        data = modelRun.updateField(data);
+
+    }
+
+    public void viewSave() {
+
+        data = modelSave.viewSave(data);
+
+    }
+
+    /**
+     * Uses modelRun to setup information needed for a display of the unlocks.
+     */
+    public void viewUnlock() {
+
+        modelRun.setUnlocks(unlocks);
+        data = modelRun.viewUnlock(data);
+
+    }
+
+    /**
+     * Notify the observe to display the options for loading game
+     */
+    protected void viewLoadGame() {
+
+        data = modelSave.viewLoadGame(data);
+
+    }
+
+    /**
+     * Updates the shop.
+     */
+    public void updateShop() {
+
+        modelRun.setShop(shop);
+        modelRun.setPlayer(player);
+
+        data = modelRun.updateShop(data);
+
+        shop = modelRun.getShop();
         player = modelRun.getPlayer();
 
     }
@@ -318,20 +356,6 @@ public class Model extends Observable {
     public void setUnlocks(UnlockShop unlocks) {
         this.unlocks = unlocks;
 
-    }
-
-    /**
-     * @return the high scores
-     */
-    public OrderedList<Score> getHighscores() {
-        return highscores;
-    }
-
-    /**
-     * @param highscores the highscores to set
-     */
-    public void setHighscores(OrderedList<Score> highscores) {
-        this.highscores = highscores;
     }
 
     /**

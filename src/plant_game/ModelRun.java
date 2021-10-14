@@ -37,7 +37,7 @@ public class ModelRun extends Observable {
             getPlayer().nextDay();
 
             //Update the field
-            data = fieldUpdate(data);
+            data = updateField(data);
 
             data = playerData(data);
 
@@ -75,22 +75,11 @@ public class ModelRun extends Observable {
         return data;
     }
 
-    public Data waterView(Data data) {
-        //Update the field
-        data = fieldUpdate(data);
-//        //set change
-//        setChanged();
-//        //pases the selcted save option to the plant game panel
-//        notifyObservers("Water View");
-        return data;
-
-    }
-
     public Data water(int x, int y, Data data) {
         try {
             getPlayer().waterPlant(x, y);
             //Update the field
-            data = fieldUpdate(data);
+            data = updateField(data);
 
         } catch (ResourceException e) {
             data.setWarningCheck(true);
@@ -107,20 +96,6 @@ public class ModelRun extends Observable {
         return data;
     }
 
-    /**
-     * Notify the view that the player intends to pick a plant.
-     *
-     * Once the view has been notified set field pick back to false.
-     */
-    public Data pickView(Data data) {
-        data.setFieldPick(true);
-        //Update the field
-        data = fieldUpdate(data);
-        data.setFieldPick(false);
-        return data;
-
-    }
-
     public Data pick(int i, int j, Data data) {
 
         try {
@@ -129,7 +104,7 @@ public class ModelRun extends Observable {
             //Update field with pick display.
             data.setFieldPick(true);
             //Update the field
-            data = fieldUpdate(data);
+            data = updateField(data);
             data.setFieldPick(false);
 
         } catch (ResourceException e) {
@@ -143,17 +118,49 @@ public class ModelRun extends Observable {
         }
         return data;
     }
+    public Data updateShop(Data data) {
+        //plant set size
+        data.setPlantsetSize(PlantSet.values().length);
+        //shop size
+        data.setShopSize(this.shop.size());
+        //shop content
+        String[] shopContent = new String[this.shop.size()];
+        for (int i = 0; i < shop.size(); i++) {
+            try {
+                shopContent[i] = this.shop.getPlant(i).toString();
+            } catch (InstantiationException ex) {
+                Logger.getLogger(Model.class.getName()).log(Level.SEVERE, null, ex);
+            } catch (IllegalAccessException ex) {
+                Logger.getLogger(Model.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+        data.setShopText(shopContent);
 
-    public Data fieldUpdateData(int selection, Data data) {
+        //Updates the shop in the database for the current player
+        manager.updateShop(0, shopContent[shop.size() - 1]);
+
+        data.setShopUpdate(true);
+        manager.savePlayer(0, data);
+        //set change
+        setChanged();
+
+        notifyObservers(data);
+        data.setShopUpdate(false);
+
+        return data;
+    }
+
+
+    public Data updateFieldData(int selection, Data data) {
         data.setFieldDetails(player.getField().toFile());
         manager.saveField(0, data.getFieldDetails());
         return data;
     }
 
-    public Data fieldUpdate(Data data) {
+    public Data updateField(Data data) {
 
         //updates the current players field data in the database
-        data = fieldUpdateData(0, data);
+        data = updateFieldData(0, data);
 
         //update data to contain the plant information
         for (int i = 0; i < 3; i++) {
@@ -219,7 +226,7 @@ public class ModelRun extends Observable {
         try {
             getPlayer().newPlant(getShop().getPlant(selection - 1), x - 1, y - 1);
             //Update the field
-            data = fieldUpdate(data);
+            data = updateField(data);
         } catch (ResourceException e) {
             data.setWarningCheck(true);
             data.setWarning(e.getMessage());
@@ -232,7 +239,7 @@ public class ModelRun extends Observable {
         return data;
     }
 
-    public Data unlockView(Data data) {
+    public Data viewUnlock(Data data) {
 
         //unlock starting
         data.setUnlockStart(true);
@@ -256,38 +263,32 @@ public class ModelRun extends Observable {
 
     }
 
-    public Data shopUpdate(Data data) {
-        //plant set size
-        data.setPlantsetSize(PlantSet.values().length);
-        //shop size
-        data.setShopSize(this.shop.size());
-        //shop content
-        String[] shopContent = new String[this.shop.size()];
-        for (int i = 0; i < shop.size(); i++) {
-            try {
-                shopContent[i] = this.shop.getPlant(i).toString();
-            } catch (InstantiationException ex) {
-                Logger.getLogger(Model.class.getName()).log(Level.SEVERE, null, ex);
-            } catch (IllegalAccessException ex) {
-                Logger.getLogger(Model.class.getName()).log(Level.SEVERE, null, ex);
-            }
-        }
-        data.setShopText(shopContent);
-
-        //Updates the shop in the database for the current player
-        manager.updateShop(0, shopContent[shop.size() - 1]);
-
-        data.setShopUpdate(true);
-        manager.savePlayer(0, data);
-        //set change
-        setChanged();
-
-        notifyObservers(data);
-        data.setShopUpdate(false);
-
+    public Data viewWater(Data data) {
+        //Update the field
+        data = updateField(data);
+//        //set change
+//        setChanged();
+//        //pases the selcted save option to the plant game panel
+//        notifyObservers("Water View");
         return data;
+
     }
 
+    /**
+     * Notify the view that the player intends to pick a plant.
+     *
+     * Once the view has been notified set field pick back to false.
+     */
+    public Data viewPick(Data data) {
+        data.setFieldPick(true);
+        //Update the field
+        data = updateField(data);
+        data.setFieldPick(false);
+        return data;
+
+    }
+
+    
     /**
      * Unlocks a plant from the unlock shop for the current game.
      *
@@ -326,7 +327,7 @@ public class ModelRun extends Observable {
             //Unlock no longer starting
             data.setUnlockUpdate(false);
             //Updates the shop
-            data = shopUpdate(data);
+            data = updateShop(data);
         } catch (ResourceException re) {
             //Sets warning message
             data.setWarning(re.getMessage());

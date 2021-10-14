@@ -101,7 +101,7 @@ public class Controller extends JFrame implements ActionListener, MouseListener 
             try {
                 this.model.newGame(view.getUsername().getText());
 
-                this.model.initialView();
+                this.model.viewInitalField();
                 this.view.getMainCard().show(this.view, "b");
                 //return view to start card
                 this.view.getCards().show(this.view.getStartView(), "a");
@@ -115,13 +115,13 @@ public class Controller extends JFrame implements ActionListener, MouseListener 
         }
         //If pressed opens the load game view showing 5 updateSaveText slots to load from
         if (sourceA == view.getLoadGame()) {
-            this.model.loadGameView();
+            this.model.viewLoadGame();
         }
         //Checks all load buttons for actions preformed.
         for (int i = 0; i < 5; i++) {
             if (sourceA == view.getLoadButtons()[i]) {
                 this.model.loadGame(i);
-                this.model.initialView();
+                this.model.viewInitalField();
                 this.pack();
                 //return view to start card
                 this.view.getCards().show(this.view.getStartView(), "a");
@@ -134,7 +134,7 @@ public class Controller extends JFrame implements ActionListener, MouseListener 
         //loads the previous saved game.
         if (sourceA == view.getPreviousGame()) {
             this.model.previousGame();
-            this.model.initialView();
+            this.model.viewInitalField();
             this.view.getMainCard().show(this.view, "b");
             this.pack();
         }
@@ -197,7 +197,7 @@ public class Controller extends JFrame implements ActionListener, MouseListener 
         }
         //picking
         if (sourceA == view.getPick()) {
-            this.model.pickView();
+            this.model.viewPick();
             this.view.getCard().show(this.view.getButtonPanel(), "d");
             //sets picking condition to true.
             picking = true;
@@ -206,7 +206,7 @@ public class Controller extends JFrame implements ActionListener, MouseListener 
         if (sourceA == view.getPickBack()) {
             this.view.getCard().show(this.view.getButtonPanel(), "a");
             picking = false;
-            this.model.initialView();
+            this.model.viewInitalField();
         }
         //Progress the game to the next day.
         //This is where the end game condition occurs as next day will eventually output a money exception.
@@ -221,7 +221,7 @@ public class Controller extends JFrame implements ActionListener, MouseListener 
         //Save view
         if (sourceA == view.getSave()) {
 
-            this.model.saveView();
+            this.model.viewSave();
             this.view.getCard().show(this.view.getButtonPanel(), "e");
 
         }
@@ -243,7 +243,7 @@ public class Controller extends JFrame implements ActionListener, MouseListener 
         }
         //UNLOCKS
         if (sourceA == view.getUnlockShop()) {
-            model.unlockView();
+            model.viewUnlock();
             this.view.getCard().show(this.view.getButtonPanel(), "f");
 
         }
@@ -316,7 +316,7 @@ public class Controller extends JFrame implements ActionListener, MouseListener 
                     }
                     if (watering) {
                         //Sets up the watering view highlighting wattered plants
-                        this.model.waterView();
+                        this.model.viewWater();
                         //Water the plant at row i collumn j
                         this.model.water(i, j);
 
