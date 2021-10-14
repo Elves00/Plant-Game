@@ -129,6 +129,9 @@ public class Model extends Observable {
     protected void previousGame() {
 
         data = modelSave.previousGame(data);
+        player = modelSave.getPlayer();
+        shop = modelSave.getShop();
+        unlocks = modelSave.getUnlocks();
     }
 
     /**
@@ -262,6 +265,7 @@ public class Model extends Observable {
      * Sets up the inital view of the play field.
      */
     public void viewInitalField() {
+
         //Update the field
         modelRun.setPlayer(player);
         data = modelRun.updateField(data);

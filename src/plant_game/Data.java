@@ -85,7 +85,7 @@ public class Data {
     private boolean loadGameChanged;
 
     /**
-     * 
+     *
      */
     public Data() {
         start = true;
@@ -100,7 +100,6 @@ public class Data {
                 pollinatePlants[i][j] = false;
             }
         }
-        warningCheck = false;
 
         loadGameVisible = new boolean[]{true, true, true, true, true};
     }

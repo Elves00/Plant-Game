@@ -71,7 +71,7 @@ public class View extends JPanel implements Observer {
     //Main view componets field and player header.
     private JPanel mainView = new JPanel();
     private JLabel playerHeader = new JLabel("", SwingConstants.CENTER);
-    private FieldPanel field = new FieldPanel();
+    private ViewField field = new ViewField();
 
     //Displays different views in the area occupied by the field.
     private JPanel fieldCard;
@@ -86,7 +86,7 @@ public class View extends JPanel implements Observer {
     private JPanel infoAreaButtons = new JPanel();
 //    private JScrollPane infoScroller;
 //    private JTextArea infoArea = new JTextArea();
-    private InformationAreaPanel infoAreaPanel = new InformationAreaPanel();
+    private ViewInformationPanelArea infoAreaPanel = new ViewInformationPanelArea();
 
     //String array of database search terms.
     private String[] searchTerm = new String[]{"Information", "plants", "Plant a Plant", "Pick Plant", "Water", "Next day", "Unlock", "Save game"};
@@ -118,8 +118,8 @@ public class View extends JPanel implements Observer {
 
     //Displays and holds information on highscore option.
 //    private JList<Score> highScores = new JList();
-    private HighScorePanel highScorePanel = new HighScorePanel();
-    private HighScorePanel endHighScorePanel = new HighScorePanel(new JButton("Continue"));
+    private ViewHighScorePanel highScorePanel = new ViewHighScorePanel();
+    private ViewHighScorePanel endHighScorePanel = new ViewHighScorePanel(new JButton("Continue"));
 //    private JButton advance = new JButton("Continue");
 //    private JScrollPane highScoreScroll;
     private JPanel highScoreButtonPanel = new JPanel();
