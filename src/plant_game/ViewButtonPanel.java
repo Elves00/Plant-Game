@@ -17,20 +17,6 @@ import javax.swing.JPanel;
  */
 public class ViewButtonPanel extends JPanel {
 
-    /**
-     * @return the card
-     */
-    public CardLayout getCard() {
-        return card;
-    }
-
-    /**
-     * @return the unlockBack
-     */
-    public JButton getUnlockBack() {
-        return unlockBack;
-    }
-
     private JButton[] plantingButtons;
 
     private JButton[] unlockSlot;
@@ -38,7 +24,7 @@ public class ViewButtonPanel extends JPanel {
     private JPanel loadGamePanel = new JPanel(new BorderLayout());
     private JPanel loadGamePanelArange = new JPanel();
     private JButton[] loadButtons = new JButton[5];
-
+    //Main game buttons plant,save,pick,water,information,main menu etc
     private ViewGameButtonBar gameButtonBar = new ViewGameButtonBar();
     private JPanel plantSelect = new JPanel();
 //Panels to display when picking or watering are selected.
@@ -64,7 +50,7 @@ public class ViewButtonPanel extends JPanel {
 
     private JButton[] infoSlot = new JButton[8];
     private JPanel infoAreaButtons = new JPanel();
-    
+
     private CardLayout card = new CardLayout();
 
     public ViewButtonPanel() {
@@ -118,6 +104,7 @@ public class ViewButtonPanel extends JPanel {
      */
     public void addActionListener(ActionListener actionListener) {
 
+        getGameButtonBar().addActionListener(actionListener);
         getPlantBack().addActionListener(actionListener);
         getWaterBack().addActionListener(actionListener);
         getPickBack().addActionListener(actionListener);
@@ -145,7 +132,6 @@ public class ViewButtonPanel extends JPanel {
         for (int i = 0; i < 5; i++) {
             getSaveSlot()[i].addActionListener(actionListener);
         }
-//
     }
 
     /**
@@ -233,20 +219,20 @@ public class ViewButtonPanel extends JPanel {
      */
     public void updateUnlock(int unlockSize, String[] unlockText) {
         //Make other buttons invisible
-        for (int i = unlockSize; i < unlockSlot.length; i++) {
-            this.unlockSlot[i].setVisible(false);
+        for (int i = unlockSize; i < getUnlockSlot().length; i++) {
+            this.getUnlockSlot()[i].setVisible(false);
 
         }
         //Redo button labels
         for (int i = 0; i < unlockSize; i++) {
-            this.unlockSlot[i].setText(unlockText[i]);
-            this.unlockSlot[i].setVisible(true);
+            this.getUnlockSlot()[i].setText(unlockText[i]);
+            this.getUnlockSlot()[i].setVisible(true);
 
         }
         //Add back button to end
         this.unlockSlot[unlockSize] = this.getUnlockBack();
-        this.unlockSlot[unlockSize].setText("Back");
-        this.unlockSlot[unlockSize].setVisible(true);
+        this.getUnlockSlot()[unlockSize].setText("Back");
+        this.getUnlockSlot()[unlockSize].setVisible(true);
 
     }
 
@@ -271,13 +257,13 @@ public class ViewButtonPanel extends JPanel {
         this.getPlantingButtons()[shopSize - 1].setVisible(true);
 
         //Add back button to end of planting buttons
-        this.plantingButtons[shopSize] = this.plantBack;
+        this.plantingButtons[shopSize] = this.getPlantBack();
         this.getPlantingButtons()[shopSize].setText("Back");
         this.getPlantingButtons()[shopSize].setVisible(true);
 
         //add the new jbutton and back button  to the plant select panel.
-        this.plantSelect.add(this.getPlantingButtons()[shopSize - 1]);
-        this.plantSelect.add(this.getPlantingButtons()[shopSize]);
+        this.getPlantSelect().add(this.getPlantingButtons()[shopSize - 1]);
+        this.getPlantSelect().add(this.getPlantingButtons()[shopSize]);
 
     }
 
@@ -532,4 +518,40 @@ public class ViewButtonPanel extends JPanel {
     public JPanel getHighScoreButtonPanel() {
         return highScoreButtonPanel;
     }
+
+    /**
+     * @return the card
+     */
+    public CardLayout getCard() {
+        return card;
+    }
+
+    /**
+     * @return the unlockBack
+     */
+    public JButton getUnlockBack() {
+        return unlockBack;
+    }
+
+    /**
+     * @return the loadGamePanel
+     */
+    public JPanel getLoadGamePanel() {
+        return loadGamePanel;
+    }
+
+    /**
+     * @return the loadGamePanelArange
+     */
+    public JPanel getLoadGamePanelArange() {
+        return loadGamePanelArange;
+    }
+
+    /**
+     * @return the loadButtons
+     */
+    public JButton[] getLoadButtons() {
+        return loadButtons;
+    }
+
 }
