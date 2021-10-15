@@ -75,13 +75,14 @@ public class Controller extends JFrame implements ActionListener, MouseListener 
      *
      */
     public void addListener() {
-        this.view.addActionListener(this); //adds the panel as a listener for all actions within the plantGamePanel
+        this.view.addActionListener(this);
         this.view.addMouseListener(this);
     }
 
     @Override
     public void actionPerformed(ActionEvent e) {
         Object sourceA = e.getSource();
+        System.out.println(e.getActionCommand());
         //Switch case not used as multiple buttons have changing text.
 
         //Creates a new game shifting the view to the jtext field for creating a new player
@@ -147,7 +148,7 @@ public class Controller extends JFrame implements ActionListener, MouseListener 
         }
         //Checks which plant has been selected to plant in the field
         for (int i = 0; i < PlantSet.values().length; i++) {
-            if (sourceA == view.getPlantingButtons()[i]) {
+            if (sourceA == view.getButtonPanel().getPlantingButtons()[i]) {
                 //Sets the plant to be planted and sets the planting condition to true.
                 //This means if a user presses in the field it will plant this plant.
                 plantToPlant = i + 1;
@@ -157,7 +158,7 @@ public class Controller extends JFrame implements ActionListener, MouseListener 
             }
         }
         //Returns the user to the main card and disables planting
-        if (sourceA == view.getPlantBack()) {
+        if (sourceA == view.getButtonPanel().getPlantBack()) {
             //Swtich view to the selection of plants available to plant
             this.view.getCard().show(this.view.getButtonPanel(), "a");
             planting = false;
@@ -178,7 +179,7 @@ public class Controller extends JFrame implements ActionListener, MouseListener 
             this.view.getAdvance().setVisible(false);
         }
         //Highscore back
-        if (sourceA == view.getHighScoreBack()) {
+        if (sourceA == view.getButtonPanel().getHighScoreBack()) {
             this.view.getCard().show(this.view.getButtonPanel(), "a");
             this.view.getCardField().show(this.view.getFieldCard(), "a");
             this.view.getAdvance().setVisible(true);
@@ -190,7 +191,7 @@ public class Controller extends JFrame implements ActionListener, MouseListener 
             watering = true;
         }
         //Returns the user to the main card and disables watering
-        if (sourceA == view.getWaterBack()) {
+        if (sourceA == view.getButtonPanel().getWaterBack()) {
             this.view.getCard().show(this.view.getButtonPanel(), "a");
             watering = false;
 
@@ -203,7 +204,7 @@ public class Controller extends JFrame implements ActionListener, MouseListener 
             picking = true;
         }
         //Returns the user to the main card and disables picking
-        if (sourceA == view.getPickBack()) {
+        if (sourceA == view.getButtonPanel().getPickBack()) {
             this.view.getCard().show(this.view.getButtonPanel(), "a");
             picking = false;
             this.model.viewInitalField();
@@ -227,7 +228,7 @@ public class Controller extends JFrame implements ActionListener, MouseListener 
         }
         //Checks which updateSaveText button was inputed and actions it.
         for (int i = 0; i < 5; i++) {
-            if (sourceA == view.getSaveSlot()[i]) {
+            if (sourceA == view.getButtonPanel().getSaveSlot()[i]) {
 
                 this.model.save(i + 1);
                 break;
@@ -236,7 +237,7 @@ public class Controller extends JFrame implements ActionListener, MouseListener 
         }
 
         //Returns the user to the main card from the updateSaveText view
-        if (sourceA == view.getSaveBack()) {
+        if (sourceA == view.getButtonPanel().getSaveBack()) {
 
             this.view.getCard().show(this.view.getButtonPanel(), "a");
 
@@ -251,19 +252,19 @@ public class Controller extends JFrame implements ActionListener, MouseListener 
         /*Checks if the source was the unlock back button if not checks if it was from within the unlock slot
           Set up this way to avoid treating the back button as an unlock button since it is also within the unlock slot array.
          */
-        if (sourceA == view.getUnlockBack()) {
+        if (sourceA == view.getButtonPanel().getUnlockBack()) {
             //Switchs the view back to the main button panel
             this.view.getCard().show(this.view.getButtonPanel(), "a");
 
         } else {
             //Cycle through all unlcok buttons.
-            for (int i = 0; i < view.getUnlockSlot().length; i++) {
+            for (int i = 0; i < view.getButtonPanel().getUnlockSlot().length; i++) {
 
-                if (sourceA == view.getUnlockSlot()[i]) {
+                if (sourceA == view.getButtonPanel().getUnlockSlot()[i]) {
                     //unlock the selected plant
                     this.model.unlock(i + 1);
                     //Re adds action listiener as it gets removed in view during unlock
-                    this.view.getPlantingButtons()[this.model.getShop().size() - 1].addActionListener(this);
+                    this.view.getButtonPanel().getPlantingButtons()[this.model.getShop().size() - 1].addActionListener(this);
                     break;
                 }
             }
@@ -274,14 +275,14 @@ public class Controller extends JFrame implements ActionListener, MouseListener 
             this.view.getCard().show(this.view.getButtonPanel(), "g");
         }
         //Send back to main menu
-        if (sourceA == view.getInfoBack()) {
+        if (sourceA == view.getButtonPanel().getInfoBack()) {
 
             this.view.getCardField().show(this.view.getFieldCard(), "a");
             this.view.getCard().show(this.view.getButtonPanel(), "a");
         }
         //Display information
         for (int i = 0; i < 8; i++) {
-            if (sourceA == view.getInfoSlot()[i]) {
+            if (sourceA == view.getButtonPanel().getInfoSlot()[i]) {
                 this.model.getInfo(i);
                 break;
             }

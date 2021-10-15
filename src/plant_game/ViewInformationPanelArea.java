@@ -11,7 +11,7 @@ import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 
 /**
- * A display used to present information from the plant game info table.
+ * A display panel used to present information from the plant game info table.
  *
  * @author breco
  */

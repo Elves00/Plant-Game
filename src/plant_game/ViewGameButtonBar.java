@@ -29,8 +29,6 @@ public class ViewGameButtonBar extends JPanel {
     private JButton mainMenu = new JButton("Main Menu");
     private JButton highScoresButton = new JButton("Highscores");
 
-    
-    
     public ViewGameButtonBar() {
 
         //Adds the different game buttons to the main game bar.
@@ -43,6 +41,7 @@ public class ViewGameButtonBar extends JPanel {
         this.gameOptions.add(this.unlockShop);
         this.gameOptions.add(this.highScoresButton);
         this.gameOptions.add(this.mainMenu);
+
         this.add(gameOptions);
     }
 
@@ -63,6 +62,7 @@ public class ViewGameButtonBar extends JPanel {
         getUnlockShop().addActionListener(actionListener);
         getHighScoresButton().addActionListener(actionListener);
         getMainMenu().addActionListener(actionListener);
+
     }
 
     /**
