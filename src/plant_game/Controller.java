@@ -83,8 +83,8 @@ public class Controller extends JFrame implements ActionListener, MouseListener 
     public void actionPerformed(ActionEvent e) {
         Object sourceA = e.getSource();
         System.out.println(e.getActionCommand());
-        //Switch case not used as multiple buttons have changing text.
 
+        //Switch case not used as multiple buttons have changing text.
         //Creates a new game shifting the view to the jtext field for creating a new player
         if (sourceA == view.getNewGame()) {
 
@@ -140,7 +140,7 @@ public class Controller extends JFrame implements ActionListener, MouseListener 
             this.pack();
         }
         //Player is planting a plant in the field
-        if (sourceA == view.getGameButtonBar().getPlant()) {
+        if (sourceA == view.getButtonPanel().getGameButtonBar().getPlant()) {
 
             //Swtich view to the selection of plants available to plant
             this.view.getCard().show(this.view.getButtonPanel(), "b");
@@ -165,7 +165,7 @@ public class Controller extends JFrame implements ActionListener, MouseListener 
 
         }
         //Return to the load screen.
-        if (sourceA == view.getGameButtonBar().getMainMenu()) {
+        if (sourceA == view.getButtonPanel().getGameButtonBar().getMainMenu()) {
             this.model.mainMenu();
             this.view.updateListener(this);
             //show the main menu
@@ -173,7 +173,7 @@ public class Controller extends JFrame implements ActionListener, MouseListener 
 
         }
         //Highscores
-        if (sourceA == view.getGameButtonBar().getHighScoresButton()) {
+        if (sourceA == view.getButtonPanel().getGameButtonBar().getHighScoresButton()) {
             this.view.getCard().show(this.view.getButtonPanel(), "h");
             this.view.getCardField().show(this.view.getFieldCard(), "c");
             this.view.getAdvance().setVisible(false);
@@ -185,7 +185,7 @@ public class Controller extends JFrame implements ActionListener, MouseListener 
             this.view.getAdvance().setVisible(true);
         }
         //Watering
-        if (sourceA == view.getGameButtonBar().getWater()) {
+        if (sourceA == view.getButtonPanel().getGameButtonBar().getWater()) {
             //sets water condition to true.
             this.view.getCard().show(this.view.getButtonPanel(), "c");
             watering = true;
@@ -197,7 +197,7 @@ public class Controller extends JFrame implements ActionListener, MouseListener 
 
         }
         //picking
-        if (sourceA == view.getGameButtonBar().getPick()) {
+        if (sourceA == view.getButtonPanel().getGameButtonBar().getPick()) {
             this.model.viewPick();
             this.view.getCard().show(this.view.getButtonPanel(), "d");
             //sets picking condition to true.
@@ -211,7 +211,7 @@ public class Controller extends JFrame implements ActionListener, MouseListener 
         }
         //Progress the game to the next day.
         //This is where the end game condition occurs as next day will eventually output a money exception.
-        if (sourceA == view.getGameButtonBar().getNextDay()) {
+        if (sourceA == view.getButtonPanel().getGameButtonBar().getNextDay()) {
             try {
                 this.model.nextDay();
             } catch (IOException ex) {
@@ -220,7 +220,7 @@ public class Controller extends JFrame implements ActionListener, MouseListener 
         }
 
         //Save view
-        if (sourceA == view.getGameButtonBar().getSave()) {
+        if (sourceA == view.getButtonPanel().getGameButtonBar().getSave()) {
 
             this.model.viewSave();
             this.view.getCard().show(this.view.getButtonPanel(), "e");
@@ -243,7 +243,7 @@ public class Controller extends JFrame implements ActionListener, MouseListener 
 
         }
         //UNLOCKS
-        if (sourceA == view.getGameButtonBar().getUnlockShop()) {
+        if (sourceA == view.getButtonPanel().getGameButtonBar().getUnlockShop()) {
             model.viewUnlock();
             this.view.getCard().show(this.view.getButtonPanel(), "f");
 
@@ -270,7 +270,7 @@ public class Controller extends JFrame implements ActionListener, MouseListener 
             }
         }
         //Information
-        if (sourceA == view.getGameButtonBar().getInformation()) {
+        if (sourceA == view.getButtonPanel().getGameButtonBar().getInformation()) {
             this.view.getCardField().show(this.view.getFieldCard(), "b");
             this.view.getCard().show(this.view.getButtonPanel(), "g");
         }
