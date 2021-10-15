@@ -20,9 +20,10 @@ public class Start {
             System.out.println("Dooogg");
             View view = new View();
             Model model = new Model();
-            Controller controller = new Controller(model, view);
-
             model.addObserver(view); // Build connection between the view and the model.
+            model.getModelSave().addObserver(view);
+            model.getModelRun().addObserver(view);
+            Controller controller = new Controller(model, view);
 
         } catch (IOException ex) {
             Logger.getLogger(Start.class.getName()).log(Level.SEVERE, null, ex);

@@ -8,7 +8,6 @@ package plant_game;
 import static java.lang.Boolean.parseBoolean;
 import static java.lang.Integer.parseInt;
 import java.sql.Connection;
-import java.sql.DatabaseMetaData;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -20,6 +19,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 /**
+ * Controls the data retrieval and updating of data for the plant game.
  *
  * @author breco
  */
@@ -46,17 +46,63 @@ public final class DBManager {
     }
 
     public boolean constructDatabse() {
+//        myUpdate("DROP TABLE Player");
+//        myUpdate("DROP TABLE Field");
+//        myUpdate("DROP TABLE Shop");
+//        myUpdate("DROP TABLE Unlock");
+//        myUpdate("DROP TABLE Info");
+//        myUpdate("DROP TABLE Scores");
         if (construct.dbsetup()) {
             return true;
         } else {
             return false;
         }
-//                               myUpdate("DROP TABLE Player");
-//                                myUpdate("DROP TABLE Field");
-//                                myUpdate("DROP TABLE Shop");
-//                                myUpdate("DROP TABLE Unlock");
-//                                myUpdate("DROP TABLE Info");
-//                                myUpdate("DROP TABLE Scores");
+
+    }
+
+    /**
+     * Creates a data object with initial conditions for the view.
+     *
+     * The views previous game button and load game options visibility is
+     * determined by the pressence of a particular username in the database
+     * table. This username only occurce when there is a default value occupying
+     * a particular save slot.
+     *
+     * @return Data
+     */
+    public Data start() {
+
+        try {
+            Data data = new Data();
+            //Load game is not vissable if a play has the name bellow and is not the current game slot.
+            String sql = "SELECT * FROM PLAYER WHERE playerName='uGaTL@V%yiW3'AND slot>0";
+
+            ResultSet rs;
+            rs = this.myQuery(sql);
+            while (rs.next()) {
+                data.getLoadGameVisible()[rs.getInt("slot") - 1] = false;
+                System.out.println(rs.getInt("slot"));
+
+            }
+            rs.close();
+
+            //Previous game button is vissible only if the current game slot does not include this player name
+            sql = "SELECT * FROM PLAYER WHERE playerName='uGaTL@V%yiW3' AND slot=0";
+
+            rs = this.myQuery(sql);
+            if (rs.next()) {
+                data.setPreviousGame(false);
+            } else {
+                data.setPreviousGame(true);
+            }
+            rs.close();
+
+            data.setLoadGameChanged(true);
+            return data;
+        } catch (SQLException ex) {
+            Logger.getLogger(DBManager.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return null;
 
     }
 
@@ -710,7 +756,7 @@ public final class DBManager {
             PreparedStatement preparedStatement = conn.prepareStatement(sql);
 
             for (int i = 0; i < tableNames.length; i++) {
-                preparedStatement.setString(1, "empty");
+                preparedStatement.setString(1, "uGaTL@V%yiW3");
                 preparedStatement.setFloat(2, 200);
                 preparedStatement.setInt(3, 100);
                 preparedStatement.setInt(4, 0);
@@ -805,25 +851,43 @@ public final class DBManager {
 
     public void establishConnection() {
         //If there is no existing connection try connect
+
+        System.out.println(this.conn);
         if (this.conn == null) {
             try {
-                System.out.println("SHOULD ESTABLISH HERE");
+
                 conn = DriverManager.getConnection(URL, USER_NAME, PASSWORD);
-                //System.out.println(URL + "   CONNECTED....");
             } catch (SQLException ex) {
-//                Logger.getLogger(H02_DBOperations.class.getName()).log(Level.SEVERE, null, ex);
 
             }
         }
-        System.out.println(conn);
+
+    }
+
+    /**
+     * Reastablishs a connenction if the connection was closed.
+     */
+    public void openConnections() {
+
+        try {
+            if (conn.isClosed()) {
+
+                conn = DriverManager.getConnection(URL, USER_NAME, PASSWORD);
+
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(DBManager.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
     }
 
     public void closeConnections() {
         if (conn != null) {
+
             try {
                 conn.close();
+
             } catch (SQLException ex) {
-//                FLogger.getLogger(H02_DBOperations.class.getName()).log(Level.SEVERE, null, ex);
             }
         }
     }
@@ -833,6 +897,12 @@ public final class DBManager {
         throw new CloneNotSupportedException();
     }
 
+    /**
+     * Preforms a query of the database
+     *
+     * @param sql
+     * @return
+     */
     public ResultSet myQuery(String sql) {
 
         Connection connection = this.conn;
@@ -850,6 +920,11 @@ public final class DBManager {
         return resultSet;
     }
 
+    /**
+     * Preforms a update of the database
+     *
+     * @param sql
+     */
     public void myUpdate(String sql) {
 
         Connection connection = this.conn;
@@ -874,4 +949,5 @@ public final class DBManager {
         db.loadGame(1);
 
     }
+
 }

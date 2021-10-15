@@ -76,7 +76,6 @@ public class PlantSelection implements ToFile {
             getPlants().put(getPlants().size(), toUnlock);
         } //This should never occur.
         else {
-            System.err.println("OH NO IN PLANT SLECTION UNLOCK");
 
             throw new IllegalArgumentException("Plant already unlocked");
         }
@@ -114,15 +113,12 @@ public class PlantSelection implements ToFile {
                 return true;
                 //Player cant afford let the player know.
             } else {
-                System.out.println("You can't afford this");
                 return false;
             }
             //end
 
         } catch (ArrayIndexOutOfBoundsException a) {
-            //catch and print error
-            System.err.println();
-            System.err.println("out of bounds in purchasePlant PlantSelection");
+
             return false;
 
         }
@@ -151,8 +147,7 @@ public class PlantSelection implements ToFile {
             //Catch any inputs out of range and dissplay an error line
         } catch (ArrayIndexOutOfBoundsException a) {
 
-            System.err.println(a + "PLACE HOLDER getPlant PlantSELECTION");
-            return new Dirt();
+            return null;
 
         }
 
@@ -173,10 +168,7 @@ public class PlantSelection implements ToFile {
 
             //Catch any inputs out of range and dissplay an error line
         } catch (ArrayIndexOutOfBoundsException a) {
-
-            System.err.println(a + "PLACE HOLDER getPlant PlantSELECTION");
             return new Dirt().toString();
-
         }
 
     }

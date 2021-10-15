@@ -5,10 +5,6 @@
  */
 package plant_game;
 
-import static java.lang.Boolean.parseBoolean;
-import static java.lang.Integer.parseInt;
-import java.util.StringTokenizer;
-
 /**
  * Dirt is a plant with no value and is used to represent a blank space in the
  * garden. Dirt will never grow regardless of how much water is poored or days
@@ -61,11 +57,11 @@ public class Dirt extends Plant {
     }
 
     /**
-     * Does not check if there is an evolotion when called.
+     * Does not check if there is an evolution when called.
      */
     @Override
-    public void checkEvolution() {
-
+    public boolean checkEvolution() {
+        return false;
     }
 
     /**

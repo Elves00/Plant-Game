@@ -33,8 +33,6 @@ public final class Player extends Observable {
     private PlantField field;
     //Tracks player score
     private int score;
-    //Controlls file handling
-    private GameState gameState;
 
     //Player energy limit
     static final int MAX_ENERGY = 100;
@@ -50,7 +48,7 @@ public final class Player extends Observable {
         setDay(0);
         setScore(0);
         setField(new PlantField());
-        gameState = new GameState();
+
     }
 
     /**
@@ -72,8 +70,7 @@ public final class Player extends Observable {
         setScore(0);
         //Player starting field
         setField(new PlantField());
-        //Player file manager
-        gameState = new GameState();
+
     }
 
     public Player(String name, float money, int energy, int day, int score) {
@@ -84,8 +81,6 @@ public final class Player extends Observable {
         setScore(score);
         //Player starting field
         setField(new PlantField());
-        //Player file manager
-        gameState = new GameState();
 
     }
 
@@ -109,7 +104,6 @@ public final class Player extends Observable {
 
         //Next day decreases money and chucks out a money exception if player is banktrupt
         if (rentDue() > 0) {
-            System.out.println(rentDue() + "$ is due");
             setMoney(getMoney() - rentDue());
         }
 
@@ -118,9 +112,7 @@ public final class Player extends Observable {
         //notify observers for change
         notifyObservers(day);
 
-        System.out.println(money);
-        //Save the game after each turn
-        gameState.savePlayer(this);
+      
 
     }
 
@@ -213,13 +205,12 @@ public final class Player extends Observable {
             setMoney(getMoney() - plant.getPrice());
             //plants a new plant
             getField().newPlant(plant, x, y);
-        } else if (getEnergy() - 20 < 0 && getMoney() - plant.getPrice()<0) {
-         throw new ResourceException("Player is out of Money and Energy");
-        } else if(getMoney() - plant.getPrice()<0){
-            System.out.println("Out of money pick some plants");
+        } else if (getEnergy() - 20 < 0 && getMoney() - plant.getPrice() < 0) {
+            throw new ResourceException("Player is out of Money and Energy");
+        } else if (getMoney() - plant.getPrice() < 0) {
+          
             throw new ResourceException("Player is out of Money pick some plants");
-        } else
-        {
+        } else {
             throw new ResourceException("Player is out of Energy");
         }
 

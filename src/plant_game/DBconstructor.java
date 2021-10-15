@@ -47,7 +47,7 @@ public class DBconstructor {
         this.myUpdate("CREATE TABLE " + "Player" + " (slot INT,playerName VARCHAR(20),money FLOAT,energy INT ,day INT,score INT)");
         //Inserts a player into each save slot.
         for (int i = 0; i < 6; i++) {
-            myUpdate("INSERT INTO Player VALUES (" + i + ",'Empty',200,100,0,0)");
+            myUpdate("INSERT INTO Player VALUES (" + i + ",'uGaTL@V%yiW3',200,100,0,0)");
         }
 
     }

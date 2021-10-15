@@ -5,9 +5,6 @@
  */
 package plant_game;
 
-import static java.lang.Integer.parseInt;
-import java.util.StringTokenizer;
-
 /**
  * Broccoli
  *
@@ -92,7 +89,6 @@ public class Broccoli extends Plant {
      */
     @Override
     public boolean hasOverride() {
-//        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
         return false;
     }
 

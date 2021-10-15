@@ -27,6 +27,23 @@ public class Score implements Comparable<Score> {
         this.score = score;
     }
 
+    @Override
+    public int compareTo(Score o) {
+
+        if (o.score > this.score) {
+            return 1;
+        } else if (o.score == this.score) {
+            return 0;
+        } else {
+            return -1;
+        }
+    }
+
+    @Override
+    public String toString() {
+        return this.name + " " + this.score;
+    }
+
     /**
      * @return the name
      */
@@ -54,21 +71,4 @@ public class Score implements Comparable<Score> {
     public void setScore(int score) {
         this.score = score;
     }
-
-    @Override
-    public int compareTo(Score o) {
-
-        if (o.score > this.score) {
-            return 1;
-        } else if (o.score == this.score) {
-            return 0;
-        } else {
-            return -1;
-        }
-    }
-
-    public String toString() {
-        return this.name + " " + this.score;
-    }
-
 }
