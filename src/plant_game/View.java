@@ -34,6 +34,20 @@ import javax.swing.border.Border;
 public class View extends JPanel implements Observer {
 
     /**
+     * @return the warning
+     */
+    public JLabel getWarning() {
+        return warning;
+    }
+
+    /**
+     * @return the gameButtonBar
+     */
+    public ViewGameButtonBar getGameButtonBar() {
+        return gameButtonBar;
+    }
+
+    /**
      * @return the loadGameBack
      */
     public JButton getLoadGameBack() {
@@ -57,9 +71,9 @@ public class View extends JPanel implements Observer {
     //Array to store various plant buttons for planting plants
     private JButton[] plantingButtons;
 
-    //Panel and label to display warning messages for invalid input
+//    //Panel and label to display warning messages for invalid input
     private JLabel warning = new JLabel("", SwingConstants.CENTER);
-    private JLabel warningStartMenu = new JLabel("", SwingConstants.CENTER);
+//    private JLabel warningStartMenu = new JLabel("", SwingConstants.CENTER);
     private JPanel bottomPanel = new JPanel(new BorderLayout());
 
     //Highlight for water full and pollinating.
@@ -143,19 +157,7 @@ public class View extends JPanel implements Observer {
     private JButton saveBack = new JButton("Back");
     private JButton loadGameBack = new JButton("Back");
 
-    //Holds the main game options such as plant water and pick buttons.
-    private JPanel gameOptions = new JPanel();
-
-    //The main game buttons displayed on the game options panel
-    private JButton plant = new JButton("Plant");
-    private JButton water = new JButton("Water");
-    private JButton pick = new JButton("Pick");
-    private JButton nextDay = new JButton("Next Day");
-    private JButton information = new JButton("Information");
-    private JButton save = new JButton("Save");
-    private JButton unlockShop = new JButton("Shop");
-    private JButton mainMenu = new JButton("Main Menu");
-    private JButton highScoresButton = new JButton("Highscores");
+    private ViewGameButtonBar gameButtonBar = new ViewGameButtonBar();
 
     //Card layouts used by the various JPanels.
     private CardLayout cards;
@@ -199,17 +201,6 @@ public class View extends JPanel implements Observer {
         this.savePanel.add(this.saveBack);
         this.buttonPanel = new JPanel(getCard());
 
-        //Adds the different game buttons to the main game bar.
-        this.gameOptions.add(this.plant);
-        this.gameOptions.add(this.water);
-        this.gameOptions.add(this.pick);
-        this.gameOptions.add(this.nextDay);
-        this.gameOptions.add(this.save);
-        this.gameOptions.add(this.information);
-        this.gameOptions.add(this.unlockShop);
-        this.gameOptions.add(this.highScoresButton);
-        this.gameOptions.add(this.mainMenu);
-
         //Set up the unlock buttons
         this.establishUnlockButtons();
 
@@ -224,7 +215,7 @@ public class View extends JPanel implements Observer {
         //Picking Panel
         this.pickingPanel.add(this.pickBack);
         //Adds the main options to the button panel.
-        this.buttonPanel.add("a", this.gameOptions);
+        this.buttonPanel.add("a", this.gameButtonBar);
         this.buttonPanel.add("b", this.plantSelect);
         this.buttonPanel.add("c", this.wateringPanel);
         this.buttonPanel.add("d", this.pickingPanel);
@@ -235,6 +226,7 @@ public class View extends JPanel implements Observer {
 
         this.bottomPanel.add(this.warning, BorderLayout.NORTH);
         this.bottomPanel.add(this.buttonPanel, BorderLayout.SOUTH);
+
         this.mainView.add(this.bottomPanel, BorderLayout.SOUTH);
 
         this.mainView.add(this.playerHeader, BorderLayout.NORTH);
@@ -333,21 +325,13 @@ public class View extends JPanel implements Observer {
      */
     public void addActionListener(ActionListener actionListener) {
         //Main plant game button lisiteners
-        getPlant().addActionListener(actionListener);
-        getWater().addActionListener(actionListener);
-        getPick().addActionListener(actionListener);
-        getInformation().addActionListener(actionListener);
-        getNextDay().addActionListener(actionListener);
+        this.getGameButtonBar().addActionListener(actionListener);
         getPlantBack().addActionListener(actionListener);
         getWaterBack().addActionListener(actionListener);
         getPickBack().addActionListener(actionListener);
         getUnlockBack().addActionListener(actionListener);
-        getSave().addActionListener(actionListener);
         getSaveBack().addActionListener(actionListener);
-        getUnlockShop().addActionListener(actionListener);
         getInfoBack().addActionListener(actionListener);
-        getHighScoresButton().addActionListener(actionListener);
-        getMainMenu().addActionListener(actionListener);
         getHighScoreBack().addActionListener(actionListener);
         getLoadGameBack().addActionListener(actionListener);
 
@@ -708,7 +692,7 @@ public class View extends JPanel implements Observer {
      * @param warning text to update.
      */
     public void updateWarningMessage(String warning) {
-        this.warning.setText(warning);
+        this.getWarning().setText(warning);
 
     }
 
@@ -761,7 +745,6 @@ public class View extends JPanel implements Observer {
 
         //The main game
         if (data.isMainGame() == true) {
-            System.out.println("IN HERE");
             this.mainCard.show(this, "b");
             setShop(data.getPlantsetSize(), data.getShopSize(), data.getShopText());
         }
@@ -801,7 +784,6 @@ public class View extends JPanel implements Observer {
         }
 
         if (data.isCheckScores()) {
-            System.out.println("Check the scores?");
             updateScore(data.getNames(), data.getScores());
         }
     }
@@ -846,55 +828,6 @@ public class View extends JPanel implements Observer {
      */
     public JButton[] getPlantingButtons() {
         return plantingButtons;
-    }
-
-    /**
-     * @return the plant
-     */
-    public JButton getPlant() {
-        return plant;
-    }
-
-    /**
-     * @return the water
-     */
-    public JButton getWater() {
-        return water;
-    }
-
-    /**
-     * @return the pick
-     */
-    public JButton getPick() {
-        return pick;
-    }
-
-    /**
-     * @return the nextDay
-     */
-    public JButton getNextDay() {
-        return nextDay;
-    }
-
-    /**
-     * @return the information
-     */
-    public JButton getInformation() {
-        return information;
-    }
-
-    /**
-     * @return the updateSaveText
-     */
-    public JButton getSave() {
-        return save;
-    }
-
-    /**
-     * @return the gameOptions
-     */
-    public JPanel getGameOptions() {
-        return gameOptions;
     }
 
     /**
@@ -1087,20 +1020,6 @@ public class View extends JPanel implements Observer {
     }
 
     /**
-     * @return the unlockShop
-     */
-    public JButton getUnlockShop() {
-        return unlockShop;
-    }
-
-    /**
-     * @param unlockShop the unlockShop to set
-     */
-    public void setUnlockShop(JButton unlockShop) {
-        this.unlockShop = unlockShop;
-    }
-
-    /**
      * @return the advance
      */
     public JButton getAdvance() {
@@ -1115,23 +1034,10 @@ public class View extends JPanel implements Observer {
     }
 
     /**
-     * @return the mainMenu
-     */
-    public JButton getMainMenu() {
-        return mainMenu;
-    }
-
-    /**
-     * @return the highScoresButton
-     */
-    public JButton getHighScoresButton() {
-        return highScoresButton;
-    }
-
-    /**
      * @return the loadButtons
      */
     public JButton[] getLoadButtons() {
         return loadButtons;
+
     }
 }
