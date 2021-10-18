@@ -186,36 +186,21 @@ public class View extends JPanel implements Observer {
     }
 
     /**
-     * Updates the JLabels displaying field information.
+     * Updates the default field display.
      *
-     * Updates the displayed field to correctly display the contents of the
-     * models field and sets a border to indicate if a plant is watered and if a
-     * plant is pollinated.
+     * The default field displays information from the players field. Calling
+     * this method updates this field to show any changed information in the
+     * player field.
      *
-     * @param plants
-     * @param water
-     * @param pollin
+     * If a plant is fully watered gives the panel a blue border. If a plant is
+     * to be pollinated gives the panel a yellow border
+     *
+     * @param plants a String[][] of plants in the player field.
+     * @param water a boolean[][] of if a plant has been fully watered.
+     * @param pollin a boolean[][] of if a plant will be pollinated.
      */
     public void updateField(String[][] plants, Boolean[][] water, Boolean[][] pollin) {
-
-        for (int i = 0; i < 3; i++) {
-            for (int j = 0; j < 3; j++) {
-                //Updates defaultField labels to display the correct plant
-                this.getFieldLabels()[i][j].setText(plants[i][j]);
-                //If a plant is watered and pollinated display a mixed line
-                if (water[i][j] && pollin[i][j]) {
-                    this.getFieldLabels()[i][j].setBorder(mixedLine);
-                } else if (water[i][j]) {
-                    this.getFieldLabels()[i][j].setBorder(blueLine);
-                } else if (pollin[i][j]) {
-
-                    this.getFieldLabels()[i][j].setBorder(yellowLine);
-                } else {
-                    //A plant has no border if no condition is met.
-                    this.getFieldLabels()[i][j].setBorder(null);
-                }
-            }
-        }
+        this.defaultField.updateField(plants, water, pollin);
     }
 
     /**
