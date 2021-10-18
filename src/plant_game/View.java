@@ -124,7 +124,7 @@ public class View extends JPanel implements Observer {
 
         //Adds a warning to the new game display.
         this.ViewNewGame.add(this.startWarning, BorderLayout.NORTH);
-
+        getStartView().setLayout(getStartCard());
         //Inital load up display "a"
         this.getStartView().add("a", this.viewOptions);
         //After load game is pressed while in start up "b"
