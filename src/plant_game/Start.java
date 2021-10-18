@@ -17,7 +17,7 @@ public class Start {
 
     public static void main(String[] args) {
         try {
-            System.out.println("Dooogg");
+
             View view = new View();
             Model model = new Model();
             model.addObserver(view); // Build connection between the view and the model.

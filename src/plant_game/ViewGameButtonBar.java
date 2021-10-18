@@ -6,6 +6,7 @@
 package plant_game;
 
 import java.awt.event.ActionListener;
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JPanel;
 
@@ -19,18 +20,27 @@ public class ViewGameButtonBar extends JPanel {
     //Holds the main game options such as plant water and pick buttons.
     private JPanel gameOptions = new JPanel();
 
-    private JButton plant = new JButton("Plant");
-    private JButton water = new JButton("Water");
-    private JButton pick = new JButton("Pick");
-    private JButton nextDay = new JButton("Next Day");
-    private JButton information = new JButton("Information");
-    private JButton save = new JButton("Save");
-    private JButton unlockShop = new JButton("Shop");
+    private JButton plant;
+    private JButton water;
+    private JButton pick;
+    private JButton nextDay;
+    private JButton information;
+    private JButton save;
+    private JButton unlockShop;
     private JButton mainMenu = new JButton("Main Menu");
-    private JButton highScoresButton = new JButton("Highscores");
+    private JButton highScoresButton;
+    private ButtonImages buttonImages = new ButtonImages();
 
     public ViewGameButtonBar() {
 
+        plant = new JButton("Plant", new ImageIcon(buttonImages.getPlant()));
+        water = new JButton("Water", new ImageIcon(buttonImages.getWater()));
+        pick = new JButton("Pick", new ImageIcon(buttonImages.getPick()));
+        nextDay = new JButton("Next Day", new ImageIcon(buttonImages.getNextDay()));
+        information = new JButton("Information", new ImageIcon(buttonImages.getInfo()));
+        unlockShop = new JButton("Information", new ImageIcon(buttonImages.getShop()));
+        save = new JButton("Save", new ImageIcon(buttonImages.getSave()));
+        highScoresButton = new JButton("Highscores",new ImageIcon(buttonImages.getScore()));
         //Adds the different game buttons to the main game bar.
         this.gameOptions.add(this.plant);
         this.gameOptions.add(this.water);

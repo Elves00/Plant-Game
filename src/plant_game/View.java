@@ -25,7 +25,7 @@ import javax.swing.border.Border;
 /**
  * The view contains all the display components of the GUI.
  *
- * This view is primarly concerend with displaying the information of the plant
+ * This view is primarily concerend with displaying the information of the plant
  * game.
  *
  *
@@ -36,8 +36,8 @@ public class View extends JPanel implements Observer {
     //Model view is observing
     private Model plantGameModel;
 
-    private static JLabel warning = new JLabel("", SwingConstants.CENTER);
-//    private JLabel warningStartMenu = new JLabel("", SwingConstants.CENTER);
+    private JLabel warning = new JLabel("", SwingConstants.CENTER);
+    private JLabel startWarning = new JLabel("", SwingConstants.CENTER);
     private JPanel bottomPanel = new JPanel(new BorderLayout());
 
     //Highlight for water full and pollinating.
@@ -60,18 +60,18 @@ public class View extends JPanel implements Observer {
     private JPanel optionsPanel = new JPanel(new BorderLayout());
 
     //New game option
-    private JPanel newGamePanel = new JPanel(new BorderLayout());
-    private JPanel newGameSouth = new JPanel();
+    private ViewNewGame ViewNewGame = new ViewNewGame();
+//    private JPanel newGameSouth = new JPanel();
     //Area for inputing user information
-    private JTextField username = new JTextField(20);
-    private JButton submit = new JButton("Submit");
+//    private JTextField username = new JTextField(20);
+//    private JButton submit = new JButton("Submit");
 
     //Panel which holds the three game loading options
     private JPanel startView = new JPanel();
     private JPanel startupPanel = new JPanel();
     //Label which holds the game title.
     private JLabel gameTitle = new JLabel("The Plant Game", SwingConstants.CENTER);
-    private JLabel enterUsername = new JLabel("Enter your username", SwingConstants.CENTER);
+//    private JLabel enterUsername = new JLabel("Enter your username", SwingConstants.CENTER);
     private JLabel selectLoad = new JLabel("Select game to load", SwingConstants.CENTER);
     private JButton newGame = new JButton("New Game");
     private JButton previousGame = new JButton("Previous Game");
@@ -160,14 +160,15 @@ public class View extends JPanel implements Observer {
         Font fancy = new Font("verdana", Font.BOLD | Font.ITALIC, 28);
         //Set components in the start panel to match font.
         this.gameTitle.setFont(fancy);
-        this.enterUsername.setFont(fancy);
+//        this.enterUsername.setFont(fancy);
         this.selectLoad.setFont(fancy);
         //username text field and submision button to new game panel.
-        this.newGameSouth.add(this.getUsername());
-        this.newGameSouth.add(this.getSubmit());
-        this.newGamePanel.add(this.enterUsername, BorderLayout.CENTER);
-        this.newGamePanel.add(this.newGameSouth, BorderLayout.SOUTH);
-        this.newGamePanel.add(this.warning, BorderLayout.NORTH);
+//        this.newGameSouth.add(this.getUsername());
+//        this.newGameSouth.add(this.getSubmit());
+//        this.newGamePanel.add(this.enterUsername, BorderLayout.CENTER);
+//        this.newGamePanel.add(this.newGameSouth, BorderLayout.SOUTH);
+//        this.newGamePanel.add(this.startWarning, BorderLayout.NORTH);
+        this.ViewNewGame.add(this.startWarning, BorderLayout.NORTH);
 
         //Panel for options buttons
         this.optionsPanel.add(gameTitle, BorderLayout.CENTER);
@@ -192,7 +193,7 @@ public class View extends JPanel implements Observer {
 
         this.getStartView().add("a", this.optionsPanel);
         this.getStartView().add("b", this.loadGamePanel);
-        this.getStartView().add("c", this.newGamePanel);
+        this.getStartView().add("c", this.ViewNewGame);
 
     }
 
@@ -213,7 +214,8 @@ public class View extends JPanel implements Observer {
         }
 
         //Button lisitners for options related to the first plant game view displayed on game launch
-        this.submit.addActionListener(actionListener);
+//        this.submit.addActionListener(actionListener);
+        this.ViewNewGame.addActionListener(actionListener);
         this.newGame.addActionListener(actionListener);
         this.previousGame.addActionListener(actionListener);
         this.loadGame.addActionListener(actionListener);
@@ -439,7 +441,7 @@ public class View extends JPanel implements Observer {
      */
     public void updateWarningMessage(String warning) {
         this.getWarning().setText(warning);
-
+        this.startWarning.setText(warning);
     }
 
     /**
@@ -608,14 +610,14 @@ public class View extends JPanel implements Observer {
      * @return the submit
      */
     public JButton getSubmit() {
-        return submit;
+        return this.ViewNewGame.getSubmit();
     }
 
     /**
      * @return the username
      */
     public JTextField getUsername() {
-        return username;
+        return this.ViewNewGame.getUsername();
     }
 
     /**

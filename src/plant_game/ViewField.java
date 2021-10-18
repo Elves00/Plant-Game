@@ -38,6 +38,7 @@ public class ViewField extends JPanel {
 
     /**
      * Adds mouseListener to all field labels.
+     *
      * @param mouseListener
      */
     @Override
