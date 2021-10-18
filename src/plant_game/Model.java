@@ -77,7 +77,7 @@ public class Model extends Observable {
      */
     protected void newGame(String name) throws MoneyException, FileNotFoundException {
         setPlayer(new Player(name));
-        data = modelSave.newGame(name, data, getPlayer());
+        data = modelSave.newGame(name, data);
 
     }
 
@@ -116,7 +116,7 @@ public class Model extends Observable {
         setShop(new PlantSelection());
         setUnlocks(new UnlockShop());
 
-        this.modelSave.newGame(data, getShop(), getUnlocks());
+        this.modelSave.VewNewGame(data, getShop(), getUnlocks());
 
     }
 

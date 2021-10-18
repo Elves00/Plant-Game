@@ -58,11 +58,11 @@ public class View extends JPanel implements Observer {
     private ViewHighScorePanel endHighScore = new ViewHighScorePanel(new JButton("Continue"));
 
     //Main view to be displayed once a game has been selected
-    private JPanel mainView = new JPanel();
+    private JPanel mainView = new JPanel(new BorderLayout());
     //Displays a players stats such as energy and money
     private JLabel mainPlayerHeader = new JLabel("", SwingConstants.CENTER);
     //Holds 3 panels containg views which can be displayed in the centre of the main view.
-    private JPanel mainFieldCard;
+    private JPanel mainFieldCard = new JPanel(new CardLayout());
     //Displays a view of the players field
     private ViewField defaultField = new ViewField();
     //A panel to positon button panel on the bottom of the main view.
@@ -88,7 +88,7 @@ public class View extends JPanel implements Observer {
 
     public View() {
 
-        //Sets the panel layou to a card layout
+        //Sets the panel layout to a card layout to allowing swapping between main and start views and the end game view.
         this.setLayout(this.mainCard);
 
         //Adds the start view to card position a
@@ -96,31 +96,28 @@ public class View extends JPanel implements Observer {
 
         //Adds the main view to card position b
         this.add("b", this.mainView);
+        //Adds the forced end game highscore display to the views.
+        this.add("c", this.endHighScore);
 
-        //Sets the main view to have a border layout.
-        this.mainView.setLayout(new BorderLayout());
-
+        //Establishs the unlock buttons to be displayed in the main game view.
         this.establishUnlockButtons();
-
-        //Sets up the plant shop buttons
+        //Establishs the plant buttons to be displayed in the main game view.
         this.establishPlantButtons();
 
+        //Add warning displays to the southPanel to display incorect inputs.
         this.mainSouthPanel.add(this.warning, BorderLayout.NORTH);
+        //Adds all buttons associated with the main view to the southpanel.
         this.mainSouthPanel.add(this.buttonPanel, BorderLayout.SOUTH);
-
+        //Adds the warning and buttons to the bottom of the main view.
         this.mainView.add(this.mainSouthPanel, BorderLayout.SOUTH);
-
+        //Adds player infromation to the top of the main view.
         this.mainView.add(this.mainPlayerHeader, BorderLayout.NORTH);
-
-        this.mainFieldCard = new JPanel(new CardLayout());
 
         this.mainFieldCard.add("a", this.defaultField);
         this.mainFieldCard.add("b", this.informationField);
         this.mainFieldCard.add("c", this.highScoreField);
         //Adds the mainView to the panel
         this.mainView.add(this.mainFieldCard, BorderLayout.CENTER);
-
-        this.add("c", this.endHighScore);
 
         //Adds a warning to the new game display.
         this.ViewNewGame.add(this.startWarning, BorderLayout.NORTH);
@@ -157,16 +154,11 @@ public class View extends JPanel implements Observer {
      * @param actionListener
      */
     public void addActionListener(ActionListener actionListener) {
-        //Main plant game button lisiteners
-
         getButtonPanel().addActionListener(actionListener);
         this.viewLoadGame.addActionListener(actionListener);
         this.ViewNewGame.addActionListener(actionListener);
         this.viewOptions.addActionListener(actionListener);
-
-//        this.highScoreField.addActionListener(actionListener);
         this.endHighScore.addActionListener(actionListener);
-
     }
 
     /**
@@ -228,7 +220,6 @@ public class View extends JPanel implements Observer {
      */
     private void updateInformationDisplay(String[] infoArray) {
         informationField.updateInformationDisplay(infoArray);
-
     }
 
     /**
@@ -245,10 +236,8 @@ public class View extends JPanel implements Observer {
      * @param shopText
      */
     private void updateShop(int shopSize, String[] shopText) {
-
         //Update button panels shop  
         this.getButtonPanel().updateShop(shopSize, shopText);
-
     }
 
     /**
@@ -358,7 +347,6 @@ public class View extends JPanel implements Observer {
      * @param scores array of player scores
      */
     public void updateScore(String[] names, int[] scores) {
-
         this.highScoreField.updateScore(names, scores);
         this.endHighScore.updateScore(names, scores);
     }

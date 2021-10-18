@@ -12,6 +12,8 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 /**
+ * This class controlls the methods associated with saving and loading the model
+ * from the jdbc database.
  *
  * @author breco
  */
@@ -19,45 +21,56 @@ public class Modelsave extends Observable {
 
     private final DBManager manager;
 
+    //The main components of the model
+    //A plant game model has a player shop and unlocks which controll the flow of the game.
     private Player player;
     private PlantSelection shop;
     private UnlockShop unlocks;
 
+    //Search terms for loading information from the data base.
     private final String[] searchTerm = new String[]{"Information", "Plants", "Plant a Plant", "Pick Plant", "Water", "Next Day", "Unlock", "Save Game"};
 
+    /**
+     * establish the database manager for this model
+     *
+     * @param manager a DBManager.
+     */
     public Modelsave(DBManager manager) {
         this.manager = manager;
     }
 
     /**
-     * Creates a new game using a user generated name to establish player and
-     * new files.Creates a new player using the file managers newPlayer option
-     * and provides a helpful start up message for a new player
+     * Updates data to reflect information needed to view a new game.
      *
+     * Uses data from the data class to start a new game along with a plant
+     * selection and unlock shop. This information is the used by the database
+     * manager to load scores before notifying observers of data changes.
      *
      * @param data
-     * @param plantselection
-     * @param unlock
+     * @param plantselection plant selection of the current model.
+     * @param unlock unlock shop of the current model.
      * @return
      * @throws MoneyException
      * @throws FileNotFoundException
      */
-    protected Data newGame(Data data, PlantSelection plantselection, UnlockShop unlock) throws MoneyException, FileNotFoundException {
-
+    protected Data VewNewGame(Data data, PlantSelection plantselection, UnlockShop unlock) throws MoneyException, FileNotFoundException {
+        //Updates the shop and unlocks to match input.
         shop = plantselection;
         unlocks = unlock;
 
-        //New game is selected
+        //New game starting
         data.setNewGame(true);
 
-        //Loads the scores table to data to display in the view.
+        //Loads the scores table to data.
         data = manager.loadScores(data);
 
+        //Notify data changes
         setChanged();
         notifyObservers(data);
+        //new game finished
         data.setCheckScores(false);
 
-        System.out.println(data.isNewGame());
+        //Return the modified data.
         return data;
 
     }
@@ -65,13 +78,23 @@ public class Modelsave extends Observable {
     /**
      * Creates a new game with a player containing the inputted name.
      *
-     * @param name
+     * Takes in a players name and sets up a new player with that name. Then
+     * updates database with information of the new player. Creates a new shop
+     * and unlock and updates the database.
+     *
+     * Notifys the view of the changes to the data class afterwards.
+     *
+     * Special casses the inputed name is to long or triggers the special case.
+     * In both scenarios a new game is not created and instead data is changed
+     * to reflect the error and observers are notified.
+     *
+     * @param name Name of the player
      * @param data
      * @param player
      * @throws MoneyException
      * @throws FileNotFoundException
      */
-    protected Data newGame(String name, Data data, Player player) throws MoneyException, FileNotFoundException {
+    protected Data newGame(String name, Data data) throws MoneyException, FileNotFoundException {
 
         //This name is a special case used to reserve plant game slots.
         if (name.equals("uGaTL@V%yiW3")) {
