@@ -15,12 +15,12 @@ import javax.swing.JTextArea;
  *
  * @author breco
  */
-public class ViewInformationPanelArea extends JPanel {
+public class ViewInformation extends JPanel {
 
     private final JScrollPane infoScroller;
     private final JTextArea infoArea = new JTextArea();
 
-    public ViewInformationPanelArea() {
+    public ViewInformation() {
         super();
         this.setLayout(new BorderLayout());
         //Disables user from editing text.

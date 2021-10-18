@@ -105,7 +105,7 @@ public class Controller extends JFrame implements ActionListener, MouseListener 
                 this.model.viewInitalField();
                 this.view.getMainCard().show(this.view, "b");
                 //return view to start card
-                this.view.getCards().show(this.view.getStartView(), "a");
+                this.view.getStartCard().show(this.view.getStartView(), "a");
                 this.pack();
 
             } catch (MoneyException | FileNotFoundException ex) {
@@ -125,12 +125,12 @@ public class Controller extends JFrame implements ActionListener, MouseListener 
                 this.model.viewInitalField();
                 this.pack();
                 //return view to start card
-                this.view.getCards().show(this.view.getStartView(), "a");
+                this.view.getStartCard().show(this.view.getStartView(), "a");
             }
         }
         if (sourceA == view.getLoadGameBack()) {
             //return view to start card
-            this.view.getCards().show(this.view.getStartView(), "a");
+            this.view.getStartCard().show(this.view.getStartView(), "a");
         }
         //loads the previous saved game.
         if (sourceA == view.getPreviousGame()) {
@@ -175,13 +175,13 @@ public class Controller extends JFrame implements ActionListener, MouseListener 
         //Highscores
         if (sourceA == view.getButtonPanel().getGameButtonBar().getHighScoresButton()) {
             this.view.getCard().show(this.view.getButtonPanel(), "h");
-            this.view.getCardField().show(this.view.getFieldCard(), "c");
+            this.view.getFieldCard().show(this.view.getMainFieldCard(), "c");
             this.view.getAdvance().setVisible(false);
         }
         //Highscore back
         if (sourceA == view.getButtonPanel().getHighScoreBack()) {
             this.view.getCard().show(this.view.getButtonPanel(), "a");
-            this.view.getCardField().show(this.view.getFieldCard(), "a");
+            this.view.getFieldCard().show(this.view.getMainFieldCard(), "a");
             this.view.getAdvance().setVisible(true);
         }
         //Watering
@@ -271,13 +271,13 @@ public class Controller extends JFrame implements ActionListener, MouseListener 
         }
         //Information
         if (sourceA == view.getButtonPanel().getGameButtonBar().getInformation()) {
-            this.view.getCardField().show(this.view.getFieldCard(), "b");
+            this.view.getFieldCard().show(this.view.getMainFieldCard(), "b");
             this.view.getCard().show(this.view.getButtonPanel(), "g");
         }
         //Send back to main menu
         if (sourceA == view.getButtonPanel().getInfoBack()) {
 
-            this.view.getCardField().show(this.view.getFieldCard(), "a");
+            this.view.getFieldCard().show(this.view.getMainFieldCard(), "a");
             this.view.getCard().show(this.view.getButtonPanel(), "a");
         }
         //Display information
@@ -291,7 +291,7 @@ public class Controller extends JFrame implements ActionListener, MouseListener 
         if (sourceA == view.getAdvance()) {
 
             this.view.getMainCard().show(this.view, "a");
-            this.view.getCards().show(this.view.getStartView(), "a");
+            this.view.getStartCard().show(this.view.getStartView(), "a");
             this.view.updateListener(this);
         }
 

@@ -25,7 +25,7 @@ import javax.swing.border.Border;
 /**
  * The view contains all the display components of the GUI.
  *
- * This view is primarly concerend with displaying the information of the plant
+ * This view is primarily concerend with displaying the information of the plant
  * game.
  *
  *
@@ -34,65 +34,57 @@ import javax.swing.border.Border;
 public class View extends JPanel implements Observer {
 
     //Model view is observing
-    private Model plantGameModel;
+//    private Model plantGameModel;
+    //The first panel to be displayed. Displays information for when game is first loaded.
+    private JPanel startView = new JPanel();
 
-    private static JLabel warning = new JLabel("", SwingConstants.CENTER);
-//    private JLabel warningStartMenu = new JLabel("", SwingConstants.CENTER);
-    private JPanel bottomPanel = new JPanel(new BorderLayout());
+    /* The 3 panels of the start view display information for when the game is first loaded or isn't
+    in the main running phase.
+    
+    New game is displayed when a player selects to start a new game.
+    Options is displayed when a player has not selected to load/go to previous or start a new game
+    Load game is displayed when a player selects to load a game  */
+    private ViewNewGame ViewNewGame = new ViewNewGame();
+    private ViewOptions viewOptions = new ViewOptions();
+    private ViewLoadGame viewLoadGame = new ViewLoadGame();
 
-    //Highlight for water full and pollinating.
-    //Create borders to highlight when plants are watered or pollinated
+    //Labels to display warning messages when a bad input is made
+    private JLabel warning = new JLabel("", SwingConstants.CENTER);
+    private JLabel startWarning = new JLabel("", SwingConstants.CENTER);
+
+    //High score panel to be displayed when a player selects the highscore button
+    private ViewHighScorePanel highScoreField = new ViewHighScorePanel();
+    //High score panel to be displayed when a game ends and is forced to view highscores
+    private ViewHighScorePanel endHighScore = new ViewHighScorePanel(new JButton("Continue"));
+
+    //Main view to be displayed once a game has been selected
+    private JPanel mainView = new JPanel();
+    //Displays a players stats such as energy and money
+    private JLabel mainPlayerHeader = new JLabel("", SwingConstants.CENTER);
+    //Holds 3 panels containg views which can be displayed in the centre of the main view.
+    private JPanel mainFieldCard;
+    //Displays a view of the players field
+    private ViewField defaultField = new ViewField();
+    //A panel to positon button panel on the bottom of the main view.
+    private JPanel mainSouthPanel = new JPanel(new BorderLayout());
+
+    // Holds most buttons associated with the main south panel.
+    private ViewButtonPanel buttonPanel = new ViewButtonPanel();
+
+    //Holds and updates information displayed by the information button
+    private ViewInformation informationField = new ViewInformation();
+
+    //Swaps what is displayed in the startup display
+    private CardLayout startCard = new CardLayout();
+    //Swaps between the start up view and the main view
+    private CardLayout mainCard = new CardLayout();
+    //Swaps the what is displayed in the centre of the mainView (The field)
+    private CardLayout fieldCard = new CardLayout();
+
+    //Various borders that get
     private Border blueLine = BorderFactory.createLineBorder(Color.blue);
     private Border yellowLine = BorderFactory.createLineBorder(Color.yellow);
     private Border mixedLine = BorderFactory.createCompoundBorder(blueLine, yellowLine);
-
-    //Main view componets field and player header.
-    private JPanel mainView = new JPanel();
-    private JLabel playerHeader = new JLabel("", SwingConstants.CENTER);
-    private ViewField field = new ViewField();
-
-    //Displays different views in the area occupied by the field.
-    private JPanel fieldCard;
-
-    //Holds and updates information displayed by the information button
-    private ViewInformationPanelArea infoAreaPanel = new ViewInformationPanelArea();
-
-    private JPanel optionsPanel = new JPanel(new BorderLayout());
-
-    //New game option
-    private JPanel newGamePanel = new JPanel(new BorderLayout());
-    private JPanel newGameSouth = new JPanel();
-    //Area for inputing user information
-    private JTextField username = new JTextField(20);
-    private JButton submit = new JButton("Submit");
-
-    //Panel which holds the three game loading options
-    private JPanel startView = new JPanel();
-    private JPanel startupPanel = new JPanel();
-    //Label which holds the game title.
-    private JLabel gameTitle = new JLabel("The Plant Game", SwingConstants.CENTER);
-    private JLabel enterUsername = new JLabel("Enter your username", SwingConstants.CENTER);
-    private JLabel selectLoad = new JLabel("Select game to load", SwingConstants.CENTER);
-    private JButton newGame = new JButton("New Game");
-    private JButton previousGame = new JButton("Previous Game");
-    private JButton loadGame = new JButton("Load Game");
-    //Load game option
-    private JPanel loadGamePanel = new JPanel(new BorderLayout());
-    private JPanel loadGamePanelArange = new JPanel();
-    private JButton[] loadButtons = new JButton[5];
-
-    private ViewHighScorePanel highScorePanel = new ViewHighScorePanel();
-    private ViewHighScorePanel endHighScorePanel = new ViewHighScorePanel(new JButton("Continue"));
-
-    private JButton loadGameBack = new JButton("Back");
-    // Controlls the main games buttons panels 
-    private ViewButtonPanel buttonPanel = new ViewButtonPanel();
-
-    //Card layouts used by the various JPanels.
-    private CardLayout cards;
-    private CardLayout mainCard = new CardLayout();
-    private CardLayout card = new CardLayout();
-    private CardLayout cardField = new CardLayout();
 
     public View() {
 
@@ -113,24 +105,32 @@ public class View extends JPanel implements Observer {
         //Sets up the plant shop buttons
         this.establishPlantButtons();
 
-        this.bottomPanel.add(this.warning, BorderLayout.NORTH);
-        this.bottomPanel.add(this.buttonPanel, BorderLayout.SOUTH);
+        this.mainSouthPanel.add(this.warning, BorderLayout.NORTH);
+        this.mainSouthPanel.add(this.buttonPanel, BorderLayout.SOUTH);
 
-        this.mainView.add(this.bottomPanel, BorderLayout.SOUTH);
+        this.mainView.add(this.mainSouthPanel, BorderLayout.SOUTH);
 
-        this.mainView.add(this.playerHeader, BorderLayout.NORTH);
+        this.mainView.add(this.mainPlayerHeader, BorderLayout.NORTH);
 
-        this.fieldCard = new JPanel(getCardField());
+        this.mainFieldCard = new JPanel(new CardLayout());
 
-        this.fieldCard.add("a", this.field);
-        this.fieldCard.add("b", this.infoAreaPanel);
-        this.fieldCard.add("c", this.highScorePanel);
+        this.mainFieldCard.add("a", this.defaultField);
+        this.mainFieldCard.add("b", this.informationField);
+        this.mainFieldCard.add("c", this.highScoreField);
         //Adds the mainView to the panel
-        this.mainView.add(this.fieldCard, BorderLayout.CENTER);
+        this.mainView.add(this.mainFieldCard, BorderLayout.CENTER);
 
-        this.add("c", this.endHighScorePanel);
-        //Adds details to the start panel
-        plantGameStart();
+        this.add("c", this.endHighScore);
+
+        //Adds a warning to the new game display.
+        this.ViewNewGame.add(this.startWarning, BorderLayout.NORTH);
+        getStartView().setLayout(getStartCard());
+        //Inital load up display "a"
+        this.getStartView().add("a", this.viewOptions);
+        //After load game is pressed while in start up "b"
+        this.getStartView().add("b", this.viewLoadGame);
+        //After new game is pressed while in start up "c"
+        this.getStartView().add("c", this.ViewNewGame);
 
     }
 
@@ -151,51 +151,6 @@ public class View extends JPanel implements Observer {
         this.getButtonPanel().establishUnlockButtons();
     }
 
-    public void plantGameStart() {
-
-        setCards(new CardLayout());
-        getStartView().setLayout(getCards());
-
-        //Sets up a fancy title.
-        Font fancy = new Font("verdana", Font.BOLD | Font.ITALIC, 28);
-        //Set components in the start panel to match font.
-        this.gameTitle.setFont(fancy);
-        this.enterUsername.setFont(fancy);
-        this.selectLoad.setFont(fancy);
-        //username text field and submision button to new game panel.
-        this.newGameSouth.add(this.getUsername());
-        this.newGameSouth.add(this.getSubmit());
-        this.newGamePanel.add(this.enterUsername, BorderLayout.CENTER);
-        this.newGamePanel.add(this.newGameSouth, BorderLayout.SOUTH);
-        this.newGamePanel.add(this.warning, BorderLayout.NORTH);
-
-        //Panel for options buttons
-        this.optionsPanel.add(gameTitle, BorderLayout.CENTER);
-        this.startupPanel.add(getNewGame());
-        this.startupPanel.add(getPreviousGame());
-        this.startupPanel.add(getLoadGame());
-        this.optionsPanel.add(startupPanel, BorderLayout.SOUTH);
-
-        //Set up 5 load game buttons 
-        for (int i = 0; i < 5; i++) {
-            this.loadButtons[i] = new JButton("" + i);
-        }
-        //Adds them to a panel arranging them ina  line.
-        for (JButton load : getLoadButtons()) {
-            this.loadGamePanelArange.add(load);
-        }
-
-        this.loadGamePanelArange.add(this.loadGameBack);
-        //Adds the panel to the centre display of the load game panely.
-        loadGamePanel.add(loadGamePanelArange, BorderLayout.SOUTH);
-        loadGamePanel.add(this.selectLoad, BorderLayout.CENTER);
-
-        this.getStartView().add("a", this.optionsPanel);
-        this.getStartView().add("b", this.loadGamePanel);
-        this.getStartView().add("c", this.newGamePanel);
-
-    }
-
     /**
      * Adds actionListener to all buttons within the plant game
      *
@@ -205,29 +160,20 @@ public class View extends JPanel implements Observer {
         //Main plant game button lisiteners
 
         getButtonPanel().addActionListener(actionListener);
-        getLoadGameBack().addActionListener(actionListener);
+        this.viewLoadGame.addActionListener(actionListener);
+        this.ViewNewGame.addActionListener(actionListener);
+        this.viewOptions.addActionListener(actionListener);
 
-        //Action listeners for laod game buttons.
-        for (JButton loadButton : getLoadButtons()) {
-            loadButton.addActionListener(actionListener);
-        }
-
-        //Button lisitners for options related to the first plant game view displayed on game launch
-        this.submit.addActionListener(actionListener);
-        this.newGame.addActionListener(actionListener);
-        this.previousGame.addActionListener(actionListener);
-        this.loadGame.addActionListener(actionListener);
-
-//        this.highScorePanel.addActionListener(actionListener);
-        this.endHighScorePanel.addActionListener(actionListener);
+//        this.highScoreField.addActionListener(actionListener);
+        this.endHighScore.addActionListener(actionListener);
 
     }
 
     /**
-     * Adds mouseListener to all field labels.
+     * Adds mouseListener to all defaultField labels.
      */
     public void addMouseListener(MouseListener mouseListener) {
-        field.addMouseListener(mouseListener);
+        defaultField.addMouseListener(mouseListener);
     }
 
     /**
@@ -236,7 +182,7 @@ public class View extends JPanel implements Observer {
      * @param playerHeader
      */
     public void updatePlayer(String playerHeader) {
-        this.playerHeader.setText(playerHeader);
+        this.mainPlayerHeader.setText(playerHeader);
     }
 
     /**
@@ -254,7 +200,7 @@ public class View extends JPanel implements Observer {
 
         for (int i = 0; i < 3; i++) {
             for (int j = 0; j < 3; j++) {
-                //Updates field labels to display the correct plant
+                //Updates defaultField labels to display the correct plant
                 this.getFieldLabels()[i][j].setText(plants[i][j]);
                 //If a plant is watered and pollinated display a mixed line
                 if (water[i][j] && pollin[i][j]) {
@@ -296,7 +242,7 @@ public class View extends JPanel implements Observer {
      * @param infoArray
      */
     private void updateInformationDisplay(String[] infoArray) {
-        infoAreaPanel.updateInformationDisplay(infoArray);
+        informationField.updateInformationDisplay(infoArray);
 
     }
 
@@ -343,9 +289,9 @@ public class View extends JPanel implements Observer {
      */
     public void setLoadText(String[] saves) {
         for (int i = 0; i < 5; i++) {
-            this.loadButtons[i].setText(saves[i]);
+            this.viewLoadGame.getLoadButtons()[i].setText(saves[i]);
         }
-        this.getCards().show(this.getStartView(), "b");
+        this.getStartCard().show(this.getStartView(), "b");
     }
 
     /**
@@ -355,7 +301,7 @@ public class View extends JPanel implements Observer {
      */
     public void setLoadGameVisibility(boolean[] visible) {
         for (int i = 0; i < 5; i++) {
-            this.loadButtons[i].setVisible(visible[i]);
+            this.viewLoadGame.getLoadButtons()[i].setVisible(visible[i]);
         }
     }
 
@@ -428,8 +374,8 @@ public class View extends JPanel implements Observer {
      */
     public void updateScore(String[] names, int[] scores) {
 
-        this.highScorePanel.updateScore(names, scores);
-        this.endHighScorePanel.updateScore(names, scores);
+        this.highScoreField.updateScore(names, scores);
+        this.endHighScore.updateScore(names, scores);
     }
 
     /**
@@ -439,7 +385,7 @@ public class View extends JPanel implements Observer {
      */
     public void updateWarningMessage(String warning) {
         this.getWarning().setText(warning);
-
+        this.startWarning.setText(warning);
     }
 
     /**
@@ -466,19 +412,19 @@ public class View extends JPanel implements Observer {
         }
 
         if (!data.isPreviousGame()) {
-            this.previousGame.setVisible(data.isPreviousGame());
+            this.viewOptions.getPreviousGame().setVisible(data.isPreviousGame());
         } else {
-            this.previousGame.setVisible(data.isPreviousGame());
+            this.viewOptions.getPreviousGame().setVisible(data.isPreviousGame());
         }
 
         //Checks if the game is in the start panel with options to load game, new game and previous game
         if (data.isStart() == true) {
             //Show starting panel
-            this.getCards().show(this.getStartView(), "a");
+            this.getStartCard().show(this.getStartView(), "a");
 
             //show new game panel
             if (data.isNewGame() == true) {
-                this.getCards().show(this.getStartView(), "c");
+                this.getStartCard().show(this.getStartView(), "c");
             } //Display the load game options
             else if (data.isLoadGame() == true) {
                 setLoadText(data.getLoadText());
@@ -535,45 +481,31 @@ public class View extends JPanel implements Observer {
     }
 
     /**
-     * @return the plantGameModel
-     */
-    public Model getPlantGameModel() {
-        return plantGameModel;
-    }
-
-    /**
-     * @return the field
+     * @return the defaultField
      */
     public JPanel getField() {
-        return field;
+        return defaultField;
     }
 
     /**
      * @return the fieldLabels
      */
     public JLabel[][] getFieldLabels() {
-        return this.field.getFieldLabels();
+        return this.defaultField.getFieldLabels();
     }
 
     /**
-     * @param plantGameModel the plantGameModel to set
+     * @return the mainFieldCard
      */
-    public void setPlantGameModel(Model plantGameModel) {
-        this.plantGameModel = plantGameModel;
+    public JPanel getMainFieldCard() {
+        return mainFieldCard;
     }
 
     /**
      * @return the fieldCard
      */
-    public JPanel getFieldCard() {
+    public CardLayout getFieldCard() {
         return fieldCard;
-    }
-
-    /**
-     * @return the cardField
-     */
-    public CardLayout getCardField() {
-        return cardField;
     }
 
     /**
@@ -587,35 +519,35 @@ public class View extends JPanel implements Observer {
      * @return the newGame
      */
     public JButton getNewGame() {
-        return newGame;
+        return this.viewOptions.getNewGame();
     }
 
     /**
      * @return the previousGame
      */
     public JButton getPreviousGame() {
-        return previousGame;
+        return this.viewOptions.getPreviousGame();
     }
 
     /**
      * @return the loadGame
      */
     public JButton getLoadGame() {
-        return loadGame;
+        return this.viewOptions.getLoadGame();
     }
 
     /**
      * @return the submit
      */
     public JButton getSubmit() {
-        return submit;
+        return this.ViewNewGame.getSubmit();
     }
 
     /**
      * @return the username
      */
     public JTextField getUsername() {
-        return username;
+        return this.ViewNewGame.getUsername();
     }
 
     /**
@@ -640,31 +572,31 @@ public class View extends JPanel implements Observer {
     }
 
     /**
-     * @return the cards
+     * @return the startCard
      */
-    public CardLayout getCards() {
-        return cards;
+    public CardLayout getStartCard() {
+        return startCard;
     }
 
     /**
-     * @param cards the cards to set
+     * @param startCard the startCard to set
      */
-    public void setCards(CardLayout cards) {
-        this.cards = cards;
+    public void setStartCard(CardLayout startCard) {
+        this.startCard = startCard;
     }
 
     /**
      * @return the advance
      */
     public JButton getAdvance() {
-        return this.endHighScorePanel.getAdvance();
+        return this.endHighScore.getAdvance();
     }
 
     /**
      * @return the loadButtons
      */
     public JButton[] getLoadButtons() {
-        return loadButtons;
+        return this.viewLoadGame.getLoadButtons();
 
     }
 
@@ -679,14 +611,14 @@ public class View extends JPanel implements Observer {
      * @return the loadGameBack
      */
     public JButton getLoadGameBack() {
-        return loadGameBack;
+        return this.viewLoadGame.getLoadGameBack();
     }
 
     /**
      * @param loadGameBack the loadGameBack to set
      */
     public void setLoadGameBack(JButton loadGameBack) {
-        this.loadGameBack = loadGameBack;
+        this.viewLoadGame.setLoadGameBack(loadGameBack);
     }
 
     /**

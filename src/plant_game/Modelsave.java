@@ -84,6 +84,15 @@ public class Modelsave extends Observable {
             //Throws an error to be caught elsewhere
             throw new IllegalArgumentException("Bad username");
 
+        } else if (name.length() > 20) {
+            //set up a warning and send to data
+            data.setWarning("Username is to long please select a name with 20 characters or less");
+            data.setWarningCheck(true);
+            setChanged();
+            notifyObservers(data);
+            //Throws an error to be caught elsewhere
+            throw new IllegalArgumentException("Bad username");
+
         } else {
             //Set up the player
             this.player = player;

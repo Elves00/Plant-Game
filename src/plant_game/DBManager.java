@@ -570,7 +570,9 @@ public final class DBManager {
         try {
             String sql = "update Player set playerName=? ,money=? , energy =? , day= ? , score =?  where slot=?";
             PreparedStatement preparedStatement = conn.prepareStatement(sql);
+
             preparedStatement.setString(1, data.getPlayerName());
+
             preparedStatement.setFloat(2, data.getMoney());
             preparedStatement.setInt(3, data.getEnergy());
             preparedStatement.setInt(4, data.getDay());
