@@ -57,25 +57,20 @@ public class View extends JPanel implements Observer {
     //Holds and updates information displayed by the information button
     private ViewInformationPanelArea infoAreaPanel = new ViewInformationPanelArea();
 
-    private JPanel optionsPanel = new JPanel(new BorderLayout());
-
+//    private JPanel optionsPanel = new JPanel(new BorderLayout());
     //New game option
     private ViewNewGame ViewNewGame = new ViewNewGame();
-//    private JPanel newGameSouth = new JPanel();
-    //Area for inputing user information
-//    private JTextField username = new JTextField(20);
-//    private JButton submit = new JButton("Submit");
+
+    private ViewOptions viewOptions = new ViewOptions();
 
     //Panel which holds the three game loading options
     private JPanel startView = new JPanel();
-    private JPanel startupPanel = new JPanel();
+
     //Label which holds the game title.
     private JLabel gameTitle = new JLabel("The Plant Game", SwingConstants.CENTER);
 //    private JLabel enterUsername = new JLabel("Enter your username", SwingConstants.CENTER);
     private JLabel selectLoad = new JLabel("Select game to load", SwingConstants.CENTER);
-    private JButton newGame = new JButton("New Game");
-    private JButton previousGame = new JButton("Previous Game");
-    private JButton loadGame = new JButton("Load Game");
+
     //Load game option
     private JPanel loadGamePanel = new JPanel(new BorderLayout());
     private JPanel loadGamePanelArange = new JPanel();
@@ -160,23 +155,18 @@ public class View extends JPanel implements Observer {
         Font fancy = new Font("verdana", Font.BOLD | Font.ITALIC, 28);
         //Set components in the start panel to match font.
         this.gameTitle.setFont(fancy);
-//        this.enterUsername.setFont(fancy);
+
         this.selectLoad.setFont(fancy);
-        //username text field and submision button to new game panel.
-//        this.newGameSouth.add(this.getUsername());
-//        this.newGameSouth.add(this.getSubmit());
-//        this.newGamePanel.add(this.enterUsername, BorderLayout.CENTER);
-//        this.newGamePanel.add(this.newGameSouth, BorderLayout.SOUTH);
-//        this.newGamePanel.add(this.startWarning, BorderLayout.NORTH);
+
+        //Add a warning to the new game screen to display bad username input
         this.ViewNewGame.add(this.startWarning, BorderLayout.NORTH);
 
         //Panel for options buttons
-        this.optionsPanel.add(gameTitle, BorderLayout.CENTER);
-        this.startupPanel.add(getNewGame());
-        this.startupPanel.add(getPreviousGame());
-        this.startupPanel.add(getLoadGame());
-        this.optionsPanel.add(startupPanel, BorderLayout.SOUTH);
-
+//        this.optionsPanel.add(gameTitle, BorderLayout.CENTER);
+//        this.startupPanel.add(getNewGame());
+//        this.startupPanel.add(getPreviousGame());
+//        this.startupPanel.add(getLoadGame());
+//        this.optionsPanel.add(startupPanel, BorderLayout.SOUTH);
         //Set up 5 load game buttons 
         for (int i = 0; i < 5; i++) {
             this.loadButtons[i] = new JButton("" + i);
@@ -191,7 +181,7 @@ public class View extends JPanel implements Observer {
         loadGamePanel.add(loadGamePanelArange, BorderLayout.SOUTH);
         loadGamePanel.add(this.selectLoad, BorderLayout.CENTER);
 
-        this.getStartView().add("a", this.optionsPanel);
+        this.getStartView().add("a", this.viewOptions);
         this.getStartView().add("b", this.loadGamePanel);
         this.getStartView().add("c", this.ViewNewGame);
 
@@ -216,9 +206,7 @@ public class View extends JPanel implements Observer {
         //Button lisitners for options related to the first plant game view displayed on game launch
 //        this.submit.addActionListener(actionListener);
         this.ViewNewGame.addActionListener(actionListener);
-        this.newGame.addActionListener(actionListener);
-        this.previousGame.addActionListener(actionListener);
-        this.loadGame.addActionListener(actionListener);
+        this.viewOptions.addActionListener(actionListener);
 
 //        this.highScorePanel.addActionListener(actionListener);
         this.endHighScorePanel.addActionListener(actionListener);
@@ -468,9 +456,9 @@ public class View extends JPanel implements Observer {
         }
 
         if (!data.isPreviousGame()) {
-            this.previousGame.setVisible(data.isPreviousGame());
+            this.viewOptions.getPreviousGame().setVisible(data.isPreviousGame());
         } else {
-            this.previousGame.setVisible(data.isPreviousGame());
+            this.viewOptions.getPreviousGame().setVisible(data.isPreviousGame());
         }
 
         //Checks if the game is in the start panel with options to load game, new game and previous game
@@ -589,21 +577,21 @@ public class View extends JPanel implements Observer {
      * @return the newGame
      */
     public JButton getNewGame() {
-        return newGame;
+        return this.viewOptions.getNewGame();
     }
 
     /**
      * @return the previousGame
      */
     public JButton getPreviousGame() {
-        return previousGame;
+        return this.viewOptions.getPreviousGame();
     }
 
     /**
      * @return the loadGame
      */
     public JButton getLoadGame() {
-        return loadGame;
+        return this.viewOptions.getLoadGame();
     }
 
     /**
