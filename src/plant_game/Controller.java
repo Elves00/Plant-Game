@@ -15,6 +15,7 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.JButton;
 import javax.swing.JFrame;
 
 /**
@@ -84,215 +85,235 @@ public class Controller extends JFrame implements ActionListener, MouseListener 
         Object sourceA = e.getSource();
         System.out.println(e.getActionCommand());
 
-        //Switch case not used as multiple buttons have changing text.
-        //Creates a new game shifting the view to the jtext field for creating a new player
-        if (sourceA == view.getNewGame()) {
-
-            try {
-                this.model.newGame();
-            } catch (MoneyException ex) {
-                Logger.getLogger(Controller.class.getName()).log(Level.SEVERE, null, ex);
-            } catch (FileNotFoundException ex) {
-                Logger.getLogger(Controller.class.getName()).log(Level.SEVERE, null, ex);
+        //Switch case is used where aplicable but some cannot be accessed via switch case due to chaning text.
+        String action = e.getActionCommand();
+        switch (action) {
+            case "New Game": {
+                //Creates a new game shifting the view to the jtext field for creating a new player
+                try {
+                    this.model.newGame();
+                } catch (MoneyException ex) {
+                    Logger.getLogger(Controller.class.getName()).log(Level.SEVERE, null, ex);
+                } catch (FileNotFoundException ex) {
+                    Logger.getLogger(Controller.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            }
+            break;
+            case "Submit": {
+                try {
+                    //Gets text from the text field and creates a new player using the inputed text
+                    this.model.newGame(view.getUsername().getText());
+                } catch (MoneyException ex) {
+                    Logger.getLogger(Controller.class.getName()).log(Level.SEVERE, null, ex);
+                } catch (FileNotFoundException ex) {
+                    Logger.getLogger(Controller.class.getName()).log(Level.SEVERE, null, ex);
+                }
             }
 
-        }
-        //Gets text from the text field and creates a new player using the inputed text
-        if (sourceA == view.getSubmit()) {
-            try {
-                this.model.newGame(view.getUsername().getText());
-
-                this.model.viewInitalField();
-                this.view.getMainCard().show(this.view, "b");
-                //return view to start card
-                this.view.getStartCard().show(this.view.getStartView(), "a");
-                this.pack();
-
-            } catch (MoneyException | FileNotFoundException ex) {
-                Logger.getLogger(Controller.class.getName()).log(Level.SEVERE, null, ex);
-            } catch (IllegalArgumentException ie) {
-
-            }
-        }
-        //If pressed opens the load game view showing 5 updateSaveText slots to load from
-        if (sourceA == view.getLoadGame()) {
-            this.model.viewLoadGame();
-        }
-        //Checks all load buttons for actions preformed.
-        for (int i = 0; i < 5; i++) {
-            if (sourceA == view.getLoadButtons()[i]) {
-                this.model.loadGame(i);
-                this.model.viewInitalField();
-                this.pack();
-                //return view to start card
-                this.view.getStartCard().show(this.view.getStartView(), "a");
-            }
-        }
-        if (sourceA == view.getLoadGameBack()) {
-            //return view to start card
-            this.view.getStartCard().show(this.view.getStartView(), "a");
-        }
-        //loads the previous saved game.
-        if (sourceA == view.getPreviousGame()) {
-            this.model.previousGame();
             this.model.viewInitalField();
             this.view.getMainCard().show(this.view, "b");
+            //return view to start card
+            this.view.getStartCard().show(this.view.getStartView(), "a");
             this.pack();
-        }
-        //Player is planting a plant in the field
-        if (sourceA == view.getButtonPanel().getGameButtonBar().getPlant()) {
 
-            //Swtich view to the selection of plants available to plant
-            this.view.getCard().show(this.view.getButtonPanel(), "b");
+            break;
 
-        }
-        //Checks which plant has been selected to plant in the field
-        for (int i = 0; i < PlantSet.values().length; i++) {
-            if (sourceA == view.getButtonPanel().getPlantingButtons()[i]) {
-                //Sets the plant to be planted and sets the planting condition to true.
-                //This means if a user presses in the field it will plant this plant.
-                plantToPlant = i + 1;
-                planting = true;
+            case "Load Game":
+                //If pressed opens the load game view showing 5 updateSaveText slots to load from
+                this.model.viewLoadGame();
+
                 break;
+            case "Back":
+                if (sourceA == view.getLoadGameBack()) {
+                    //return view to start card
+                    this.view.getStartCard().show(this.view.getStartView(), "a");
+                }
+                //Highscore back
+                if (sourceA == view.getButtonPanel().getHighScoreBack()) {
+                    this.view.getCard().show(this.view.getButtonPanel(), "a");
+                    this.view.getFieldCard().show(this.view.getMainFieldCard(), "a");
+                    this.view.getAdvance().setVisible(true);
+                }
+                //Returns the user to the main card and disables planting
+                if (sourceA == view.getButtonPanel().getPlantBack()) {
+                    //Swtich view to the selection of plants available to plant
+                    this.view.getCard().show(this.view.getButtonPanel(), "a");
+                    planting = false;
 
-            }
-        }
-        //Returns the user to the main card and disables planting
-        if (sourceA == view.getButtonPanel().getPlantBack()) {
-            //Swtich view to the selection of plants available to plant
-            this.view.getCard().show(this.view.getButtonPanel(), "a");
-            planting = false;
+                }
+                //Returns the user to the main card and disables watering
+                if (sourceA == view.getButtonPanel().getWaterBack()) {
+                    this.view.getCard().show(this.view.getButtonPanel(), "a");
+                    watering = false;
 
-        }
-        //Return to the load screen.
-        if (sourceA == view.getButtonPanel().getGameButtonBar().getMainMenu()) {
-            this.model.mainMenu();
-            this.view.updateListener(this);
-            //show the main menu
-            this.view.getMainCard().show(this.view, "a");
+                }
+                //Returns the user to the main card and disables picking
+                if (sourceA == view.getButtonPanel().getPickBack()) {
+                    this.view.getCard().show(this.view.getButtonPanel(), "a");
+                    picking = false;
+                    this.model.viewInitalField();
+                }
+                //Returns the user to the main card from the updateSaveText view
+                if (sourceA == view.getButtonPanel().getSaveBack()) {
 
-        }
-        //Highscores
-        if (sourceA == view.getButtonPanel().getGameButtonBar().getHighScoresButton()) {
-            this.view.getCard().show(this.view.getButtonPanel(), "h");
-            this.view.getFieldCard().show(this.view.getMainFieldCard(), "c");
-            this.view.getAdvance().setVisible(false);
-        }
-        //Highscore back
-        if (sourceA == view.getButtonPanel().getHighScoreBack()) {
-            this.view.getCard().show(this.view.getButtonPanel(), "a");
-            this.view.getFieldCard().show(this.view.getMainFieldCard(), "a");
-            this.view.getAdvance().setVisible(true);
-        }
-        //Watering
-        if (sourceA == view.getButtonPanel().getGameButtonBar().getWater()) {
-            //sets water condition to true.
-            this.view.getCard().show(this.view.getButtonPanel(), "c");
-            watering = true;
-        }
-        //Returns the user to the main card and disables watering
-        if (sourceA == view.getButtonPanel().getWaterBack()) {
-            this.view.getCard().show(this.view.getButtonPanel(), "a");
-            watering = false;
+                    this.view.getCard().show(this.view.getButtonPanel(), "a");
 
-        }
-        //picking
-        if (sourceA == view.getButtonPanel().getGameButtonBar().getPick()) {
-            this.model.viewPick();
-            this.view.getCard().show(this.view.getButtonPanel(), "d");
-            //sets picking condition to true.
-            picking = true;
-        }
-        //Returns the user to the main card and disables picking
-        if (sourceA == view.getButtonPanel().getPickBack()) {
-            this.view.getCard().show(this.view.getButtonPanel(), "a");
-            picking = false;
-            this.model.viewInitalField();
-        }
-        //Progress the game to the next day.
-        //This is where the end game condition occurs as next day will eventually output a money exception.
-        if (sourceA == view.getButtonPanel().getGameButtonBar().getNextDay()) {
+                }
+                //Send back to main menu
+                if (sourceA == view.getButtonPanel().getInfoBack()) {
+
+                    this.view.getFieldCard().show(this.view.getMainFieldCard(), "a");
+                    this.view.getCard().show(this.view.getButtonPanel(), "a");
+                }
+                if (sourceA == view.getButtonPanel().getUnlockBack()) {
+                    //Switchs the view back to the main button panel
+                    this.view.getCard().show(this.view.getButtonPanel(), "a");
+
+                }
+
+                break;
+            case "Previous Game":
+                //loads the previous saved game.
+
+                this.model.previousGame();
+                this.model.viewInitalField();
+                this.view.getMainCard().show(this.view, "b");
+                this.pack();
+
+                break;
+            case "Plant":
+                //Player is planting a plant in the field
+                //Swtich view to the selection of plants available to plant
+                this.view.getCard().show(this.view.getButtonPanel(), "b");
+                break;
+            case "Main Menu":
+                //Return to the start view.
+                this.model.mainMenu();
+                this.view.updateListener(this);
+                //show the main menu
+                this.view.getMainCard().show(this.view, "a");
+
+                break;
+            case "Highscores":
+                //Highscores
+
+                this.view.getCard().show(this.view.getButtonPanel(), "h");
+                this.view.getFieldCard().show(this.view.getMainFieldCard(), "c");
+                this.view.getAdvance().setVisible(false);
+
+                break;
+            case "Water":
+                //Watering
+                //sets water condition to true.
+                this.view.getCard().show(this.view.getButtonPanel(), "c");
+                watering = true;
+                break;
+            case "Pick":
+
+                //picking
+                this.model.viewPick();
+                this.view.getCard().show(this.view.getButtonPanel(), "d");
+                //sets picking condition to true.
+                picking = true;
+
+                break;
+            case "Next Day":
+                //Progress the game to the next day.
+                //This is where the end game condition occurs as next day will eventually output a money exception.
+      
             try {
                 this.model.nextDay();
             } catch (IOException ex) {
                 Logger.getLogger(Controller.class.getName()).log(Level.SEVERE, null, ex);
+
             }
-        }
 
-        //Save view
-        if (sourceA == view.getButtonPanel().getGameButtonBar().getSave()) {
+            break;
+            case "Save":   //Save view
 
-            this.model.viewSave();
-            this.view.getCard().show(this.view.getButtonPanel(), "e");
+                this.model.viewSave();
+                this.view.getCard().show(this.view.getButtonPanel(), "e");
 
-        }
-        //Checks which updateSaveText button was inputed and actions it.
-        for (int i = 0; i < 5; i++) {
-            if (sourceA == view.getButtonPanel().getSaveSlot()[i]) {
-
-                this.model.save(i + 1);
                 break;
+            case "Unlock":
+                //UNLOCKS
+                model.viewUnlock();
+                this.view.getCard().show(this.view.getButtonPanel(), "f");
 
-            }
-        }
+                break;
+            case "Information":
 
-        //Returns the user to the main card from the updateSaveText view
-        if (sourceA == view.getButtonPanel().getSaveBack()) {
+                this.view.getFieldCard().show(this.view.getMainFieldCard(), "b");
+                this.view.getCard().show(this.view.getButtonPanel(), "g");
 
-            this.view.getCard().show(this.view.getButtonPanel(), "a");
+                break;
+            case "Advance":
+                //Send the game back to the load game screen
 
-        }
-        //UNLOCKS
-        if (sourceA == view.getButtonPanel().getGameButtonBar().getUnlockShop()) {
-            model.viewUnlock();
-            this.view.getCard().show(this.view.getButtonPanel(), "f");
+                this.view.getMainCard().show(this.view, "a");
+                this.view.getStartCard().show(this.view.getStartView(), "a");
+                this.view.updateListener(this);
 
-        }
-
-        /*Checks if the source was the unlock back button if not checks if it was from within the unlock slot
-          Set up this way to avoid treating the back button as an unlock button since it is also within the unlock slot array.
-         */
-        if (sourceA == view.getButtonPanel().getUnlockBack()) {
-            //Switchs the view back to the main button panel
-            this.view.getCard().show(this.view.getButtonPanel(), "a");
-
-        } else {
-            //Cycle through all unlcok buttons.
-            for (int i = 0; i < view.getButtonPanel().getUnlockSlot().length; i++) {
-
-                if (sourceA == view.getButtonPanel().getUnlockSlot()[i]) {
-                    //unlock the selected plant
-                    this.model.unlock(i + 1);
-                    //Re adds action listiener as it gets removed in view during unlock
-                    this.view.getButtonPanel().getPlantingButtons()[this.model.getShop().size() - 1].addActionListener(this);
-                    break;
+                break;
+            case "Info Button":
+                //Display information
+                for (int i = 0; i < 8; i++) {
+                    if (sourceA == view.getButtonPanel().getInfoSlot()[i]) {
+                        this.model.getInfo(i);
+                        break;
+                    }
                 }
-            }
-        }
-        //Information
-        if (sourceA == view.getButtonPanel().getGameButtonBar().getInformation()) {
-            this.view.getFieldCard().show(this.view.getMainFieldCard(), "b");
-            this.view.getCard().show(this.view.getButtonPanel(), "g");
-        }
-        //Send back to main menu
-        if (sourceA == view.getButtonPanel().getInfoBack()) {
-
-            this.view.getFieldCard().show(this.view.getMainFieldCard(), "a");
-            this.view.getCard().show(this.view.getButtonPanel(), "a");
-        }
-        //Display information
-        for (int i = 0; i < 8; i++) {
-            if (sourceA == view.getButtonPanel().getInfoSlot()[i]) {
-                this.model.getInfo(i);
                 break;
-            }
-        }
-        //Send the game back to the load game screen
-        if (sourceA == view.getAdvance()) {
+            case "Load Button":
+                //Checks all load buttons for actions preformed.
+                for (int i = 0; i < 5; i++) {
+                    if (sourceA == view.getLoadButtons()[i]) {
+                        this.model.loadGame(i);
+                        this.model.viewInitalField();
+                        this.pack();
+                        //return view to start card
+                        this.view.getStartCard().show(this.view.getStartView(), "a");
+                    }
+                }
+                break;
+            case "Save Button":
+                //Checks which updateSaveText button was inputed and actions it.
+                for (int i = 0; i < 5; i++) {
+                    if (sourceA == view.getButtonPanel().getSaveSlot()[i]) {
 
-            this.view.getMainCard().show(this.view, "a");
-            this.view.getStartCard().show(this.view.getStartView(), "a");
-            this.view.updateListener(this);
+                        this.model.save(i + 1);
+                        break;
+
+                    }
+                }
+                break;
+            case "Unlock Button":
+                //Cycle through all unlcok buttons.
+                for (int i = 0; i < view.getButtonPanel().getUnlockSlot().length; i++) {
+
+                    if (sourceA == view.getButtonPanel().getUnlockSlot()[i]) {
+                        //unlock the selected plant
+                        this.model.unlock(i + 1);
+                        //Re adds action listiener as it gets removed in view during unlock
+                        this.view.getButtonPanel().getPlantingButtons()[this.model.getShop().size() - 1].addActionListener(this);
+                        break;
+                    }
+                }
+                break;
+            case "Planting Button":
+                //Checks which plant has been selected to plant in the field
+                for (int i = 0; i < PlantSet.values().length; i++) {
+                    if (sourceA == view.getButtonPanel().getPlantingButtons()[i] && !action.equals("Back")) {
+
+                        //Sets the plant to be planted and sets the planting condition to true.
+                        //This means if a user presses in the field it will plant this plant.
+                        plantToPlant = i + 1;
+                        planting = true;
+                        break;
+
+                    }
+                }
+                break;
         }
 
     }
@@ -303,6 +324,7 @@ public class Controller extends JFrame implements ActionListener, MouseListener 
         for (int i = 0; i < 3; i++) {
             for (int j = 0; j < 3; j++) {
                 if (sourceA == this.view.getFieldLabels()[i][j]) {
+                    System.out.println(planting + " " + watering + " " + picking);
                     if (planting) {
                         try {
                             //Plant a plant at row i collumn j
