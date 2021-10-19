@@ -16,7 +16,7 @@ import java.util.StringTokenizer;
  *
  * @author breco
  */
-abstract class Plant implements ToFile {
+abstract class Plant implements ToData {
 
     private String name;
     //Sets the amount of time required between each growth stage
@@ -121,7 +121,7 @@ abstract class Plant implements ToFile {
      *
      * @return A formated string to store information about plant to a file
      */
-    public String toFile() {
+    public String toData() {
 
         String details = "";
         details = details + getGrowTime() + " " + getTimePlanted() + " " + getValue() + " " + getGrowCounter() + " " + getGrowth() + " " + getWaterLimit() + " " + getWaterCount() + " " + getPrice() + " " + isPollinator() + " " + isPollinated();

@@ -15,7 +15,7 @@ import java.util.StringTokenizer;
  *
  * @author breco
  */
-public class PlantSelection implements ToFile {
+public class PlantSelection implements ToData {
 
     private HashMap<Integer, Plant> plants;
 
@@ -186,7 +186,7 @@ public class PlantSelection implements ToFile {
      * @return A string of all plants currently within shop.
      */
     @Override
-    public String toFile() {
+    public String toData() {
         String tofile = "";
 
         for (int i = 0; i < getPlants().size(); i++) {

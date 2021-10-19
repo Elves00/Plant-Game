@@ -386,7 +386,7 @@ public final class PlantField {
         String fieldContent = "";
         for (int i = 0; i < ARRAY_LENGTH; i++) {
             for (int j = 0; j < ARRAY_LENGTH; j++) {
-                fieldContent = fieldContent + getPlantArray()[i][j].toFile() + " ";
+                fieldContent = fieldContent + getPlantArray()[i][j].toData() + " ";
             }
             croops[i] = fieldContent;
 

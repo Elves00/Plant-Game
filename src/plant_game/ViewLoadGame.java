@@ -52,10 +52,18 @@ public class ViewLoadGame extends JPanel {
     }
 
     /**
-     * @param loadGameBack the loadGameBack to set
+     * Set text of load game buttons based on string input.
+     *
+     *
+     * @param saves String[] containing name for all buttons.
      */
-    public void setLoadGameBack(JButton loadGameBack) {
-        this.loadGameBack = loadGameBack;
+    public void setLoadText(String[] saves, boolean[] visible) {
+        for (int i = 0; i < 5; i++) {
+            this.getLoadButtons()[i].setText(saves[i]);
+            this.getLoadButtons()[i].setVisible(visible[i]);
+            this.getLoadButtons()[i].setActionCommand("Load Button");
+        }
+
     }
 
     public void addActionListener(ActionListener actionListener) {
@@ -64,7 +72,16 @@ public class ViewLoadGame extends JPanel {
         for (JButton loadButton : getLoadButtons()) {
             loadButton.addActionListener(actionListener);
             loadButton.setActionCommand("Load Button");
+
         }
+
+    }
+
+    /**
+     * @param loadGameBack the loadGameBack to set
+     */
+    public void setLoadGameBack(JButton loadGameBack) {
+        this.loadGameBack = loadGameBack;
     }
 
     /**

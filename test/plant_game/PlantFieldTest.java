@@ -245,7 +245,7 @@ public class PlantFieldTest {
         System.out.println("setAllPlantStatus");
         ArrayList<String> details = new ArrayList<>();
         for (int i = 0; i < 9; i++) {
-            details.add(new Dirt().toFile());
+            details.add(new Dirt().toData());
         }
 
         PlantField instance = new PlantField();
@@ -272,7 +272,7 @@ public class PlantFieldTest {
         String[][] details = new String[3][3];
         for (int i = 0; i < 3; i++) {
             for (int j = 0; j < 3; j++) {
-                details[i][j] = new Dirt().toFile();
+                details[i][j] = new Dirt().toData();
             }
         }
         PlantField instance = new PlantField();
@@ -292,7 +292,7 @@ public class PlantFieldTest {
         PlantField instance = new PlantField();
         instance.newPlant(plant, x, y);
 
-        assertEquals(new Saffron().toFile(), instance.getPlant(x, y).toFile());
+        assertEquals(new Saffron().toData(), instance.getPlant(x, y).toData());
 
     }
 
@@ -307,7 +307,7 @@ public class PlantFieldTest {
         PlantField instance = new PlantField();
         Plant expResult = new Dirt();
         Plant result = instance.getPlant(x, y);
-        assertEquals(expResult.toFile(), result.toFile());
+        assertEquals(expResult.toData(), result.toData());
 
     }
 
@@ -323,8 +323,8 @@ public class PlantFieldTest {
         String[][] expected = new String[3][3];
         for (int i = 0; i < 3; i++) {
             for (int j = 0; j < 3; j++) {
-                actuals[i][j] = instance.getPlant(i, j).toFile();
-                expected[i][j] = new Dirt().toFile();
+                actuals[i][j] = instance.getPlant(i, j).toData();
+                expected[i][j] = new Dirt().toData();
             }
         }
         assertArrayEquals(expected, actuals);
@@ -411,7 +411,7 @@ public class PlantFieldTest {
         instance.water(x, y);
         Plant broco = new Broccoli();
         broco.water();
-        assertEquals(instance.getPlant(x, y).toFile(), broco.toFile());
+        assertEquals(instance.getPlant(x, y).toData(), broco.toData());
 
         //Just checking it doesnt break when things are out of bounds
         instance.water(-1, y);
@@ -450,12 +450,12 @@ public class PlantFieldTest {
         result = instance.pickPlant(x, y);
         assertEquals(expResult, result);
 
-        assertEquals(new Truffle().toFile(), instance.getPlant(x, y).toFile());
+        assertEquals(new Truffle().toData(), instance.getPlant(x, y).toData());
 
     }
 
     /**
-     * Test of toFile method, of class PlantField.
+     * Test of toData method, of class PlantField.
      */
     @Test
     public void testToFile() {

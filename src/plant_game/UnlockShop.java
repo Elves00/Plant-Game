@@ -17,7 +17,7 @@ import java.util.StringTokenizer;
  *
  * @author breco
  */
-public class UnlockShop extends Observable implements ToFile {
+public class UnlockShop extends Observable implements ToData {
 
     private int truffles;
     private int tulip;
@@ -167,7 +167,7 @@ public class UnlockShop extends Observable implements ToFile {
      * @return A string of all unlocks currently available to the player
      */
     @Override
-    public String toFile() {
+    public String toData() {
         String tofile = "";
         for (int i = 0; i < view.size(); i++) {
             tofile += view.get(i).toString() + " ";

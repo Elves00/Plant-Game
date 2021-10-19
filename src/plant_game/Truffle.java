@@ -84,7 +84,6 @@ public class Truffle extends Plant {
         setGrowth(0);
         setTimePlanted(0);
         return this;
-//        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
     /**
@@ -94,7 +93,6 @@ public class Truffle extends Plant {
      */
     @Override
     public boolean hasOverride() {
-//        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
         return true;
     }
 

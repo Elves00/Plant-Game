@@ -53,7 +53,7 @@ public class PlantSelectionTest {
         instance.unlock(toUnlock);
         
         try {
-            Assert.assertEquals("Plant unlocked", instance.getPlant(3).toFile(), new Saffron().toFile());
+            Assert.assertEquals("Plant unlocked", instance.getPlant(3).toData(), new Saffron().toData());
         } catch (InstantiationException | IllegalAccessException ex) {
             Logger.getLogger(PlantSelectionTest.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -119,7 +119,7 @@ public class PlantSelectionTest {
         PlantSelection instance = new PlantSelection();
         Plant expResult = new Broccoli();
         Plant result = instance.getPlant(x);
-        assertEquals("Test 1", expResult.toFile(), result.toFile());
+        assertEquals("Test 1", expResult.toData(), result.toData());
 
         //Index to small expecte null
         expResult = null;
@@ -180,21 +180,21 @@ public class PlantSelectionTest {
     }
 
     /**
-     * Test of toFile method, of class PlantSelection.
+     * Test of toData method, of class PlantSelection.
      */
     @Test
     public void testToFile() {
         System.out.println("toFile");
         PlantSelection instance = new PlantSelection();
         String expResult = "broccoli cabbage carrot ";
-        String result = instance.toFile();
+        String result = instance.toData();
         assertEquals("Test 1", expResult, result);
         
         instance.unlock(new Truffle());
 
         //To file with a new plant
         expResult = "broccoli cabbage carrot truffle ";
-        result = instance.toFile();
+        result = instance.toData();
         assertEquals("Test 2", expResult, result);
         
     }

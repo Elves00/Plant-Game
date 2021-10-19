@@ -245,7 +245,7 @@ public class Controller extends JFrame implements ActionListener, MouseListener 
                 this.view.getCard().show(this.view.getButtonPanel(), "g");
 
                 break;
-            case "Advance":
+            case "Continue":
                 //Send the game back to the load game screen
 
                 this.view.getMainCard().show(this.view, "a");

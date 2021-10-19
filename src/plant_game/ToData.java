@@ -6,11 +6,11 @@
 package plant_game;
 
 /**
- * Provides a to file option for compponets that need to be sent to file.
+ * An interface for classes which want to print to the database.
  *
  * @author breco
  */
-public interface ToFile {
+public interface ToData {
 
-    public String toFile();
+    public String toData();
 }
