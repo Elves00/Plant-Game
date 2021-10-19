@@ -114,8 +114,6 @@ public class Modelsave extends Observable {
             data.setWarningCheck(true);
             setChanged();
             notifyObservers(data);
-            //Throws an error to be caught elsewhere
-            throw new IllegalArgumentException("Bad username");
 
         } else {
             //Set up the player

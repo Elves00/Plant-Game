@@ -103,9 +103,7 @@ public class Controller extends JFrame implements ActionListener, MouseListener 
                 try {
                     //Gets text from the text field and creates a new player using the inputed text
                     this.model.newGame(view.getUsername().getText());
-                } catch (MoneyException ex) {
-                    Logger.getLogger(Controller.class.getName()).log(Level.SEVERE, null, ex);
-                } catch (FileNotFoundException ex) {
+                } catch (MoneyException | FileNotFoundException ex) {
                     Logger.getLogger(Controller.class.getName()).log(Level.SEVERE, null, ex);
                 }
             }
