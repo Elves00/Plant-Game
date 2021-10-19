@@ -16,11 +16,11 @@ import javax.swing.JPanel;
  * @author breco
  */
 public class ViewButtonPanel extends JPanel {
-    
+
     private JButton[] plantingButtons;
-    
+
     private JButton[] unlockSlot;
-    
+
     private JPanel loadGamePanel = new JPanel(new BorderLayout());
     private JPanel loadGamePanelArange = new JPanel();
     private JButton[] loadButtons = new JButton[5];
@@ -34,7 +34,7 @@ public class ViewButtonPanel extends JPanel {
     private JPanel unlockPanel = new JPanel();
     private JPanel infoPanel = new JPanel(new BorderLayout());
     private JPanel highScoreButtonPanel = new JPanel();
-    
+
     private JButton plantBack = new JButton("Back");
     private JButton waterBack = new JButton("Back");
     private JButton pickBack = new JButton("Back");
@@ -42,20 +42,20 @@ public class ViewButtonPanel extends JPanel {
     private JButton infoBack = new JButton("Back");
     private JButton saveBack = new JButton("Back");
     private JButton unlockBack = new JButton("Back");
-    
+
     private JButton[] saveSlot = new JButton[5];
 
     //String array of database search terms.
     private String[] searchTerm = new String[]{"Information", "plants", "Plant a Plant", "Pick Plant", "Water", "Next day", "Unlock", "Save game"};
-    
+
     private JButton[] infoSlot = new JButton[8];
     private JPanel infoAreaButtons = new JPanel();
-    
+
     private CardLayout card = new CardLayout();
-    
+
     public ViewButtonPanel() {
         super();
-        
+
         this.setLayout(card);
 
         //Adds 8 jbuttons to InfoAreaButtons to represent the different information choices.
@@ -105,7 +105,7 @@ public class ViewButtonPanel extends JPanel {
      * @param actionListener
      */
     public void addActionListener(ActionListener actionListener) {
-        
+
         getGameButtonBar().addActionListener(actionListener);
         getPlantBack().addActionListener(actionListener);
         getWaterBack().addActionListener(actionListener);
@@ -113,7 +113,7 @@ public class ViewButtonPanel extends JPanel {
         getUnlockBack().addActionListener(actionListener);
         getSaveBack().addActionListener(actionListener);
         getInfoBack().addActionListener(actionListener);
-        
+
         getHighScoreBack().addActionListener(actionListener);
         //Unlock listeners
         for (JButton unlockSlot1 : getUnlockSlot()) {
@@ -149,7 +149,7 @@ public class ViewButtonPanel extends JPanel {
             this.getPlantSelect().add(getPlantingButtons()[i]);
             this.plantingButtons[i].setActionCommand("Planting Button");
         }
-        
+
     }
 
     /**
@@ -207,7 +207,7 @@ public class ViewButtonPanel extends JPanel {
         for (JButton plantingButton : getPlantingButtons()) {
             plantingButton.addActionListener(actionListener);
         }
-        
+
     }
 
     /**
@@ -225,20 +225,20 @@ public class ViewButtonPanel extends JPanel {
         //Make other buttons invisible
         for (int i = unlockSize; i < getUnlockSlot().length; i++) {
             this.getUnlockSlot()[i].setVisible(false);
-            
+
         }
         //Redo button labels
         for (int i = 0; i < unlockSize; i++) {
             this.getUnlockSlot()[i].setText(unlockText[i]);
             this.getUnlockSlot()[i].setVisible(true);
             this.getUnlockSlot()[i].setActionCommand("Unlock Button");
-            
+
         }
         //Add back button to end
         this.unlockSlot[unlockSize] = this.getUnlockBack();
         this.getUnlockSlot()[unlockSize].setText("Back");
         this.getUnlockSlot()[unlockSize].setVisible(true);
-        
+
     }
 
     /**
@@ -270,7 +270,7 @@ public class ViewButtonPanel extends JPanel {
         //add the new jbutton and back button  to the plant select panel.
         this.getPlantSelect().add(this.getPlantingButtons()[shopSize - 1]);
         this.getPlantSelect().add(this.getPlantingButtons()[shopSize]);
-        
+
     }
 
     /**
@@ -292,12 +292,12 @@ public class ViewButtonPanel extends JPanel {
         for (int i = 0; i < 5; i++) {
             if (!saveText[i].equals("uGaTL@V%yiW3")) {
                 this.getSaveSlot()[i].setText(saveText[i]);
-                
+
             } else {
                 this.getSaveSlot()[i].setText("" + (i + 1));
             }
         }
-        
+
     }
 
     /**
@@ -309,7 +309,7 @@ public class ViewButtonPanel extends JPanel {
      * @param shopText
      */
     public void setShop(int plantSetSize, int shopSize, String[] shopText) {
-        
+
         for (String shopText1 : shopText) {
             System.out.println(shopText1);
         }
@@ -328,10 +328,10 @@ public class ViewButtonPanel extends JPanel {
                 this.plantingButtons[i] = new JButton();
                 this.getPlantingButtons()[i].setVisible(false);
                 this.getPlantSelect().add(this.getPlantingButtons()[i]);
-                
+
             }
         }
-        
+
         for (int i = 0; i < shopSize; i++) {
             //gets the associated button text from the players shop
             this.getPlantingButtons()[i].setText(shopText[i]);
@@ -342,7 +342,7 @@ public class ViewButtonPanel extends JPanel {
         this.getPlantingButtons()[shopSize] = this.getPlantBack();
         this.getPlantingButtons()[shopSize].setVisible(true);
         this.getPlantSelect().add(this.getPlantingButtons()[shopSize]);
-        
+
     }
 
     /**
@@ -359,7 +359,7 @@ public class ViewButtonPanel extends JPanel {
      * @param unlockText Text of each shop slot
      */
     public void setUnlockDisplay(int plantSetSize, int unlockSize, String[] unlockText) {
-        
+
         if (this.getUnlockSlot() == null) {
             //Unlocks initial length starts as the base set - 3 + 1 as you always start with 3 plants and we need one extra slot for the back button
             this.unlockSlot = new JButton[plantSetSize - 2];
@@ -368,7 +368,7 @@ public class ViewButtonPanel extends JPanel {
                 this.unlockSlot[i] = new JButton();
                 this.getUnlockSlot()[i].setVisible(false);
             }
-            
+
         }
 
         //Sets the text of each button inside the unlock slot to match the information passed to it then sets there visibility to true.
@@ -559,5 +559,5 @@ public class ViewButtonPanel extends JPanel {
     public JButton[] getLoadButtons() {
         return loadButtons;
     }
-    
+
 }
