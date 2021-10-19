@@ -353,7 +353,7 @@ public class View extends JPanel implements Observer {
     }
 
     /**
-     * Updates the class caused by changes in the observed model
+     * Updates the class based on data changes in the observed model
      *
      * @param o
      * @param arg
@@ -363,14 +363,25 @@ public class View extends JPanel implements Observer {
 
         Data data = (Data) arg;
 
-        //If the game has ended update score and reset the button texts
+        //Checks if the game has ended.
         if (data.isEndGame()) {
-            //score update
+            //Updates the games scores.
             updateScore(data.getNames(), data.getScores());
+            //Game is over reset shop and unlcok buttons
             resetButtons();
-
             this.mainCard.show(this, "c");
+        }
 
+        //Checks for any warning messages in the data and updates the warning labels acordingly
+        if (data.isWarningCheck()) {
+            this.updateWarningMessage(data.getWarning());
+        } else {
+            this.updateWarningMessage("");
+        }
+
+        //Can happen in both start view and main view
+        if (data.isSaveStart()) {
+            updateSaveText(data.getSaveText());
         }
 
         //Checks if the game is in the start panel with options to load game, new game and previous game
@@ -392,53 +403,47 @@ public class View extends JPanel implements Observer {
             }
         }
 
-        if (data.isMainMenu()) {
-            resetButtons();
-        }
-
         //The main game
         if (data.isMainGame() == true) {
             this.mainCard.show(this, "b");
             setShop(data.getPlantsetSize(), data.getShopSize(), data.getShopText());
         }
-
-        if (data.isFieldUpdate() == true) {
-            updateField(data.getViewPlants(), data.getWaterPlants(), data.getPollinatePlants());
-            updatePlayer(data.getPlayer());
-        }
+        //Sets shop display info
         if (data.isShopStart()) {
             this.setShop(data.getPlantsetSize(), data.getShopSize(), data.getShopText());
         }
+        //Sets unlock display info
         if (data.isUnlockStart()) {
             this.setUnlockDisplay(data.getPlantsetSize(), data.getUnlockSize(), data.getUnlockText());
         }
-
-        if (data.isShopUpdate()) {
-            this.updateShop(data.getShopSize(), data.getShopText());
-            updatePlayer(data.getPlayer());
-        }
+        //Updates unlock
         if (data.isUnlockUpdate()) {
             this.updateUnlock(data.getUnlockSize(), data.getUnlockText());
             updatePlayer(data.getPlayer());
         }
-        if (data.isSaveStart()) {
-
-            updateSaveText(data.getSaveText());
-        }
-
+        //Updates information display
         if (data.isInfoUpdate()) {
             this.updateInformationDisplay(data.getInfoText());
         }
-
-        if (data.isWarningCheck()) {
-            this.updateWarningMessage(data.getWarning());
-        } else {
-            this.updateWarningMessage("");
-        }
-
+        //Updates the scoreboard
         if (data.isCheckScores()) {
             updateScore(data.getNames(), data.getScores());
         }
+        //Checks for field updates
+        if (data.isFieldUpdate() == true) {
+            updateField(data.getViewPlants(), data.getWaterPlants(), data.getPollinatePlants());
+            updatePlayer(data.getPlayer());
+        }
+        //Updates the shop
+        if (data.isShopUpdate()) {
+            this.updateShop(data.getShopSize(), data.getShopText());
+            updatePlayer(data.getPlayer());
+        }
+        //Represents shifting to main menu. This means reseting the plant and unlcok buttons.
+        if (data.isMainMenu()) {
+            resetButtons();
+        }
+
     }
 
     /**
