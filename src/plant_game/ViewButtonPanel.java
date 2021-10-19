@@ -147,6 +147,7 @@ public class ViewButtonPanel extends JPanel {
             this.plantingButtons[i] = new JButton();
             this.getPlantingButtons()[i].setVisible(false);
             this.getPlantSelect().add(getPlantingButtons()[i]);
+            this.plantingButtons[i].setActionCommand("Planting Button");
         }
         
     }
@@ -161,6 +162,7 @@ public class ViewButtonPanel extends JPanel {
         for (int i = 0; i < PlantSet.values().length - 2; i++) {
             this.unlockSlot[i] = new JButton();
             this.getUnlockSlot()[i].setVisible(false);
+            this.unlockSlot[i].setActionCommand("Unlock Button");
         }
     }
 
@@ -229,6 +231,7 @@ public class ViewButtonPanel extends JPanel {
         for (int i = 0; i < unlockSize; i++) {
             this.getUnlockSlot()[i].setText(unlockText[i]);
             this.getUnlockSlot()[i].setVisible(true);
+            this.getUnlockSlot()[i].setActionCommand("Unlock Button");
             
         }
         //Add back button to end
@@ -257,6 +260,7 @@ public class ViewButtonPanel extends JPanel {
         this.plantingButtons[shopSize - 1] = new JButton();
         this.getPlantingButtons()[shopSize - 1].setText(shopText[shopSize - 1]);
         this.getPlantingButtons()[shopSize - 1].setVisible(true);
+        this.getPlantingButtons()[shopSize - 1].setActionCommand("Planting Button");
 
         //Add back button to end of planting buttons
         this.plantingButtons[shopSize] = this.getPlantBack();
