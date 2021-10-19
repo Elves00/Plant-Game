@@ -165,6 +165,11 @@ public class Controller extends JFrame implements ActionListener, MouseListener 
                     this.view.getFieldCard().show(this.view.getMainFieldCard(), "a");
                     this.view.getCard().show(this.view.getButtonPanel(), "a");
                 }
+                if (sourceA == view.getButtonPanel().getUnlockBack()) {
+                    //Switchs the view back to the main button panel
+                    this.view.getCard().show(this.view.getButtonPanel(), "a");
+
+                }
 
                 break;
             case "Previous Game":
@@ -272,44 +277,43 @@ public class Controller extends JFrame implements ActionListener, MouseListener 
                 }
                 break;
             case "Save Button":
+                //Checks which updateSaveText button was inputed and actions it.
                 for (int i = 0; i < 5; i++) {
-                    this.saveSlot[i] = new JButton();
+                    if (sourceA == view.getButtonPanel().getSaveSlot()[i]) {
+
+                        this.model.save(i + 1);
+                        break;
+
+                    }
                 }
                 break;
-        }
+            case "Unlock Button":
+                //Cycle through all unlcok buttons.
+                for (int i = 0; i < view.getButtonPanel().getUnlockSlot().length; i++) {
 
-        //Checks which plant has been selected to plant in the field
-        for (int i = 0; i < PlantSet.values().length; i++) {
-            if (sourceA == view.getButtonPanel().getPlantingButtons()[i] && !action.equals("Back")) {
-
-                //Sets the plant to be planted and sets the planting condition to true.
-                //This means if a user presses in the field it will plant this plant.
-                plantToPlant = i + 1;
-                planting = true;
-                break;
-
-            }
-        }
-
-        /*Checks if the source was the unlock back button if not checks if it was from within the unlock slot
-          Set up this way to avoid treating the back button as an unlock button since it is also within the unlock slot array.
-         */
-        if (sourceA == view.getButtonPanel().getUnlockBack()) {
-            //Switchs the view back to the main button panel
-            this.view.getCard().show(this.view.getButtonPanel(), "a");
-
-        } else {
-            //Cycle through all unlcok buttons.
-            for (int i = 0; i < view.getButtonPanel().getUnlockSlot().length; i++) {
-
-                if (sourceA == view.getButtonPanel().getUnlockSlot()[i]) {
-                    //unlock the selected plant
-                    this.model.unlock(i + 1);
-                    //Re adds action listiener as it gets removed in view during unlock
-                    this.view.getButtonPanel().getPlantingButtons()[this.model.getShop().size() - 1].addActionListener(this);
-                    break;
+                    if (sourceA == view.getButtonPanel().getUnlockSlot()[i]) {
+                        //unlock the selected plant
+                        this.model.unlock(i + 1);
+                        //Re adds action listiener as it gets removed in view during unlock
+                        this.view.getButtonPanel().getPlantingButtons()[this.model.getShop().size() - 1].addActionListener(this);
+                        break;
+                    }
                 }
-            }
+                break;
+            case "Planting Button":
+                //Checks which plant has been selected to plant in the field
+                for (int i = 0; i < PlantSet.values().length; i++) {
+                    if (sourceA == view.getButtonPanel().getPlantingButtons()[i] && !action.equals("Back")) {
+
+                        //Sets the plant to be planted and sets the planting condition to true.
+                        //This means if a user presses in the field it will plant this plant.
+                        plantToPlant = i + 1;
+                        planting = true;
+                        break;
+
+                    }
+                }
+                break;
         }
 
     }
