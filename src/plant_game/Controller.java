@@ -15,6 +15,7 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.JButton;
 import javax.swing.JFrame;
 
 /**
@@ -165,49 +166,122 @@ public class Controller extends JFrame implements ActionListener, MouseListener 
                     this.view.getCard().show(this.view.getButtonPanel(), "a");
                 }
 
-//                break;
-//            case "Load Game":
-//
-//                break;
-//            case "Load Game":
-//
-//                break;
-//            case "Load Game":
-//
-//                break;
-//            case "Load Game":
-//
-//                break;
-        }
+                break;
+            case "Previous Game":
+                //loads the previous saved game.
 
-        //Checks all load buttons for actions preformed.
-        for (int i = 0; i < 5; i++) {
-            if (sourceA == view.getLoadButtons()[i]) {
-                this.model.loadGame(i);
+                this.model.previousGame();
                 this.model.viewInitalField();
+                this.view.getMainCard().show(this.view, "b");
                 this.pack();
-                //return view to start card
-                this.view.getStartCard().show(this.view.getStartView(), "a");
+
+                break;
+            case "Plant":
+                //Player is planting a plant in the field
+                //Swtich view to the selection of plants available to plant
+                this.view.getCard().show(this.view.getButtonPanel(), "b");
+                break;
+            case "Main Menu":
+                //Return to the start view.
+                this.model.mainMenu();
+                this.view.updateListener(this);
+                //show the main menu
+                this.view.getMainCard().show(this.view, "a");
+
+                break;
+            case "Highscores":
+                //Highscores
+
+                this.view.getCard().show(this.view.getButtonPanel(), "h");
+                this.view.getFieldCard().show(this.view.getMainFieldCard(), "c");
+                this.view.getAdvance().setVisible(false);
+
+                break;
+            case "Water":
+                //Watering
+                //sets water condition to true.
+                this.view.getCard().show(this.view.getButtonPanel(), "c");
+                watering = true;
+                break;
+            case "Pick":
+
+                //picking
+                this.model.viewPick();
+                this.view.getCard().show(this.view.getButtonPanel(), "d");
+                //sets picking condition to true.
+                picking = true;
+
+                break;
+            case "Next Day":
+                //Progress the game to the next day.
+                //This is where the end game condition occurs as next day will eventually output a money exception.
+      
+            try {
+                this.model.nextDay();
+            } catch (IOException ex) {
+                Logger.getLogger(Controller.class.getName()).log(Level.SEVERE, null, ex);
+
             }
+
+            break;
+            case "Save":   //Save view
+
+                this.model.viewSave();
+                this.view.getCard().show(this.view.getButtonPanel(), "e");
+
+                break;
+            case "Unlock":
+                //UNLOCKS
+                model.viewUnlock();
+                this.view.getCard().show(this.view.getButtonPanel(), "f");
+
+                break;
+            case "Information":
+
+                this.view.getFieldCard().show(this.view.getMainFieldCard(), "b");
+                this.view.getCard().show(this.view.getButtonPanel(), "g");
+
+                break;
+            case "Advance":
+                //Send the game back to the load game screen
+
+                this.view.getMainCard().show(this.view, "a");
+                this.view.getStartCard().show(this.view.getStartView(), "a");
+                this.view.updateListener(this);
+
+                break;
+            case "Info Button":
+                //Display information
+                for (int i = 0; i < 8; i++) {
+                    if (sourceA == view.getButtonPanel().getInfoSlot()[i]) {
+                        this.model.getInfo(i);
+                        break;
+                    }
+                }
+                break;
+            case "Load Button":
+                //Checks all load buttons for actions preformed.
+                for (int i = 0; i < 5; i++) {
+                    if (sourceA == view.getLoadButtons()[i]) {
+                        this.model.loadGame(i);
+                        this.model.viewInitalField();
+                        this.pack();
+                        //return view to start card
+                        this.view.getStartCard().show(this.view.getStartView(), "a");
+                    }
+                }
+                break;
+            case "Save Button":
+                for (int i = 0; i < 5; i++) {
+                    this.saveSlot[i] = new JButton();
+                }
+                break;
         }
 
-        //loads the previous saved game.
-        if (sourceA == view.getPreviousGame()) {
-            this.model.previousGame();
-            this.model.viewInitalField();
-            this.view.getMainCard().show(this.view, "b");
-            this.pack();
-        }
-        //Player is planting a plant in the field
-        if (sourceA == view.getButtonPanel().getGameButtonBar().getPlant()) {
-
-            //Swtich view to the selection of plants available to plant
-            this.view.getCard().show(this.view.getButtonPanel(), "b");
-
-        }
         //Checks which plant has been selected to plant in the field
         for (int i = 0; i < PlantSet.values().length; i++) {
-            if (sourceA == view.getButtonPanel().getPlantingButtons()[i]) {
+            if (sourceA == view.getButtonPanel().getPlantingButtons()[i] && !action.equals("Back")) {
+
                 //Sets the plant to be planted and sets the planting condition to true.
                 //This means if a user presses in the field it will plant this plant.
                 plantToPlant = i + 1;
@@ -215,70 +289,6 @@ public class Controller extends JFrame implements ActionListener, MouseListener 
                 break;
 
             }
-        }
-
-        //Return to the load screen.
-        if (sourceA == view.getButtonPanel().getGameButtonBar().getMainMenu()) {
-            this.model.mainMenu();
-            this.view.updateListener(this);
-            //show the main menu
-            this.view.getMainCard().show(this.view, "a");
-
-        }
-        //Highscores
-        if (sourceA == view.getButtonPanel().getGameButtonBar().getHighScoresButton()) {
-            this.view.getCard().show(this.view.getButtonPanel(), "h");
-            this.view.getFieldCard().show(this.view.getMainFieldCard(), "c");
-            this.view.getAdvance().setVisible(false);
-        }
-
-        //Watering
-        if (sourceA == view.getButtonPanel().getGameButtonBar().getWater()) {
-            //sets water condition to true.
-            this.view.getCard().show(this.view.getButtonPanel(), "c");
-            watering = true;
-        }
-
-        //picking
-        if (sourceA == view.getButtonPanel().getGameButtonBar().getPick()) {
-            this.model.viewPick();
-            this.view.getCard().show(this.view.getButtonPanel(), "d");
-            //sets picking condition to true.
-            picking = true;
-        }
-
-        //Progress the game to the next day.
-        //This is where the end game condition occurs as next day will eventually output a money exception.
-        if (sourceA == view.getButtonPanel().getGameButtonBar().getNextDay()) {
-            try {
-                this.model.nextDay();
-            } catch (IOException ex) {
-                Logger.getLogger(Controller.class.getName()).log(Level.SEVERE, null, ex);
-            }
-        }
-
-        //Save view
-        if (sourceA == view.getButtonPanel().getGameButtonBar().getSave()) {
-
-            this.model.viewSave();
-            this.view.getCard().show(this.view.getButtonPanel(), "e");
-
-        }
-        //Checks which updateSaveText button was inputed and actions it.
-        for (int i = 0; i < 5; i++) {
-            if (sourceA == view.getButtonPanel().getSaveSlot()[i]) {
-
-                this.model.save(i + 1);
-                break;
-
-            }
-        }
-
-        //UNLOCKS
-        if (sourceA == view.getButtonPanel().getGameButtonBar().getUnlockShop()) {
-            model.viewUnlock();
-            this.view.getCard().show(this.view.getButtonPanel(), "f");
-
         }
 
         /*Checks if the source was the unlock back button if not checks if it was from within the unlock slot
@@ -301,27 +311,6 @@ public class Controller extends JFrame implements ActionListener, MouseListener 
                 }
             }
         }
-        //Information
-        if (sourceA == view.getButtonPanel().getGameButtonBar().getInformation()) {
-            this.view.getFieldCard().show(this.view.getMainFieldCard(), "b");
-            this.view.getCard().show(this.view.getButtonPanel(), "g");
-        }
-
-        //Display information
-        for (int i = 0; i < 8; i++) {
-            if (sourceA == view.getButtonPanel().getInfoSlot()[i]) {
-                this.model.getInfo(i);
-                break;
-            }
-        }
-
-        //Send the game back to the load game screen
-        if (sourceA == view.getAdvance()) {
-
-            this.view.getMainCard().show(this.view, "a");
-            this.view.getStartCard().show(this.view.getStartView(), "a");
-            this.view.updateListener(this);
-        }
 
     }
 
@@ -331,6 +320,7 @@ public class Controller extends JFrame implements ActionListener, MouseListener 
         for (int i = 0; i < 3; i++) {
             for (int j = 0; j < 3; j++) {
                 if (sourceA == this.view.getFieldLabels()[i][j]) {
+                    System.out.println(planting + " " + watering + " " + picking);
                     if (planting) {
                         try {
                             //Plant a plant at row i collumn j

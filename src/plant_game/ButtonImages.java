@@ -31,7 +31,7 @@ public class ButtonImages {
     private BufferedImage save;
     private BufferedImage score;
 
-    //Loads all buttons
+    //Loads all buttons from a the image file.
     public ButtonImages() {
         try {
             plant = ImageIO.read(new File("./plant.png"));

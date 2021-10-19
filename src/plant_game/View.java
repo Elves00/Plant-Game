@@ -8,7 +8,6 @@ package plant_game;
 import java.awt.BorderLayout;
 import java.awt.CardLayout;
 import java.awt.Color;
-import java.awt.Font;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseListener;
 import java.util.Observable;
@@ -25,7 +24,7 @@ import javax.swing.border.Border;
 /**
  * The view contains all the display components of the GUI.
  *
- * This view is primarily concerend with displaying the information of the plant
+ * This view is primarily concerned with displaying the information of the plant
  * game.
  *
  *
@@ -62,7 +61,7 @@ public class View extends JPanel implements Observer {
     //Displays a players stats such as energy and money
     private JLabel mainPlayerHeader = new JLabel("", SwingConstants.CENTER);
     //Holds 3 panels containg views which can be displayed in the centre of the main view.
-    private JPanel mainFieldCard = new JPanel(new CardLayout());
+    private JPanel mainFieldCard;
     //Displays a view of the players field
     private ViewField defaultField = new ViewField();
     //A panel to positon button panel on the bottom of the main view.
@@ -85,7 +84,7 @@ public class View extends JPanel implements Observer {
     private Border blueLine = BorderFactory.createLineBorder(Color.blue);
     private Border yellowLine = BorderFactory.createLineBorder(Color.yellow);
     private Border mixedLine = BorderFactory.createCompoundBorder(blueLine, yellowLine);
-
+    
     public View() {
 
         //Sets the panel layout to a card layout to allowing swapping between main and start views and the end game view.
@@ -112,7 +111,8 @@ public class View extends JPanel implements Observer {
         this.mainView.add(this.mainSouthPanel, BorderLayout.SOUTH);
         //Adds player infromation to the top of the main view.
         this.mainView.add(this.mainPlayerHeader, BorderLayout.NORTH);
-
+        
+        mainFieldCard = new JPanel(this.fieldCard);
         this.mainFieldCard.add("a", this.defaultField);
         this.mainFieldCard.add("b", this.informationField);
         this.mainFieldCard.add("c", this.highScoreField);
@@ -128,7 +128,7 @@ public class View extends JPanel implements Observer {
         this.getStartView().add("b", this.viewLoadGame);
         //After new game is pressed while in start up "c"
         this.getStartView().add("c", this.ViewNewGame);
-
+        
     }
 
     /**
@@ -137,7 +137,7 @@ public class View extends JPanel implements Observer {
     public void establishPlantButtons() {
         //establishes the  shop in the button panel
         this.getButtonPanel().establishPlantButtons();
-
+        
     }
 
     /**
@@ -210,7 +210,7 @@ public class View extends JPanel implements Observer {
 
         //Update button panels unlockshop 
         this.getButtonPanel().updateUnlock(unlockSize, unlockText);
-
+        
     }
 
     /**
@@ -276,6 +276,7 @@ public class View extends JPanel implements Observer {
     public void setLoadGameVisibility(boolean[] visible) {
         for (int i = 0; i < 5; i++) {
             this.viewLoadGame.getLoadButtons()[i].setVisible(visible[i]);
+            this.viewLoadGame.getLoadButtons()[i].setActionCommand("Load Button");
         }
     }
 
@@ -308,7 +309,7 @@ public class View extends JPanel implements Observer {
     private void setShop(int plantSetSize, int shopSize, String[] shopText) {
         //Set button panels shop
         this.getButtonPanel().setShop(plantSetSize, shopSize, shopText);
-
+        
     }
 
     /**
@@ -322,7 +323,7 @@ public class View extends JPanel implements Observer {
     public void updateSaveText(String[] saveText) {
         //set button panels save text display 
         this.getButtonPanel().updateSaveText(saveText);
-
+        
     }
 
     /**
@@ -336,7 +337,7 @@ public class View extends JPanel implements Observer {
     public void updateListener(ActionListener actionListener) {
         //set button panels update listiener display 
         this.getButtonPanel().updateListener(actionListener);
-
+        
     }
 
     /**
@@ -369,7 +370,7 @@ public class View extends JPanel implements Observer {
      */
     @Override
     public void update(Observable o, Object arg) {
-
+        
         Data data = (Data) arg;
 
         //If the game has ended update score and reset the button texts
@@ -378,12 +379,12 @@ public class View extends JPanel implements Observer {
             updateScore(data.getNames(), data.getScores());
             resetButtons();
             this.mainCard.show(this, "c");
-
+            
         }
         if (data.isLoadGameChanged()) {
             setLoadGameVisibility(data.getLoadGameVisible());
         }
-
+        
         if (!data.isPreviousGame()) {
             this.viewOptions.getPreviousGame().setVisible(data.isPreviousGame());
         } else {
@@ -403,7 +404,7 @@ public class View extends JPanel implements Observer {
                 setLoadText(data.getLoadText());
             }
         }
-
+        
         if (data.isMainMenu()) {
             resetButtons();
         }
@@ -413,7 +414,7 @@ public class View extends JPanel implements Observer {
             this.mainCard.show(this, "b");
             setShop(data.getPlantsetSize(), data.getShopSize(), data.getShopText());
         }
-
+        
         if (data.isFieldUpdate() == true) {
             updateField(data.getViewPlants(), data.getWaterPlants(), data.getPollinatePlants());
             updatePlayer(data.getPlayer());
@@ -424,7 +425,7 @@ public class View extends JPanel implements Observer {
         if (data.isUnlockStart()) {
             this.setUnlockDisplay(data.getPlantsetSize(), data.getUnlockSize(), data.getUnlockText());
         }
-
+        
         if (data.isShopUpdate()) {
             this.updateShop(data.getShopSize(), data.getShopText());
             updatePlayer(data.getPlayer());
@@ -434,20 +435,20 @@ public class View extends JPanel implements Observer {
             updatePlayer(data.getPlayer());
         }
         if (data.isSaveStart()) {
-
+            
             updateSaveText(data.getSaveText());
         }
-
+        
         if (data.isInfoUpdate()) {
             this.updateInformationDisplay(data.getInfoText());
         }
-
+        
         if (data.isWarningCheck()) {
             this.updateWarningMessage(data.getWarning());
         } else {
             this.updateWarningMessage("");
         }
-
+        
         if (data.isCheckScores()) {
             updateScore(data.getNames(), data.getScores());
         }
@@ -570,7 +571,7 @@ public class View extends JPanel implements Observer {
      */
     public JButton[] getLoadButtons() {
         return this.viewLoadGame.getLoadButtons();
-
+        
     }
 
     /**

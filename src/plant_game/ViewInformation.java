@@ -37,6 +37,8 @@ public class ViewInformation extends JPanel {
      */
     public void updateInformationDisplay(String... infoArray) {
         String toDisplay = "";
+
+        //A space is added to avoid double ups on action names 
         for (String infoArray1 : infoArray) {
             toDisplay += infoArray1 + "\n";
         }

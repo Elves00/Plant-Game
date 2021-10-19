@@ -38,9 +38,9 @@ public class ViewGameButtonBar extends JPanel {
         pick = new JButton("Pick", new ImageIcon(buttonImages.getPick()));
         nextDay = new JButton("Next Day", new ImageIcon(buttonImages.getNextDay()));
         information = new JButton("Information", new ImageIcon(buttonImages.getInfo()));
-        unlockShop = new JButton("Information", new ImageIcon(buttonImages.getShop()));
+        unlockShop = new JButton("Unlock", new ImageIcon(buttonImages.getShop()));
         save = new JButton("Save", new ImageIcon(buttonImages.getSave()));
-        highScoresButton = new JButton("Highscores",new ImageIcon(buttonImages.getScore()));
+        highScoresButton = new JButton("Highscores", new ImageIcon(buttonImages.getScore()));
         //Adds the different game buttons to the main game bar.
         this.gameOptions.add(this.plant);
         this.gameOptions.add(this.water);

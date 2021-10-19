@@ -118,7 +118,7 @@ public class Modelsave extends Observable {
 
         } else {
             //Set up the player
-            this.player = player;
+            this.player = new Player();
             //Here we set up a new game using data from the database.
             data = manager.newGame(name);
 
@@ -313,6 +313,7 @@ public class Modelsave extends Observable {
     }
 
     public Data fieldUpdateData(int selection, Data data) {
+
         data.setFieldDetails(player.getField().toFile());
         manager.saveField(0, data.getFieldDetails());
         return data;
