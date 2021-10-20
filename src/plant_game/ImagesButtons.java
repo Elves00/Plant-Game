@@ -20,7 +20,7 @@ import javax.imageio.ImageIO;
  *
  * @author breco
  */
-public class ButtonImages {
+public class ImagesButtons {
 
     //Icons for buttons
     private BufferedImage plant;
@@ -33,7 +33,7 @@ public class ButtonImages {
     private BufferedImage score;
 
     //Loads all buttons from a the image file.
-    public ButtonImages() {
+    public ImagesButtons() {
         try {
             plant = ImageIO.read(new File("./plant.png"));
             water = ImageIO.read(new File("./water.png"));
@@ -44,7 +44,7 @@ public class ButtonImages {
             save = ImageIO.read(new File("./save.png"));
             score = ImageIO.read(new File("./score.png"));
         } catch (IOException ex) {
-            Logger.getLogger(ButtonImages.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(ImagesButtons.class.getName()).log(Level.SEVERE, null, ex);
         }
 
     }

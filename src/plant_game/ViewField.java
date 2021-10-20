@@ -9,6 +9,7 @@ import java.awt.Color;
 import java.awt.GridLayout;
 import java.awt.event.MouseListener;
 import javax.swing.BorderFactory;
+import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.SwingConstants;
@@ -31,13 +32,16 @@ public class ViewField extends JPanel {
 
     public ViewField() {
         super();
+
         //Sets up a grid layout to arrange the labels.
         this.setLayout(new GridLayout(3, 3));
         for (int i = 0; i < 3; i++) {
             for (int j = 0; j < 3; j++) {
                 //Sets labels to start with default name
                 this.fieldLabels[i][j] = new JLabel("", SwingConstants.CENTER);
+
                 this.add(this.fieldLabels[i][j]);
+
             }
         }
 

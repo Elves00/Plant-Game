@@ -30,7 +30,7 @@ public class ViewGameButtonBar extends JPanel {
     private JButton unlockShop;
     private JButton mainMenu = new JButton("Main Menu");
     private JButton highScoresButton;
-    private ButtonImages buttonImages = new ButtonImages();
+    private ImagesButtons buttonImages = new ImagesButtons();
 
     public ViewGameButtonBar() {
 
