@@ -46,7 +46,12 @@ public final class DBManager {
     }
 
     public boolean constructDatabse() {
-
+//        myUpdate("DROP TABLE Player");
+//        myUpdate("DROP TABLE Field");
+//        myUpdate("DROP TABLE Shop");
+//        myUpdate("DROP TABLE Unlock");
+//        myUpdate("DROP TABLE Info");
+//        myUpdate("DROP TABLE Scores");
         if (construct.dbsetup()) {
             return true;
         } else {
@@ -76,6 +81,7 @@ public final class DBManager {
             rs = this.myQuery(sql);
             while (rs.next()) {
                 data.getLoadGameVisible()[rs.getInt("slot") - 1] = false;
+         
 
             }
             rs.close();
@@ -367,7 +373,6 @@ public final class DBManager {
             Logger.getLogger(DBManager.class
                     .getName()).log(Level.SEVERE, null, ex);
         }
-        System.err.println("ERROR REACHED HERE");
         return null;
     }
 
@@ -671,7 +676,6 @@ public final class DBManager {
      */
     public void saveField(int slot, String[] field) {
         try {
-
             String sql = "Update Field set name=?,growtime =?,timeplanted=?,value=?,growcounter=?,growth=?,waterlimit=?,watercounter=?,price=?,pollinator=?,pollinated=? WHERE slot=? AND x=? AND y=?";
             PreparedStatement preparedStatement = conn.prepareStatement(sql);
 
@@ -847,7 +851,6 @@ public final class DBManager {
     public void establishConnection() {
         //If there is no existing connection try connect
 
-
         if (this.conn == null) {
             try {
 
@@ -936,5 +939,13 @@ public final class DBManager {
 
     }
 
+    public static void main(String[] args) {
+
+        //Call db setup
+        DBManager db = new DBManager();
+        db.constructDatabse();
+        db.loadGame(1);
+
+    }
 
 }

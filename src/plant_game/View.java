@@ -371,6 +371,10 @@ public class View extends JPanel implements Observer {
             resetButtons();
             this.mainCard.show(this, "c");
         }
+        //Represents shifting to main menu. This means reseting the plant and unlcok buttons.
+        if (data.isMainMenu()) {
+            resetButtons();
+        }
 
         //Checks for any warning messages in the data and updates the warning labels acordingly
         if (data.isWarningCheck()) {
@@ -438,10 +442,6 @@ public class View extends JPanel implements Observer {
         if (data.isShopUpdate()) {
             this.updateShop(data.getShopSize(), data.getShopText());
             updatePlayer(data.getPlayer());
-        }
-        //Represents shifting to main menu. This means reseting the plant and unlcok buttons.
-        if (data.isMainMenu()) {
-            resetButtons();
         }
 
     }
