@@ -310,9 +310,7 @@ public class ViewButtonPanel extends JPanel {
      */
     public void setShop(int plantSetSize, int shopSize, String[] shopText) {
 
-        for (String shopText1 : shopText) {
-            System.out.println(shopText1);
-        }
+   
         /*
         Update the shop buttons so that they display all items within the shop.
         Orignal buttons: one two three etc...
