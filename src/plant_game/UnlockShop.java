@@ -78,16 +78,14 @@ public class UnlockShop extends Observable implements ToData {
 
             holder = st.nextToken();
             for (Plant p : view) {
-                System.out.println("Plant" + p);
-                System.out.println("Cost" + holder);
-//                unlocks.put(p.toString(), parseInt(holder));
 
+//                unlocks.put(p.toString(), parseInt(holder));
             }
             unlocks.put(view.get(count).toString(), parseInt(holder));
 
             count++;
         }
-//        System.out.println(unlocks);
+
     }
 
     /**

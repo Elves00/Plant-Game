@@ -46,12 +46,7 @@ public final class DBManager {
     }
 
     public boolean constructDatabse() {
-//        myUpdate("DROP TABLE Player");
-//        myUpdate("DROP TABLE Field");
-//        myUpdate("DROP TABLE Shop");
-//        myUpdate("DROP TABLE Unlock");
-//        myUpdate("DROP TABLE Info");
-//        myUpdate("DROP TABLE Scores");
+
         if (construct.dbsetup()) {
             return true;
         } else {
@@ -81,7 +76,6 @@ public final class DBManager {
             rs = this.myQuery(sql);
             while (rs.next()) {
                 data.getLoadGameVisible()[rs.getInt("slot") - 1] = false;
-                System.out.println(rs.getInt("slot"));
 
             }
             rs.close();
@@ -512,7 +506,7 @@ public final class DBManager {
                 }
 
                 //Insert a new score to the list.
-//                System.out.println("THE ID FOR INSERTION IS:" + id);
+
                 sql = "INSERT INTO Scores(id,playerName,score) VALUES(?,?,?)";
                 PreparedStatement preparedStatement = conn.prepareStatement(sql);
                 preparedStatement.setInt(1, id);
@@ -536,7 +530,7 @@ public final class DBManager {
      * @param plant plant to be inserted
      */
     public void updateShop(int selection, String plant) {
-//        System.out.println("Inserting " + plant + " into save slot " + selection);
+
         String sql = "INSERT INTO Shop VALUES(" + selection + ",'" + plant + "'  )";
         myUpdate(sql);
 
@@ -677,7 +671,7 @@ public final class DBManager {
      */
     public void saveField(int slot, String[] field) {
         try {
-//            System.out.println("UPDATING THE FIELD FOR SAVE " + slot);
+
             String sql = "Update Field set name=?,growtime =?,timeplanted=?,value=?,growcounter=?,growth=?,waterlimit=?,watercounter=?,price=?,pollinator=?,pollinated=? WHERE slot=? AND x=? AND y=?";
             PreparedStatement preparedStatement = conn.prepareStatement(sql);
 
@@ -853,7 +847,7 @@ public final class DBManager {
     public void establishConnection() {
         //If there is no existing connection try connect
 
-        System.out.println(this.conn);
+
         if (this.conn == null) {
             try {
 
@@ -942,13 +936,5 @@ public final class DBManager {
 
     }
 
-    public static void main(String[] args) {
-
-        //Call db setup
-        DBManager db = new DBManager();
-        db.constructDatabse();
-        db.loadGame(1);
-
-    }
 
 }

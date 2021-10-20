@@ -83,7 +83,7 @@ public class Controller extends JFrame implements ActionListener, MouseListener 
     @Override
     public void actionPerformed(ActionEvent e) {
         Object sourceA = e.getSource();
-        System.out.println(e.getActionCommand());
+ 
 
         //Switch case is used where aplicable but some cannot be accessed via switch case due to chaning text.
         String action = e.getActionCommand();
@@ -322,7 +322,7 @@ public class Controller extends JFrame implements ActionListener, MouseListener 
         for (int i = 0; i < 3; i++) {
             for (int j = 0; j < 3; j++) {
                 if (sourceA == this.view.getFieldLabels()[i][j]) {
-                    System.out.println(planting + " " + watering + " " + picking);
+        
                     if (planting) {
                         try {
                             //Plant a plant at row i collumn j

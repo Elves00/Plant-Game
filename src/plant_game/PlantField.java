@@ -355,8 +355,7 @@ public final class PlantField {
     public int pickPlant(int x, int y) {
 
         if (getPlant(x, y) instanceof Dirt) {
-            System.out.println("Dirt can't be picked");
-            return 0;
+                return 0;
         } else {
 
             int money;

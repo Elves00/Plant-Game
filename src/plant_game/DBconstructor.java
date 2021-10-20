@@ -328,9 +328,8 @@ public class DBconstructor {
      */
     public boolean dbsetup() {
 
-        System.out.println(conn);
         if (this.conn != null) {
-            System.out.println("Creating the tables");
+      
             try {
 
                 //Check for all necessary tables and creates any that do not exist.
@@ -358,116 +357,8 @@ public class DBconstructor {
                     createInfoTable();
                 }
 
-                System.out.println(
-                        "----Printing Player----");
-                //Player
-                String sql = "SELECT * FROM Player";
-                ResultSet rs;
-                rs = this.myQuery(sql);
-
-                while (rs.next()) {
-                    System.out.print("" + rs.getInt("slot"));
-                    System.out.print(" " + rs.getString("playerName"));
-                    System.out.print(" " + rs.getFloat("money"));
-                    System.out.print(" " + rs.getInt("energy"));
-                    System.out.print(" " + rs.getInt("day"));
-                    System.out.print(" " + rs.getInt("score"));
-                    System.out.println("");
-                }
-
-                System.out.println(
-                        "-----------");
-                rs.close();
-
-                System.out.println(
-                        "----Printing Shop----");
-                sql = "SELECT * FROM shop";
-                rs = this.myQuery(sql);
-
-                while (rs.next()) {
-                    System.out.print("" + rs.getInt("slot"));
-                    System.out.print(" " + rs.getString("name"));
-                    System.out.println("");
-                }
-
-                System.out.println(
-                        "-----------");
-                rs.close();
-
-                System.out.println(
-                        "----Printing Unlock----");
-                sql = "SELECT * FROM Unlock";
-                rs = this.myQuery(sql);
-
-                while (rs.next()) {
-                    System.out.print("" + rs.getInt("slot"));
-                    System.out.print(" " + rs.getString("name"));
-                    System.out.print(" " + rs.getInt("cost"));
-                    System.out.println("");
-                }
-
-                System.out.println(
-                        "-----------");
-                rs.close();
-
-                System.out.println(
-                        "----Printing Field----");
-                sql = "SELECT * FROM Field";
-                rs = this.myQuery(sql);
-
-                while (rs.next()) {
-                    System.out.print("" + rs.getInt("slot"));
-                    System.out.print(" " + rs.getInt("x"));
-                    System.out.print(" " + rs.getInt("y"));
-                    System.out.print(" " + rs.getString("name"));
-                    System.out.print(" " + rs.getInt("growtime"));
-                    System.out.print(" " + rs.getInt("timeplanted"));
-                    System.out.print(" " + rs.getInt("value"));
-                    System.out.print(" " + rs.getInt("growcounter"));
-                    System.out.print(" " + rs.getInt("growth"));
-                    System.out.print(" " + rs.getInt("waterlimit"));
-                    System.out.print(" " + rs.getInt("watercounter"));
-                    System.out.print(" " + rs.getInt("price"));
-                    System.out.print(" " + rs.getBoolean("pollinator"));
-                    System.out.print(" " + rs.getBoolean("pollinated"));
-                    System.out.println("");
-
-                }
-
-                System.out.println(
-                        "-----------");
-                rs.close();
-//
-//                System.out.println("----Printing Info----");
-//                sql = "SELECT * FROM Info";
-//                rs = this.myQuery(sql);
-//                while (rs.next()) {
-//                    System.out.print("" + rs.getString("information"));
-//                    System.out.print(" " + rs.getInt("line"));
-//                    System.out.print(" " + rs.getString("words"));
-//                    System.out.println("");
-//                }
-//                System.out.println("-----------");
-//                rs.close();
-
-                System.out.println(
-                        "----Printing Scores----");
-                sql = "SELECT * FROM Scores";
-                rs = this.myQuery(sql);
-
-                while (rs.next()) {
-                    System.out.print("" + rs.getInt("id"));
-                    System.out.print(" " + rs.getString("playerName"));
-                    System.out.print(" " + rs.getInt("score"));
-                    System.out.println("");
-                }
-
-                System.out.println(
-                        "-----------");
-                rs.close();
-
             } catch (Throwable e) {
-                System.out.println("error" + e);
+
                 return false;
             }
         }
@@ -512,7 +403,6 @@ public class DBconstructor {
         boolean flag = false;
         try {
 
-            System.out.println("check existing tables.... ");
             String[] types = {"TABLE"};
             DatabaseMetaData dbmd = conn.getMetaData();
             ResultSet rsDBMeta = dbmd.getTables(null, null, null, null);//types);
@@ -520,7 +410,7 @@ public class DBconstructor {
             while (rsDBMeta.next()) {
                 String tableName = rsDBMeta.getString("TABLE_NAME");
                 if (tableName.compareToIgnoreCase(newTableName) == 0) {
-                    System.out.println(tableName + "  IS THERE");
+
                     flag = true;
                 }
             }
