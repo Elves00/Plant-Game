@@ -46,12 +46,7 @@ public final class DBManager {
     }
 
     public boolean constructDatabse() {
-//        myUpdate("DROP TABLE Player");
-//        myUpdate("DROP TABLE Field");
-//        myUpdate("DROP TABLE Shop");
-//        myUpdate("DROP TABLE Unlock");
-//        myUpdate("DROP TABLE Info");
-//        myUpdate("DROP TABLE Scores");
+
         if (construct.dbsetup()) {
             return true;
         } else {
@@ -939,13 +934,6 @@ public final class DBManager {
 
     }
 
-    public static void main(String[] args) {
 
-        //Call db setup
-        DBManager db = new DBManager();
-        db.constructDatabse();
-        db.loadGame(1);
-
-    }
 
 }
