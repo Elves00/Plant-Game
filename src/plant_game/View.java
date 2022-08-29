@@ -82,6 +82,7 @@ public class View extends JPanel implements Observer {
 
     //Various borders that get
     private Border blueLine = BorderFactory.createLineBorder(Color.blue);
+    private Border blueLine = BorderFactory.createLineBorder(Color.blue);
     private Border yellowLine = BorderFactory.createLineBorder(Color.yellow);
     private Border mixedLine = BorderFactory.createCompoundBorder(blueLine, yellowLine);
 
@@ -128,7 +129,8 @@ public class View extends JPanel implements Observer {
         this.getStartView().add("b", this.viewLoadGame);
         //After new game is pressed while in start up "c"
         this.getStartView().add("c", this.ViewNewGame);
-
+        this.mainView.setBackground(Color.red);
+        this.mainView.setBorder(blackLine);
     }
 
     /**
